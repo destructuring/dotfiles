@@ -6,7 +6,7 @@ dotfiles:
 	ln -nfs .dotfiles/vimrc .vimrc
 	ln -nfs .dotfiles/bashrc .bashrc.site
 	nix-env -i powerline-go
-	$(MAKE) consulfs elixir rust
+	$(MAKE) -f .dotfiles/Makefile consulfs elixir rust
 
 elixir:
 	sudo apt-get install -y postgresql-client
