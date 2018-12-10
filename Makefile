@@ -7,6 +7,8 @@ dotfiles:
 	ln -nfs .dotfiles/vimrc .vimrc
 	ln -nfs .dotfiles/bashrc .bashrc.site
 	ln -nfs .dotfiles/gitconfig .gitconfig
+	cat gpg-export.txt | gpg --import | cat
+	pkill -9 gpg-agent || true
 
 elixir:
 	sudo apt-get install -y postgresql-client
