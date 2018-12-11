@@ -1,5 +1,5 @@
 dotfiles:
-	nix-env -i powerline-go
+	if ! type -P powerline-go; then nix-env -i powerline-go; fi
 	mkdir -p .dotfiles/work
 	git clone https://github.com/imma/junas .dotfiles/work/junas || true
 	cd .dotfiles/work/junas && git submodule update --init
