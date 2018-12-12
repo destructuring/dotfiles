@@ -13,7 +13,11 @@ function render_ps1 {
 
   if [[ -n "${AWS_VAULT:-}" ]]; then
     if [[ -n "${AWS_VAULT_EXPIRATION:-}" ]]; then
-      PS1_VAR="${AWS_VAULT} $(( $(date -d "${AWS_VAULT_EXPIRATION:-}" +%s) - $(date +%s) ))"
+      local time_left="$(( $(date -d "${AWS_VAULT_EXPIRATION:-}" +%s) - $(date +%s) ))"
+      if [[ "${time_left}" -lt 0 ]]; then
+        time_left=""
+      fi
+      PS1_VAR="${AWS_VAULT}${time_left:+ ${time_left}}"
     else
       PS1_VAR="${AWS_VAULT}"
     fi
