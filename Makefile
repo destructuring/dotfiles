@@ -9,6 +9,7 @@ dotfiles:
 	ln -nfs .dotfiles/gitconfig .gitconfig
 	cat .dotfiles/gpg-export.txt | gpg --import | cat
 	pkill -9 gpg-agent || true
+	cd aws && make
 
 elixir:
 	sudo apt-get install -y postgresql-client
