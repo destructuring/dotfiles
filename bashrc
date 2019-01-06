@@ -26,6 +26,10 @@ function render_ps1 {
     else
       PS1_VAR="${PS1_VAR:+${PS1_VAR}}@${nm_profile}"
     fi
+
+    if [[ -n "${AWS_DEFAULT_REGION:-}" ]]; then
+      PS1_VAR="${PS1_VAR:+${PS1_VAR}} ${AWS_DEFAULT_REGION}"
+    fi
   fi
 
   if [[ -n "${TMUX_PANE:-}" ]]; then
