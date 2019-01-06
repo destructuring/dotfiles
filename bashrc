@@ -12,18 +12,19 @@ function render_ps1 {
   export PS1_VAR=
 
   if [[ -n "${_CHM_USER:-}" ]]; then
-    PS1_VAR="${_CHM_USER}@${PS1_VAR:+ ${PS1_VAR}}"
+    PS1_VAR="${_CHM_USER}${PS1_VAR:+ ${PS1_VAR}}"
   fi
 
-  if [[ -n "${AWS_VAULT:-}" ]]; then
+  local nm_profile="${_CHM_PROFILE:-${AWS_VAULT:-}}"
+  if [[ -n "${nm_profile}" ]]; then
     if [[ -n "${AWS_VAULT_EXPIRATION:-}" ]]; then
       local time_left="$(( $(date -d "${AWS_VAULT_EXPIRATION:-}" +%s) - $(date +%s) ))"
       if [[ "${time_left}" -lt 0 ]]; then
         time_left=""
       fi
-      PS1_VAR="${PS1_VAR:+${PS1_VAR}}${AWS_VAULT}${time_left:+ ${time_left}}"
+      PS1_VAR="${PS1_VAR:+${PS1_VAR}}@${nm_profile}${time_left:+ ${time_left}}"
     else
-      PS1_VAR="${PS1_VAR:+${PS1_VAR}}${AWS_VAULT}"
+      PS1_VAR="${PS1_VAR:+${PS1_VAR}}@${nm_profile}"
     fi
   fi
 
