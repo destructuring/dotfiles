@@ -37,7 +37,7 @@ function render_ps1 {
   fi
 
   if [[ -f "${_CHM_HOME}/.kube/config" && -x "$(which kubectl 2>/dev/null || true)" ]]; then
-    PS1_VAR="${PS1_VAR:+${PS1_VAR} }/$(kubectl config current-context)"
+    PS1_VAR="${PS1_VAR:+${PS1_VAR} }/$(kubectl config current-context 2>/dev/null || true)"
   fi
 
   echo
