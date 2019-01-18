@@ -10,6 +10,7 @@ dotfiles:
 	cat .dotfiles/gpg-export.txt | gpg --import | cat
 	pkill -9 gpg-agent || true
 	cd aws && make
+	chm nix install powerline-go figlet lolcat
 
 elixir:
 	sudo apt-get install -y postgresql-client
