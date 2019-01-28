@@ -56,3 +56,5 @@ if tty >/dev/null; then
     PROMPT_COMMAND="update_ps1"
   fi
 fi
+
+export EDITOR=vim
