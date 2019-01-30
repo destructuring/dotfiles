@@ -6,8 +6,6 @@ dotfiles:
 	ln -nfs .dotfiles/vimrc .vimrc
 	ln -nfs .dotfiles/bashrc .bashrc.site
 	ln -nfs .dotfiles/gitconfig .gitconfig
-	cat .dotfiles/gpg-export.txt | gpg --import | cat
-	pkill -9 gpg-agent || true
 	cd aws && make
 	chm nix install powerline-go figlet lolcat
 
