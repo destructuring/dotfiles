@@ -8,6 +8,7 @@ dotfiles:
 	ln -nfs .dotfiles/gitconfig .gitconfig
 	cd aws && make
 	chm nix install powerline-go figlet lolcat
+	chm enable home
 
 elixir:
 	sudo apt-get install -y postgresql-client
