@@ -6,6 +6,8 @@ dotfiles:
 	ln -nfs .dotfiles/vimrc .vimrc
 	ln -nfs .dotfiles/bashrc .bashrc.site
 	ln -nfs .dotfiles/gitconfig .gitconfig
+	ln -nfs /data/work work
+	ln -nfs /data/k/config .kube/config
 	cd aws && make
 	chm nix install powerline-go figlet lolcat
 	chm enable home
