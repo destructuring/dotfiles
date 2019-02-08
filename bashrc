@@ -36,10 +36,10 @@ function render_ps1 {
     PS1_VAR="${TMUX_PANE}${PS1_VAR:+ ${PS1_VAR}}"
   fi
 
-  if [[ -f "${_CHM_HOME}/.kube/config" && -x "$(which kubectl 2>/dev/null || true)" ]]; then
-    local nm_context="$(kubectl config current-context 2>/dev/null || true)"
-    PS1_VAR="${PS1_VAR:+${PS1_VAR}}${nm_context:+ /${nm_context}}"
-  fi
+#  if [[ -f "${_CHM_HOME}/.kube/config" && -x "$(which kubectl 2>/dev/null || true)" ]]; then
+#    local nm_context="$(kubectl config current-context 2>/dev/null || true)"
+#    PS1_VAR="${PS1_VAR:+${PS1_VAR}}${nm_context:+ /${nm_context}}"
+#  fi
 
   echo
   powerline-go -error "$ec" --colorize-hostname -cwd-mode plain -mode flat -newline \
