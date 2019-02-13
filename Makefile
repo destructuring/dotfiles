@@ -1,4 +1,5 @@
 dotfiles:
+	mkdir -p /data/k /data/work
 	mkdir -p .dotfiles/work
 	git clone https://github.com/imma/junas .dotfiles/work/junas || true
 	cd .dotfiles/work/junas && git submodule update --init || true
