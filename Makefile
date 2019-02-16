@@ -1,4 +1,5 @@
 dotfiles:
+	mkdir -p /data/k /data/work
 	mkdir -p .dotfiles/work
 	git clone https://github.com/imma/junas .dotfiles/work/junas || true
 	cd .dotfiles/work/junas && git submodule update --init
@@ -8,7 +9,7 @@ dotfiles:
 	ln -nfs .dotfiles/gitconfig .gitconfig
 	ln -nfs /data/work work
 	ln -nfs /data/k/config .kube/config
-	cd aws && make
+	cd aws && make || true
 	chm nix install powerline-go figlet lolcat
 	chm enable home
 
