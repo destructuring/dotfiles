@@ -7,9 +7,7 @@
 	quotepath = false
 [url "git@github.com:"]
   insteadOf = git://github.com/
-  insteadOf = https://github.com/
   insteadOf = ssh://git@github.com/
   insteadOf = git@github.com:
 [credential]
-	helper = !aws codecommit credential-helper $@
-	UseHttpPath = true
+	helper = !pass-git-helper $@
