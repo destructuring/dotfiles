@@ -15,7 +15,7 @@ function render_ps1 {
     PS1_VAR="${_CHM_USER}${PS1_VAR:+ ${PS1_VAR}}"
   fi
 
-  local nm_profile="${_CHM_PROFILE:-${AWS_VAULT:-}}"
+  local nm_profile="${AWS_PROFILE}"
   if [[ -n "${nm_profile}" ]]; then
     if [[ -n "${AWS_VAULT_EXPIRATION:-}" ]]; then
       local time_left="$(( $(date -d "${AWS_VAULT_EXPIRATION:-}" +%s) - $(date +%s) ))"
