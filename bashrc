@@ -12,7 +12,7 @@ function render_ps1 {
   export PS1_VAR=
 
   if [[ -n "${_CHM_USER:-}" ]]; then
-    PS1_VAR="${_CHM_USER}${PS1_VAR:+ ${PS1_VAR}}"
+    PS1_VAR="${_CHM_USER%%@*}${PS1_VAR:+ ${PS1_VAR}}"
   fi
 
   local nm_profile="${AWS_PROFILE}"
