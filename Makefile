@@ -11,8 +11,6 @@ dotfiles:
 	ln -nfs ../../.dotfiles/git-pass-mapping.ini .config/pass-git-helper/
 	ln -nfs /data/work work
 	ln -nfs /data/k/config .kube/config
-	sudo apt-get install -y figlet lolcat
-	chm install powerline 1.12.1
 	chm enable home
 
 elixir:
