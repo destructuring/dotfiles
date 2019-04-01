@@ -12,7 +12,7 @@ dotfiles:
 	ln -nfs /data/work work
 	ln -nfs /data/k/config .kube/config
 	sudo apt-get install -y figlet lolcat
-	chm install powerline
+	chm install powerline 1.12.1
 	chm enable home
 
 elixir:
