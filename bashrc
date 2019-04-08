@@ -12,10 +12,10 @@ function render_ps1 {
   export PS1_VAR=
 
   if [[ -n "${_CHM_USER:-}" ]]; then
-    PS1_VAR="${_CHM_USER}${PS1_VAR:+ ${PS1_VAR}}"
+    PS1_VAR="${_CHM_USER%%@*}${PS1_VAR:+ ${PS1_VAR}}"
   fi
 
-  local nm_profile="${_CHM_PROFILE:-${AWS_VAULT:-}}"
+  local nm_profile="${AWS_OKTA_PROFILE}"
   if [[ -n "${nm_profile}" ]]; then
     if [[ -n "${AWS_VAULT_EXPIRATION:-}" ]]; then
       local time_left="$(( $(date -d "${AWS_VAULT_EXPIRATION:-}" +%s) - $(date +%s) ))"
@@ -45,7 +45,7 @@ function render_ps1 {
   powerline-go -error "$ec" --colorize-hostname -cwd-mode plain -mode flat -newline \
     -priority root,cwd,user,host,ssh,perms,git-branch,exit,cwd-path,git-status \
     -modules user,host,ssh,cwd,perms,gitlite,load,exit${PS1_VAR:+,shell-var --shell-var PS1_VAR} \
-    -theme "$_CHM_HOME/themes/default.json"
+    -theme "$_CHM_HOME/etc/themes/default.json"
 }
 
 function update_ps1 {
