@@ -10,4 +10,4 @@ dotfiles:
 	mkdir -p .config/pass-git-helper
 	ln -nfs ../../.dotfiles/git-pass-mapping.ini .config/pass-git-helper/
 	ln -nfs .data/work work
-	ln -nfs .data/k/config .kube/config
+	ln -nfs ../.data/k/config .kube/config
