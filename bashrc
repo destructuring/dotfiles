@@ -17,14 +17,14 @@ function render_ps1 {
 
   local nm_profile="${AWS_OKTA_PROFILE}"
   if [[ -n "${nm_profile}" ]]; then
-    if [[ -n "${AWS_VAULT_EXPIRATION:-}" ]]; then
-      local time_left="$(( $(date -d "${AWS_VAULT_EXPIRATION:-}" +%s) - $(date +%s) ))"
+    if [[ -n "${AWS_OKTA_EXPIRATION:-}" ]]; then
+      local time_left="$(( $(date -d "${AWS_OKTA_EXPIRATION:-}" +%s) - $(date +%s) ))"
       if [[ "${time_left}" -lt 0 ]]; then
         time_left=""
       fi
-      PS1_VAR="${PS1_VAR:+${PS1_VAR}}@${nm_profile}${time_left:+ ${time_left}}"
+      PS1_VAR="${PS1_VAR:+${PS1_VAR}}@${nm_profile}${_CHM_CONTEXT:+:${_CHM_CONTEXT}}${time_left:+ ${time_left}}"
     else
-      PS1_VAR="${PS1_VAR:+${PS1_VAR}}@${nm_profile}"
+      PS1_VAR="${PS1_VAR:+${PS1_VAR}}@${nm_profile}${_CHM_CONTEXT:+:${_CHM_CONTEXT}}"
     fi
 
     if [[ -n "${AWS_DEFAULT_REGION:-}" ]]; then
