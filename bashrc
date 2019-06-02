@@ -59,3 +59,7 @@ if tty >/dev/null; then
 fi
 
 export EDITOR=vim
+
+export AWS_OKTA_MFA_PROVIDER=OKTA AWS_OKTA_MFA_FACTOR_TYPE=push
+
+export AWS_OKTA_BACKEND='pass'
