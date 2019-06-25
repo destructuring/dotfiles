@@ -1,0 +1,71 @@
+#!/bin/bash
+
+function aws_ecs {
+  if [[ ! -f /etc/ecs/ecs.config ]]; then
+    return 0
+  fi
+
+  source /etc/ecs/ecs.config
+
+  echo "${scyan}${ECS_CLUSTER}${scomment}//"
+}
+
+function aws_expiration {
+  if [[ -z "${AWS_SESSION_EXPIRATION:-}" ]]; then
+    return 0
+  fi
+
+  if ! type -P gdate >/dev/null; then
+    return 0
+  fi
+
+  local time_left="$(( $(gdate -d "$AWS_SESSION_EXPIRATION" +%s) - $(date +%s) ))"
+
+  local nm_region="${AWS_REGION:-${AWS_DEFAULT_REGION:-}}"
+  echo -n "${nm_region:+${scomment}:${syellow}${nm_region}}"
+
+  if [[ "$time_left" -lt 1 ]]; then
+    echo -n "${scomment}:${sred}EXPIRED"
+  elif [[ "$time_left" -lt 600 ]]; then
+    echo -n "${scomment}:${sred}${time_left}"
+  elif [[ "$time_left" -lt 1800 ]]; then
+    echo -n "${scomment}:${sorange}${time_left}"
+  else
+    echo -n "${scomment}:${scyan}${time_left}"
+  fi
+}
+
+function prompt_ssh {
+  # ssh trail
+  local hst_this
+  if [[ -f $HOME/.name ]]; then
+    hst_this=$(cat $HOME/.name)
+  else
+    hst_this=$(hostname -s)
+  fi
+
+  local id_tmux="${TMUX##*/}"
+  id_tmux="${id_tmux%%,*}"
+
+  export CUE_HOST="$hst_this"
+
+  local txt_origin
+  if [[ -n ${LC_ORIGIN:-} && $LC_ORIGIN != "$hst_this" ]]; then
+    txt_origin="/$LC_ORIGIN"
+    export LC_ORIGIN="$hst_this${txt_origin}"
+  fi
+
+  local nm_user="${LOGNAME:-${USER}}"
+
+  if [[ "$nm_user" = "root" ]]; then
+    nm_user="${sorange}${nm_user}"
+  else
+    nm_user="${shigh}${nm_user}"
+  fi
+
+  local nm_org="${AWS_VAULT:-${CONTEXT_ORG:-}}"
+  echo -n" $(aws_ecs)${shigh}${nm_user}@$hst_this${id_tmux:+${scomment}//${sorange}${id_tmux}}${nm_org:+${scomment}:${sorange}${nm_org}}$(aws_expiration)"
+  if [[ -n ${LC_ORIGIN:-} && $LC_ORIGIN != "$hst_this" ]]; then
+    echo "${scomment}${txt_origin}"
+  fi
+}

@@ -1,0 +1,19 @@
+#!/bin/bash
+
+function prompt_pwd {
+  # pwd
+  local t='~'
+  local txt_pwd="${PWD/$HOME/$t}"
+  echo -n " ${shigh}${txt_pwd}"
+
+  if [[ -d ".terraform" ]]; then
+    local nm_workspace="$(cat .terraform/environment 2>/dev/null || true)"
+    local txt_workspace="${nm_workspace#${txt_pwd##*/}}"
+
+    if [[ "$nm_workspace" == "$txt_workspace" ]]; then
+      echo -n "${scomment}[${scyan}$(cat .terraform/environment 2>/dev/null || true)${scomment}]"
+    else
+      echo -n "${scomment}${scyan}${txt_workspace}"
+    fi
+  fi
+}

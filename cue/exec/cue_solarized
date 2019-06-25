@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+
+function _ansi {
+  echo -n "\[\e[${1}m\]"
+}
+
+function _iterm {
+  echo -n -e "\033]P${1}\033\\"
+}
+
+function scolors {
+  source "cue_pwd"
+  source "cue_ssh"
+  source "cue_git"
+  source "cue_theme"
+  source "cue_colors"
+
+	configure_cue
+
+  sblue="$(_ansi "$_sblue")"
+  scyan="$(_ansi "$_scyan")"
+  sgreen="$(_ansi "$_sgreen")"
+  smagenta="$(_ansi "$_smagenta")"
+  sorange="$(_ansi "$_sorange")"
+  sred="$(_ansi "$_sred")"
+  sviolet="$(_ansi "$_sviolet")"
+  syellow="$(_ansi "$_syellow")"
+}
+
+function sdark {
+  export CUE_SCHEME="sdark"
+
+  scolors
+
+  export sbg="$(_ansi "$_sbase03")"
+  export sm="$(_ansi "$_sbase02")"
+  export stext="$(_ansi "$_sbase0")"
+  export scomment="$(_ansi "$_sbase01")"
+  export shigh="$(_ansi "$_sbase1")"
+
+  case "${TERM_PROGRAM:-}" in
+    iTerm.app)
+      _iterm "h$xbase03"
+      _iterm "g$xbase0"
+      ;;
+  esac
+}
+
+function slight {
+  export CUE_SCHEME="slight"
+
+  scolors
+
+  export sbg="$(_ansi "$_sbase3")"
+  export sm="$(_ansi "$_sbase2")"
+  export stext="$(_ansi "$_sbase00")"
+  export scomment="$(_ansi "$_sbase1")"
+  export shigh="$(_ansi "$_sbase01")"
+
+  case "${TERM_PROGRAM:-}" in
+    iTerm.app)
+      _iterm "h$xbase3"
+      _iterm "g$xbase00"
+      ;;
+  esac
+}
+
+function configure_cue {
+  : ${SHLVL_INITIAL:=0}
+}

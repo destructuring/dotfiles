@@ -63,3 +63,8 @@ export EDITOR=vim
 #export AWS_OKTA_MFA_PROVIDER=YUBICO AWS_OKTA_MFA_FACTOR_TYPE=token:hardware
 export AWS_OKTA_MFA_PROVIDER=OKTA AWS_OKTA_MFA_FACTOR_TYPE=push
 export AWS_OKTA_BACKEND='pass'
+
+export _CHM_PROFILE="${_CHM_PROFILE:-d-billing}"
+
+export TERM_PROGRAM=iTerm.app
+source "${_CHM_HOME}/.dotfiles/cue/script/profile"
