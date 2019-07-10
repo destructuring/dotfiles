@@ -74,3 +74,4 @@ export _CHM_PROFILE="${_CHM_PROFILE:-d-billing}"
 export TERM_PROGRAM=iTerm.app
 source "${_CHM_HOME}/.dotfiles/cue/script/profile"
 
+export LC_COLLATE=C
