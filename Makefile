@@ -11,3 +11,4 @@ dotfiles:
 	ln -nfs ../../.dotfiles/git-pass-mapping.ini .config/pass-git-helper/
 	ln -nfs .data/work work
 	ln -nfs ../.data/k/config .kube/config
+	bundle --path vendor/bundle
