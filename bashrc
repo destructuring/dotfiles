@@ -89,6 +89,7 @@ case "$OSTYPE" in
     ;;
 esac
 
+export TERM=xterm-color
 export TERM_PROGRAM=iTerm.app
 export _CHM_HOME="${_CHM_HOME:-"$HOME/.chm"}"
 source "${_CHM_HOME}/.dotfiles/cue/script/profile"
