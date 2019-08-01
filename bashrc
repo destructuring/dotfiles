@@ -75,3 +75,6 @@ export TERM_PROGRAM=iTerm.app
 source "${_CHM_HOME}/.dotfiles/cue/script/profile"
 
 export LC_COLLATE=C
+
+export PATH=$PATH:$HOME/.linkerd2/bin
+
