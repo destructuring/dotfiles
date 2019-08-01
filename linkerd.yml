@@ -1,0 +1,12 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: linkerd
+spec:
+  rules:
+  - host: linkerd.some.domain
+    http:
+      paths:
+      - backend:
+          serviceName: linkerd-web
+          servicePort: 8084
