@@ -2,6 +2,10 @@ function gs {
   git status -sb "$@"
 }
 
+function k {
+  kubectl "$@"
+}
+
 function adjust_ps1 {
   perl -pe 's{(\\\$)([^\$]+?)$}{ $1 $2}s'
 }
@@ -52,6 +56,22 @@ function update_ps1 {
   PS1="$(render_ps1 | adjust_ps1)"
 }
 
+function preexec {
+  if [[ -z "${AWS_SESSION_TOKEN:-}" ]]; then
+    return 0
+  fi
+
+  if [[ -z "${_CHM_AWS_START:-}" ]]; then
+    return 0
+  fi
+
+  if [[ "$(( $(date +%s) - _CHM_AWS_START ))" -lt 3000 ]]; then
+    return 0
+  fi
+
+  chm_renew
+}
+
 if tty >/dev/null; then
   if type -P powerline-go >/dev/null; then
     PROMPT_COMMAND="update_ps1"
@@ -85,20 +105,3 @@ if [[ -n "${TMUX:-}" ]]; then
     export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh_auth_sock"
   fi
 fi
-
-function preexec {
-  if [[ -z "${AWS_SESSION_TOKEN:-}" ]]; then
-    return 0
-  fi
-
-  if [[ -z "${_CHM_AWS_START:-}" ]]; then
-    return 0
-  fi
-
-  if [[ "$(( $(date +%s) - _CHM_AWS_START ))" -lt 3000 ]]; then
-    return 0
-  fi
-
-  chm_renew
-}
-
