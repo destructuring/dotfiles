@@ -69,12 +69,36 @@ case "$OSTYPE" in
     ;;
 esac
 
-export _CHM_PROFILE="${_CHM_PROFILE:-d-billing}"
-
 export TERM_PROGRAM=iTerm.app
+export _CHM_HOME="${_CHM_HOME:-"$HOME/.chm"}"
 source "${_CHM_HOME}/.dotfiles/cue/script/profile"
 
 export LC_COLLATE=C
+export LANG=en_US.UTF-8
+export LANGUAGE=en_US:en
+unset LC_ALL
 
 export PATH=$PATH:$HOME/.linkerd2/bin
+
+if [[ -n "${TMUX:-}" ]]; then
+  if [[ -S "${XDG_RUNTIME_DIR}/ssh_auth_sock" ]]; then
+    export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh_auth_sock"
+  fi
+fi
+
+function preexec {
+  if [[ -z "${AWS_SESSION_TOKEN:-}" ]]; then
+    return 0
+  fi
+
+  if [[ -z "${_CHM_AWS_START:-}" ]]; then
+    return 0
+  fi
+
+  if [[ "$(( $(date +%s) - _CHM_AWS_START ))" -lt 3000 ]]; then
+    return 0
+  fi
+
+  chm_renew
+}
 
