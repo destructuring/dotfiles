@@ -1,12 +1,12 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: linkerd
+  name: emojivoto
 spec:
   rules:
-  - host: linkerd.chm.life
+  - host: emojivoto.chm.life
     http:
       paths:
       - backend:
-          serviceName: linkerd-web
-          servicePort: 8084
+          serviceName: web-svc
+          servicePort: 80
