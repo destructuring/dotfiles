@@ -40,16 +40,11 @@ function render_ps1 {
     PS1_VAR="${TMUX_PANE}${PS1_VAR:+ ${PS1_VAR}}"
   fi
 
-#  if [[ -f "${_CHM_HOME}/.kube/config" && -x "$(which kubectl 2>/dev/null || true)" ]]; then
-#    local nm_context="$(kubectl config current-context 2>/dev/null || true)"
-#    PS1_VAR="${PS1_VAR:+${PS1_VAR}}${nm_context:+ /${nm_context}}"
-#  fi
-
   echo
   powerline-go -error "$ec" --colorize-hostname -cwd-mode plain -mode flat -newline \
     -priority root,cwd,user,host,ssh,perms,git-branch,exit,cwd-path,git-status \
     -modules user,host,ssh,cwd,perms,gitlite,load,exit${PS1_VAR:+,shell-var --shell-var PS1_VAR} \
-    -theme "$_CHM_HOME/etc/themes/default.json"
+    -theme ~/.chm/etc/themes/default.json
 }
 
 function update_ps1 {
@@ -91,8 +86,7 @@ esac
 
 export TERM=xterm-256color
 export TERM_PROGRAM=iTerm.app
-export _CHM_HOME="${_CHM_HOME:-"$HOME/.chm"}"
-source "${_CHM_HOME}/.dotfiles/cue/script/profile"
+source ~/.chm/.dotfiles/cue/script/profile
 
 export LC_COLLATE=C
 export LANG=en_US.UTF-8
