@@ -16,7 +16,7 @@ function render_ps1 {
   export PS1_VAR=
 
   if [[ -n "${_CHM_USER:-}" ]]; then
-    PS1_VAR="${_CHM_USER%%@*}${PS1_VAR:+ ${PS1_VAR}}"
+    PS1_VAR="${_CHM_USER%%.*}${PS1_VAR:+ ${PS1_VAR}}"
   fi
 
   local nm_profile="${AWS_OKTA_PROFILE}"
@@ -51,7 +51,7 @@ function update_ps1 {
   PS1="$(render_ps1 | adjust_ps1)"
 }
 
-function preexec {
+function xpreexec {
   if [[ -z "${AWS_SESSION_TOKEN:-}" ]]; then
     return 0
   fi
@@ -66,6 +66,14 @@ function preexec {
 
   chm_renew
 }
+
+if [[ -f ~/.env ]]; then
+  source ~/.env
+fi
+
+if [[ -f ~/.env.chm ]]; then
+  source ~/.env.chm
+fi
 
 if tty >/dev/null; then
   if type -P powerline-go >/dev/null; then
