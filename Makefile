@@ -8,4 +8,3 @@ dotfiles:
 	ln -nfs .dotfiles/bashrc .bashrc.site
 	ln -nfs .dotfiles/gitconfig .gitconfig
 	ln -nfs .data/work work
-	bundle --path vendor/bundle
