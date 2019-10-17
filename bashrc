@@ -86,11 +86,9 @@ export EDITOR=vim
 #export AWS_OKTA_MFA_PROVIDER=YUBICO AWS_OKTA_MFA_FACTOR_TYPE=token:hardware
 #export AWS_OKTA_MFA_PROVIDER=OKTA AWS_OKTA_MFA_FACTOR_TYPE=push
 
-case "$OSTYPE" in
-  linux*)
-    export AWS_OKTA_BACKEND='pass'
-    ;;
-esac
+export AWS_OKTA_BACKEND=pass
+export AWS_OKTA_MFA_PROVIDER=OKTA
+export AWS_OKTA_MFA_FACTOR_TYPE=push
 
 export TERM=xterm-256color
 export TERM_PROGRAM=iTerm.app
