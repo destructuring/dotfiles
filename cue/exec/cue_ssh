@@ -15,10 +15,6 @@ function aws_expiration {
     return 0
   fi
 
-  if ! type -P gdate >/dev/null; then
-    return 0
-  fi
-
   local time_left="$(( AWS_OKTA_SESSION_EXPIRATION - $(date +%s) ))"
 
   local nm_region="${AWS_REGION:-${AWS_DEFAULT_REGION:-}}"

@@ -22,7 +22,7 @@ function render_ps1 {
   local nm_profile="${AWS_OKTA_PROFILE}"
   if [[ -n "${nm_profile}" ]]; then
     if [[ -n "${AWS_OKTA_SESSION_EXPIRATION:-}" ]]; then
-      local time_left="$(( $(date -d "${AWS_OKTA_SESSION_EXPIRATION:-}" +%s) - $(date +%s) ))"
+      local time_left="$(( AWS_OKTA_SESSION_EXPIRATION - $(date +%s) ))"
       if [[ "${time_left}" -lt 0 ]]; then
         time_left=""
       fi
