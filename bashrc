@@ -21,8 +21,8 @@ function render_ps1 {
 
   local nm_profile="${AWS_OKTA_PROFILE}"
   if [[ -n "${nm_profile}" ]]; then
-    if [[ -n "${AWS_OKTA_EXPIRATION:-}" ]]; then
-      local time_left="$(( $(date -d "${AWS_OKTA_EXPIRATION:-}" +%s) - $(date +%s) ))"
+    if [[ -n "${AWS_OKTA_SESSION_EXPIRATION:-}" ]]; then
+      local time_left="$(( AWS_OKTA_SESSION_EXPIRATION - $(date +%s) ))"
       if [[ "${time_left}" -lt 0 ]]; then
         time_left=""
       fi
@@ -56,11 +56,11 @@ function xpreexec {
     return 0
   fi
 
-  if [[ -z "${_CHM_AWS_START:-}" ]]; then
+  if [[ -z "${AWS_OKTA_SESSION_EXPIRATION:-}" ]]; then
     return 0
   fi
 
-  if [[ "$(( $(date +%s) - _CHM_AWS_START ))" -lt 3000 ]]; then
+  if [[ "$(( AWS_OKTA_SESSION_EXPIRATION - $(date +%s) ))" -lt 3000 ]]; then
     return 0
   fi
 
