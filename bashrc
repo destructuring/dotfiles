@@ -56,11 +56,11 @@ function xpreexec {
     return 0
   fi
 
-  if [[ -z "${_CHM_AWS_START:-}" ]]; then
+  if [[ -z "${AWS_OKTA_SESSION_EXPIRATION:-}" ]]; then
     return 0
   fi
 
-  if [[ "$(( $(date +%s) - _CHM_AWS_START ))" -lt 3000 ]]; then
+  if [[ "$(( AWS_OKTA_SESSION_EXPIRATION - $(date +%s) ))" -lt 3000 ]]; then
     return 0
   fi
 
