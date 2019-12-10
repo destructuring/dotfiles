@@ -7,7 +7,7 @@ function k {
 }
 
 function adjust_ps1 {
-  perl -pe 's{(\\\$)([^\$]+?)$}{ $1 $2}s'
+  perl -pe 's{(\\\$)([^\$]+?)$}{$1$2}s'
 }
 
 function render_ps1 {
@@ -43,7 +43,7 @@ function render_ps1 {
   echo
   powerline-go -error "$ec" --colorize-hostname -cwd-mode plain -mode flat -newline \
     -priority root,cwd,user,host,ssh,perms,git-branch,exit,cwd-path,git-status \
-    -modules user,host,ssh,cwd,perms,gitlite,load,exit${PS1_VAR:+,shell-var --shell-var PS1_VAR} \
+    -modules host,ssh,cwd,perms,gitlite,load,exit${PS1_VAR:+,shell-var --shell-var PS1_VAR} \
     -theme ~/.dotfiles/default.json
 }
 
