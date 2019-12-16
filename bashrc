@@ -1,6 +1,16 @@
+if type -P nvim >/dev/null; then
+  export EDITOR="$(which nvim)"
+elif type -P vim >/dev/null; then
+  export EDITOR="$(which im)"
+else
+  export EDITOR="$(which vi)"
+fi
+
 function vi {
   if type -P nvim >/dev/null; then
     command nvim "$@"
+  elif type -P vim >/dev/null; then
+    command vim "$@"
   else
     command vi "$@"
   fi
