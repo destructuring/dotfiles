@@ -1,3 +1,11 @@
+function vi {
+  if type -P nvim >/dev/null; then
+    command nvim "$@"
+  else
+    command vi "$@"
+  fi
+}
+
 function gs {
   git status -sb "$@"
 }
