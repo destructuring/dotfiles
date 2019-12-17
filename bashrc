@@ -1,11 +1,3 @@
-if type -P nvim >/dev/null; then
-  export EDITOR="$(which nvim)"
-elif type -P vim >/dev/null; then
-  export EDITOR="$(which im)"
-else
-  export EDITOR="$(which vi)"
-fi
-
 function vi {
   if type -P nvim >/dev/null; then
     command nvim "$@"
@@ -83,8 +75,6 @@ if tty >/dev/null; then
   fi
 fi
 
-export EDITOR=vim
-
 #export AWS_OKTA_MFA_PROVIDER=YUBICO AWS_OKTA_MFA_FACTOR_TYPE=token:hardware
 #export AWS_OKTA_MFA_PROVIDER=OKTA AWS_OKTA_MFA_FACTOR_TYPE=push
 
@@ -100,3 +90,12 @@ export LC_COLLATE=C
 export LANG=en_US.UTF-8
 export LANGUAGE=en_US:en
 unset LC_ALL
+
+if type -P nvim >/dev/null; then
+  export EDITOR="$(which nvim)"
+elif type -P vim >/dev/null; then
+  export EDITOR="$(which vim)"
+else
+  export EDITOR="$(which vi)"
+fi
+
