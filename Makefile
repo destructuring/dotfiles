@@ -6,4 +6,4 @@ dotfiles:
 	ln -nfs .dotfiles/vimrc .vimrc
 	ln -nfs .dotfiles/bashrc .bashrc.site
 	ln -nfs .dotfiles/gitconfig .gitconfig
-	mkdir -p /efs/work && ln -nfs /efs/work work
+	ln -nfs /efs/work work
