@@ -28,6 +28,7 @@ Public/
 .Trash
 .DS_Store
 .CFUserTextEncoding
+Brewfile.lock.json
 
 # stuff
 .ansible/
