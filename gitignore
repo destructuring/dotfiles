@@ -1,0 +1,52 @@
+# dotfiles
+.dotfiles
+.gitconfig
+.aws/config
+.bashrc.site
+.password-store
+.vim
+.vimrc
+work
+.ssh
+.tool-versions
+Makefile
+Brewfile
+Brewfile.lock.json
+requirements.in
+requirements.txt
+.gnupg/pubring.kbx
+.gnupg/trustdb.gpg
+
+# virtualenv
+venv
+
+# macos
+Applications/
+Desktop/
+Documents/
+Downloads/
+Library/
+Movies/
+Music/
+Pictures/
+Public/
+.Trash
+.DS_Store
+.CFUserTextEncoding
+
+# stuff
+.ansible/
+.asdf/
+.cache/
+.docker/
+.terraform.d/
+.viminfo
+.bash_history
+.zsh_history
+.babel.json
+.config/
+.kube/
+.m2/
+.npm/
+.packer.d/
+.yarnrc
