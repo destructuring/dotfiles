@@ -18,5 +18,10 @@ dotfiles:
 	mkdir -p .aws
 	if [[ -f /efs/config/aws/config ]]; then ln -nfs /efs/config/aws/config .aws/config; fi
 	if [[ -f /efs/config/pass ]]; then ln -nfs /efs/config/pass /app/src/.password-store; fi
-	$(which brew /home/linuxbrew/.linuxbrew/bin/brew | head -1) bundle
-	. venv/bin/activate && pip install --no-cache-dir -r requirements.txt
+	source ./bash_profile && $(MAKE) install
+
+install:
+	brew bundle
+	asdf install
+	python -m venv venv
+	source venv/bin/activate && pip install --no-cache-dir -r requirements.txt
