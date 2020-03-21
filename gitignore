@@ -1,4 +1,6 @@
 # dotfiles
+Makefile
+work
 .dotfiles
 .gitconfig
 .aws/config
@@ -6,14 +8,7 @@
 .password-store
 .vim
 .vimrc
-work
 .ssh
-.tool-versions
-Makefile
-Brewfile
-Brewfile.lock.json
-requirements.in
-requirements.txt
 .gnupg/pubring.kbx
 .gnupg/trustdb.gpg
 
