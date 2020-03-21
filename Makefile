@@ -11,5 +11,5 @@ dotfiles:
 	ln -nfs .dotfiles/Makefile Makefile
 	ln -nfs .dotfiles/Brewfile .dotfiles/Brewfile.lock.json .
 	ln -nfs .dotfiles/requirements.txt .dotfiles/requirements.in .
-	ln -nfs .dotfiles/gnupg/pubring.kbx .gnupg/pubring.kbx
-	ln -nfs .dotfiles/gnupg/trustdb.gpg .gnupg/trustdb.gpg
+	ln -nfs ../.dotfiles/gnupg/pubring.kbx .gnupg/pubring.kbx
+	ln -nfs ../.dotfiles/gnupg/trustdb.gpg .gnupg/trustdb.gpg
