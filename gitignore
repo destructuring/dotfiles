@@ -32,7 +32,6 @@ Brewfile.lock.json
 
 # stuff
 .ansible/
-.asdf/
 .cache/
 .docker/
 .terraform.d/
