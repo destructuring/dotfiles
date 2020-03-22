@@ -1,3 +1,5 @@
+SHELL := /bin/bash
+
 dotfiles:
 	mkdir -p .dotfiles/work
 	git clone https://github.com/imma/junas .dotfiles/work/junas || true

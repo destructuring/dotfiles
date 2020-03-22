@@ -1,7 +1,5 @@
 function vi {
-  if type -P nvim >/dev/null; then
-    command nvim "$@"
-  elif type -P vim >/dev/null; then
+  if type -P vim >/dev/null; then
     command vim "$@"
   else
     command vi "$@"
@@ -14,6 +12,15 @@ function gs {
 
 function k {
   kubectl "$@"
+}
+
+function ks {
+  kubectl --n kube-system "$@"
+}
+
+function kn {
+  ns="$1"; shift
+  kubectl --n "${ns}" "$@"
 }
 
 function adjust_ps1 {
@@ -65,35 +72,28 @@ if [[ -f ~/.env ]]; then
   source ~/.env
 fi
 
-if [[ -f ~/.env.chm ]]; then
-  source ~/.env.chm
-fi
-
 if tty >/dev/null; then
   if type -P powerline-go >/dev/null; then
     PROMPT_COMMAND="update_ps1"
   fi
 fi
 
-#export AWS_OKTA_MFA_PROVIDER=YUBICO AWS_OKTA_MFA_FACTOR_TYPE=token:hardware
-#export AWS_OKTA_MFA_PROVIDER=OKTA AWS_OKTA_MFA_FACTOR_TYPE=push
 
 export AWS_OKTA_BACKEND=pass
+#export AWS_OKTA_MFA_PROVIDER=YUBICO
 export AWS_OKTA_MFA_PROVIDER=OKTA
+#AWS_OKTA_MFA_FACTOR_TYPE=token:hardware
 export AWS_OKTA_MFA_FACTOR_TYPE=push
 
 export TERM=xterm-256color
 export TERM_PROGRAM=iTerm.app
-source ~/.dotfiles/cue/script/profile
 
 export LC_COLLATE=C
 export LANG=en_US.UTF-8
 export LANGUAGE=en_US:en
 unset LC_ALL
 
-if type -P nvim >/dev/null; then
-  export EDITOR="$(which nvim)"
-elif type -P vim >/dev/null; then
+if type -P vim >/dev/null; then
   export EDITOR="$(which vim)"
 else
   export EDITOR="$(which vi)"
