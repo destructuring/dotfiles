@@ -15,12 +15,12 @@ function k {
 }
 
 function ks {
-  kubectl --n kube-system "$@"
+  kubectl -n kube-system "$@"
 }
 
 function kn {
   ns="$1"; shift
-  kubectl --n "${ns}" "$@"
+  kubectl -n "${ns}" "$@"
 }
 
 function adjust_ps1 {
