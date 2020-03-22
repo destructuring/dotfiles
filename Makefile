@@ -22,7 +22,7 @@ dotfiles:
 
 install:
 	rm -f /usr/local/bin/kubectl
-	brew bundle
 	asdf install
 	python -m venv venv
 	source venv/bin/activate && pip install --no-cache-dir -r requirements.txt
+	brew bundle
