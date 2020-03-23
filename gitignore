@@ -14,6 +14,7 @@ work
 
 # virtualenv
 venv
+__pycache__/
 
 # macos
 Applications/
@@ -46,3 +47,4 @@ Brewfile.lock.json
 .packer.d/
 .yarnrc
 .lesshst
+.cpan/
