@@ -30,4 +30,5 @@ install:
 	brew bundle
 	asdf install
 	python -m venv venv
+	source venv/bin/activate && pip install --upgrade pip
 	source venv/bin/activate && pip install --no-cache-dir -r requirements.txt
