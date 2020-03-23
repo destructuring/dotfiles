@@ -23,6 +23,14 @@ function kn {
   kubectl -n "${ns}" "$@"
 }
 
+function km {
+  kn metallb-system "$@"
+}
+
+function kt {
+  kn traefik "$@"
+}
+
 function adjust_ps1 {
   perl -pe 's{(\\\$)([^\$]+?)$}{$1$2}s'
 }
