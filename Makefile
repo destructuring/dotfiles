@@ -1,5 +1,10 @@
 SHELL := /bin/bash
 
+update:
+	git pull && git submodule update --init
+	cd .dotfiles && git pull && git submodule update --init
+	$(MAKE) dotfiles
+
 dotfiles:
 	mkdir -p .dotfiles/work
 	git clone https://github.com/imma/junas .dotfiles/work/junas || true

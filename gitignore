@@ -45,3 +45,4 @@ Brewfile.lock.json
 .npm/
 .packer.d/
 .yarnrc
+.lesshst
