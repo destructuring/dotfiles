@@ -1,9 +1,12 @@
 SHELL := /bin/bash
 
+upgrade:
+	$(MAKE) update
+	$(MAKE) dotfiles
+
 update:
 	git pull && git submodule update --init
 	cd .dotfiles && git pull && git submodule update --init
-	$(MAKE) dotfiles
 
 dotfiles:
 	mkdir -p .dotfiles/work
