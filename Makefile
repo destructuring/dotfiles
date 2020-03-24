@@ -1,12 +1,13 @@
 SHELL := /bin/bash
 
 upgrade:
-	$(MAKE) update
+	$(MAKE) update || true
 	$(MAKE) dotfiles
 
 update:
 	git pull && git submodule update --init
 	cd .dotfiles && git pull && git submodule update --init
+	cd .vim && git pull && git submodule update --init
 
 dotfiles:
 	git clone https://github.com/imma/junas .vim || true
