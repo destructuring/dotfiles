@@ -9,10 +9,8 @@ update:
 	cd .dotfiles && git pull && git submodule update --init
 
 dotfiles:
-	mkdir -p .dotfiles/work
-	git clone https://github.com/imma/junas .dotfiles/work/junas || true
-	cd .dotfiles/work/junas && git submodule update --init
-	ln -nfs .dotfiles/work/junas .vim
+	git clone https://github.com/imma/junas .vim || true
+	cd .vim && git submodule update --init
 	ln -nfs .dotfiles/vimrc .vimrc
 	ln -nfs .dotfiles/bashrc .bashrc.site
 	ln -nfs .dotfiles/gitconfig .gitconfig
