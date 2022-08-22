@@ -18,7 +18,7 @@ spec:
     spec:
       project: default
       source:
-        repoURL: https://github.com/defn/dev
+        repoURL: https://github.com/defn/app
         path: k/{{path}}
         targetRevision: main
       destination:

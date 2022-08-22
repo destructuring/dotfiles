@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/defn/dev
+    repoURL: https://github.com/defn/app
     path: e/k3d-immanent
     targetRevision: main
   destination:
