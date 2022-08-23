@@ -44,7 +44,7 @@ spec:
       source:
         repoURL: https://github.com/defn/app
         path: k/{{path}}
-        targetRevision: main
+        targetRevision: master
       destination:
         namespace: "{{namespace}}"
         name: "{{cluster}}"

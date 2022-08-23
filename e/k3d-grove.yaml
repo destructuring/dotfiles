@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/defn/app
     path: e/k3d-grove
-    targetRevision: main
+    targetRevision: master
   destination:
     name: in-cluster
   syncPolicy:
