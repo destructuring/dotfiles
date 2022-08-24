@@ -1,0 +1,10 @@
+init-site:
+	if test -f /run/secrets/kubernetes.io/serviceaccount/ca.crt; then \
+		$(MAKE) vault-unseal; \
+		aws --profile meh sts get-caller-identity; \
+		$(MAKE) vault-seal; \
+		fi
+
+init-gpg:
+	-gpg-agent --daemon
+	gpg --import .password-store/keys/EBE020A544E04B9C67215280B8B6F42683E6CCEF/private.gpg
