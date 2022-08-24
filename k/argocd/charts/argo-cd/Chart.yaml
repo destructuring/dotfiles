@@ -1,8 +1,10 @@
 annotations:
   artifacthub.io/changes: |
-    - "[Changed]: Update to app version 2.4.9"
+    - "[Removed]: Legacy support to run controller as a Deployment"
+    - "[Removed]: Legacy support to use old format of repository secrets"
+    - "[Removed]: Parameters server.additionalApplications and server.additionalProjects are moved to a separate chart - argocd-apps"
 apiVersion: v2
-appVersion: v2.4.9
+appVersion: v2.4.11
 dependencies:
 - condition: redis-ha.enabled
   name: redis-ha
@@ -22,4 +24,4 @@ maintainers:
 - name: jessesuen
 - name: seanson
 name: argo-cd
-version: 4.10.6
+version: 5.0.0
