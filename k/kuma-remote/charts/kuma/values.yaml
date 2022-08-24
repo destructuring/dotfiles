@@ -36,6 +36,9 @@ controlPlane:
   # -- Number of replicas of the Kuma CP. Ignored when autoscaling is enabled
   replicas: 1
 
+  # -- Control Plane Pod Annotations
+  podAnnotations: {}
+
   # Horizontal Pod Autoscaling configuration
   autoscaling:
     # -- Whether to enable Horizontal Pod Autoscaling, which requires the [Metrics Server](https://github.com/kubernetes-sigs/metrics-server) in the cluster
@@ -147,7 +150,7 @@ controlPlane:
 
   # -- Whether to automountServiceAccountToken for cp. Optionally set to false
   automountServiceAccountToken: true
-  
+
   # -- Optionally override the resource spec
   # @default -- the resources will be chosen based on the mode
   resources:
@@ -311,11 +314,32 @@ cni:
 
   image:
     # -- CNI image registry
-    registry: "docker.io"
+    registry: "docker.io/kumahq"
     # -- CNI image repository
-    repository: "kumahq/install-cni"
+    repository: "install-cni"
     # -- CNI image tag
     tag: "0.0.10"
+    # -- CNI image pull policy
+    imagePullPolicy: IfNotPresent
+
+  # -- it's only useful in tests to trigger a possible race condition
+  delayStartupSeconds: 0
+
+  # -- use new CNI image (experimental)
+  experimental:
+    image:
+      # -- CNI experimental image repository
+      repository: "kuma-cni"
+      # -- CNI experimental image tag - defaults to .Chart.AppVersion
+      tag:
+
+    imageEbpf:
+      # -- CNI experimental eBPF image registry
+      registry: "docker.io/kumahq"
+      # -- CNI experimental eBPF image repository
+      repository: "merbridge"
+      # -- CNI experimental eBPF image tag
+      tag: "0.7.1"
 
   # -- Security context at the pod level for cni
   podSecurityContext: {}
@@ -642,3 +666,12 @@ hooks:
 experimental:
   # -- If true, it installs experimental Gateway API support
   gatewayAPI: false
+  # -- If true, it installs experimental new version of the CNI
+  cni: false
+  # Configuration for the experimental ebpf mode for transparent proxy
+  ebpf:
+    # -- If true, ebpf will be used instead of using iptables to install/configure transparent proxy
+    enabled: false
+
+plugins:
+  policies: []

@@ -112,6 +112,15 @@ app: {{ include "kuma.name" . }}-control-plane
 {{- end }}
 
 {{/*
+control plane pod annotations
+*/}}
+{{- define "kuma.cpPodAnnotations" -}}
+{{ range $key, $value := $.Values.controlPlane.podAnnotations }}
+{{- $key }}: {{ $value -}}
+{{ end }}
+{{- end }}
+
+{{/*
 ingress labels
 */}}
 {{- define "kuma.ingressLabels" -}}
@@ -263,6 +272,12 @@ env:
 {{- if .Values.experimental.gatewayAPI }}
 - name: KUMA_EXPERIMENTAL_GATEWAY_API
   value: "true"
+{{- end }}
+{{- if .Values.experimental.cni }}
+- name: KUMA_RUNTIME_KUBERNETES_NODE_TAINT_CONTROLLER_ENABLED
+  value: "true"
+- name: KUMA_RUNTIME_KUBERNETES_NODE_TAINT_CONTROLLER_CNI_APP
+  value: "{{ include "kuma.name" . }}-cni"
 {{- end }}
 {{- end }}
 

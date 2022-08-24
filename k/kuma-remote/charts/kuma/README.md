@@ -2,7 +2,7 @@
 
 A Helm chart for the Kuma Control Plane
 
-![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![Version: 1.7.1](https://img.shields.io/badge/Version-1.7.1-informational?style=flat-square) ![AppVersion: 1.7.1](https://img.shields.io/badge/AppVersion-1.7.1-informational?style=flat-square)
+![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![Version: 1.7.0](https://img.shields.io/badge/Version-1.7.0-informational?style=flat-square) ![AppVersion: 1.7.0](https://img.shields.io/badge/AppVersion-1.7.0-informational?style=flat-square)
 
 **Homepage:** <https://github.com/kumahq/kuma>
 
@@ -22,6 +22,7 @@ A Helm chart for the Kuma Control Plane
 | controlPlane.zone | string | `nil` | Kuma CP zone, if running multizone |
 | controlPlane.kdsGlobalAddress | string | `""` | Only used in `zone` mode |
 | controlPlane.replicas | int | `1` | Number of replicas of the Kuma CP. Ignored when autoscaling is enabled |
+| controlPlane.podAnnotations | object | `{}` | Control Plane Pod Annotations |
 | controlPlane.autoscaling.enabled | bool | `false` | Whether to enable Horizontal Pod Autoscaling, which requires the [Metrics Server](https://github.com/kubernetes-sigs/metrics-server) in the cluster |
 | controlPlane.autoscaling.minReplicas | int | `2` | The minimum CP pods to allow |
 | controlPlane.autoscaling.maxReplicas | int | `5` | The max CP pods to scale to |
@@ -84,9 +85,17 @@ A Helm chart for the Kuma Control Plane
 | cni.confName | string | `"kuma-cni.conf"` | Set the CNI configuration name |
 | cni.logLevel | string | `"info"` | CNI log level: one of off,info,debug |
 | cni.nodeSelector | object | `{"kubernetes.io/os":"linux"}` | Node Selector for the CNI pods |
-| cni.image.registry | string | `"docker.io"` | CNI image registry |
-| cni.image.repository | string | `"kumahq/install-cni"` | CNI image repository |
+| cni.image.registry | string | `"docker.io/kumahq"` | CNI image registry |
+| cni.image.repository | string | `"install-cni"` | CNI image repository |
 | cni.image.tag | string | `"0.0.10"` | CNI image tag |
+| cni.image.imagePullPolicy | string | `"IfNotPresent"` | CNI image pull policy |
+| cni.delayStartupSeconds | int | `0` | it's only useful in tests to trigger a possible race condition |
+| cni.experimental | object | `{"image":{"repository":"kuma-cni","tag":null},"imageEbpf":{"registry":"docker.io/kumahq","repository":"merbridge","tag":"0.7.1"}}` | use new CNI image (experimental) |
+| cni.experimental.image.repository | string | `"kuma-cni"` | CNI experimental image repository |
+| cni.experimental.image.tag | string | `nil` | CNI experimental image tag - defaults to .Chart.AppVersion |
+| cni.experimental.imageEbpf.registry | string | `"docker.io/kumahq"` | CNI experimental eBPF image registry |
+| cni.experimental.imageEbpf.repository | string | `"merbridge"` | CNI experimental eBPF image repository |
+| cni.experimental.imageEbpf.tag | string | `"0.7.1"` | CNI experimental eBPF image tag |
 | cni.podSecurityContext | object | `{}` | Security context at the pod level for cni |
 | cni.containerSecurityContext | object | `{}` | Security context at the container level for cni |
 | dataPlane.image.repository | string | `"kuma-dp"` | The Kuma DP image repository |
@@ -152,6 +161,9 @@ A Helm chart for the Kuma Control Plane
 | hooks.podSecurityContext | object | `{}` | Security context at the pod level for crd/webhook/ns |
 | hooks.containerSecurityContext | object | `{}` | Security context at the container level for crd/webhook/ns |
 | experimental.gatewayAPI | bool | `false` | If true, it installs experimental Gateway API support |
+| experimental.cni | bool | `false` | If true, it installs experimental new version of the CNI |
+| experimental.ebpf.enabled | bool | `false` | If true, ebpf will be used instead of using iptables to install/configure transparent proxy |
+| plugins.policies | list | `[]` |  |
 
 ## Custom Resource Definitions
 
