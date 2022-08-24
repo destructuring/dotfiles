@@ -214,7 +214,7 @@ resource "kubernetes_stateful_set" "dev" {
           image_pull_policy = "Always"
 
           command = ["/usr/bin/tini", "--"]
-          args    = ["bash", "-c", "exec ~/bin/e vault server -config vault.yaml"]
+          args    = ["bash", "-c", "exec ~/bin/e vault server -config etc/vault.yaml"]
 
           volume_mount {
             name       = "work"
