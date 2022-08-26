@@ -97,7 +97,7 @@ resource "kubernetes_stateful_set" "dev" {
           image_pull_policy = "Always"
 
           command = ["/usr/bin/tini", "--"]
-          args    = ["/usr/local/bin/code-server", "serve-local", "--accept-server-license-terms", "--disable-telemetry", "--server-data-dir", "/work/vscode-server"]
+          args    = ["/usr/local/bin/code-server", "serve-local", "--accept-server-license-terms", "--disable-telemetry", "--without-connection-token", "--server-data-dir", "/work/vscode-server"]
 
           tty = true
 
