@@ -92,12 +92,12 @@ resource "kubernetes_stateful_set" "dev" {
         }
 
         container {
-          name              = "dev"
+          name              = "vscode-dev"
           image             = "quay.io/defn/dev:latest"
           image_pull_policy = "Always"
 
           command = ["/usr/bin/tini", "--"]
-          args    = ["tail", "-f", "/dev/null"]
+          args    = ["/usr/local/bin/code-server", "serve-local", "--accept-server-license-terms", "--disable-telemetry", "--server-data-dir", "/work/vscode-server"]
 
           tty = true
 
@@ -200,7 +200,7 @@ resource "kubernetes_stateful_set" "dev" {
           image_pull_policy = "Always"
 
           command = ["/usr/bin/tini", "--"]
-          args    = ["bash", "-c", "while true; do ts_ip=`tailscale ip -4 || true`; if test -n \"$ts_ip\"; then break; fi; sleep 1; done; (echo \"https://${each.key}-0.${each.value.domain} {\"; echo 'reverse_proxy http://localhost:8888'; echo '}'; echo \"https://${each.key}-0.${each.value.domain}:8881 {\"; echo \"reverse_proxy http://$ts_ip:4646\"; echo '}';) > Caddyfile; exec sudo `~ubuntu/bin/e asdf which caddy` run"]
+          args    = ["bash", "-c", "while true; do ts_ip=`tailscale ip -4 || true`; if test -n \"$ts_ip\"; then break; fi; sleep 1; done; (echo \"https://${each.key}-0.${each.value.domain} {\"; echo 'reverse_proxy http://localhost:8888'; echo '}'; echo \"https://${each.key}-0.${each.value.domain}:8881 {\"; echo \"reverse_proxy http://$ts_ip:4646\"; echo '}'; echo \"https://${each.key}-0.${each.value.domain}:8882 {\"; echo \"reverse_proxy http://127.0.0.1:8000\"; echo '}'; ) > Caddyfile; exec sudo `~ubuntu/bin/e asdf which caddy` run"]
 
           volume_mount {
             name       = "tsrun"
