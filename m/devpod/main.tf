@@ -132,7 +132,7 @@ resource "kubernetes_stateful_set" "dev" {
           image_pull_policy = "Always"
 
           command = ["/usr/bin/tini", "--"]
-          args    = ["bash", "-c", "while true; do if test -S /var/run/tailscale/tailscaled.sock; then break; fi; sleep 1; done; sudo tailscale up --ssh --accept-dns=false --hostname=${each.key}-0; bin/e make symlinks perms; exec ~/bin/e code-server --bind-addr 0.0.0.0:8888 --disable-telemetry"]
+          args    = ["bash", "-c", "while true; do if test -S /var/run/tailscale/tailscaled.sock; then break; fi; sleep 1; done; sudo tailscale up --ssh --accept-dns=false --hostname=${each.key}-0; exec ~/bin/e code-server --bind-addr 0.0.0.0:8888 --disable-telemetry"]
 
           tty = true
 
@@ -215,6 +215,20 @@ resource "kubernetes_stateful_set" "dev" {
 
           command = ["/usr/bin/tini", "--"]
           args    = ["bash", "-c", "exec ~/bin/e vault server -config etc/vault.yaml"]
+
+          volume_mount {
+            name       = "work"
+            mount_path = "/work"
+          }
+        }
+
+        container {
+          name              = "temporal"
+          image             = "quay.io/defn/dev:latest"
+          image_pull_policy = "Always"
+
+          command = ["/usr/bin/tini", "--"]
+          args    = ["bash", "-c", "sudo install -d -o ubuntu -g ubuntu /mnt/temporal; exec temporalite start --namespace default --filename=/mnt/temporal/default.db"]
 
           volume_mount {
             name       = "work"
