@@ -228,7 +228,7 @@ resource "kubernetes_stateful_set" "dev" {
           image_pull_policy = "Always"
 
           command = ["/usr/bin/tini", "--"]
-          args    = ["bash", "-c", "sudo install -d -o ubuntu -g ubuntu /mnt/temporal; exec temporalite start --namespace default --filename=/mnt/temporal/default.db"]
+          args    = ["bash", "-c", "sudo install -d -o ubuntu -g ubuntu /mnt/temporal; exec temporalite start --namespace default --filename=/mnt/temporal/default.db --ip 0.0.0.0"]
 
           volume_mount {
             name       = "work"
