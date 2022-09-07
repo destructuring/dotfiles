@@ -1,6 +1,3 @@
-install:
-	$(MAKE) init
-	
 init-site:
 	if test -f /run/secrets/kubernetes.io/serviceaccount/ca.crt; then \
 		$(MAKE) vault-unseal; \
