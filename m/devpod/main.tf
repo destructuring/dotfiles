@@ -292,6 +292,11 @@ resource "kubernetes_stateful_set" "dev" {
             value = "90"
           }
 
+          env {
+            name  = "EARTHLY_ADDITIONAL_BUILDKIT_CONFIG"
+            value = "[registry."192.168.65.2:5000"]\n  http = true\n  insecure = true"
+          }
+
           volume_mount {
             name       = "earthly"
             mount_path = "/tmp/earthly"
