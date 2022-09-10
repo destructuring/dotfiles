@@ -5,4 +5,4 @@ locals {
       domain  = "tiger-mamba.ts.net"
     }
   }
-dddd}
+}
