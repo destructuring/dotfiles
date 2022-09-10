@@ -3,14 +3,13 @@ repos:
     rev: v4.2.0
     hooks:
       - id: trailing-whitespace
-        exclude: ^(provider|cdktf.out|.local)/|\.lock|charts
+        exclude: ^(provider|cdktf.out)/|\.lock
       - id: end-of-file-fixer
-        exclude: ^(provider|cdktf.out|.local)/|\.lock|charts
+        exclude: ^(provider|cdktf.out)/|\.lock
       - id: check-json
-        exclude: ^(provider|cdktf.out|.local)/
+        exclude: ^(provider|cdktf.out)/
       - id: check-yaml
-        args: [--allow-multiple-documents, --unsafe]
-        exclude: ^(provider|cdktf.out|.local)/|charts
+        exclude: ^(provider|cdktf.out)/
       - id: check-toml
-        exclude: ^(provider|cdktf.out|.local)/|charts
+        exclude: ^(provider|cdktf.out)/
       - id: check-shebang-scripts-are-executable

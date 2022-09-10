@@ -91,40 +91,40 @@ resource "kubernetes_stateful_set" "dev" {
           empty_dir {}
         }
 
-        container {
-          name              = "vscode-dev"
-          image             = "quay.io/defn/dev:latest"
-          image_pull_policy = "Always"
-
-          command = ["/usr/bin/tini", "--"]
-          args    = ["/usr/local/bin/code-server", "serve-local", "--accept-server-license-terms", "--disable-telemetry", "--without-connection-token", "--server-data-dir", "/work/vscode-server"]
-
-          tty = true
-
-          env {
-            name  = "DEFN_DEV_HOST"
-            value = each.value.host
-          }
-
-          volume_mount {
-            name       = "docker"
-            mount_path = "/var/run/docker.sock"
-          }
-
-          volume_mount {
-            name       = "work"
-            mount_path = "/work"
-          }
-
-          volume_mount {
-            name       = "tsrun"
-            mount_path = "/var/run/tailscale"
-          }
-
-          security_context {
-            privileged = true
-          }
-        }
+#        container {
+#          name              = "vscode-dev"
+#          image             = "quay.io/defn/dev:latest"
+#          image_pull_policy = "Always"
+#
+#          command = ["/usr/bin/tini", "--"]
+#          args    = ["/usr/local/bin/code-server", "serve-local", "--accept-server-license-terms", "--disable-telemetry", "--without-connection-token", "--server-data-dir", "/work/vscode-server"]
+#
+#          tty = true
+#
+#          env {
+#            name  = "DEFN_DEV_HOST"
+#            value = each.value.host
+#          }
+#
+#          volume_mount {
+#            name       = "docker"
+#            mount_path = "/var/run/docker.sock"
+#          }
+#
+#          volume_mount {
+#            name       = "work"
+#            mount_path = "/work"
+#          }
+#
+#          volume_mount {
+#            name       = "tsrun"
+#            mount_path = "/var/run/tailscale"
+#          }
+#
+#          security_context {
+#            privileged = true
+#          }
+#        }
 
         container {
           name              = "code-server"
