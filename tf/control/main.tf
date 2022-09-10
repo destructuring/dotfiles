@@ -1,6 +1,6 @@
 provider "kubernetes" {
   config_path    = "~/.kube/config"
-  config_context = "k3d-grove"
+  config_context = "k3d-control"
 }
 
 module "devpod" {
