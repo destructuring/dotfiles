@@ -4,4 +4,4 @@ command: {
 	args: string @tag(args)
 }
 
-command: appContext
+command: bootContext
