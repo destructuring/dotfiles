@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: k3d-defn
+  name: k3d-control
   namespace: argocd
 spec:
   generators:
@@ -10,10 +10,34 @@ spec:
           - name: kyverno
             namespace: kyverno
             path: kyverno
-            cluster: k3d-defn
+            cluster: in-cluster
+          - name: argocd
+            namespace: argocd
+            cluster: in-cluster
+            path: argocd
+          - name: cert-manager
+            namespace: cert-manager
+            cluster: in-cluster
+            path: cert-manager
+          - name: external-secrets
+            namespace: external-secrets
+            cluster: in-cluster
+            path: external-secrets
+          - name: argo-events
+            namespace: argo-events
+            cluster: in-cluster
+            path: argo-events
+          - name: argo-workflows
+            namespace: argo-workflows
+            cluster: in-cluster
+            path: argo-workflows
+          - name: kuma-remote
+            namespace: kuma
+            cluster: in-cluster
+            path: kuma-remote
   template:
     metadata:
-      name: "k3d-defn-{{name}}"
+      name: "k3d-control-{{name}}"
       namespace: argocd
     spec:
       project: default

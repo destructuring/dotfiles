@@ -9,8 +9,12 @@ spec:
         elements:
           - name: kyverno
             namespace: kyverno
-            cluster: k3d-global
             path: kyverno
+            cluster: k3d-global
+          - name: kuma-global
+            namespace: kuma
+            path: kuma-global
+            cluster: k3d-global
   template:
     metadata:
       name: "k3d-global-{{name}}"
