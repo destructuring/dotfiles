@@ -167,6 +167,15 @@ resource "kubernetes_stateful_set" "dev" {
         }
 
         container {
+          name              = "socat"
+          image             = "quay.io/defn/dev:latest"
+          image_pull_policy = "Always"
+
+          command = ["/usr/bin/tini", "--"]
+          args    = ["bash", "-c", "cd && cd ondemand && exec ./server"]
+        }
+
+        container {
           name              = "tailscale"
           image             = "quay.io/defn/dev:latest"
           image_pull_policy = "Always"
