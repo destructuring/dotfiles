@@ -24,15 +24,15 @@ clean:
 	rm -f main.tf.json
 
 init:
+	terraform init
+
+upgrade:
 	terraform init -upgrade
 	terraform providers lock \
 		-platform=linux_arm64 \
 		-platform=linux_amd64 \
 		-platform=darwin_amd64 \
 		-platform=darwin_arm64
-
-upgrade:
-	terraform init -upgrade
 
 fmt:
 	terraform fmt .
