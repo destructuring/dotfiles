@@ -35,6 +35,10 @@ spec:
             namespace: argo-workflows
             cluster: in-cluster
             path: argo-workflows
+          - name: datadog
+            namespace: default
+            cluster: in-cluster
+            path: datadog
   template:
     metadata:
       name: "k3d-control-{{name}}"
