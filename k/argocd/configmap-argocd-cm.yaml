@@ -8,3 +8,16 @@ data:
     hs = {}
     hs.status = "Healthy"
     return hs
+  resource.customizations.ignoreDifferences.admissionregistration.k8s.io_MutatingWebhookConfiguration: |
+    jsonPointers:
+      - /webhooks/0/clientConfig/caBundle
+      - /webhooks/0/rules
+  resource.customizations.ignoreDifferences.admissionregistration.k8s.io_ValidatingWebhookConfiguration: |
+    jsonPointers:
+      - /webhooks/0/rules
+  resource.customizations.ignoreDifferences.apps_Deployment: |
+    jsonPointers:
+      - /spec/template/spec/tolerations
+  resource.customizations.ignoreDifferences.kyverno.io_ClusterPolicy: |
+    jqPathExpressions:
+      - .spec.rules[] | select(.name|test("autogen-."))
