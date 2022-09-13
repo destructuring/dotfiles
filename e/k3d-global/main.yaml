@@ -11,9 +11,9 @@ spec:
             namespace: kyverno
             path: kyverno
             cluster: k3d-global
-          - name: kuma-global
-            namespace: kuma
-            path: kuma-global
+          - name: keda
+            namespace: keda
+            path: keda
             cluster: k3d-global
   template:
     metadata:

@@ -11,6 +11,10 @@ spec:
             namespace: kyverno
             path: kyverno
             cluster: in-cluster
+          - name: keda
+            namespace: keda
+            cluster: in-cluster
+            path: keda
           - name: argocd
             namespace: argocd
             cluster: in-cluster
@@ -31,14 +35,6 @@ spec:
             namespace: argo-workflows
             cluster: in-cluster
             path: argo-workflows
-          - name: kuma-remote
-            namespace: kuma
-            cluster: in-cluster
-            path: kuma-remote
-          - name: keda
-            namespace: keda
-            cluster: in-cluster
-            path: keda
   template:
     metadata:
       name: "k3d-control-{{name}}"
