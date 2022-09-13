@@ -54,35 +54,34 @@
       mountPath: /host/proc
       mountPropagation: {{ .Values.datadog.hostVolumeMountPropagation }}
       readOnly: true
-{{- if .Values.datadog.systemProbe.osReleasePath }}
-    - name: os-release-file
-      mountPath: /host{{ .Values.datadog.systemProbe.osReleasePath }}
-      readOnly: true
-{{- else }}
-    - name: etc-os-release
-      mountPath: /host/etc/os-release
-      mountPropagation: {{ .Values.datadog.hostVolumeMountPropagation }}
-      readOnly: true
+    {{- include "linux-container-host-release-volumemounts" . | nindent 4 }}
+  {{- if .Values.datadog.systemProbe.enableDefaultOsReleasePaths }}
+    {{- if ne .Values.datadog.osReleasePath "/etc/redhat-release" }}
     - name: etc-redhat-release
       mountPath: /host/etc/redhat-release
       mountPropagation: {{ .Values.datadog.hostVolumeMountPropagation }}
       readOnly: true
+    {{- end }}
+    {{- if ne .Values.datadog.osReleasePath "/etc/fedora-release" }}
     - name: etc-fedora-release
       mountPath: /host/etc/fedora-release
       mountPropagation: {{ .Values.datadog.hostVolumeMountPropagation }}
       readOnly: true
+    {{- end }}
+    {{- if ne .Values.datadog.osReleasePath "/etc/lsb-release" }}
     - name: etc-lsb-release
       mountPath: /host/etc/lsb-release
       mountPropagation: {{ .Values.datadog.hostVolumeMountPropagation }}
       readOnly: true
-{{- end }}
+    {{- end }}
+  {{- end }}
 {{- if .Values.datadog.serviceMonitoring.enabled }}
     - name: hostroot
       mountPath: /host/root
       mountPropagation: {{ .Values.datadog.hostVolumeMountPropagation }}
       readOnly: true
 {{- end }}
-{{- if or .Values.datadog.systemProbe.enableTCPQueueLength .Values.datadog.systemProbe.enableOOMKill }}
+{{- if and (or .Values.datadog.systemProbe.enableTCPQueueLength .Values.datadog.systemProbe.enableOOMKill) .Values.datadog.systemProbe.enableDefaultKernelHeadersPaths }}
     - name: modules
       mountPath: /lib/modules
       mountPropagation: {{ .Values.datadog.hostVolumeMountPropagation }}
@@ -116,6 +115,12 @@
       readOnly: true
     - name: public-key-dir
       mountPath: /host/etc/pki
+      readOnly: true
+    - name: yum-vars-dir
+      mountPath: /host/etc/yum/vars
+      readOnly: true
+    - name: dnf-vars-dir
+      mountPath: /host/etc/dnf/vars
       readOnly: true
     - name: rhel-subscription-dir
       mountPath: /host/etc/rhsm

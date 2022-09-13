@@ -5,16 +5,29 @@
 {{- $version := .Values.agents.image.tag | toString | trimSuffix "-jmx" -}}
 {{- $length := len (split "." $version) -}}
 {{- if and (eq $length 1) (eq $version "6") -}}
-{{- $version = "6.19.0" -}}
+{{- $version = "6.36.0" -}}
 {{- end -}}
 {{- if and (eq $length 1) (eq $version "7") -}}
-{{- $version = "7.19.0" -}}
+{{- $version = "7.36.0" -}}
 {{- end -}}
 {{- if and (eq $length 1) (eq $version "latest") -}}
-{{- $version = "7.19.0" -}}
+{{- $version = "7.36.0" -}}
 {{- end -}}
-{{- if not (semverCompare "^6.19.0-0 || ^7.19.0-0" $version) -}}
-{{- fail "This version of the chart requires an agent image 7.19.0 or greater. If you want to force and skip this check, use `--set agents.image.doNotCheckTag=true`" -}}
+{{- if not (semverCompare "^6.36.0-0 || ^7.36.0-0" $version) -}}
+{{- fail "This version of the chart requires an agent image 7.36.0 or greater. If you want to force and skip this check, use `--set agents.image.doNotCheckTag=true`" -}}
+{{- end -}}
+{{- end -}}
+{{- end -}}
+
+{{- define "check-dca-version" -}}
+{{- if not .Values.clusterAgent.image.doNotCheckTag -}}
+{{- $version := .Values.clusterAgent.image.tag | toString -}}
+{{- $length := len (split "." $version) -}}
+{{- if and (eq $length 1) (eq $version "latest") -}}
+{{- $version = "1.20.0" -}}
+{{- end -}}
+{{- if not (semverCompare ">=1.20.0-0" $version) -}}
+{{- fail "This version of the chart requires a cluster agent image 1.20.0 or greater. If you want to force and skip this check, use `--set clusterAgent.image.doNotCheckTag=true`" -}}
 {{- end -}}
 {{- end -}}
 {{- end -}}
@@ -240,6 +253,13 @@ Accepts a map with `port` (default port) and `settings` (probe settings).
 Return a remote image path based on `.Values` (passed as root) and `.` (any `.image` from `.Values` passed as parameter)
 */}}
 {{- define "image-path" -}}
+{{- if .image.digest -}}
+{{- if .image.repository -}}
+{{- .image.repository -}}@{{ .image.digest }}
+{{- else -}}
+{{ .root.registry }}/{{ .image.name }}@{{ .image.digest }}
+{{- end -}}
+{{- else -}}
 {{- $tagSuffix := "" -}}
 {{- if .image.tagSuffix -}}
 {{- $tagSuffix = printf "-%s" .image.tagSuffix -}}
@@ -250,7 +270,7 @@ Return a remote image path based on `.Values` (passed as root) and `.` (any `.im
 {{ .root.registry }}/{{ .image.name }}:{{ .image.tag }}{{ $tagSuffix }}
 {{- end -}}
 {{- end -}}
-
+{{- end -}}
 {{/*
 Return true if a system-probe feature is enabled.
 */}}
@@ -498,6 +518,9 @@ helm.sh/chart: '{{ include "datadog.chart" . }}'
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
+{{- if .Values.commonLabels}}
+{{ toYaml .Values.commonLabels }}
+{{- end }}
 {{- end -}}
 
 {{/*
@@ -668,9 +691,27 @@ The Datadog Agent Helm Chart currently only supports 'host:port' (usually '0.0.0
 Verifies that an OTLP endpoint has a port explicitly set.
 */}}
 {{- define "verify-otlp-endpoint-port" -}}
-{{- if not ( mustRegexMatch ":[0-9]+$" . ) }}
+{{- if not ( regexMatch ":[0-9]+$" . ) }}
 {{ fail "port must be set explicitly on OTLP endpoints" }}
 {{- end }}
 {{- end -}}
 
-
+{{/*
+Returns the flag used to specify the config file for the process-agent.
+In 7.36, `--config` was deprecated and `--cfgpath` should be used instead.
+*/}}
+{{- define "process-agent-config-file-flag" -}}
+{{- if  .Values.providers.gke.autopilot -}}
+-config
+{{- else if not .Values.agents.image.doNotCheckTag -}}
+{{- $version := .Values.agents.image.tag | toString | trimSuffix "-jmx" -}}
+{{- $length := len (split "." $version ) -}}
+{{- if and (gt $length 1) (not (semverCompare "^6.36.0 || ^7.36.0" $version)) -}}
+--config
+{{- else -}}
+--cfgpath
+{{- end -}}
+{{- else -}}
+--config
+{{- end -}}
+{{- end -}}

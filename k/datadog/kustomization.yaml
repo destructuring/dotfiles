@@ -3,7 +3,7 @@ namespace: datadog
 helmCharts:
 - releaseName: datadog
   name: datadog
-  version: 2.36.1
+  version: 3.1.1
   repo: https://helm.datadoghq.com
   includeCRDs: true
   valuesInline:
@@ -12,7 +12,7 @@ helmCharts:
       metricsProvider:
         enabled: "true"
       processAgent:
-        enabled: "false"
+        enabled: "trie"
     datadog:
       appKeyExistingSecret: datadog-app-secret
       apiKeyExistingSecret: datadog-api-secret
