@@ -36,7 +36,7 @@ spec:
             cluster: in-cluster
             path: argo-workflows
           - name: datadog
-            namespace: default
+            namespace: datadog
             cluster: in-cluster
             path: datadog
   template:
