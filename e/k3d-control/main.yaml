@@ -35,6 +35,10 @@ spec:
             namespace: kuma
             cluster: in-cluster
             path: kuma-remote
+          - name: keda
+            namespace: keda
+            cluster: in-cluster
+            path: keda
   template:
     metadata:
       name: "k3d-control-{{name}}"
