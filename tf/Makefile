@@ -35,7 +35,7 @@ upgrade:
 	terraform init -upgrade
 
 fmt:
-	for a in *.tf *.tfvars; do if [[ -f $$a ]]; then terraform fmt $$a; fi; done
+	terraform fmt .
 
 validate:
 	terraform validate
