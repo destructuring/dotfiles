@@ -1,0 +1,8 @@
+namespace: keda
+
+helmCharts:
+- releaseName: keda
+  name: keda
+  namespace: keda
+  version: 2.8.2
+  repo: https://kedacore.github.io/charts
