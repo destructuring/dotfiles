@@ -15,7 +15,7 @@ helmCharts:
         enabled: "trie"
     logs:
       enabled: true
-        containerCollectAll: true
+      containerCollectAll: true
     datadog:
       appKeyExistingSecret: datadog-app-secret
       apiKeyExistingSecret: datadog-api-secret
