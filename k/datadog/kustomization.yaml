@@ -13,9 +13,9 @@ helmCharts:
         enabled: "true"
       processAgent:
         enabled: "trie"
-    logs:
-      enabled: true
-      containerCollectAll: true
     datadog:
+      logs:
+        enabled: true
+        containerCollectAll: true
       appKeyExistingSecret: datadog-app-secret
       apiKeyExistingSecret: datadog-api-secret
