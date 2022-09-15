@@ -82,7 +82,7 @@ resource "kubernetes_stateful_set" "dev" {
         volume {
           name = "containerd"
           host_path {
-            path = "/run/k3s/containerd/containerd.sock"
+            path = "/run/k3s/containerd"
           }
         }
 
@@ -160,7 +160,7 @@ resource "kubernetes_stateful_set" "dev" {
 
           volume_mount {
             name       = "containerd"
-            mount_path = "/run/containerd/containerd.sock"
+            mount_path = "/run/containerd"
           }
 
           volume_mount {
