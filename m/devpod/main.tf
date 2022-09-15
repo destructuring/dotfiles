@@ -87,6 +87,13 @@ resource "kubernetes_stateful_set" "dev" {
         }
 
         volume {
+          name = "mntwork"
+          host_path {
+            path = "/mnt/work"
+          }
+        }
+
+        volume {
           name = "tailscale"
           host_path {
             path = "/var/lib/tailscale/pod/var/lib/tailscale"
@@ -161,6 +168,11 @@ resource "kubernetes_stateful_set" "dev" {
           volume_mount {
             name       = "containerd"
             mount_path = "/run/containerd"
+          }
+
+          volume_mount {
+            name       = "mntwork"
+            mount_path = "/mnt/work"
           }
 
           volume_mount {
