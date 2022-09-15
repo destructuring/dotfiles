@@ -12,7 +12,8 @@ helmCharts:
       metricsProvider:
         enabled: "true"
       processAgent:
-        enabled: "trie"
+        enabled: "false"
+    targetSystem: "linux"
     datadog:
       logs:
         enabled: true
