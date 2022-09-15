@@ -80,6 +80,13 @@ resource "kubernetes_stateful_set" "dev" {
         }
 
         volume {
+          name = "containerd"
+          host_path {
+            path = "/run/k3s/containerd/containerd.sock"
+          }
+        }
+
+        volume {
           name = "tailscale"
           host_path {
             path = "/var/lib/tailscale/pod/var/lib/tailscale"
@@ -149,6 +156,11 @@ resource "kubernetes_stateful_set" "dev" {
           volume_mount {
             name       = "docker"
             mount_path = "/var/run/docker.sock"
+          }
+
+          volume_mount {
+            name       = "containerd"
+            mount_path = "/run/containerd/containerd.sock"
           }
 
           volume_mount {
