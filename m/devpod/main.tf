@@ -17,19 +17,19 @@ resource "kubernetes_stateful_set" "dev" {
       }
     }
 
-    volume_claim_template {
-      metadata {
-        name = "work"
-      }
-      spec {
-        access_modes = ["ReadWriteOnce"]
-        resources {
-          requests = {
-            storage = "1G"
-          }
-        }
-      }
-    }
+#    volume_claim_template {
+#      metadata {
+#        name = "work"
+#      }
+#      spec {
+#        access_modes = ["ReadWriteOnce"]
+#        resources {
+#          requests = {
+#            storage = "1G"
+#          }
+#        }
+#      }
+#    }
 
     template {
       metadata {
