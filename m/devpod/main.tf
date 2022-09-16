@@ -126,7 +126,7 @@ resource "kubernetes_stateful_set" "dev" {
         #          }
         #
         #          volume_mount {
-        #            name       = "work"
+        #            name       = "mntwork"
         #            mount_path = "/work"
         #          }
         #
@@ -172,11 +172,6 @@ resource "kubernetes_stateful_set" "dev" {
 
           volume_mount {
             name       = "mntwork"
-            mount_path = "/mnt/work"
-          }
-
-          volume_mount {
-            name       = "work"
             mount_path = "/work"
           }
 
@@ -208,7 +203,7 @@ resource "kubernetes_stateful_set" "dev" {
           args    = ["sudo", "tailscaled", "--statedir", "/var/lib/tailscale"]
 
           volume_mount {
-            name       = "work"
+            name       = "mntwork"
             mount_path = "/work"
           }
 
@@ -250,7 +245,7 @@ resource "kubernetes_stateful_set" "dev" {
           args    = ["bash", "-c", "exec ~/bin/e vault server -config etc/vault.yaml"]
 
           volume_mount {
-            name       = "work"
+            name       = "mntwork"
             mount_path = "/work"
           }
         }
@@ -264,7 +259,7 @@ resource "kubernetes_stateful_set" "dev" {
           args    = ["bash", "-c", "sudo install -d -o ubuntu -g ubuntu /mnt/temporal; exec temporalite start --namespace default --filename=/mnt/temporal/default.db --ip 0.0.0.0"]
 
           volume_mount {
-            name       = "work"
+            name       = "mntwork"
             mount_path = "/work"
           }
         }
@@ -278,7 +273,7 @@ resource "kubernetes_stateful_set" "dev" {
           args    = ["bash", "-c", "while true; do ts_ip=`tailscale ip -4 || true`; if test -n \"$ts_ip\"; then break; fi; sleep 1; done; exec ~/bin/e nomad agent -config=etc/nomad.conf -data-dir=/work/nomad -dc=grove -region=spiral -node=grove-0 -bootstrap-expect 1 -bind \"$ts_ip\""]
 
           volume_mount {
-            name       = "work"
+            name       = "mntwork"
             mount_path = "/work"
           }
 
