@@ -1,3 +1,26 @@
+resource "kubernetes_service" "dev" {
+  for_each = var.envs
+
+  metadata {
+    name      = each.key
+    namespace = "default"
+  }
+
+  spec {
+    selector = {
+      env = each.key
+    }
+
+    port {
+      name        = "code-server"
+      port        = 80
+      target_port = 8888
+    }
+    type = "LoadBalancer"
+  }
+
+}
+
 resource "kubernetes_stateful_set" "dev" {
   for_each = var.envs
 
@@ -13,27 +36,29 @@ resource "kubernetes_stateful_set" "dev" {
 
     selector {
       match_labels = {
+        env = each.key
         app = "dev"
       }
     }
 
-#    volume_claim_template {
-#      metadata {
-#        name = "work"
-#      }
-#      spec {
-#        access_modes = ["ReadWriteOnce"]
-#        resources {
-#          requests = {
-#            storage = "1G"
-#          }
-#        }
-#      }
-#    }
+    #    volume_claim_template {
+    #      metadata {
+    #        name = "work"
+    #      }
+    #      spec {
+    #        access_modes = ["ReadWriteOnce"]
+    #        resources {
+    #          requests = {
+    #            storage = "1G"
+    #          }
+    #        }
+    #      }
+    #    }
 
     template {
       metadata {
         labels = {
+          env = each.key
           app = "dev"
         }
       }
