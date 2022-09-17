@@ -11,22 +11,22 @@ spec:
             namespace: kyverno
             path: kyverno
             cluster: in-cluster
-          - name: keda
-            namespace: keda
-            cluster: in-cluster
-            path: keda
-          - name: argocd
-            namespace: argocd
-            cluster: in-cluster
-            path: argocd
           - name: cert-manager
             namespace: cert-manager
-            cluster: in-cluster
             path: cert-manager
+            cluster: in-cluster
+          - name: keda
+            namespace: keda
+            path: keda
+            cluster: in-cluster
           - name: external-secrets
             namespace: external-secrets
             cluster: in-cluster
             path: external-secrets
+          - name: argocd
+            namespace: argocd
+            cluster: in-cluster
+            path: argocd
           - name: argo-events
             namespace: argo-events
             cluster: in-cluster

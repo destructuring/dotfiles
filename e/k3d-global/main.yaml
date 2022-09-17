@@ -11,6 +11,10 @@ spec:
             namespace: kyverno
             path: kyverno
             cluster: k3d-global
+          - name: cert-manager
+            namespace: cert-manager
+            path: cert-manager
+            cluster: k3d-global
           - name: keda
             namespace: keda
             path: keda
