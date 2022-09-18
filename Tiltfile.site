@@ -1,4 +1,4 @@
-local_resource("vc1", serve_cmd="cd ~/app/ondemand && ./vc1")
-local_resource("vc2", serve_cmd="cd ~/app/ondemand && ./vc2")
-local_resource("vc3", serve_cmd="cd ~/app/ondemand && ./vc3")
-local_resource("vc4", serve_cmd="cd ~/app/ondemand && ./vc4")
+local_resource("vc1", serve_cmd="cd ~/app/ondemand && exec ./vc1")
+local_resource("vc2", serve_cmd="cd ~/app/ondemand && exec ./vc2")
+local_resource("vc3", serve_cmd="cd ~/app/ondemand && exec ./vc3")
+local_resource("vc4", serve_cmd="cd ~/app/ondemand && exec ./vc4")
