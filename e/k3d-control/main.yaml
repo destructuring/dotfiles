@@ -34,7 +34,7 @@ spec:
           - name: argo-workflows
             namespace: argo-workflows
             cluster: in-cluster
-            path: argo-workflows
+            path3 argo-workflows
           - name: vc1
             namespace: vc1
             cluster: in-cluster

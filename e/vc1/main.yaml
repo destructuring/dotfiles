@@ -7,10 +7,6 @@ spec:
   generators:
     - list:
         elements:
-          - name: kyverno
-            namespace: kyverno
-            path: kyverno
-            cluster: vc1
           - name: dev
             namespace: default
             path: dev

@@ -7,10 +7,6 @@ spec:
   generators:
     - list:
         elements:
-          - name: kyverno
-            namespace: kyverno
-            path: kyverno
-            cluster: vc2
           - name: dev
             namespace: default
             path: dev
@@ -31,5 +27,3 @@ spec:
       syncPolicy:
         syncOptions:
           - CreateNamespace=true
-        automated:
-          prune: true
