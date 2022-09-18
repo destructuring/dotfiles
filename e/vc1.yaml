@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vc1
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/defn/app
+    path: e/vc1
+    targetRevision: master
+  destination:
+    name: in-cluster
+  syncPolicy:
+    automated:
+      prune: true

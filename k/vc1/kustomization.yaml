@@ -15,4 +15,3 @@ helmCharts:
     syncer:
       extraArgs:
         - --tls-san=vcluster.vc1.svc.cluster.local
-

@@ -34,7 +34,7 @@ spec:
         patchStrategicMerge:
           spec:
             containers:
-            - name: "{{ element.name }}"           
+            - name: "{{ element.name }}"
               image: 192.168.65.2:5000/{{ images.containers."{{element.name}}".path}}:{{images.containers."{{element.name}}".tag}}
   - name: prepend-registry-initcontainers
     match:
@@ -57,5 +57,5 @@ spec:
         patchStrategicMerge:
           spec:
             initContainers:
-            - name: "{{ element.name }}"           
+            - name: "{{ element.name }}"
               image: 192.168.65.2:5000/{{ images.initContainers."{{element.name}}".name}}:{{images.initContainers."{{element.name}}".tag}}
