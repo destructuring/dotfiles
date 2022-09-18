@@ -1,4 +1,4 @@
 namespace: default
 
 resources:
-- ingress.yaml
+- dev.yaml
