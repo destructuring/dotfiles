@@ -11,6 +11,3 @@ spec:
     targetRevision: master
   destination:
     name: in-cluster
-  syncPolicy:
-    automated:
-      prune: true
