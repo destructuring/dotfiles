@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: vc4
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - name: kyverno
+            namespace: kyverno
+            path: kyverno
+            cluster: vc4
+          - name: dev
+            namespace: default
+            path: dev
+            cluster: vc4
+  template:
+    metadata:
+      name: "vc4-{{name}}"
+      namespace: argocd
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/defn/app
+        path: k/{{path}}
+        targetRevision: master
+      destination:
+        namespace: "{{namespace}}"
+        name: "{{cluster}}"
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
