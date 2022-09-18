@@ -43,14 +43,6 @@ spec:
             namespace: vc2
             cluster: in-cluster
             path: vc2
-          - name: vc3
-            namespace: vc3
-            cluster: in-cluster
-            path: vc3
-          - name: vc4
-            namespace: vc4
-            cluster: in-cluster
-            path: vc4
   template:
     metadata:
       name: "k3d-control-{{name}}"
