@@ -1,3 +1,5 @@
+load("ext://uibutton", "cmd_button", "location")
+
 local_resource("vc1", serve_cmd="cd ~/app/ondemand && exec ./vc1")
 local_resource("vc2", serve_cmd="cd ~/app/ondemand && exec ./vc2")
 local_resource("vc3", serve_cmd="cd ~/app/ondemand && exec ./vc3")
