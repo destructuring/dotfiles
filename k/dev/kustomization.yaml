@@ -2,3 +2,4 @@ namespace: default
 
 resources:
 - dev.yaml
+- service.yaml
