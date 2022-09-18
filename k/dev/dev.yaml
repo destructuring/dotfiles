@@ -4,6 +4,7 @@ metadata:
   name: dev
   namespace: default
 spec:
+  serviceName: dev
   replicas: 1
   selector:
     matchLabels:
