@@ -1,22 +1,18 @@
 namespace: vc2
 
-bases:
-- ../vcluster
+helmCharts:
+- releaseName: vcluster
+  name: vcluster
+  namespace: vc2
+  version: 0.12.0
+  repo: https://charts.loft.sh
+  includeCRDs: true
+  valuesInline:
+    service:
+      type: ClusterIP
+    vcluster:
+      image: rancher/k3s:v1.23.10-k3s1
+    syncer:
+      extraArgs:
+        - --tls-san=vcluster.vc2.svc.cluster.local
 
-patchesStrategicMerge:
-- |-
-  apiVersion: apps/v1
-  kind: StatefulSet
-  metadata:
-    name: vcluster
-    namespace: default
-  spec:
-    template:
-      spec:
-        containers:
-        - name: syncer
-          args:
-          - --name=vcluster
-          - --service-account=vc-workload-vcluster
-          - --kube-config-context-name=my-vcluster
-          - --tls-san=vcluster.vc2.svc.cluster.local
