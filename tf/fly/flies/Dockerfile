@@ -1,4 +1,4 @@
-FROM defn/dev
+FROM quay.io/defn/dev
 
 RUN sudo ssh-keygen -A
 RUN mkdir work
