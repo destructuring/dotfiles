@@ -1,4 +1,7 @@
 init-site:
+	@true
+
+manual-site:
 	if test -f /run/secrets/kubernetes.io/serviceaccount/ca.crt; then \
 		$(MAKE) vault-unseal; \
 		aws --profile meh sts get-caller-identity; \
