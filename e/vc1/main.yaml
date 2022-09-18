@@ -11,6 +11,10 @@ spec:
             namespace: kyverno
             path: kyverno
             cluster: vc1
+          - name: dev
+            namespace: default
+            path: dev
+            cluster: vc1
   template:
     metadata:
       name: "vc1-{{name}}"
