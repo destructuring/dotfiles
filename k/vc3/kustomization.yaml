@@ -1,0 +1,17 @@
+namespace: vc3
+
+helmCharts:
+- releaseName: vcluster
+  name: vcluster
+  namespace: vc3
+  version: 0.12.0
+  repo: https://charts.loft.sh
+  includeCRDs: true
+  valuesInline:
+    service:
+      type: ClusterIP
+    vcluster:
+      image: rancher/k3s:v1.23.10-k3s1
+    syncer:
+      extraArgs:
+        - --tls-san=vcluster.vc3.svc.cluster.local
