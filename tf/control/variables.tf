@@ -5,6 +5,4 @@ locals {
       domain = "tiger-mamba.ts.net"
     }
   }
-
-  repo = "169.254.32.1:5000/"
 }
