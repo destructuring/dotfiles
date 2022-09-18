@@ -211,15 +211,6 @@ resource "kubernetes_stateful_set" "dev" {
         }
 
         container {
-          name              = "socat"
-          image             = "${var.repo}defn/dev:latest"
-          image_pull_policy = "Always"
-
-          command = ["/usr/bin/tini", "--"]
-          args    = ["bash", "-c", "cd && cd ondemand && exec ./server"]
-        }
-
-        container {
           name              = "tailscale"
           image             = "${var.repo}defn/dev:latest"
           image_pull_policy = "Always"
