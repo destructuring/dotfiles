@@ -1,6 +1,7 @@
 domain ?= tiger-mamba.ts.net
 
 %:
+	if ! flyctl list orgs; then flyctl auth login; fi
 	rm -rf tmp
 	mkdir tmp
 	mkdir -p tmp/$@/var/lib/tailscale
