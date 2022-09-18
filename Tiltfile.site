@@ -14,7 +14,7 @@ for vc in ["vc1", "vc2", "vc3", "vc4"]:
             "bash",
             "-c",
             """
-                    app delete -y {vc}
+                    app delete -y {vc}; rm -fv ~/app/ondemand/.doing.{vc};
                 """.format(
                 vc=vc,
             ),
