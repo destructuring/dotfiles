@@ -9,7 +9,7 @@ patchesStrategicMerge:
   kind: StatefulSet
   metadata:
     name: vcluster
-    namespace: vc2
+    namespace: default
   spec:
     template:
       spec:
