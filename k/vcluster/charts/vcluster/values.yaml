@@ -1,3 +1,6 @@
+# These annotations will be applied to all objects created in this chart
+globalAnnotations: {}
+
 # DefaultImageRegistry will be prepended to all deployed vcluster images, such as the vcluster pod, coredns etc.. Deployed
 # images within the vcluster will not be rewritten.
 defaultImageRegistry: ""
@@ -36,7 +39,7 @@ sync:
   persistentvolumeclaims:
     enabled: true
   ingresses:
-    enabled: true
+    enabled: false
   fake-nodes:
     enabled: true # will be ignored if nodes.enabled = true
   fake-persistentvolumes:
@@ -109,16 +112,19 @@ syncer:
       readOnly: true
   resources:
     limits:
-      memory: 1Gi
+      cpu: 1000m
+      memory: 512Mi
     requests:
-      cpu: 10m
+      # ensure that cpu/memory requests are high enough.
+      # for example gke wants minimum 10m/32Mi here!
+      cpu: 20m
       memory: 64Mi
   kubeConfigContextName: "my-vcluster"
 
 # Virtual Cluster (k3s) configuration
 vcluster:
   # Image to use for the virtual cluster
-  image: rancher/k3s:v1.24.1-rc1-k3s1
+  image: rancher/k3s:v1.25.0-k3s1
   command:
     - /bin/k3s
   baseArgs:
@@ -204,17 +210,29 @@ tolerations: []
 
 # Extra Labels for the stateful set
 labels: {}
+podLabels: {}
 
 # Extra Annotations for the stateful set
 annotations: {}
+podAnnotations: {}
 
 # Service configurations
 service:
   type: ClusterIP
-  # Configuration for LoadBalancer service type
+
+  # Optional configuration
+  # A list of IP addresses for which nodes in the cluster will also accept traffic for this service.
+  # These IPs are not managed by Kubernetes; e.g., an external load balancer.
   externalIPs: []
+
+  # Optional configuration for LoadBalancer & NodePort service types
+  # Route external traffic to node-local or cluster-wide endpoints [ Local | Cluster ]
   externalTrafficPolicy: ""
-  # CIDR block(s) for the service allowlist; only used when the Service type is LoadBalancer
+
+  # Optional configuration for LoadBalancer service type
+  # Specify IP of load balancer to be created
+  loadBalancerIP: ""
+  # CIDR block(s) for the service allowlist
   loadBalancerSourceRanges: []
 
 # Configure the ingress resource that allows you to access the vcluster
@@ -269,7 +287,19 @@ coredns:
     externalTrafficPolicy: ""
     # Extra Annotations
     annotations: {}
-  resources: ""
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 170Mi
+    requests:
+      cpu: 3m
+      memory: 16Mi
+# if below option is configured, it will override the coredns manifests with the following string
+#  manifests: |-
+#    apiVersion: ...
+#    ...
+  podAnnotations: {}
+  podLabels: {}
 
 # If enabled will deploy vcluster in an isolated mode with pod security
 # standards, limit ranges and resource quotas

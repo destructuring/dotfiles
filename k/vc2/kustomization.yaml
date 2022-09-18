@@ -1,0 +1,21 @@
+namespace: vc2
+
+bases:
+- ../vcluster
+
+patchesStrategicMerge:
+- |-
+  apiVersion: apps/v1
+  kind: StatefulSet
+  metadata:
+    name: vcluster
+  spec:
+    template:
+      spec:
+        containers:
+        - name: syncer
+          args:
+          - --name=vcluster
+          - --service-account=vc-workload-vcluster
+          - --kube-config-context-name=my-vcluster
+          - --tls-san=vcluster.vc2.svc.cluster.local
