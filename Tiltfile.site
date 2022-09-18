@@ -1,14 +1,11 @@
 load("ext://uibutton", "cmd_button", "location")
 
-local_resource("vc1", serve_cmd="cd ~/app/ondemand && exec ./vc1")
-local_resource("vc2", serve_cmd="cd ~/app/ondemand && exec ./vc2")
-local_resource("vc3", serve_cmd="cd ~/app/ondemand && exec ./vc3")
-local_resource("vc4", serve_cmd="cd ~/app/ondemand && exec ./vc4")
-
 for vc in ["vc1", "vc2", "vc3", "vc4"]:
+    local_resource(vc, serve_cmd="cd ~/app/ondemand && exec ./{vc}".format(vc=vc))
     cmd_button(
         name=vc,
         text=vc,
+        resource=vc,
         icon_name="login",
         argv=[
             "bash",
@@ -19,5 +16,5 @@ for vc in ["vc1", "vc2", "vc3", "vc4"]:
                 vc=vc,
             ),
         ],
-        location="nav",
+        location=location.RESOURCE,
     )
