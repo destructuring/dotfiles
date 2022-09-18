@@ -34,7 +34,7 @@ spec:
           - name: argo-workflows
             namespace: argo-workflows
             cluster: in-cluster
-            path3 argo-workflows
+            path: argo-workflows
   template:
     metadata:
       name: "k3d-control-{{name}}"
