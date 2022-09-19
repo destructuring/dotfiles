@@ -1,6 +1,6 @@
 annotations:
   artifacthub.io/changes: |
-    - "[Fixed]: Fixed selectorLabel of ServiceMonitor that doesn't match metrics Service"
+    - "[Changed]: Helm chart maintainers standardized to argoproj"
 apiVersion: v2
 appVersion: v1.7.1
 description: A Helm chart for Argo Events, the event-driven workflow automation framework
@@ -10,10 +10,9 @@ keywords:
 - argoproj
 - argo-events
 maintainers:
-- name: pdrastil
-- name: VaibhavPage
-- name: whynowy
+- name: argoproj
+  url: https://argoproj.github.io/
 name: argo-events
 sources:
 - https://github.com/argoproj/argo-events
-version: 2.0.3
+version: 2.0.4
