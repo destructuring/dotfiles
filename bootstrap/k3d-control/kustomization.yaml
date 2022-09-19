@@ -1,7 +1,7 @@
 namespace: argocd
 
 bases:
-- ../../k/argocd
+- ../../k/argo-cd
 
 resources:
 - ns.yaml

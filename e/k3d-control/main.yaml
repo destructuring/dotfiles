@@ -23,10 +23,10 @@ spec:
             namespace: external-secrets
             cluster: in-cluster
             path: external-secrets
-          - name: argocd
+          - name: argo-cd
             namespace: argocd
             cluster: in-cluster
-            path: argocd
+            path: argo-cd
           - name: argo-events
             namespace: argo-events
             cluster: in-cluster
