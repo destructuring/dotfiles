@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-exec 1>&2
-
 vc="$1"; shift
 
 app sync k3d-control-${vc}

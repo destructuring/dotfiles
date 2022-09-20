@@ -10,6 +10,9 @@ else
     echo
     cat index.html
 
+    # dont emit anything after static page
+    exec 1>&2
+
     # provision infra for user
     if flock -n .doing.${vc} -c "./provision-vcluster ${vc}"; then
         true
