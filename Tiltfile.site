@@ -11,9 +11,12 @@ for vc in ["vc1", "vc2", "vc3", "vc4"]:
             "bash",
             "-c",
             """
-                    app delete -y {vc}; rm -fv ~/app/ondemand/.doing.{vc};
-                """.format(
-                vc=vc,
+                app delete -y {vc}; 
+                while app get {vc} 2>/dev/null; do echo "waiting for {vc} deletion... $(date)"; sleep 5; done
+                rm -fv ~/app/ondemand/.doing.{vc};
+                echo; echo; echo;
+            """.format(
+            vc=vc,
             ),
         ],
         location=location.RESOURCE,
