@@ -11,10 +11,11 @@ for vc in ["vc1", "vc2", "vc3", "vc4"]:
             "bash",
             "-c",
             """
-                app delete -y k3d-control-{vc}; 
+                app delete -y {vc}; 
                 while app get {vc} 2>/dev/null; do echo "waiting for {vc} deletion... $(date)"; sleep 5; done
                 rm -fv ~/app/ondemand/.doing.{vc};
                 echo "deleted {vc}";
+                app delete -y k3d-control-{vc}; 
                 app list;
                 echo; echo; echo;
             """.format(
