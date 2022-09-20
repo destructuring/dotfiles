@@ -9,4 +9,5 @@ app sync ${vc}
 app wait ${vc}
 app sync ${vc}-dev
 app wait ${vc}-dev
+sleep 5
 rm -f .doing.${vc}
