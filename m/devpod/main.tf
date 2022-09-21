@@ -132,7 +132,7 @@ resource "kubernetes_stateful_set" "dev" {
 
         #        container {
         #          name              = "vscode-dev"
-        #          image             = "${var.repo}defn/dev:latest"
+        #          image             = "${var.repo}workspace:latest"
         #          image_pull_policy = "Always"
         #
         #          command = ["/usr/bin/tini", "--"]
@@ -167,7 +167,7 @@ resource "kubernetes_stateful_set" "dev" {
 
         container {
           name              = "code-server"
-          image             = "${var.repo}defn/dev:latest"
+          image             = "${var.repo}workspace:latest"
           image_pull_policy = "Always"
 
           command = ["/usr/bin/tini", "--"]
@@ -212,7 +212,7 @@ resource "kubernetes_stateful_set" "dev" {
 
         container {
           name              = "tailscale"
-          image             = "${var.repo}defn/dev:latest"
+          image             = "${var.repo}workspace:latest"
           image_pull_policy = "Always"
 
           command = ["/usr/bin/tini", "--"]
@@ -240,7 +240,7 @@ resource "kubernetes_stateful_set" "dev" {
 
         container {
           name              = "caddy"
-          image             = "${var.repo}defn/dev:latest"
+          image             = "${var.repo}workspace:latest"
           image_pull_policy = "Always"
 
           command = ["/usr/bin/tini", "--"]
@@ -254,7 +254,7 @@ resource "kubernetes_stateful_set" "dev" {
 
         container {
           name              = "vault"
-          image             = "${var.repo}defn/dev:latest"
+          image             = "${var.repo}workspace:latest"
           image_pull_policy = "Always"
 
           command = ["/usr/bin/tini", "--"]
@@ -268,7 +268,7 @@ resource "kubernetes_stateful_set" "dev" {
 
         container {
           name              = "temporal"
-          image             = "${var.repo}defn/dev:latest"
+          image             = "${var.repo}workspace:latest"
           image_pull_policy = "Always"
 
           command = ["/usr/bin/tini", "--"]
@@ -282,7 +282,7 @@ resource "kubernetes_stateful_set" "dev" {
 
         container {
           name              = "nomad"
-          image             = "${var.repo}defn/dev:latest"
+          image             = "${var.repo}workspace:latest"
           image_pull_policy = "Always"
 
           command = ["/usr/bin/tini", "--"]
@@ -306,7 +306,7 @@ resource "kubernetes_stateful_set" "dev" {
 
         container {
           name              = "doh"
-          image             = "${var.repo}defn/dev:latest"
+          image             = "${var.repo}workspace:latest"
           image_pull_policy = "Always"
 
           command = ["/usr/bin/tini", "--"]
