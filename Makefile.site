@@ -1,5 +1,6 @@
 build-site:
 	cd app && earthly --push --no-output +build
+	ctr -n k8s.io i pull --plain-http 169.254.32.1:5000/workspace:latest
 
 manual-site:
 	if test -f /run/secrets/kubernetes.io/serviceaccount/ca.crt; then \
