@@ -244,7 +244,7 @@ resource "kubernetes_stateful_set" "dev" {
           image_pull_policy = "Always"
 
           command = ["/usr/bin/tini", "--"]
-          args    = ["bash", "-c", "exec sudo `~ubuntu/bin/e asdf which caddy` run"]
+          args    = ["bash", "-c", "exec sudo caddy run"]
 
           volume_mount {
             name       = "tsrun"
