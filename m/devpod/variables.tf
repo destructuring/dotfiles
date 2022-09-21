@@ -3,5 +3,5 @@ variable "envs" {
 }
 
 variable "repo" {
-  default = "quay.io/"
+  default = "169.254.32.1:5000/"
 }
