@@ -1,4 +1,4 @@
-FROM quay.io/defn/dev
+FROM ghcr.io/defn/dev:latest
 
 RUN sudo ssh-keygen -A
 RUN sudo ln -nfs /mnt/work /work
