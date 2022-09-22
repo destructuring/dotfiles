@@ -4,4 +4,3 @@ build:
     FROM quay.io/defn/dev:latest
 
     SAVE IMAGE --push 169.254.32.1:5000/workspace
-
