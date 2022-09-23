@@ -26,6 +26,9 @@ clean:
 init:
 	terraform init
 
+get:
+	terraform get -update
+
 upgrade:
 	terraform init -upgrade
 	terraform providers lock \
