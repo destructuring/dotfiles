@@ -19,9 +19,7 @@ https://${DEFN_DEV_HOST} {
 }
 EOF
 
-    exec "$(~ubuntu/bin/e asdf which caddy)" run
-
-    #exec tail -f /dev/null
+    exec caddy run
 }
 
 main "$@"
