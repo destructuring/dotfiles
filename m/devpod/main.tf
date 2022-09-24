@@ -247,6 +247,12 @@ resource "kubernetes_stateful_set" "dev" {
           args    = ["bash", "-c", "exec sudo caddy run"]
 
           volume_mount {
+            name       = "mntwork"
+            mount_path = "/work/dist"
+            subPath    = "dist"
+          }
+
+          volume_mount {
             name       = "tsrun"
             mount_path = "/var/run/tailscale"
           }
