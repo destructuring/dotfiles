@@ -249,7 +249,7 @@ resource "kubernetes_stateful_set" "dev" {
           volume_mount {
             name       = "mntwork"
             mount_path = "/work/dist"
-            subPath    = "dist"
+            sub_path   = "dist"
           }
 
           volume_mount {
