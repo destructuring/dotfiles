@@ -14,3 +14,6 @@ domain ?= tiger-mamba.ts.net
 
 proxy-docker:
 	while true; do flyctl --app "$(shell flyctl apps list | grep 'fly-builder' | awk '{print $$1}' | head -1)" proxy 2375:2375; sleep 1; done
+
+prune:
+	flyctl apps list | grep fly-builder | head -n1 | awk '{print $$1;}' | xargs echo flyctl ssh console --command "docker system prune --force" --app
