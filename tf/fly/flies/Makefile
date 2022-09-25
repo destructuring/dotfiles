@@ -1,4 +1,4 @@
-domain ?= tiger-mamba.ts.net
+domain ?= $(shell tailscale cert 2>&1 | grep 'For domain' | cut -d'"' -f2)
 
 %:
 	if ! flyctl list orgs; then flyctl auth login; fi
