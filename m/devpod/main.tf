@@ -21,6 +21,27 @@ resource "kubernetes_service" "dev" {
 
 }
 
+resource "kubernetes_service" "pod" {
+  metadata {
+    name      = "pod"
+    namespace = "default"
+  }
+
+  spec {
+    selector = {
+      env = "control"
+    }
+
+    port {
+      name        = "pod"
+      port        = 80
+      target_port = 80
+    }
+    type = "ClusterIP"
+  }
+
+}
+
 resource "kubernetes_stateful_set" "dev" {
   for_each = var.envs
 
