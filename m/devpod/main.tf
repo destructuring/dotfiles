@@ -92,7 +92,8 @@ resource "kubernetes_stateful_set" "dev" {
       spec {
         dns_policy = "None"
         dns_config {
-          nameservers = [data.kubernetes_config_map.cluster_dns.data.clusterDNS]
+          #nameservers = [data.kubernetes_config_map.cluster_dns.data.clusterDNS]
+          nameservers = ["127.0.0.1"]
 
           searches = ["default.svc.cluster.local", "svc.cluster.local", "cluster.local"]
 
