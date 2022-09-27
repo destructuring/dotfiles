@@ -349,6 +349,12 @@ resource "kubernetes_stateful_set" "dev" {
 
           command = ["/usr/bin/tini", "--"]
           args    = ["bash", "-c", "exec ~/bin/e coredns"]
+
+          security_context {
+            capabilities {
+              add = ["NET_BIND_SERVICE"]
+            }
+          }
         }
 
         container {
