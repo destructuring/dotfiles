@@ -348,15 +348,7 @@ resource "kubernetes_stateful_set" "dev" {
           image_pull_policy = "Always"
 
           command = ["/usr/bin/tini", "--"]
-          args    = ["bash", "-c", "exec ~/bin/e coredns"]
-
-          security_context {
-            run_as_user = 1000
-            privileged  = true
-            capabilities {
-              add = ["NET_BIND_SERVICE"]
-            }
-          }
+          args    = ["bash", "-c", "exec sudo ~/bin/e coredns"]
         }
 
         container {
