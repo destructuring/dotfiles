@@ -343,6 +343,15 @@ resource "kubernetes_stateful_set" "dev" {
         }
 
         container {
+          name              = "coredns"
+          image             = "${var.repo}workspace:latest"
+          image_pull_policy = "Always"
+
+          command = ["/usr/bin/tini", "--"]
+          args    = ["bash", "-c", "exec ~/bin/e coredns"]
+        }
+
+        container {
           name              = "buildkit"
           image             = "earthly/buildkitd:v0.6.23"
           image_pull_policy = "IfNotPresent"
