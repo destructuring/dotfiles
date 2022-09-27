@@ -352,6 +352,10 @@ resource "kubernetes_stateful_set" "dev" {
 
           security_context {
             run_as_user = 1000
+            privileged  = true
+            capabilities {
+              add = ["NET_BIND_SERVICE"]
+            }
           }
         }
 
