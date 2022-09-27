@@ -342,20 +342,20 @@ resource "kubernetes_stateful_set" "dev" {
           args    = ["bash", "-c", "exec ~/bin/e cloudflared proxy-dns --port 5553"]
         }
 
-        container {
-          name              = "coredns"
-          image             = "${var.repo}workspace:latest"
-          image_pull_policy = "Always"
-
-          command = ["/usr/bin/tini", "--"]
-          args    = ["bash", "-c", "exec ~/bin/e coredns"]
-
-          security_context {
-            capabilities {
-              add = ["NET_BIND_SERVICE"]
-            }
-          }
-        }
+#        container {
+#          name              = "coredns"
+#          image             = "${var.repo}workspace:latest"
+#          image_pull_policy = "Always"
+#
+#          command = ["/usr/bin/tini", "--"]
+#          args    = ["bash", "-c", "exec ~/bin/e coredns"]
+#
+#          security_context {
+#            capabilities {
+#              add = ["NET_BIND_SERVICE"]
+#            }
+#          }
+#        }
 
         container {
           name              = "buildkit"
