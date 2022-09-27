@@ -67,18 +67,6 @@ resource "kubernetes_stateful_set" "dev" {
       }
     }
 
-    dns_policy = "None"
-    dns_config {
-      nameservers = [data.kubernetes_config_map.cluster_dns.data.clusterDNS]
-
-      searches = ["default.svc.cluster.local", "svc.cluster.local", "cluster.local"]
-
-      option {
-        name  = "ndots"
-        value = 5
-      }
-    }
-
     #    volume_claim_template {
     #      metadata {
     #        name = "work"
@@ -102,6 +90,17 @@ resource "kubernetes_stateful_set" "dev" {
       }
 
       spec {
+        dns_policy = "None"
+        dns_config {
+          nameservers = [data.kubernetes_config_map.cluster_dns.data.clusterDNS]
+
+          searches = ["default.svc.cluster.local", "svc.cluster.local", "cluster.local"]
+
+          option {
+            name  = "ndots"
+            value = 5
+          }
+        }
 
         affinity {
           node_affinity {
