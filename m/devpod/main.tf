@@ -18,7 +18,6 @@ resource "kubernetes_service" "dev" {
     }
     type = "LoadBalancer"
   }
-
 }
 
 resource "kubernetes_service" "pod" {
@@ -39,7 +38,13 @@ resource "kubernetes_service" "pod" {
     }
     type = "ClusterIP"
   }
+}
 
+data "kubernetes_config_map" "cluster_dns" {
+  metadata {
+    name      = "cluster-dns"
+    namespace = "kube-system"
+  }
 }
 
 resource "kubernetes_stateful_set" "dev" {
@@ -59,6 +64,18 @@ resource "kubernetes_stateful_set" "dev" {
       match_labels = {
         env = each.key
         app = "dev"
+      }
+    }
+
+    dns_policy = "None"
+    dns_config {
+      nameservers = [data.kubernetes_config_map.cluster_dns.data.clusterDNS]
+
+      searches = ["default.svc.cluster.local", "svc.cluster.local", "cluster.local"]
+
+      option {
+        name  = "ndots"
+        value = 5
       }
     }
 
@@ -286,20 +303,6 @@ resource "kubernetes_stateful_set" "dev" {
 
           command = ["/usr/bin/tini", "--"]
           args    = ["bash", "-c", "exec ~/bin/e vault server -config etc/vault.yaml"]
-
-          volume_mount {
-            name       = "mntwork"
-            mount_path = "/work"
-          }
-        }
-
-        container {
-          name              = "temporal"
-          image             = "${var.repo}workspace:latest"
-          image_pull_policy = "Always"
-
-          command = ["/usr/bin/tini", "--"]
-          args    = ["bash", "-c", "sudo install -d -o ubuntu -g ubuntu /mnt/temporal; exec temporalite start --namespace default --filename=/mnt/temporal/default.db --ip 0.0.0.0"]
 
           volume_mount {
             name       = "mntwork"
