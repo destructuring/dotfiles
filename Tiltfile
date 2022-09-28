@@ -1,4 +1,8 @@
+analytics_settings(False)
+allow_k8s_contexts("pod")
+
 load("ext://uibutton", "cmd_button", "location")
+load("ext://restart_process", "custom_build_with_restart")
 
 for vc in ["vc1", "vc2", "vc3", "vc4"]:
     local_resource(vc, serve_cmd="cd ~/app/ondemand && exec ./{vc}".format(vc=vc))
