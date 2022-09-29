@@ -1,0 +1,11 @@
+namespace: karpenter
+
+helmCharts:
+- releaseName: karpenter
+  name: karpenter
+  version: 0.16.3
+  repo:  https://charts.karpenter.sh
+  includeCRDs: true
+  valuesInline:
+    clusterName: k3d-control
+    clusterEndpoint: https://kubernetes.default.svc.cluster.local
