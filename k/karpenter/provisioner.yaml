@@ -2,15 +2,17 @@ apiVersion: karpenter.sh/v1alpha5
 kind: Provisioner
 metadata:
   name: default
-  namespace: karpenter
 spec:
   requirements:
     - key: karpenter.sh/capacity-type
       operator: In
       values: ["spot"]
+    - key: "node.kubernetes.io/instance-type"
+      operator: In
+      values: ["t3.small", "t3a.small"]
   limits:
     resources:
-      cpu: 1000
+      cpu: 1
   provider:
     subnetSelector:
       karpenter.sh/discovery: k3d-control
@@ -24,7 +26,7 @@ metadata:
   name: inflate
   namespace: karpenter
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app: inflate
@@ -39,4 +41,4 @@ spec:
           image: public.ecr.aws/eks-distro/kubernetes/pause:3.2
           resources:
             requests:
-              cpu: 1000
+              cpu: 1
