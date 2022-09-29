@@ -22,11 +22,23 @@ kind: AWSNodeTemplate
 metadata:
   name: default
 spec:
+  amiFamily: Custom
+  amiSelector:
+    aws-ids: ami-123,ami-456
+  instanceProfile: k3d-control
   subnetSelector:
     karpenter.sh/discovery: k3d-control
   securityGroupSelector:
     karpenter.sh/discovery: k3d-control
-  instanceProfile: k3d-control
+  userData: |
+    MIME-Version: 1.0
+    Content-Type: multipart/mixed; boundary="BOUNDARY"
+    --BOUNDARY
+    Content-Type: text/x-shellscript; charset="us-ascii"
+    #!/bin/bash
+    echo "Running my custom set-up"
+    /etc/eks/bootstrap.sh my-cluster --kubelet-extra-args='--node-labels=foo=bar'
+    --BOUNDARY
 ---
 apiVersion: apps/v1
 kind: Deployment
