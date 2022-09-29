@@ -7,18 +7,23 @@ spec:
     - key: karpenter.sh/capacity-type
       operator: In
       values: ["spot"]
-    - key: "node.kubernetes.io/instance-type"
-      operator: In
-      values: ["t3.small", "t3a.small"]
   limits:
     resources:
-      cpu: 1
-  provider:
-    subnetSelector:
-      karpenter.sh/discovery: k3d-control
-    securityGroupSelector:
-      karpenter.sh/discovery: k3d-control
+      cpu: 2
+  providerRef:                                # optional, recommended to use instead of `provider`
+    name: default
   ttlSecondsAfterEmpty: 30
+---
+apiVersion: karpenter.k8s.aws/v1alpha1
+kind: AWSNodeTemplate
+metadata:
+  name: default
+spec:
+  subnetSelector:
+    karpenter.sh/discovery: k3d-control
+  securityGroupSelector:
+    karpenter.sh/discovery: k3d-control
+  instanceProfile: k3d-control
 ---
 apiVersion: apps/v1
 kind: Deployment
