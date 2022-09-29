@@ -9,3 +9,9 @@ helmCharts:
   valuesInline:
     clusterName: k3d-control
     clusterEndpoint: https://kubernetes.default.svc.cluster.local
+    controller:
+      env:
+        AWS_REGION: us-west-1
+    webhook:
+      env:
+        AWS_REGION: us-west-1
