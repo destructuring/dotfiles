@@ -35,6 +35,10 @@ spec:
             namespace: argo-workflows
             cluster: in-cluster
             path: argo-workflows
+          - name: karpenter
+            namespace: karpenter
+            cluster: in-cluster
+            path: karpenter
   template:
     metadata:
       name: "k3d-control-{{name}}"
