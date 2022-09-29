@@ -12,7 +12,7 @@ spec:
       values: ["t3.medium", "t3a.medium"]
   limits:
     resources:
-      cpu: 0
+      cpu: 2
   providerRef:                                # optional, recommended to use instead of `provider`
     name: default
   ttlSecondsAfterEmpty: 30
@@ -24,7 +24,7 @@ metadata:
 spec:
   amiFamily: Custom
   amiSelector:
-    aws-ids: ami-123,ami-456
+    karpenter.sh/discovery: k3d-control
   instanceProfile: k3d-control
   subnetSelector:
     karpenter.sh/discovery: k3d-control
