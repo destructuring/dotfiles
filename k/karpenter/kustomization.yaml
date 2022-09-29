@@ -23,11 +23,11 @@ helmCharts:
             secretKeyRef:
               name: karpenter-aws
               key: AWS_SECRET_ACCESS_KEY
-        - name: AWS_SECURITY_TOKEN
+        - name: AWS_SESSION_TOKEN
           valueFrom:
             secretKeyRef:
               name: karpenter-aws
-              key: AWS_SECURITY_TOKEN
+              key: AWS_SESSION_TOKEN
     webhook:
       env:
         - name: AWS_REGION
