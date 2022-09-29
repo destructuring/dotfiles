@@ -13,6 +13,8 @@ helmCharts:
       env:
         - name: AWS_REGION
           value: us-west-1
+        - name: AWS_NODE_NAME_CONVENTION
+          value: resource-name
         - name: AWS_ACCESS_KEY_ID
           valueFrom:
             secretKeyRef:
@@ -28,7 +30,3 @@ helmCharts:
             secretKeyRef:
               name: karpenter-aws
               key: AWS_SESSION_TOKEN
-    webhook:
-      env:
-        - name: AWS_REGION
-          value: us-west-1
