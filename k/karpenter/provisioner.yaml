@@ -9,7 +9,7 @@ spec:
       values: ["spot"]
   limits:
     resources:
-      cpu: 2
+      cpu: 0
   providerRef:                                # optional, recommended to use instead of `provider`
     name: default
   ttlSecondsAfterEmpty: 30
