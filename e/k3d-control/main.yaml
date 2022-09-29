@@ -11,13 +11,13 @@ spec:
             namespace: kyverno
             path: kyverno
             cluster: in-cluster
+          - name: karpenter
+            namespace: karpenter
+            cluster: in-cluster
+            path: karpenter
           - name: cert-manager
             namespace: cert-manager
             path: cert-manager
-            cluster: in-cluster
-          - name: keda
-            namespace: keda
-            path: keda
             cluster: in-cluster
           - name: external-secrets
             namespace: external-secrets
@@ -35,10 +35,6 @@ spec:
             namespace: argo-workflows
             cluster: in-cluster
             path: argo-workflows
-          - name: karpenter
-            namespace: karpenter
-            cluster: in-cluster
-            path: karpenter
   template:
     metadata:
       name: "k3d-control-{{name}}"

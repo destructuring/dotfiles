@@ -15,10 +15,6 @@ spec:
             namespace: cert-manager
             path: cert-manager
             cluster: k3d-global
-          - name: keda
-            namespace: keda
-            path: keda
-            cluster: k3d-global
   template:
     metadata:
       name: "k3d-global-{{name}}"
