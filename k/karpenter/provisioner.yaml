@@ -60,6 +60,7 @@ spec:
       containers:
         - name: inflate
           image: ubuntu
+          command: ["sleep", "infinity"]
           resources:
             requests:
               cpu: 1
