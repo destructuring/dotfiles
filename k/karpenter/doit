@@ -2,4 +2,4 @@ pod delete secret -n karpenter karpenter-aws || true
 bash $(aws-vault exec gyre-ops-sso --json | jq -r '"pod create secret generic -n karpenter karpenter-aws --from-literal=AWS_ACCESS_KEY_ID=\(.AccessKeyId) --from-literal=AWS_SECRET_ACCESS_KEY=\(.SecretAccessKey) --from-literal=AWS_SESSION_TOKEN=\(.SessionToken)"')
 
 # k3dkey=$(ssh root@100.106.117.83 cat /var/lib/rancher/k3s/server/node-token)
-#./k3d cluster delete -a; ./k3d node create i-025bd21969d9f7522 --role agent --image rancher/k3s:v1.23.10-k3s1 --token TOKEN A--cluster https://100.106.117.83:6443 --k3s-arg --node-ip=100.121.171.143 --k3s-arg --node-external-ip=100.121.171.143
+#./k3d cluster delete -a; ./k3d node create i-025bd21969d9f7522 --role agent --env DEFN_DEV_TSKEY @server:0 --image quay.io/defn/dev:k3d --token TOKEN --cluster https://100.106.117.83:6443 
