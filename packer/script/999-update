@@ -3,6 +3,11 @@
 function main {
   set -exfu
 
+  if [[ "$(whoami)" == "ubuntu" ]]; then
+    exec sudo "$0" "$@"
+    return $?
+  fi
+
   local aptget="env DEBIAN_FRONTEND=noninteractive apt-get"
 
   $aptget update

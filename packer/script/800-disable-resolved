@@ -3,6 +3,11 @@
 function main {
   set -exfu
 
+  if [[ "$(whoami)" == "ubuntu" ]]; then
+    exec sudo "$0" "$@"
+    return $?
+  fi
+
   systemctl disable systemd-resolved
   systemctl stop systemd-resolved
   rm -f /etc/resolv.conf

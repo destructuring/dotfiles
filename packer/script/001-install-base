@@ -3,6 +3,11 @@
 function main {
   set -exfu
 
+  if [[ "$(whoami)" == "ubuntu" ]]; then
+    exec sudo "$0" "$@"
+    return $?
+  fi
+
   export DEBIAN_FRONTEND=noninteractive
 
   apt-get update \

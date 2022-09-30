@@ -3,15 +3,20 @@
 function main {
   set -exfu
 
-  cat << EOF | sudo tee /etc/apt/apt.conf.d/local
+  if [[ "$(whoami)" == "ubuntu" ]]; then
+    exec sudo "$0" "$@"
+    return $?
+  fi
+
+  cat << EOF | tee /etc/apt/apt.conf.d/local
+DPkg::Lock::Timeout "-1";
 Dpkg::Options {
    "--force-confdef";
    "--force-confold";
 };
-
-DPkg::Lock::Timeout "-1";
 EOF
 
+  apt update
   apt purge --auto-remove -y unattended-upgrades
 }
 
