@@ -36,11 +36,9 @@ spec:
     --BOUNDARY
     Content-Type: text/x-shellscript; charset="us-ascii"
     #!/bin/bash
-    install -d -m 0700 -o ubuntu -g ubuntu ~ubuntu/.ssh
     install -d -m 0700 -o root -g root ~root/.ssh
     echo ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDqGiNI0Co9JAKytfce4UVhEJj+HMaoZ7TFiLg8SBeRDxV+OLma9rqDVkVqrxW5rkGMco3/Xhm/uGu+rkODJD/aZD/1fpzEsNUQIKhP9VXlVx98CMYOMCXTrgXZGdNPs0CzIb0TDI3W1tOGAA0VOZL+DGb/pUFiWeADLA9GiA8qnhahQp6yCNf8zpt3ATawSOGDLttB+PQPvwwUGMozihCcn84Kbf2Q0aQEl5J0kPLQTgBTJ1pPjTqBmkBWhP1KKAEDz3ziUmFF2eoZax7B+VXYlI6nPeETqFWkke6/EVLRqOXC4nYXKUbX2HloiEGkv4ifzzuGyS2Tdiysx0dthVcv cardno:8 624 146 > authorized_keys
     install -m 0600 -o ubuntu -g ubuntu authorized_keys ~ubuntu/.ssh/authorized_keys
-    install -m 0600 -o root -g root authorized_keys ~root/.ssh/authorized_keys
     curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.noarmor.gpg > /usr/share/keyrings/tailscale-archive-keyring.gpg
     curl -fsSL https://pkgs.tailscale.com/stable/ubuntu/focal.tailscale-keyring.list > /etc/apt/sources.list.d/tailscale.list
     apt-get update
