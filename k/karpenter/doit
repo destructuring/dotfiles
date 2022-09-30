@@ -1,1 +1,2 @@
+pod delete secret -n karpenter karpenter-aws || true
 bash $(aws-vault exec gyre-ops-sso --json | jq -r '"pod create secret generic -n karpenter karpenter-aws --from-literal=AWS_ACCESS_KEY_ID=\(.AccessKeyId) --from-literal=AWS_SECRET_ACCESS_KEY=\(.SecretAccessKey) --from-literal=AWS_SESSION_TOKEN=\(.SessionToken)"')
