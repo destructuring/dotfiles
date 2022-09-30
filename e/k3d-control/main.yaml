@@ -11,10 +11,6 @@ spec:
             namespace: kyverno
             path: kyverno
             cluster: in-cluster
-          - name: karpenter
-            namespace: karpenter
-            cluster: in-cluster
-            path: karpenter
           - name: cert-manager
             namespace: cert-manager
             path: cert-manager

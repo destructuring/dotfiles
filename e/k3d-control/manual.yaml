@@ -7,6 +7,10 @@ spec:
   generators:
     - list:
         elements:
+          - name: karpenter
+            namespace: karpenter
+            cluster: in-cluster
+            path: karpenter
           - name: vc1
             namespace: vc1
             cluster: in-cluster
