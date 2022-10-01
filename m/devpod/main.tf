@@ -1,25 +1,3 @@
-resource "kubernetes_service" "dev" {
-  for_each = var.envs
-
-  metadata {
-    name      = each.key
-    namespace = "default"
-  }
-
-  spec {
-    selector = {
-      env = each.key
-    }
-
-    port {
-      name        = "code-server"
-      port        = 80
-      target_port = 8888
-    }
-    type = "LoadBalancer"
-  }
-}
-
 resource "kubernetes_service" "pod" {
   metadata {
     name      = "pod"
@@ -36,7 +14,14 @@ resource "kubernetes_service" "pod" {
       port        = 80
       target_port = 80
     }
-    type = "ClusterIP"
+
+    port {
+      name        = "pod"
+      port        = 443
+      target_port = 443
+    }
+
+    type = "LoadBalancer"
   }
 }
 
@@ -399,48 +384,6 @@ resource "kubernetes_stateful_set" "dev" {
     }
 
     service_name = "dev"
-  }
-}
-
-resource "kubernetes_service" "vault" {
-  metadata {
-    name      = "vault"
-    namespace = "default"
-  }
-
-  spec {
-    selector = {
-      app = "dev"
-    }
-
-    port {
-      port        = 8200
-      target_port = 8200
-    }
-
-    session_affinity = "ClientIP"
-    type             = "ClusterIP"
-  }
-}
-
-resource "kubernetes_service" "code_server" {
-  metadata {
-    name      = "code-server"
-    namespace = "default"
-  }
-
-  spec {
-    selector = {
-      app = "dev"
-    }
-
-    port {
-      port        = 8888
-      target_port = 8888
-    }
-
-    session_affinity = "ClientIP"
-    type             = "ClusterIP"
   }
 }
 
