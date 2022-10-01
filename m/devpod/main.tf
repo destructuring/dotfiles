@@ -1,6 +1,6 @@
-resource "kubernetes_service" "pod" {
+resource "kubernetes_service" "control" {
   metadata {
-    name      = "pod"
+    name      = "control-0"
     namespace = "default"
   }
 
