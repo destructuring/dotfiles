@@ -10,13 +10,13 @@ resource "kubernetes_service" "pod" {
     }
 
     port {
-      name        = "pod"
+      name        = "http"
       port        = 80
       target_port = 80
     }
 
     port {
-      name        = "pod"
+      name        = "https"
       port        = 443
       target_port = 443
     }
