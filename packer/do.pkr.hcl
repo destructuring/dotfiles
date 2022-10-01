@@ -27,6 +27,17 @@ source "digitalocean" "this" {
 build {
   sources = ["source.digitalocean.this"]
 
+  provisioner "file" {
+    source      = "k3d/bin/k3d"
+    destination = "/tmp/"
+  }
+
+  provisioner "shell" {
+    inline = [
+      "sudo mv /tmp/k3d /usr/local/bin/"
+    ]
+  }
+
   provisioner "shell" {
     scripts = var.scripts1
   }
