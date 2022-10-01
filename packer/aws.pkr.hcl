@@ -61,6 +61,28 @@ source "amazon-ebs" "this" {
 build {
   sources = ["source.amazon-ebs.this"]
 
+  provisioner "file" {
+    source      = ".tskey"
+    destination = "/tmp/"
+  }
+
+  provisioner "file" {
+    source      = ".k3s-token"
+    destination = "/tmp/"
+  }
+
+  provisioner "file" {
+    source      = "k3d/bin/k3d"
+    destination = "/tmp/"
+  }
+
+  provisioner "shell" {
+    inline = [
+      "sudo mv /tmp/.tskey /tmp/.k3s-token /root/",
+      "sudo mv /tmp/k3d /usr/local/bin/"
+    ]
+  }
+
   provisioner "shell" {
     scripts = var.scripts1
   }
