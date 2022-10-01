@@ -67,7 +67,7 @@ metadata:
   name: inflate
   namespace: karpenter
 spec:
-  replicas: 20
+  replicas: 60
   selector:
     matchLabels:
       app: inflate
