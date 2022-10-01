@@ -2,8 +2,7 @@ variable "scripts1" {
   type = list(string)
   default = [
     "script/000-install-bare",
-    "script/001-install-base",
-    "script/100-install-sysbox",
+    "script/001-install-base"
   ]
 }
 
