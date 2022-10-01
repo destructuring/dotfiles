@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-# pod -n karpenter scale deployment --replicas=0 inflate
-
-pass hello
 app delete -y k3d-control-karpenter
 pod delete ns karpenter
 pod create ns karpenter
