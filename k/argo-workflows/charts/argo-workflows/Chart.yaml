@@ -1,7 +1,6 @@
 annotations:
   artifacthub.io/changes: |
-    - "[Changed]: Upgrade ArgoWorkflows to v3.4.0"
-    - "[Fixed]: Remove unsupported attributes on metricsConfig and telemetryConfig, from workflow-controller-configmap"
+    - "[Added]: Additional manifests to deploy within the chart"
 apiVersion: v2
 appVersion: v3.4.0
 description: A Helm chart for Argo Workflows
@@ -14,4 +13,4 @@ name: argo-workflows
 sources:
 - https://github.com/argoproj/argo-workflows
 type: application
-version: 0.18.0
+version: 0.20.0
