@@ -21,8 +21,7 @@ function main {
       xdg-utils figlet lolcat socat netcat-openbsd groff \
       screen htop \
       redis \
-      wireguard-tools \
-      linux-generic-hwe-20.04
+      wireguard-tools #linux-generic-hwe-20.04
 
   apt-get purge -y nano
 
