@@ -1,7 +1,7 @@
 namespace: knative-serving
 
 resources:
-- https://github.com/knative/serving/releases/download/knative-v1.6.0/serving-core.yaml
+- https://github.com/knative/serving/releases/download/knative-v1.7.2/serving-core.yaml
 
 patchesStrategicMerge:
 - configmap-config-network.yaml
