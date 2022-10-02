@@ -23,7 +23,7 @@ helmCharts:
     tolerations:
       - key: env
         value: vc1
-        operator: Equals
+        operator: Equal
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
