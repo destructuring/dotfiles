@@ -1,6 +1,7 @@
 SHELL := bash
 
 count ?= 0
+ns ?= karpenter
 
 build:
 	kustomize build --enable-helm
@@ -18,4 +19,4 @@ scale:
 	@$(MAKE) count
 
 count:
-	 @n karpenter get pod -o json | jq -r '.items[] | "\(.spec.nodeName) \(.status.phase)"' | sort | uniq -c
+	 @n $(ns) get pod -o json | jq -r '.items[] | "\(.spec.nodeName) \(.status.phase)"' | sort | uniq -c
