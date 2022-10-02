@@ -3,3 +3,4 @@ resources:
 
 patchesStrategicMerge:
 - service-kourier.yaml
+- hello.yaml
