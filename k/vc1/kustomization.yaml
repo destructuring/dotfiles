@@ -24,3 +24,7 @@ helmCharts:
       - key: env
         operator: Equal
         value: vc1
+    affinity:
+      - key: env
+        operator: Equal
+        value: vc1
