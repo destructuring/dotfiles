@@ -15,14 +15,21 @@ helmCharts:
     syncer:
       extraArgs:
         - --tls-san=vcluster.vc1.svc.cluster.local
-        - --enforce-toleration=env/vc1:NoSchedule
+        - --enforce-toleration=env=vc1:NoSchedule
     sync:
       nodes:
         enabled: true
+        nodeSelector: "env=vc1"
     tolerations:
       - key: env
         value: vc1
         operator: Equals
     affinity:
-      nodeSelector:
-        env: vc1
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: env
+              operator: In
+              values:
+              - vc1
