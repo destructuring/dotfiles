@@ -35,6 +35,10 @@ spec:
             namespace: argo-workflows
             cluster: in-cluster
             path: argo-workflows
+          - name: knative
+            namespace: knative-serving
+            cluster: in-cluster
+            path: knative
   template:
     metadata:
       name: "k3d-control-{{name}}"
