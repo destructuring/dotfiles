@@ -14,8 +14,7 @@ spec:
     resources:
       cpu: 10
   taints:
-    - key: env
-      value: vc1
+    - key: env/vc1
       effect: NoSchedule
   providerRef:
     name: default
