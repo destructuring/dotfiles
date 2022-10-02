@@ -62,7 +62,7 @@ spec:
   securityGroupSelector:
     karpenter.sh/discovery: k3d-control
   blockDeviceMappings:
-    - deviceName: /dev/xvda
+    - deviceName: /dev/sda1
       ebs:
         volumeSize: 30Gi
         volumeType: gp3
