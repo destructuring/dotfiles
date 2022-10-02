@@ -19,14 +19,10 @@ helmCharts:
     sync:
       nodes:
         enabled: true
-        nodeSelector: "env/vc1"
     tolerations:
-      - key: env/vc1
-        operator: Exists
+      - key: env
+        value: vc1
+        operator: Equals
     affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-          - matchExpressions:
-            - key: env/vc1
-              operator: Exists
+      nodeSelector:
+        env: vc1

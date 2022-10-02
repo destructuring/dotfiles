@@ -13,8 +13,11 @@ spec:
   limits:
     resources:
       cpu: 10
+  labels:
+    env: vc1
   taints:
-    - key: env/vc1
+    - key: env
+      value: vc1
       effect: NoSchedule
   providerRef:
     name: default
