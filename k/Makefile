@@ -14,9 +14,5 @@ karpenter:
 	pass hello
 	./doit
 
-scale:
-	@pod -n karpenter scale deployment --replicas=$(count) inflate
-	@$(MAKE) count
-
 count:
 	 @n $(ns) get pod -o json | jq -r '.items[] | "\(.spec.nodeName) \(.status.phase)"' | sort | uniq -c

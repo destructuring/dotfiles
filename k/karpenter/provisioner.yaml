@@ -61,6 +61,13 @@ spec:
     karpenter.sh/discovery: k3d-control
   securityGroupSelector:
     karpenter.sh/discovery: k3d-control
+  blockDeviceMappings:
+    - deviceName: /dev/xvda
+      ebs:
+        volumeSize: 30Gi
+        volumeType: gp3
+        encrypted: true
+        deleteOnTermination: true
   userData: |
     MIME-Version: 1.0
     Content-Type: multipart/mixed; boundary="BOUNDARY"
@@ -87,27 +94,3 @@ spec:
     env DEFN_DEV_PRIVILEGED=true k3d node create "$instance" --role agent --image k3d-control --cluster https://100.106.117.83:6443 --token _K3STOKEN_
 
     --BOUNDARY
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: inflate
-  namespace: karpenter
-spec:
-  replicas: 0
-  selector:
-    matchLabels:
-      app: inflate
-  template:
-    metadata:
-      labels:
-        app: inflate
-    spec:
-      terminationGracePeriodSeconds: 0
-      containers:
-        - name: inflate
-          image: ubuntu
-          command: ["sleep", "infinity"]
-          resources:
-            requests:
-              cpu: 100m
