@@ -1,7 +1,7 @@
 apiVersion: karpenter.sh/v1alpha5
 kind: Provisioner
 metadata:
-  name: default
+  name: vc1
 spec:
   requirements:
     - key: karpenter.sh/capacity-type
@@ -13,7 +13,11 @@ spec:
   limits:
     resources:
       cpu: 10
-  providerRef:                                # optional, recommended to use instead of `provider`
+  taints:
+    - key: env
+      value: vc1
+      effect: NoSchedule
+  providerRef:
     name: default
   ttlSecondsAfterEmpty: 30
 ---
