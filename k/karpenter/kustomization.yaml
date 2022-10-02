@@ -30,3 +30,6 @@ helmCharts:
             secretKeyRef:
               name: karpenter-aws
               key: AWS_SESSION_TOKEN
+
+resources:
+- provisioner.yaml
