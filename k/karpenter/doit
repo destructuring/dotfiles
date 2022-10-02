@@ -4,6 +4,8 @@ app delete -y k3d-control-karpenter
 pod delete ns karpenter
 pod create ns karpenter
 eval $(aws-vault exec gyre-ops-sso --json | jq -r '"pod create secret generic -n karpenter karpenter-aws --from-literal=AWS_ACCESS_KEY_ID=\(.AccessKeyId) --from-literal=AWS_SECRET_ACCESS_KEY=\(.SecretAccessKey) --from-literal=AWS_SESSION_TOKEN=\(.SessionToken)"')
+app delete --cascade=false -y k3d-control-karpenter
+app sync k3d-control
 app sync k3d-control-karpenter
 pod rollout status deployment karpenter -n karpenter
 cat doit.yaml \
