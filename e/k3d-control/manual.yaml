@@ -43,3 +43,12 @@ spec:
       syncPolicy:
         syncOptions:
           - CreateNamespace=true
+      ignoreDifferences:
+      - group: ""
+        kind: Secret
+        jsonPointers:
+        - /data/ca-cert.pem
+        - /data/server-cert.pem
+        - /data/server-key.pem
+        name: karpenter-cert
+        namespace: karpenter
