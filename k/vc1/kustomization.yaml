@@ -25,12 +25,11 @@ helmCharts:
         operator: Equal
         value: vc1
     affinity:
-      podAffinity:
+      nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
-        - labelSelector:
-            matchExpressions:
+          nodeSelectorTerms:
+          - matchExpressions:
             - key: env
               operator: In
               values:
               - vc1
-          topologyKey: env
