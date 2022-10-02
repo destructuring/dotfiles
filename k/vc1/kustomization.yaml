@@ -33,3 +33,4 @@ helmCharts:
               operator: In
               values:
               - vc1
+          topologyKey: env
