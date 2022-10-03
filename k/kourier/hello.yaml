@@ -17,3 +17,16 @@ spec:
   traffic:
   - latestRevision: true
     percent: 100
+  tolerations:
+    - key: env
+      value: vc1
+      operator: Equal
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: env
+            operator: In
+            values:
+            - vc1
