@@ -7,4 +7,5 @@ patchesStrategicMerge:
 - configmap-config-network.yaml
 - configmap-config-domain.yaml
 - configmap-config-features.yaml
+- configmap-config-defaults.yaml
 - namespace-knative-serving.yaml
