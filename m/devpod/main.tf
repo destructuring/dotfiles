@@ -309,6 +309,15 @@ resource "kubernetes_stateful_set" "dev" {
           image             = "docker:dind"
           image_pull_policy = "IfNotPresent"
 
+          env {
+            name  = "DOCKER_TLS_CERTDIR"
+            value = ""
+          }
+
+          env {
+            name  = "DOCKER_DRIVER"
+            value = "overlay2"
+          }
 
           volume_mount {
             name       = "dind"
