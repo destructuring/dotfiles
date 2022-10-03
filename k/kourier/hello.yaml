@@ -27,6 +27,7 @@ spec:
                 operator: In
                 values:
                 - vc1
+                - bleh
   traffic:
   - latestRevision: true
     percent: 100
