@@ -12,7 +12,7 @@ spec:
       values: ["amd64"]
     - key: "node.kubernetes.io/instance-type"
       operator: In
-      values: ["m1.small", "m1.medium"]
+      values: ["t3.medium", "t3a.medium"]
   limits:
     resources:
       cpu: "2"
@@ -40,7 +40,7 @@ spec:
       values: ["amd64"]
     - key: "node.kubernetes.io/instance-type"
       operator: In
-      values: ["t3.medium", "t3a.medium", "m1.small", "m1.medium"]
+      values: ["t3.medium", "t3a.medium"]
   limits:
     resources:
       cpu: "2"
