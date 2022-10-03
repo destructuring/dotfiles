@@ -110,7 +110,9 @@ resource "kubernetes_stateful_set" "dev" {
 
         volume {
           name = "dind"
-          empty_dir {}
+          host_path {
+            path = "/mnt/dind"
+          }
         }
 
         volume {
@@ -152,41 +154,6 @@ resource "kubernetes_stateful_set" "dev" {
           name = "tsrun"
           empty_dir {}
         }
-
-        #        container {
-        #          name              = "vscode-dev"
-        #          image             = "${var.repo}workspace:latest"
-        #          image_pull_policy = "Always"
-        #
-        #          command = ["/usr/bin/tini", "--"]
-        #          args    = ["/usr/local/bin/code-server", "serve-local", "--accept-server-license-terms", "--disable-telemetry", "--without-connection-token", "--server-data-dir", "/work/vscode-server"]
-        #
-        #          tty = true
-        #
-        #          env {
-        #            name  = "DEFN_DEV_HOST"
-        #            value = each.value.host
-        #          }
-        #
-        #          volume_mount {
-        #            name       = "docker"
-        #            mount_path = "/var/run/docker.sock"
-        #          }
-        #
-        #          volume_mount {
-        #            name       = "mntwork"
-        #            mount_path = "/work"
-        #          }
-        #
-        #          volume_mount {
-        #            name       = "tsrun"
-        #            mount_path = "/var/run/tailscale"
-        #          }
-        #
-        #          security_context {
-        #            privileged = true
-        #          }
-        #        }
 
         container {
           name              = "code-server"
@@ -320,7 +287,7 @@ resource "kubernetes_stateful_set" "dev" {
         }
 
         container {
-          name              = "doh"
+          name              = "cloudflared"
           image             = "${var.repo}workspace:latest"
           image_pull_policy = "Always"
 
@@ -335,6 +302,22 @@ resource "kubernetes_stateful_set" "dev" {
 
           command = ["/usr/bin/tini", "--"]
           args    = ["bash", "-c", "exec sudo ~/bin/e coredns"]
+        }
+
+        container {
+          name              = "docker"
+          image             = "docker:dind"
+          image_pull_policy = "IfNotPresent"
+
+
+          volume_mount {
+            name       = "dind"
+            mount_path = "/var/lib/docker"
+          }
+
+          security_context {
+            privileged = true
+          }
         }
 
         container {
