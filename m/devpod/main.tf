@@ -305,7 +305,7 @@ resource "kubernetes_stateful_set" "dev" {
         }
 
         container {
-          name              = "docker"
+          name              = "dind"
           image             = "docker:dind"
           image_pull_policy = "IfNotPresent"
 
