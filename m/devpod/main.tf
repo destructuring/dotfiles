@@ -309,10 +309,7 @@ resource "kubernetes_stateful_set" "dev" {
           image             = "docker:dind"
           image_pull_policy = "IfNotPresent"
 
-          env {
-            name  = "DOCKER_TLS_CERTDIR"
-            value = ""
-          }
+          args = ["-H", "tcp://0.0.0.0:2375"]
 
           env {
             name  = "DOCKER_DRIVER"
