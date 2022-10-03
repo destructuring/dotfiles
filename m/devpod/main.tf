@@ -311,11 +311,6 @@ resource "kubernetes_stateful_set" "dev" {
 
           args = ["-H", "tcp://0.0.0.0:2375"]
 
-          env {
-            name  = "DOCKER_DRIVER"
-            value = "overlay2"
-          }
-
           volume_mount {
             name       = "dind"
             mount_path = "/var/lib/docker"
