@@ -24,7 +24,7 @@ spec:
       effect: NoSchedule
   providerRef:
     name: default
-  ttlSecondsAfterEmpty: 30
+  ttlSecondsAfterEmpty: 600
 ---
 apiVersion: karpenter.sh/v1alpha5
 kind: Provisioner
@@ -52,4 +52,4 @@ spec:
       effect: NoSchedule
   providerRef:
     name: default
-  ttlSecondsAfterEmpty: 30
+  ttlSecondsAfterEmpty: 1800
