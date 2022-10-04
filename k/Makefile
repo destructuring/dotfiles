@@ -19,6 +19,8 @@ count:
 	 @n $(ns) get pod -o json | jq -r '.items[] | "\(.spec.nodeName) \(.status.phase)"' | sort | uniq -c
 
 kuma-zone-cert-gen:
+	rm -f tls.crt tls.key ca.crt
+
 	kumactl generate tls-certificate \
 	--type=server \
 	--hostname=kuma-control-plane.kuma \
@@ -29,10 +31,12 @@ kuma-zone-cert-gen:
 
 kuma-zone-cert-apply:
 	-pod delete secret kds-ca-certs -n kuma
+
 	pod create secret generic kds-ca-certs -n kuma \
 	--from-file=ca.crt=../kuma-global/ca.crt
 
 	-pod delete secret kuma-tls-cert -n kuma 
+
 	pod create secret generic kuma-tls-cert -n kuma \
 	--from-file=tls.crt=tls.crt \
 	--from-file=tls.key=tls.key \
@@ -40,6 +44,7 @@ kuma-zone-cert-apply:
 
 kuma-global-cert-gen:
 	rm -f tls.crt tls.key ca.crt
+
 	kumactl generate tls-certificate \
 	--type=server \
 	--hostname=kuma-control-plane.kuma \
@@ -52,12 +57,14 @@ kuma-global-cert-gen:
 kuma-global-cert-apply:
 
 	-global delete secret generic-tls-certs -n kuma
+
 	global create secret generic generic-tls-certs -n kuma \
 	--from-file=tls.crt=tls.crt \
 	--from-file=tls.key=tls.key \
 	--from-file=ca.crt=ca.crt
 
 	-global delete secret kds-server-tls -n kuma 
+
 	global create secret tls kds-server-tls -n kuma \
 	--cert=tls.crt \
 	--key=tls.key
