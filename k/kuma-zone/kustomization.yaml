@@ -11,7 +11,7 @@ helmCharts:
     controlPlane:
       mode: zone
       zone: grove
-      kdsGlobalAddress: grpcs://k3d-global.tiger-mamba.ts.net:5685
+      kdsGlobalAddress: grpcs://100.64.110.16:5685
     ingress:
       enabled: true
     egress:
