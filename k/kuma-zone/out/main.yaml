@@ -2293,7 +2293,7 @@ spec:
       volumes:
       - name: general-tls-cert
         secret:
-          secretName: kuma-tls-cert
+          secretName: generic-tls-certs
       - configMap:
           name: kuma-control-plane-config
         name: kuma-control-plane-config
