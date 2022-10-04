@@ -28,7 +28,7 @@ kuma-zone-cert-gen:
 	cp tls.crt ca.crt
 
 kuma-zone-cert-apply:
-	pod create secret generic kuma-tls-cert -n kuma \
+	$(context) create secret generic kuma-tls-cert -n kuma \
 	--from-file=tls.crt=tls.crt \
 	--from-file=tls.key=tls.key \
 	--from-file=ca.crt=ca.crt
