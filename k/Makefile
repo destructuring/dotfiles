@@ -32,8 +32,8 @@ kuma-zone-cert-apply:
 	pod create secret generic kds-ca-certs -n kuma \
 	--from-file=ca.crt=../kuma-global/ca.crt
 
-	-pod delete secret kuma-tls-certs -n kuma 
-	pod create secret generic kuma-tls-certs -n kuma \
+	-pod delete secret kuma-tls-cert -n kuma 
+	pod create secret generic kuma-tls-cert -n kuma \
 	--from-file=tls.crt=tls.crt \
 	--from-file=tls.key=tls.key \
 	--from-file=ca.crt=ca.crt

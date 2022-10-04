@@ -2298,7 +2298,7 @@ spec:
       volumes:
       - name: general-tls-cert
         secret:
-          secretName: kuma-tls-certs
+          secretName: kuma-tls-cert
       - name: kds-client-tls-cert
         secret:
           secretName: kds-ca-certs
