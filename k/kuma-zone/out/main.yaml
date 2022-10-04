@@ -2225,7 +2225,7 @@ spec:
         - name: KUMA_MULTIZONE_ZONE_KDS_ROOT_CA_FILE
           value: /var/run/secrets/kuma.io/kds-client-tls-cert/ca.crt
         - name: KUMA_MULTIZONE_ZONE_NAME
-          value: grove
+          value: control
         - name: KUMA_RUNTIME_KUBERNETES_ADMISSION_SERVER_CERT_DIR
           value: /var/run/secrets/kuma.io/tls-cert
         - name: KUMA_RUNTIME_KUBERNETES_ADMISSION_SERVER_PORT
