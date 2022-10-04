@@ -1,0 +1,106 @@
+apiVersion: v1
+data:
+  remocal.crt: |
+    LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURPekNDQWlPZ0F3SUJBZ0lVZFpPVX
+    k1YjQvODdKd1ljUlM5SXZGM1pPL3V3d0RRWUpLb1pJaHZjTkFRRUwKQlFBd0dERVdNQlFH
+    QTFVRUF4TU5aM2x5WlM1a1pXWnVMbVJsZGpBZUZ3MHlNakEzTURnd016SXdORGxhRncweg
+    pNakEzTURVd016SXhNVGxhTUJneEZqQVVCZ05WQkFNVERXZDVjbVV1WkdWbWJpNWtaWFl3
+    Z2dFaU1BMEdDU3FHClNJYjNEUUVCQVFVQUE0SUJEd0F3Z2dFS0FvSUJBUUNwSzZBOVBVcD
+    VjbTVKWXAvblJkZ2VBV00yckZQSHJRN3IKZ3NuWmt5L0ZnOEZBcXd2c3hzVkw4TnFMNHlx
+    Z25aeXpGK3FmQmpjR0tlb09VM0VEbE5WdjBtUlgxRGsrNDJ5YQplRkdOVXZTVE1JMDhMU3
+    I3QUZjVlFwQW9KMnF5L2JxTnNNcCtjVWNxMTMxSHdnS2ZBSFpkNG9CWUxRVmxERzBkClU4
+    K1RyTUJhUFpDUGJUYUhKQ0lIL3lPaldxZyswSVVHV25VS0YrREEvWHpQTnRsbFVGOHZJa0
+    RIL0pwWmFFb0QKS1ErWHNVL01MaEtNS0Q4ZW1lTGdkKzZRUzFOb1dKcllzMDFXUEFLZnJI
+    RUFmS0NmeXljeWNQVHhLSyt4anIyeApvcjBVQ2lwR2ZyV2hFY2NjSjRVeEE0Z0pMUGVBaW
+    5XeEQ1TndGcmRhSXVJeVZPMjJiYWhwQWdNQkFBR2pmVEI3Ck1BNEdBMVVkRHdFQi93UUVB
+    d0lCQmpBUEJnTlZIUk1CQWY4RUJUQURBUUgvTUIwR0ExVWREZ1FXQkJTYVhrMVoKYVdSci
+    80ZkpuUzNWUVNkSTZRNm1TekFmQmdOVkhTTUVHREFXZ0JTYVhrMVphV1JyLzRmSm5TM1ZR
+    U2RJNlE2bQpTekFZQmdOVkhSRUVFVEFQZ2cxbmVYSmxMbVJsWm00dVpHVjJNQTBHQ1NxR1
+    NJYjNEUUVCQ3dVQUE0SUJBUUI4Ci8rWlFjMHMrK2FjQVI3ZklCU3Q3MHozYU01dVh1TW9O
+    YjE4MXR4RU9SMGxuc0RtVVVTVnQrWFI4YWFYWlF1akgKdndQQmgzQ2tQU2hMOTFjZGhRaW
+    JsSlZXc1NoeGJpdVVFSllqMGUvTmZNK00yZWhNblR0VzVMRkRSNlMrazhVcQpHZUIwZERY
+    VTFXZnZEV1pzR000allXd0RyaWtZVGNtQ2pSOXc2N09ERkFYSzB0QVZ1NWZHRzQ3NVpyZl
+    htZVlyCllmQ3V3VkVqM21GWmVTZ2ZseThLS1lHNnIyMk9ZU0lqSTM3dStJWmpNcWVWSk5H
+    eEgvWG1yNkNqc1pXWDZLOFcKRTFtTDRNbi8waUxZNnNxMUxYelFRWlJ4TTByQko1VGQ1WF
+    pVY3JaNkEzLzh2UXVheFp1L2tZc29takRRN0tTTgpsaTUwQ1hHcVgrbjYyelZnWHZCaAot
+    LS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+kind: Secret
+metadata:
+  name: remocal-tls-d6t5c96gd6
+  namespace: traefik
+type: Opaque
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: forward-auth
+  namespace: traefik
+spec:
+  ports:
+  - port: 4181
+  selector:
+    app: forward-auth
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: forward-auth
+  namespace: traefik
+spec:
+  selector:
+    matchLabels:
+      app: forward-auth
+  template:
+    metadata:
+      labels:
+        app: forward-auth
+    spec:
+      containers:
+      - args:
+        - --secret=bc989147a1d2ff433933b39b40b9b1d0
+        - --auth-host=auth.remocal.net
+        - --cookie-domain=remocal.net
+        - --default-provider=oidc
+        - --providers.oidc.issuer-url=https://dex.remocal.net
+        - --providers.oidc.client-id=forward-auth
+        - --providers.oidc.client-secret=6bbc3f2a6d55a3917e068dff5b07a476
+        image: thomseddon/traefik-forward-auth:latest
+        name: forward-auth
+        ports:
+        - containerPort: 4181
+        volumeMounts:
+        - mountPath: /etc/ssl/certs/remocal.crt
+          name: tls
+          subPath: remocal.crt
+      volumes:
+      - name: tls
+        secret:
+          secretName: remocal-tls-d6t5c96gd6
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: ts-auth-websecure
+  namespace: traefik
+spec:
+  entryPoints:
+  - websecure
+  routes:
+  - kind: Rule
+    match: HostRegexp(`auth.{dom:.+}`)
+    services:
+    - name: forward-auth
+      port: 4181
+  tls:
+    secretName: default-certificate
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: forward-auth-dex
+  namespace: traefik
+spec:
+  forwardAuth:
+    address: http://forward-auth.traefik:4181
+    authResponseHeaders:
+    - X-Forwarded-User
