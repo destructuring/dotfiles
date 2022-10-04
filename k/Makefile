@@ -41,6 +41,8 @@ kuma-zone-cert-apply:
 kuma-global-cert-gen:
 	kumactl generate tls-certificate \
 	--type=server \
+	--hostname=kuma-control-plane.kuma \
+	--hostname=kuma-control-plane.kuma.svc \
 	--hostname=100.64.110.16 \
 	--cert-file=tls.crt \
 	--key-file=tls.key
