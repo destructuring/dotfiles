@@ -39,6 +39,10 @@ spec:
             namespace: knative-serving
             cluster: in-cluster
             path: knative
+          - name: kuma-zone
+            namespace: kuma-system
+            cluster: in-cluster
+            path: kuma-zone
   template:
     metadata:
       name: "k3d-control-{{name}}"
