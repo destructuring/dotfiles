@@ -32,3 +32,21 @@ kuma-zone-cert-apply:
 	--from-file=tls.crt=tls.crt \
 	--from-file=tls.key=tls.key \
 	--from-file=ca.crt=ca.crt
+
+kuma-global-cert-gen:
+	kumactl generate tls-certificate \
+	--type=server \
+	--hostname=100.64.110.16 \
+	--cert-file=tls.crt \
+	--key-file=tls.key
+
+	cp tls.crt ca.crt
+
+kuma-global-cert-apply:
+	global create secret generic generic-tls-certs -n kuma \
+	--from-file=tls.crt=tls.crt \
+	--from-file=tls.key=tls.key \
+	--from-file=ca.crt=ca.crt
+	global create secret tls kds-server-tls -n kuma \
+	--cert=tls.crt \
+	--key=tls.key
