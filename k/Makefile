@@ -4,10 +4,11 @@ count ?= 0
 ns ?= karpenter
 
 build:
-	kustomize build --enable-helm
+	mkdir -p out
+	kustomize build --enable-helm > out/main.yaml
 
 rebuild:
-	rm -rf charts
+	rm -rf charts out
 	$(MAKE) build
 
 karpenter:
