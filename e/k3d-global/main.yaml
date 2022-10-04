@@ -16,7 +16,7 @@ spec:
             path: cert-manager
             cluster: k3d-global
           - name: kuma-global
-            namespace: kuma-system
+            namespace: kuma
             path: kuma-global
             cluster: k3d-global
   template:

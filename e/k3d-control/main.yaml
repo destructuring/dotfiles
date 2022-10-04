@@ -40,7 +40,7 @@ spec:
             cluster: in-cluster
             path: knative
           - name: kuma-zone
-            namespace: kuma-system
+            namespace: kuma
             cluster: in-cluster
             path: kuma-zone
   template:
