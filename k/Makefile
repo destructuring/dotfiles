@@ -17,3 +17,18 @@ karpenter:
 
 count:
 	 @n $(ns) get pod -o json | jq -r '.items[] | "\(.spec.nodeName) \(.status.phase)"' | sort | uniq -c
+
+kuma-zone-cert-gen:
+	kumactl generate tls-certificate \
+	--type=server \
+	--hostname=kuma-control-plane.kuma \
+	--hostname=kuma-control-plane.kuma.svc \
+	--cert-file=tls.crt --key-file=tls.key
+
+	cp tls.crt ca.crt
+
+kuma-zone-cert-apply:
+	pod create secret generic general-tls-certs -n kuma \
+	--from-file=tls.crt=tls.crt \
+	--from-file=tls.key=tls.key \
+	--from-file=ca.crt=ca.crt
