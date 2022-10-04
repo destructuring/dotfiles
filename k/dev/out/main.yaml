@@ -81,7 +81,7 @@ spec:
         env:
         - name: PASSWORD
           value: admin
-        image: quay.io/defn/dev:latest
+        image: ghcr.io/defn/dev:latest
         imagePullPolicy: Always
         name: code-server
         securityContext:

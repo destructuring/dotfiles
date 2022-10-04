@@ -47,7 +47,7 @@ spec:
         securityContext:
           privileged: true
       - name: code-server
-        image: quay.io/defn/dev:latest
+        image: ghcr.io/defn/dev:latest
         imagePullPolicy: Always
         command:
         - /usr/bin/tini
