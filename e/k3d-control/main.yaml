@@ -65,6 +65,7 @@ spec:
       - group: ""
         kind: Secret
         jsonPointers:
+        - /data
         - /data/ca-cert.pem
         - /data/server-cert.pem
         - /data/server-key.pem
