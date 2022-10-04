@@ -1,0 +1,2597 @@
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.9.2
+  creationTimestamp: null
+  name: circuitbreakers.kuma.io
+spec:
+  group: kuma.io
+  names:
+    categories:
+    - kuma
+    kind: CircuitBreaker
+    listKind: CircuitBreakerList
+    plural: circuitbreakers
+    singular: circuitbreaker
+  scope: Cluster
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          mesh:
+            description: Mesh is the name of the Kuma mesh this resource belongs to.
+              It may be omitted for cluster-scoped resources.
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Spec is the specification of the Kuma CircuitBreaker resource.
+            x-kubernetes-preserve-unknown-fields: true
+        type: object
+    served: true
+    storage: true
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.9.2
+  creationTimestamp: null
+  name: containerpatches.kuma.io
+spec:
+  group: kuma.io
+  names:
+    categories:
+    - kuma
+    kind: ContainerPatch
+    listKind: ContainerPatchList
+    plural: containerpatches
+    singular: containerpatch
+  scope: Namespaced
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: ContainerPatch stores a list of patches to apply to init and
+          sidecar containers.
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          mesh:
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: ContainerPatchSpec specifies the options available for a
+              ContainerPatch
+            properties:
+              initPatch:
+                description: InitPatch specifies jsonpatch to apply to an init container.
+                items:
+                  description: JsonPatchBlock is one json patch operation block.
+                  properties:
+                    from:
+                      description: From is a jsonpatch from string, used by move and
+                        copy operations.
+                      type: string
+                    op:
+                      description: Op is a jsonpatch operation string.
+                      enum:
+                      - add
+                      - remove
+                      - replace
+                      - move
+                      - copy
+                      type: string
+                    path:
+                      description: Path is a jsonpatch path string.
+                      type: string
+                    value:
+                      description: Value must be a string representing a valid json
+                        object used by replace and add operations. String has to be
+                        escaped with " to be valid a json object.
+                      type: string
+                  required:
+                  - op
+                  - path
+                  type: object
+                type: array
+              sidecarPatch:
+                description: SidecarPatch specifies jsonpatch to apply to a sidecar
+                  container.
+                items:
+                  description: JsonPatchBlock is one json patch operation block.
+                  properties:
+                    from:
+                      description: From is a jsonpatch from string, used by move and
+                        copy operations.
+                      type: string
+                    op:
+                      description: Op is a jsonpatch operation string.
+                      enum:
+                      - add
+                      - remove
+                      - replace
+                      - move
+                      - copy
+                      type: string
+                    path:
+                      description: Path is a jsonpatch path string.
+                      type: string
+                    value:
+                      description: Value must be a string representing a valid json
+                        object used by replace and add operations. String has to be
+                        escaped with " to be valid a json object.
+                      type: string
+                  required:
+                  - op
+                  - path
+                  type: object
+                type: array
+            type: object
+        type: object
+    served: true
+    storage: true
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.9.2
+  creationTimestamp: null
+  name: dataplaneinsights.kuma.io
+spec:
+  group: kuma.io
+  names:
+    categories:
+    - kuma
+    kind: DataplaneInsight
+    listKind: DataplaneInsightList
+    plural: dataplaneinsights
+    singular: dataplaneinsight
+  scope: Namespaced
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          mesh:
+            description: Mesh is the name of the Kuma mesh this resource belongs to.
+              It may be omitted for cluster-scoped resources.
+            type: string
+          metadata:
+            type: object
+          status:
+            description: Status is the status the Kuma resource.
+            x-kubernetes-preserve-unknown-fields: true
+        type: object
+    served: true
+    storage: true
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.9.2
+  creationTimestamp: null
+  name: dataplanes.kuma.io
+spec:
+  group: kuma.io
+  names:
+    categories:
+    - kuma
+    kind: Dataplane
+    listKind: DataplaneList
+    plural: dataplanes
+    singular: dataplane
+  scope: Namespaced
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          mesh:
+            description: Mesh is the name of the Kuma mesh this resource belongs to.
+              It may be omitted for cluster-scoped resources.
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Spec is the specification of the Kuma Dataplane resource.
+            x-kubernetes-preserve-unknown-fields: true
+        type: object
+    served: true
+    storage: true
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.9.2
+  creationTimestamp: null
+  name: externalservices.kuma.io
+spec:
+  group: kuma.io
+  names:
+    categories:
+    - kuma
+    kind: ExternalService
+    listKind: ExternalServiceList
+    plural: externalservices
+    singular: externalservice
+  scope: Cluster
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          mesh:
+            description: Mesh is the name of the Kuma mesh this resource belongs to.
+              It may be omitted for cluster-scoped resources.
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Spec is the specification of the Kuma ExternalService resource.
+            x-kubernetes-preserve-unknown-fields: true
+        type: object
+    served: true
+    storage: true
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.9.2
+  creationTimestamp: null
+  name: faultinjections.kuma.io
+spec:
+  group: kuma.io
+  names:
+    categories:
+    - kuma
+    kind: FaultInjection
+    listKind: FaultInjectionList
+    plural: faultinjections
+    singular: faultinjection
+  scope: Cluster
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          mesh:
+            description: Mesh is the name of the Kuma mesh this resource belongs to.
+              It may be omitted for cluster-scoped resources.
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Spec is the specification of the Kuma FaultInjection resource.
+            x-kubernetes-preserve-unknown-fields: true
+        type: object
+    served: true
+    storage: true
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.9.2
+  creationTimestamp: null
+  name: healthchecks.kuma.io
+spec:
+  group: kuma.io
+  names:
+    categories:
+    - kuma
+    kind: HealthCheck
+    listKind: HealthCheckList
+    plural: healthchecks
+    singular: healthcheck
+  scope: Cluster
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          mesh:
+            description: Mesh is the name of the Kuma mesh this resource belongs to.
+              It may be omitted for cluster-scoped resources.
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Spec is the specification of the Kuma HealthCheck resource.
+            x-kubernetes-preserve-unknown-fields: true
+        type: object
+    served: true
+    storage: true
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.9.2
+  creationTimestamp: null
+  name: meshes.kuma.io
+spec:
+  group: kuma.io
+  names:
+    categories:
+    - kuma
+    kind: Mesh
+    listKind: MeshList
+    plural: meshes
+    singular: mesh
+  scope: Cluster
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          mesh:
+            description: Mesh is the name of the Kuma mesh this resource belongs to.
+              It may be omitted for cluster-scoped resources.
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Spec is the specification of the Kuma Mesh resource.
+            x-kubernetes-preserve-unknown-fields: true
+        type: object
+    served: true
+    storage: true
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.9.2
+  creationTimestamp: null
+  name: meshgatewayinstances.kuma.io
+spec:
+  group: kuma.io
+  names:
+    categories:
+    - kuma
+    kind: MeshGatewayInstance
+    listKind: MeshGatewayInstanceList
+    plural: meshgatewayinstances
+    singular: meshgatewayinstance
+  scope: Namespaced
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: MeshGatewayInstance represents a managed instance of a dataplane
+          proxy for a Kuma Gateway.
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: MeshGatewayInstanceSpec specifies the options available for
+              a GatewayDataplane.
+            properties:
+              replicas:
+                default: 1
+                description: Replicas is the number of dataplane proxy replicas to
+                  create. For now this is a fixed number, but in the future it could
+                  be automatically scaled based on metrics.
+                format: int32
+                minimum: 1
+                type: integer
+              resources:
+                description: Resources specifies the compute resources for the proxy
+                  container. The default can be set in the control plane config.
+                properties:
+                  limits:
+                    additionalProperties:
+                      anyOf:
+                      - type: integer
+                      - type: string
+                      pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                      x-kubernetes-int-or-string: true
+                    description: 'Limits describes the maximum amount of compute resources
+                      allowed. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
+                    type: object
+                  requests:
+                    additionalProperties:
+                      anyOf:
+                      - type: integer
+                      - type: string
+                      pattern: ^(\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))(([KMGTPE]i)|[numkMGTPE]|([eE](\+|-)?(([0-9]+(\.[0-9]*)?)|(\.[0-9]+))))?$
+                      x-kubernetes-int-or-string: true
+                    description: 'Requests describes the minimum amount of compute
+                      resources required. If Requests is omitted for a container,
+                      it defaults to Limits if that is explicitly specified, otherwise
+                      to an implementation-defined value. More info: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/'
+                    type: object
+                type: object
+              serviceTemplate:
+                description: ServiceTemplate configures the Service owned by this
+                  config.
+                properties:
+                  metadata:
+                    description: Metadata holds metadata configuration for a Service.
+                    properties:
+                      annotations:
+                        additionalProperties:
+                          type: string
+                        description: Annotations holds annotations to be set on a
+                          Service.
+                        type: object
+                    type: object
+                  spec:
+                    description: Spec holds some customizable fields of a Service.
+                    properties:
+                      loadBalancerIP:
+                        description: LoadBalancerIP corresponds to ServiceSpec.LoadBalancerIP.
+                        type: string
+                    type: object
+                type: object
+              serviceType:
+                default: LoadBalancer
+                description: ServiceType specifies the type of managed Service that
+                  will be created to expose the dataplane proxies to traffic from
+                  outside the cluster. The ports to expose will be taken from the
+                  matching Gateway resource. If there is no matching Gateway, the
+                  managed Service will be deleted.
+                enum:
+                - LoadBalancer
+                - ClusterIP
+                - NodePort
+                type: string
+              tags:
+                additionalProperties:
+                  type: string
+                description: Tags specifies the Kuma tags that are propagated to the
+                  managed dataplane proxies. These tags should include exactly one
+                  `kuma.io/service` tag, and should match exactly one Gateway resource.
+                type: object
+            type: object
+          status:
+            description: MeshGatewayInstanceStatus holds information about the status
+              of the gateway instance.
+            properties:
+              conditions:
+                description: Conditions is an array of gateway instance conditions.
+                items:
+                  description: "Condition contains details for one aspect of the current
+                    state of this API Resource. --- This struct is intended for direct
+                    use as an array at the field path .status.conditions.  For example,
+                    type FooStatus struct{ // Represents the observations of a foo's
+                    current state. // Known .status.conditions.type are: \"Available\",
+                    \"Progressing\", and \"Degraded\" // +patchMergeKey=type // +patchStrategy=merge
+                    // +listType=map // +listMapKey=type Conditions []metav1.Condition
+                    `json:\"conditions,omitempty\" patchStrategy:\"merge\" patchMergeKey:\"type\"
+                    protobuf:\"bytes,1,rep,name=conditions\"` \n // other fields }"
+                  properties:
+                    lastTransitionTime:
+                      description: lastTransitionTime is the last time the condition
+                        transitioned from one status to another. This should be when
+                        the underlying condition changed.  If that is not known, then
+                        using the time when the API field changed is acceptable.
+                      format: date-time
+                      type: string
+                    message:
+                      description: message is a human readable message indicating
+                        details about the transition. This may be an empty string.
+                      maxLength: 32768
+                      type: string
+                    observedGeneration:
+                      description: observedGeneration represents the .metadata.generation
+                        that the condition was set based upon. For instance, if .metadata.generation
+                        is currently 12, but the .status.conditions[x].observedGeneration
+                        is 9, the condition is out of date with respect to the current
+                        state of the instance.
+                      format: int64
+                      minimum: 0
+                      type: integer
+                    reason:
+                      description: reason contains a programmatic identifier indicating
+                        the reason for the condition's last transition. Producers
+                        of specific condition types may define expected values and
+                        meanings for this field, and whether the values are considered
+                        a guaranteed API. The value should be a CamelCase string.
+                        This field may not be empty.
+                      maxLength: 1024
+                      minLength: 1
+                      pattern: ^[A-Za-z]([A-Za-z0-9_,:]*[A-Za-z0-9_])?$
+                      type: string
+                    status:
+                      description: status of the condition, one of True, False, Unknown.
+                      enum:
+                      - "True"
+                      - "False"
+                      - Unknown
+                      type: string
+                    type:
+                      description: type of condition in CamelCase or in foo.example.com/CamelCase.
+                        --- Many .condition.type values are consistent across resources
+                        like Available, but because arbitrary conditions can be useful
+                        (see .node.status.conditions), the ability to deconflict is
+                        important. The regex it matches is (dns1123SubdomainFmt/)?(qualifiedNameFmt)
+                      maxLength: 316
+                      pattern: ^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - message
+                  - reason
+                  - status
+                  - type
+                  type: object
+                type: array
+                x-kubernetes-list-map-keys:
+                - type
+                x-kubernetes-list-type: map
+              loadBalancer:
+                description: LoadBalancer contains the current status of the load-balancer,
+                  if one is present.
+                properties:
+                  ingress:
+                    description: Ingress is a list containing ingress points for the
+                      load-balancer. Traffic intended for the service should be sent
+                      to these ingress points.
+                    items:
+                      description: 'LoadBalancerIngress represents the status of a
+                        load-balancer ingress point: traffic intended for the service
+                        should be sent to an ingress point.'
+                      properties:
+                        hostname:
+                          description: Hostname is set for load-balancer ingress points
+                            that are DNS based (typically AWS load-balancers)
+                          type: string
+                        ip:
+                          description: IP is set for load-balancer ingress points
+                            that are IP based (typically GCE or OpenStack load-balancers)
+                          type: string
+                        ports:
+                          description: Ports is a list of records of service ports
+                            If used, every port defined in the service should have
+                            an entry in it
+                          items:
+                            properties:
+                              error:
+                                description: 'Error is to record the problem with
+                                  the service port The format of the error shall comply
+                                  with the following rules: - built-in error values
+                                  shall be specified in this file and those shall
+                                  use CamelCase names - cloud provider specific error
+                                  values must have names that comply with the format
+                                  foo.example.com/CamelCase. --- The regex it matches
+                                  is (dns1123SubdomainFmt/)?(qualifiedNameFmt)'
+                                maxLength: 316
+                                pattern: ^([a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*/)?(([A-Za-z0-9][-A-Za-z0-9_.]*)?[A-Za-z0-9])$
+                                type: string
+                              port:
+                                description: Port is the port number of the service
+                                  port of which status is recorded here
+                                format: int32
+                                type: integer
+                              protocol:
+                                default: TCP
+                                description: 'Protocol is the protocol of the service
+                                  port of which status is recorded here The supported
+                                  values are: "TCP", "UDP", "SCTP"'
+                                type: string
+                            required:
+                            - port
+                            - protocol
+                            type: object
+                          type: array
+                          x-kubernetes-list-type: atomic
+                      type: object
+                    type: array
+                type: object
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.9.2
+  creationTimestamp: null
+  name: meshgatewayroutes.kuma.io
+spec:
+  group: kuma.io
+  names:
+    categories:
+    - kuma
+    kind: MeshGatewayRoute
+    listKind: MeshGatewayRouteList
+    plural: meshgatewayroutes
+    singular: meshgatewayroute
+  scope: Cluster
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          mesh:
+            description: Mesh is the name of the Kuma mesh this resource belongs to.
+              It may be omitted for cluster-scoped resources.
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Spec is the specification of the Kuma MeshGatewayRoute resource.
+            x-kubernetes-preserve-unknown-fields: true
+        type: object
+    served: true
+    storage: true
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.9.2
+  creationTimestamp: null
+  name: meshgateways.kuma.io
+spec:
+  group: kuma.io
+  names:
+    categories:
+    - kuma
+    kind: MeshGateway
+    listKind: MeshGatewayList
+    plural: meshgateways
+    singular: meshgateway
+  scope: Cluster
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          mesh:
+            description: Mesh is the name of the Kuma mesh this resource belongs to.
+              It may be omitted for cluster-scoped resources.
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Spec is the specification of the Kuma MeshGateway resource.
+            x-kubernetes-preserve-unknown-fields: true
+        type: object
+    served: true
+    storage: true
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.9.2
+  creationTimestamp: null
+  name: meshinsights.kuma.io
+spec:
+  group: kuma.io
+  names:
+    categories:
+    - kuma
+    kind: MeshInsight
+    listKind: MeshInsightList
+    plural: meshinsights
+    singular: meshinsight
+  scope: Cluster
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          mesh:
+            description: Mesh is the name of the Kuma mesh this resource belongs to.
+              It may be omitted for cluster-scoped resources.
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Spec is the specification of the Kuma MeshInsight resource.
+            x-kubernetes-preserve-unknown-fields: true
+        type: object
+    served: true
+    storage: true
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.9.2
+  creationTimestamp: null
+  name: proxytemplates.kuma.io
+spec:
+  group: kuma.io
+  names:
+    categories:
+    - kuma
+    kind: ProxyTemplate
+    listKind: ProxyTemplateList
+    plural: proxytemplates
+    singular: proxytemplate
+  scope: Cluster
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          mesh:
+            description: Mesh is the name of the Kuma mesh this resource belongs to.
+              It may be omitted for cluster-scoped resources.
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Spec is the specification of the Kuma ProxyTemplate resource.
+            x-kubernetes-preserve-unknown-fields: true
+        type: object
+    served: true
+    storage: true
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.9.2
+  creationTimestamp: null
+  name: ratelimits.kuma.io
+spec:
+  group: kuma.io
+  names:
+    categories:
+    - kuma
+    kind: RateLimit
+    listKind: RateLimitList
+    plural: ratelimits
+    singular: ratelimit
+  scope: Cluster
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          mesh:
+            description: Mesh is the name of the Kuma mesh this resource belongs to.
+              It may be omitted for cluster-scoped resources.
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Spec is the specification of the Kuma RateLimit resource.
+            x-kubernetes-preserve-unknown-fields: true
+        type: object
+    served: true
+    storage: true
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.9.2
+  creationTimestamp: null
+  name: retries.kuma.io
+spec:
+  group: kuma.io
+  names:
+    categories:
+    - kuma
+    kind: Retry
+    listKind: RetryList
+    plural: retries
+    singular: retry
+  scope: Cluster
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          mesh:
+            description: Mesh is the name of the Kuma mesh this resource belongs to.
+              It may be omitted for cluster-scoped resources.
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Spec is the specification of the Kuma Retry resource.
+            x-kubernetes-preserve-unknown-fields: true
+        type: object
+    served: true
+    storage: true
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.9.2
+  creationTimestamp: null
+  name: serviceinsights.kuma.io
+spec:
+  group: kuma.io
+  names:
+    categories:
+    - kuma
+    kind: ServiceInsight
+    listKind: ServiceInsightList
+    plural: serviceinsights
+    singular: serviceinsight
+  scope: Cluster
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          mesh:
+            description: Mesh is the name of the Kuma mesh this resource belongs to.
+              It may be omitted for cluster-scoped resources.
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Spec is the specification of the Kuma ServiceInsight resource.
+            x-kubernetes-preserve-unknown-fields: true
+        type: object
+    served: true
+    storage: true
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.9.2
+  creationTimestamp: null
+  name: timeouts.kuma.io
+spec:
+  group: kuma.io
+  names:
+    categories:
+    - kuma
+    kind: Timeout
+    listKind: TimeoutList
+    plural: timeouts
+    singular: timeout
+  scope: Cluster
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          mesh:
+            description: Mesh is the name of the Kuma mesh this resource belongs to.
+              It may be omitted for cluster-scoped resources.
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Spec is the specification of the Kuma Timeout resource.
+            x-kubernetes-preserve-unknown-fields: true
+        type: object
+    served: true
+    storage: true
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.9.2
+  creationTimestamp: null
+  name: trafficlogs.kuma.io
+spec:
+  group: kuma.io
+  names:
+    categories:
+    - kuma
+    kind: TrafficLog
+    listKind: TrafficLogList
+    plural: trafficlogs
+    singular: trafficlog
+  scope: Cluster
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          mesh:
+            description: Mesh is the name of the Kuma mesh this resource belongs to.
+              It may be omitted for cluster-scoped resources.
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Spec is the specification of the Kuma TrafficLog resource.
+            x-kubernetes-preserve-unknown-fields: true
+        type: object
+    served: true
+    storage: true
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.9.2
+  creationTimestamp: null
+  name: trafficpermissions.kuma.io
+spec:
+  group: kuma.io
+  names:
+    categories:
+    - kuma
+    kind: TrafficPermission
+    listKind: TrafficPermissionList
+    plural: trafficpermissions
+    singular: trafficpermission
+  scope: Cluster
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          mesh:
+            description: Mesh is the name of the Kuma mesh this resource belongs to.
+              It may be omitted for cluster-scoped resources.
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Spec is the specification of the Kuma TrafficPermission resource.
+            x-kubernetes-preserve-unknown-fields: true
+        type: object
+    served: true
+    storage: true
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.9.2
+  creationTimestamp: null
+  name: trafficroutes.kuma.io
+spec:
+  group: kuma.io
+  names:
+    categories:
+    - kuma
+    kind: TrafficRoute
+    listKind: TrafficRouteList
+    plural: trafficroutes
+    singular: trafficroute
+  scope: Cluster
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          mesh:
+            description: Mesh is the name of the Kuma mesh this resource belongs to.
+              It may be omitted for cluster-scoped resources.
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Spec is the specification of the Kuma TrafficRoute resource.
+            x-kubernetes-preserve-unknown-fields: true
+        type: object
+    served: true
+    storage: true
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.9.2
+  creationTimestamp: null
+  name: traffictraces.kuma.io
+spec:
+  group: kuma.io
+  names:
+    categories:
+    - kuma
+    kind: TrafficTrace
+    listKind: TrafficTraceList
+    plural: traffictraces
+    singular: traffictrace
+  scope: Cluster
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          mesh:
+            description: Mesh is the name of the Kuma mesh this resource belongs to.
+              It may be omitted for cluster-scoped resources.
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Spec is the specification of the Kuma TrafficTrace resource.
+            x-kubernetes-preserve-unknown-fields: true
+        type: object
+    served: true
+    storage: true
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.9.2
+  creationTimestamp: null
+  name: virtualoutbounds.kuma.io
+spec:
+  group: kuma.io
+  names:
+    categories:
+    - kuma
+    kind: VirtualOutbound
+    listKind: VirtualOutboundList
+    plural: virtualoutbounds
+    singular: virtualoutbound
+  scope: Cluster
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          mesh:
+            description: Mesh is the name of the Kuma mesh this resource belongs to.
+              It may be omitted for cluster-scoped resources.
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Spec is the specification of the Kuma VirtualOutbound resource.
+            x-kubernetes-preserve-unknown-fields: true
+        type: object
+    served: true
+    storage: true
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.9.2
+  creationTimestamp: null
+  name: zoneegresses.kuma.io
+spec:
+  group: kuma.io
+  names:
+    categories:
+    - kuma
+    kind: ZoneEgress
+    listKind: ZoneEgressList
+    plural: zoneegresses
+    singular: zoneegress
+  scope: Namespaced
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          mesh:
+            description: Mesh is the name of the Kuma mesh this resource belongs to.
+              It may be omitted for cluster-scoped resources.
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Spec is the specification of the Kuma ZoneEgress resource.
+            x-kubernetes-preserve-unknown-fields: true
+        type: object
+    served: true
+    storage: true
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.9.2
+  creationTimestamp: null
+  name: zoneegressinsights.kuma.io
+spec:
+  group: kuma.io
+  names:
+    categories:
+    - kuma
+    kind: ZoneEgressInsight
+    listKind: ZoneEgressInsightList
+    plural: zoneegressinsights
+    singular: zoneegressinsight
+  scope: Namespaced
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          mesh:
+            description: Mesh is the name of the Kuma mesh this resource belongs to.
+              It may be omitted for cluster-scoped resources.
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Spec is the specification of the Kuma ZoneEgressInsight resource.
+            x-kubernetes-preserve-unknown-fields: true
+        type: object
+    served: true
+    storage: true
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.9.2
+  creationTimestamp: null
+  name: zoneingresses.kuma.io
+spec:
+  group: kuma.io
+  names:
+    categories:
+    - kuma
+    kind: ZoneIngress
+    listKind: ZoneIngressList
+    plural: zoneingresses
+    singular: zoneingress
+  scope: Namespaced
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          mesh:
+            description: Mesh is the name of the Kuma mesh this resource belongs to.
+              It may be omitted for cluster-scoped resources.
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Spec is the specification of the Kuma ZoneIngress resource.
+            x-kubernetes-preserve-unknown-fields: true
+        type: object
+    served: true
+    storage: true
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.9.2
+  creationTimestamp: null
+  name: zoneingressinsights.kuma.io
+spec:
+  group: kuma.io
+  names:
+    categories:
+    - kuma
+    kind: ZoneIngressInsight
+    listKind: ZoneIngressInsightList
+    plural: zoneingressinsights
+    singular: zoneingressinsight
+  scope: Namespaced
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          mesh:
+            description: Mesh is the name of the Kuma mesh this resource belongs to.
+              It may be omitted for cluster-scoped resources.
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Spec is the specification of the Kuma ZoneIngressInsight
+              resource.
+            x-kubernetes-preserve-unknown-fields: true
+        type: object
+    served: true
+    storage: true
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.9.2
+  creationTimestamp: null
+  name: zoneinsights.kuma.io
+spec:
+  group: kuma.io
+  names:
+    categories:
+    - kuma
+    kind: ZoneInsight
+    listKind: ZoneInsightList
+    plural: zoneinsights
+    singular: zoneinsight
+  scope: Cluster
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          mesh:
+            description: Mesh is the name of the Kuma mesh this resource belongs to.
+              It may be omitted for cluster-scoped resources.
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Spec is the specification of the Kuma ZoneInsight resource.
+            x-kubernetes-preserve-unknown-fields: true
+        type: object
+    served: true
+    storage: true
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.9.2
+  creationTimestamp: null
+  name: zones.kuma.io
+spec:
+  group: kuma.io
+  names:
+    categories:
+    - kuma
+    kind: Zone
+    listKind: ZoneList
+    plural: zones
+    singular: zone
+  scope: Cluster
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          mesh:
+            description: Mesh is the name of the Kuma mesh this resource belongs to.
+              It may be omitted for cluster-scoped resources.
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: Spec is the specification of the Kuma Zone resource.
+            x-kubernetes-preserve-unknown-fields: true
+        type: object
+    served: true
+    storage: true
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    app: kuma-control-plane
+    app.kubernetes.io/instance: kuma
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: kuma
+    app.kubernetes.io/version: 1.8.0
+    helm.sh/chart: kuma-1.8.0
+  name: kuma-control-plane
+  namespace: kuma
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  annotations:
+    helm.sh/hook: pre-upgrade,pre-install
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded,hook-failed
+    helm.sh/hook-weight: "-1"
+  labels:
+    app.kubernetes.io/instance: kuma
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: kuma
+    app.kubernetes.io/version: 1.8.0
+    helm.sh/chart: kuma-1.8.0
+  name: kuma-install-missing-crds
+  namespace: kuma
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  annotations:
+    helm.sh/hook: pre-install
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded,hook-failed
+  labels:
+    app.kubernetes.io/instance: kuma
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: kuma
+    app.kubernetes.io/version: 1.8.0
+    helm.sh/chart: kuma-1.8.0
+  name: kuma-patch-ns-job
+  namespace: kuma
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  annotations:
+    helm.sh/hook: pre-delete
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded,hook-failed
+  labels:
+    app.kubernetes.io/instance: kuma
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: kuma
+    app.kubernetes.io/version: 1.8.0
+    helm.sh/chart: kuma-1.8.0
+  name: kuma-pre-delete-job
+  namespace: kuma
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  labels:
+    app: kuma-control-plane
+    app.kubernetes.io/instance: kuma
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: kuma
+    app.kubernetes.io/version: 1.8.0
+    helm.sh/chart: kuma-1.8.0
+  name: kuma-control-plane
+  namespace: kuma
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  verbs:
+  - delete
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  annotations:
+    helm.sh/hook: pre-install
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded,hook-failed
+  labels:
+    app.kubernetes.io/instance: kuma
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: kuma
+    app.kubernetes.io/version: 1.8.0
+    helm.sh/chart: kuma-1.8.0
+  name: kuma-patch-ns-job
+  namespace: kuma
+rules:
+- apiGroups:
+  - ""
+  resourceNames:
+  - kuma
+  resources:
+  - namespaces
+  verbs:
+  - get
+  - patch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app: kuma-control-plane
+    app.kubernetes.io/instance: kuma
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: kuma
+    app.kubernetes.io/version: 1.8.0
+    helm.sh/chart: kuma-1.8.0
+  name: kuma-control-plane
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - namespaces
+  - pods
+  - configmaps
+  - nodes
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - gateway.networking.k8s.io
+  resources:
+  - gatewayclasses
+  - gateways
+  - referencegrants
+  - httproutes
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - gateway.networking.k8s.io
+  resources:
+  - gatewayclasses/status
+  - gateways/status
+  - httproutes/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+- apiGroups:
+  - ""
+  resources:
+  - services
+  verbs:
+  - get
+  - delete
+  - list
+  - watch
+  - create
+  - update
+  - patch
+- apiGroups:
+  - kuma.io
+  resources:
+  - dataplanes
+  - dataplaneinsights
+  - meshes
+  - zones
+  - zoneinsights
+  - zoneingresses
+  - zoneingressinsights
+  - zoneegresses
+  - zoneegressinsights
+  - meshinsights
+  - serviceinsights
+  - proxytemplates
+  - ratelimits
+  - trafficpermissions
+  - trafficroutes
+  - timeouts
+  - retries
+  - circuitbreakers
+  - virtualoutbounds
+  - containerpatches
+  - externalservices
+  - faultinjections
+  - healthchecks
+  - trafficlogs
+  - traffictraces
+  - meshgateways
+  - meshgatewayroutes
+  - meshgatewayinstances
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - update
+  - patch
+  - delete
+- apiGroups:
+  - kuma.io
+  resources:
+  - meshgatewayinstances/status
+  - meshgatewayinstances/finalizers
+  - meshes/finalizers
+  - dataplanes/finalizers
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - ""
+  resources:
+  - pods/finalizers
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - authentication.k8s.io
+  resources:
+  - tokenreviews
+  verbs:
+  - create
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  annotations:
+    helm.sh/hook: pre-upgrade,pre-install
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded,hook-failed
+    helm.sh/hook-weight: "-1"
+  labels:
+    app.kubernetes.io/instance: kuma
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: kuma
+    app.kubernetes.io/version: 1.8.0
+    helm.sh/chart: kuma-1.8.0
+  name: kuma-install-missing-crds
+rules:
+- apiGroups:
+  - apiextensions.k8s.io
+  resources:
+  - customresourcedefinitions
+  verbs:
+  - create
+  - list
+  - get
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  annotations:
+    helm.sh/hook: pre-delete
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded,hook-failed
+  labels:
+    app.kubernetes.io/instance: kuma
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: kuma
+    app.kubernetes.io/version: 1.8.0
+    helm.sh/chart: kuma-1.8.0
+  name: kuma-pre-delete-job
+rules:
+- apiGroups:
+  - admissionregistration.k8s.io
+  resourceNames:
+  - kuma-validating-webhook-configuration
+  resources:
+  - validatingwebhookconfigurations
+  verbs:
+  - delete
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  labels:
+    app: kuma-control-plane
+    app.kubernetes.io/instance: kuma
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: kuma
+    app.kubernetes.io/version: 1.8.0
+    helm.sh/chart: kuma-1.8.0
+  name: kuma-control-plane
+  namespace: kuma
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: kuma-control-plane
+subjects:
+- kind: ServiceAccount
+  name: kuma-control-plane
+  namespace: kuma
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  annotations:
+    helm.sh/hook: pre-install
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded,hook-failed
+  labels:
+    app.kubernetes.io/instance: kuma
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: kuma
+    app.kubernetes.io/version: 1.8.0
+    helm.sh/chart: kuma-1.8.0
+  name: kuma-patch-ns-job
+  namespace: kuma
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kuma-patch-ns-job
+subjects:
+- kind: ServiceAccount
+  name: kuma-patch-ns-job
+  namespace: kuma
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    app: kuma-control-plane
+    app.kubernetes.io/instance: kuma
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: kuma
+    app.kubernetes.io/version: 1.8.0
+    helm.sh/chart: kuma-1.8.0
+  name: kuma-control-plane
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kuma-control-plane
+subjects:
+- kind: ServiceAccount
+  name: kuma-control-plane
+  namespace: kuma
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  annotations:
+    helm.sh/hook: pre-upgrade,pre-install
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded,hook-failed
+    helm.sh/hook-weight: "-1"
+  labels:
+    app.kubernetes.io/instance: kuma
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: kuma
+    app.kubernetes.io/version: 1.8.0
+    helm.sh/chart: kuma-1.8.0
+  name: kuma-install-missing-crds
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kuma-install-missing-crds
+subjects:
+- kind: ServiceAccount
+  name: kuma-install-missing-crds
+  namespace: kuma
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  annotations:
+    helm.sh/hook: pre-delete
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded,hook-failed
+  labels:
+    app.kubernetes.io/instance: kuma
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: kuma
+    app.kubernetes.io/version: 1.8.0
+    helm.sh/chart: kuma-1.8.0
+  name: kuma-pre-delete-job
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kuma-pre-delete-job
+subjects:
+- kind: ServiceAccount
+  name: kuma-pre-delete-job
+  namespace: kuma
+---
+apiVersion: v1
+data:
+  config.yaml: |
+    # use this file to override default configuration of `kuma-cp`
+    #
+    # see conf/kuma-cp.conf.yml for available settings
+kind: ConfigMap
+metadata:
+  labels:
+    app: kuma-control-plane
+    app.kubernetes.io/instance: kuma
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: kuma
+    app.kubernetes.io/version: 1.8.0
+    helm.sh/chart: kuma-1.8.0
+  name: kuma-control-plane-config
+  namespace: kuma
+---
+apiVersion: v1
+data:
+  install_missing_crds.sh: |
+    #!/usr/bin/env sh
+
+    if [ -s /kuma/missing/crds.yaml ]; then
+      echo "/kuma/missing/crds.yaml found and is not empty, adding crds"
+      kubectl create -f /kuma/missing/crds.yaml
+    else
+      echo "/kuma/missing/crds.yaml not found or empty, it looks like there is no missing crds"
+    fi
+  save_missing_crds.sh: |
+    #!/usr/bin/env sh
+
+    missing_crds="$(kumactl install crds --only-missing )"
+
+    if [ -n "${missing_crds}" ]; then
+      echo "found missing crds - saving to /kuma/missing/crds.yaml"
+      echo "${missing_crds}" > /kuma/missing/crds.yaml
+    fi
+kind: ConfigMap
+metadata:
+  annotations:
+    helm.sh/hook: pre-upgrade,pre-install
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+    helm.sh/hook-weight: "-1"
+  labels:
+    app.kubernetes.io/instance: kuma
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: kuma
+    app.kubernetes.io/version: 1.8.0
+    helm.sh/chart: kuma-1.8.0
+  name: kuma-install-missing-crds-scripts
+  namespace: kuma
+---
+apiVersion: v1
+data:
+  ca.crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURFRENDQWZpZ0F3SUJBZ0lSQUk3Y2NRQzc5dkZHTWVGV2FTcTNWY1V3RFFZSktvWklodmNOQVFFTEJRQXcKRWpFUU1BNEdBMVVFQXhNSGEzVnRZUzFqWVRBZUZ3MHlNakV3TURRd01USTROREphRncwek1qRXdNREV3TVRJNApOREphTUJJeEVEQU9CZ05WQkFNVEIydDFiV0V0WTJFd2dnRWlNQTBHQ1NxR1NJYjNEUUVCQVFVQUE0SUJEd0F3CmdnRUtBb0lCQVFESnRTUmhMZEFRcERxS1VWNlBwZ3FCdjBHMmNmdjJ3Y2xaZU1NUzFhT21sd2dGdVFuQkVLa0oKZGl3RmlnQk9melJkTUJhZ0dtREJMR0JadHIrU0RZOUlZdFlaZjNsV1FIcTFGSlQ0ME5CTFM5UlI5WGhQRjZ4SwozQUsvK2oxbWFnWVFNSE9BVzUzY3VqNUVEc3BjOXBaK3JVUTZjNUxqOVZQVFJDMkNIeHBjMkVUS25kWmhKNUxjCk1ZN1Z4ckV3RTltUE1Pb1VJZGRZYU8veG5ZbFNzc1V5TVZDaVRtU2owcC9NNjB3aWpnMG8yYjN0UG0rM05mTUQKbTNBSllibkxsVmxicVp6L1RJelF6aVFEcHoxS1RaTGwvMVBrYjREZm9IUGRFK1NqM2xFc1VEWkVwck1HZ0JMdQovci9ZSUlWUmEyWDRFSTZEdHNKcGpCTFUxZG5md0JWekFnTUJBQUdqWVRCZk1BNEdBMVVkRHdFQi93UUVBd0lDCnBEQWRCZ05WSFNVRUZqQVVCZ2dyQmdFRkJRY0RBUVlJS3dZQkJRVUhBd0l3RHdZRFZSMFRBUUgvQkFVd0F3RUIKL3pBZEJnTlZIUTRFRmdRVVdRenFqbnlzcXNuTk05WEt0M0ZtUjVuNXRLc3dEUVlKS29aSWh2Y05BUUVMQlFBRApnZ0VCQURESEh1VWcxL0lOcnc4aGJtNXNrZnpVbGlEejB5a2NVc0JLdzJpcmNGb0dZL2dhSEZ6SHlPVlNSN3RFCnZnclV1NXN1bGZEK0IrdjhydHpxbzRZUzh1V0NKWlZ1YTNMUi9OMDhoNHJhaXU0MjV5THFqWXVpRFIwd0pJSjIKeDY0eFR5TDhwaXBhdGE1TFVKUnduZjNOQ1dEbzdzV1VlQW9SaVJ1KzRUM0w5QW5TU2RvSUMzeGl3MmI2Z1MwWgpBTVlyZGxkbzd5U1ZnTDUrYUMydjFZRDJPS1RTQ21hS1RlZ3pDcmkzbDdvV2xzQ1lHNWU0YTJyUHNESlRSNmlwCmlrTXpoMkl0S0p5ci84ekNqM1ZtK09pcDJDeFVkOGMvU2xtU0FaRk1RK2g0UjBydE5WM1RoQURaaStVcDgwdW4KNlZBdHlNWnBMU0l3c2dDWWdDQmFXY1JMSFE4PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+  tls.crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURYRENDQWtTZ0F3SUJBZ0lRQXYxTjNseEExalFFK29reHUvMDliakFOQmdrcWhraUc5dzBCQVFzRkFEQVMKTVJBd0RnWURWUVFERXdkcmRXMWhMV05oTUI0WERUSXlNVEF3TkRBeE1qZzBNbG9YRFRNeU1UQXdNVEF4TWpnMApNbG93SFRFYk1Ca0dBMVVFQXhNU2EzVnRZUzFqYjI1MGNtOXNMWEJzWVc1bE1JSUJJakFOQmdrcWhraUc5dzBCCkFRRUZBQU9DQVE4QU1JSUJDZ0tDQVFFQXR1R1doZzFqSXkrTU1GRzJVUVcwZlhndG5uQklLbXZ5eHlEYnBrQUQKN2pnclRWVGQ3ZHR5N25wdVViL1Y5YUNUazZRVlFwdXkvTFo0SjUwNnlYb0pzRGp2RW9hYnhuKy9jUVo5YzZDNApSLzIxYzlFMXk3TjlNRml3WkkxbjExNTJyUzkzcjFzWCtjRzNJcnl0ZDRTV01lOGxzSmpOV0VHdUhneUlrVUdiCkljQ2VBVUJoVG56aEYvUTBjZk1UQkNQeXlITVFqaERZcHFkbldpL2UyUHY2QUhERm8vaEh4dUJBMVU4Wm5MVngKZmZYWWJ6cjhkOWhSTXJ1c1N4ei9xV1BYbmV5ckYxaDI3V3ZIWHFqOWZ3ME5HeXZqaFBkNTdqOXhidXBLc1h2NgpQcStWVkJscGtjM284ZWE1MHJCRHVYd0JGc3VFYjQ1eGx6cHRhZk9IUXAvdnV3SURBUUFCbzRHaU1JR2ZNQTRHCkExVWREd0VCL3dRRUF3SUZvREFkQmdOVkhTVUVGakFVQmdnckJnRUZCUWNEQVFZSUt3WUJCUVVIQXdJd0RBWUQKVlIwVEFRSC9CQUl3QURBZkJnTlZIU01FR0RBV2dCUlpET3FPZkt5cXljMHoxY3EzY1daSG1mbTBxekEvQmdOVgpIUkVFT0RBMmdoZHJkVzFoTFdOdmJuUnliMnd0Y0d4aGJtVXVhM1Z0WVlJYmEzVnRZUzFqYjI1MGNtOXNMWEJzCllXNWxMbXQxYldFdWMzWmpNQTBHQ1NxR1NJYjNEUUVCQ3dVQUE0SUJBUUNWQW0wNTJ6M1ozL2QyMG9WSSsrK2IKdkJ3bnFsNmNldklwRUJnaU5FYzBMM25YYnhNZytyckkrZGdjeGRZVVFpV0xnNXpVQ2c1QjMxVUZkMXZGU3FhSwpPOE9xRUpuZ24rNEdmdkZXQk5aaDdreGdZTkxOdzMwOGxLSi8xdThJbWRvNFoydUFnOVJxWm9xQzJFWUtmbm5WCkxpaUlwaU1pb1ZMWkhKU09OTVdjVlBvaHRGWDZjVlBUeXpicFlUTVdxNGltQWhGbGdNeW1XN2ZxS3p4UzR1NkEKdHZMeUxaOEhuZHh1RVZITVZSVVJvU2EvTXJOM0Nmai80UXo1cnU3Q0ptcG5HTkdaWllBVGd6UXpQWUd4N2dCMQpPb1JtYWxXa3RqMW9PNkc1dVdFZzhsWVVwVjhmczY4ZXRiU2l0dFNuT1NISm0xWVpmSDl6OFg2WjY4S0FHVTViCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+  tls.key: LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFcFFJQkFBS0NBUUVBdHVHV2hnMWpJeStNTUZHMlVRVzBmWGd0bm5CSUttdnl4eURicGtBRDdqZ3JUVlRkCjdkdHk3bnB1VWIvVjlhQ1RrNlFWUXB1eS9MWjRKNTA2eVhvSnNEanZFb2FieG4rL2NRWjljNkM0Ui8yMWM5RTEKeTdOOU1GaXdaSTFuMTE1MnJTOTNyMXNYK2NHM0lyeXRkNFNXTWU4bHNKak5XRUd1SGd5SWtVR2JJY0NlQVVCaApUbnpoRi9RMGNmTVRCQ1B5eUhNUWpoRFlwcWRuV2kvZTJQdjZBSERGby9oSHh1QkExVThabkxWeGZmWFlienI4CmQ5aFJNcnVzU3h6L3FXUFhuZXlyRjFoMjdXdkhYcWo5ZncwTkd5dmpoUGQ1N2o5eGJ1cEtzWHY2UHErVlZCbHAKa2MzbzhlYTUwckJEdVh3QkZzdUViNDV4bHpwdGFmT0hRcC92dXdJREFRQUJBb0lCQUN5VzVpZDdIaC9YR1B3egpBQnZUSTBXd1JwY3AwejZjb1U0UjRkd3dJWVUwcHNJdEhncy9oVTlHQkoza0F4dm5jZlArZnJ5RnorY3o2aW5tCmVRM2t0bllEKzY1dHFZK0ZXRDBMa3d6ZE0vRkJsN3RNV0N4NWI5MlkwakZDRlA1NjVyNmxJeTViTElaVngvd3QKT3JJNFhwS0FONVZPUEVyM2dLZU04TU5SMXF3c3E0czVYSmJGc3VnRG5hck5OMHRnZmx2blVlWDVIdkhTTUh5Uwo3d2d5c3V4MnpYSTB2Q2FPK1h4ZDRnenQvZVFSSS9yWm9yRGd4dklybjdoRk5xZjkwUmtob3VZRS9qQ2ViVlRQCk5mRFhhVWFBZENYWFZGUzhROXl3WE85ekdXMzhpU00vVnRGZ2ZqcjlTWElnOEdmOGpueWpub2RHWmJvRWtBRGwKd3VUYWptRUNnWUVBdzMzR1EzUFluNlNteDFEbmFoS2ZhVGs5WE1GWlQzSXlpYmlCdTU2cnA3NlVRckgzK0g0bwoxZkEwUFFiSUZ4bUVhQWZWWS9RdjZWR3NrM3JTOXZnZHcyOWhVYlpRQzNVdG1CZFNpVVZUUzNYZkVwemI5aHZKClk0NUpEaGpVL0Z6UDFMLzExck12d1owQkpQVm8ya3FHSWNRNG0zVkV4UmdzYnA2aGhpbDhYa3NDZ1lFQTczeWYKSExiazQ3OTlkbUh1dlkyUTRMVWF5a25iWER3Y3h2Y3htTEVkTGlTczZockZsa0NqenA3UWxOek5zc3VpVVlnUgo1S3VHMUJvZDR0Y3B6UUxIK2RQN1VkS1hkOXcwU05RUzRaM0JXVGpYa0ZJNUhuallrdTdPQ1pxMzdZb2NoSjJOCk96a2RsMWZKejJIdFNQWEREK1VxSVQ3SFpBcmx5RHc1YWxTYURsRUNnWUVBcjVZWXJoMHZSTFN1MS9kaTQzTTIKbTF3K01VRzQ1aEs4TWRiM0wzMmswRlhzOUxyRTd2emgwTWFmSlBFaVp4MFVRQnhKSGk0Rm1wc3hWb1hMVnVnawpVNVdHNDgzTXQzM1lKZk5NdnQ3MW9hR05henBZbHdUK0xkMXU0S3FOSXQ1NkRhMGRNbXBmU3BlcW4zZU5aZ1BwCjFncFlqY2tXcTdDNnQrRGpVNDJQbDJFQ2dZRUFwaHBLaFhENCtsbWpYRXQ2ZWZCSlR3RnRybVpoaGV5UGpSU0EKU3NaMVZiN01TNmI3NmtXMUY2Y2hSazZMUVBwcC82Q2Z3SG1UajJMNTNZNmNpSHZvVllmSXBTeXFMOUVFVm9yNAorWkVnUEpEbk9rczlJTHh5Z2g2dHV3MmJpbDZqZnZ1RHJGTG1Da1V5VE9zLzE3M1ZhQjNyQlpuMFU1Z1hYYlVmCm9YZENUckVDZ1lFQXZ2aTU2eVZrY2lRelcyZ2NaaTJFcFdMakFqV1gvZGhyWmNMNlRIV0Rmc2ljeXBJZjZxSUsKeHlTaU5rYm02Qm56V2hENER6Z2RVWXdKUjNZWUxKOGo3bjYrOTNhQyswMnJyS3VvcjMrbjBnaXFOV1duY3dTYQpFYzJzU1VWN0swNHJnYWZ5T1g4TUlIMXFwQW9WaXB2T0FrOE51Zll2cWFEMW5abGIvckZYejdVPQotLS0tLUVORCBSU0EgUFJJVkFURSBLRVktLS0tLQo=
+kind: Secret
+metadata:
+  labels:
+    app: kuma-control-plane
+    app.kubernetes.io/instance: kuma
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: kuma
+    app.kubernetes.io/version: 1.8.0
+    helm.sh/chart: kuma-1.8.0
+  name: kuma-tls-cert
+  namespace: kuma
+type: kubernetes.io/tls
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    prometheus.io/port: "5680"
+    prometheus.io/scrape: "true"
+  labels:
+    app: kuma-control-plane
+    app.kubernetes.io/instance: kuma
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: kuma
+    app.kubernetes.io/version: 1.8.0
+    helm.sh/chart: kuma-1.8.0
+  name: kuma-control-plane
+  namespace: kuma
+spec:
+  ports:
+  - name: diagnostics
+    port: 5680
+  - name: http-api-server
+    port: 5681
+  - name: https-api-server
+    port: 5682
+  - name: https-admission-server
+    port: 443
+    targetPort: 5443
+  selector:
+    app: kuma-control-plane
+    app.kubernetes.io/instance: kuma
+    app.kubernetes.io/name: kuma
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: kuma-control-plane
+    app.kubernetes.io/instance: kuma
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: kuma
+    app.kubernetes.io/version: 1.8.0
+    helm.sh/chart: kuma-1.8.0
+  name: kuma-global-zone-sync
+  namespace: kuma
+spec:
+  ports:
+  - name: global-zone-sync
+    port: 5685
+  selector:
+    app: kuma-control-plane
+    app.kubernetes.io/instance: kuma
+    app.kubernetes.io/name: kuma
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: kuma-control-plane
+    app.kubernetes.io/instance: kuma
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: kuma
+    app.kubernetes.io/version: 1.8.0
+    helm.sh/chart: kuma-1.8.0
+  name: kuma-control-plane
+  namespace: kuma
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kuma-control-plane
+      app.kubernetes.io/instance: kuma
+      app.kubernetes.io/name: kuma
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      annotations:
+        checksum/config: 1ddb2793e3c20c70cd0520f7a4fde01d98a29f277eb94d778097c8d1c992128f
+        checksum/tls-secrets: c94ecbef85bd17d502ed845ec6ccdf5d162ad5ba72528a628790e57aa2857259
+      labels:
+        app: kuma-control-plane
+        app.kubernetes.io/instance: kuma
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: kuma
+        app.kubernetes.io/version: 1.8.0
+        helm.sh/chart: kuma-1.8.0
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                  - kuma
+                - key: app.kubernetes.io/instance
+                  operator: In
+                  values:
+                  - kuma
+                - key: app
+                  operator: In
+                  values:
+                  - kuma-control-plane
+              topologyKey: kubernetes.io/hostname
+            weight: 100
+      automountServiceAccountToken: true
+      containers:
+      - args:
+        - run
+        - --log-level=info
+        - --config-file=/etc/kuma.io/kuma-control-plane/config.yaml
+        env:
+        - name: KUMA_API_SERVER_AUTHN_LOCALHOST_IS_ADMIN
+          value: "false"
+        - name: KUMA_API_SERVER_READ_ONLY
+          value: "true"
+        - name: KUMA_DEFAULTS_SKIP_MESH_CREATION
+          value: "false"
+        - name: KUMA_DP_SERVER_HDS_ENABLED
+          value: "false"
+        - name: KUMA_ENVIRONMENT
+          value: kubernetes
+        - name: KUMA_GENERAL_TLS_CERT_FILE
+          value: /var/run/secrets/kuma.io/tls-cert/tls.crt
+        - name: KUMA_GENERAL_TLS_KEY_FILE
+          value: /var/run/secrets/kuma.io/tls-cert/tls.key
+        - name: KUMA_INJECTOR_INIT_CONTAINER_IMAGE
+          value: docker.io/kumahq/kuma-init:1.8.0
+        - name: KUMA_MODE
+          value: global
+        - name: KUMA_RUNTIME_KUBERNETES_ADMISSION_SERVER_CERT_DIR
+          value: /var/run/secrets/kuma.io/tls-cert
+        - name: KUMA_RUNTIME_KUBERNETES_ADMISSION_SERVER_PORT
+          value: "5443"
+        - name: KUMA_RUNTIME_KUBERNETES_CONTROL_PLANE_SERVICE_NAME
+          value: kuma-control-plane
+        - name: KUMA_RUNTIME_KUBERNETES_INJECTOR_CA_CERT_FILE
+          value: /var/run/secrets/kuma.io/tls-cert/ca.crt
+        - name: KUMA_RUNTIME_KUBERNETES_INJECTOR_CNI_ENABLED
+          value: "false"
+        - name: KUMA_RUNTIME_KUBERNETES_INJECTOR_SIDECAR_CONTAINER_IMAGE
+          value: docker.io/kumahq/kuma-dp:1.8.0
+        - name: KUMA_RUNTIME_KUBERNETES_SERVICE_ACCOUNT_NAME
+          value: system:serviceaccount:kuma:kuma-control-plane
+        - name: KUMA_STORE_KUBERNETES_SYSTEM_NAMESPACE
+          value: kuma
+        - name: KUMA_STORE_TYPE
+          value: kubernetes
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        image: docker.io/kumahq/kuma-cp:1.8.0
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /healthy
+            port: 5680
+        name: control-plane
+        ports:
+        - containerPort: 5680
+          name: diagnostics
+          protocol: TCP
+        - containerPort: 5681
+        - containerPort: 5682
+        - containerPort: 5443
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 5680
+        resources:
+          requests:
+            cpu: 500m
+            memory: 256Mi
+        volumeMounts:
+        - mountPath: /var/run/secrets/kuma.io/tls-cert/tls.crt
+          name: general-tls-cert
+          readOnly: true
+          subPath: tls.crt
+        - mountPath: /var/run/secrets/kuma.io/tls-cert/tls.key
+          name: general-tls-cert
+          readOnly: true
+          subPath: tls.key
+        - mountPath: /var/run/secrets/kuma.io/tls-cert/ca.crt
+          name: general-tls-cert
+          readOnly: true
+          subPath: ca.crt
+        - mountPath: /etc/kuma.io/kuma-control-plane
+          name: kuma-control-plane-config
+          readOnly: true
+      hostNetwork: false
+      nodeSelector:
+        kubernetes.io/os: linux
+      serviceAccountName: kuma-control-plane
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: general-tls-cert
+        secret:
+          secretName: kuma-tls-cert
+      - configMap:
+          name: kuma-control-plane-config
+        name: kuma-control-plane-config
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    helm.sh/hook: pre-delete
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded,hook-failed
+    helm.sh/hook-weight: "5"
+  labels:
+    app.kubernetes.io/instance: kuma
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: kuma
+    app.kubernetes.io/version: 1.8.0
+    helm.sh/chart: kuma-1.8.0
+  name: kuma-delete-webhook
+  namespace: kuma
+spec:
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: kuma
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: kuma
+        app.kubernetes.io/version: 1.8.0
+        helm.sh/chart: kuma-1.8.0
+      name: kuma-delete-webhook
+    spec:
+      containers:
+      - command:
+        - kubectl
+        - delete
+        - ValidatingWebhookConfiguration
+        - kuma-validating-webhook-configuration
+        image: kumahq/kubectl:v1.20.15
+        name: pre-delete-job
+        resources:
+          limits:
+            cpu: 100m
+            memory: 256Mi
+          requests:
+            cpu: 100m
+            memory: 256Mi
+      nodeSelector:
+        kubernetes.io/os: linux
+      restartPolicy: OnFailure
+      serviceAccountName: kuma-pre-delete-job
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    helm.sh/hook: pre-upgrade,pre-install
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+  labels:
+    app.kubernetes.io/instance: kuma
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: kuma
+    app.kubernetes.io/version: 1.8.0
+    helm.sh/chart: kuma-1.8.0
+  name: kuma-install-missing-crds
+  namespace: kuma
+spec:
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: kuma
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: kuma
+        app.kubernetes.io/version: 1.8.0
+        helm.sh/chart: kuma-1.8.0
+      name: kuma-install-missing-crds-job
+    spec:
+      containers:
+      - command:
+        - /kuma/scripts/install_missing_crds.sh
+        image: kumahq/kubectl:v1.20.15
+        name: pre-upgrade-job
+        resources:
+          limits:
+            cpu: 100m
+            memory: 256Mi
+          requests:
+            cpu: 100m
+            memory: 256Mi
+        volumeMounts:
+        - mountPath: /kuma/missing
+          name: missing-crds
+          readOnly: true
+        - mountPath: /kuma/scripts
+          name: scripts
+          readOnly: true
+      initContainers:
+      - command:
+        - /kuma/scripts/save_missing_crds.sh
+        image: docker.io/kumahq/kumactl:1.8.0
+        name: pre-upgrade-job-init
+        resources:
+          limits:
+            cpu: 100m
+            memory: 256Mi
+          requests:
+            cpu: 100m
+            memory: 256Mi
+        volumeMounts:
+        - mountPath: /kuma/missing
+          name: missing-crds
+        - mountPath: /kuma/scripts
+          name: scripts
+          readOnly: true
+      nodeSelector:
+        kubernetes.io/os: linux
+      restartPolicy: OnFailure
+      serviceAccountName: kuma-install-missing-crds
+      volumes:
+      - configMap:
+          defaultMode: 493
+          name: kuma-install-missing-crds-scripts
+        name: scripts
+      - emptyDir: {}
+        name: missing-crds
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    helm.sh/hook: pre-install
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded,hook-failed
+    helm.sh/hook-weight: "5"
+  labels:
+    app.kubernetes.io/instance: kuma
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: kuma
+    app.kubernetes.io/version: 1.8.0
+    helm.sh/chart: kuma-1.8.0
+  name: kuma-patch-ns
+  namespace: kuma
+spec:
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: kuma
+        app.kubernetes.io/managed-by: Helm
+        app.kubernetes.io/name: kuma
+        app.kubernetes.io/version: 1.8.0
+        helm.sh/chart: kuma-1.8.0
+      name: kuma-patch-ns-script
+    spec:
+      containers:
+      - command:
+        - kubectl
+        - patch
+        - namespace
+        - kuma
+        - --type
+        - merge
+        - --patch
+        - '{ "metadata": { "labels": { "kuma.io/system-namespace": "true" } } }'
+        image: kumahq/kubectl:v1.20.15
+        name: pre-install-job
+        resources:
+          limits:
+            cpu: 100m
+            memory: 256Mi
+          requests:
+            cpu: 100m
+            memory: 256Mi
+      nodeSelector:
+        kubernetes.io/os: linux
+      restartPolicy: OnFailure
+      serviceAccountName: kuma-patch-ns-job
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingWebhookConfiguration
+metadata:
+  labels:
+    app: kuma-control-plane
+    app.kubernetes.io/instance: kuma
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: kuma
+    app.kubernetes.io/version: 1.8.0
+    helm.sh/chart: kuma-1.8.0
+  name: kuma-admission-mutating-webhook-configuration
+  namespace: kuma
+webhooks:
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    caBundle: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURFRENDQWZpZ0F3SUJBZ0lSQUk3Y2NRQzc5dkZHTWVGV2FTcTNWY1V3RFFZSktvWklodmNOQVFFTEJRQXcKRWpFUU1BNEdBMVVFQXhNSGEzVnRZUzFqWVRBZUZ3MHlNakV3TURRd01USTROREphRncwek1qRXdNREV3TVRJNApOREphTUJJeEVEQU9CZ05WQkFNVEIydDFiV0V0WTJFd2dnRWlNQTBHQ1NxR1NJYjNEUUVCQVFVQUE0SUJEd0F3CmdnRUtBb0lCQVFESnRTUmhMZEFRcERxS1VWNlBwZ3FCdjBHMmNmdjJ3Y2xaZU1NUzFhT21sd2dGdVFuQkVLa0oKZGl3RmlnQk9melJkTUJhZ0dtREJMR0JadHIrU0RZOUlZdFlaZjNsV1FIcTFGSlQ0ME5CTFM5UlI5WGhQRjZ4SwozQUsvK2oxbWFnWVFNSE9BVzUzY3VqNUVEc3BjOXBaK3JVUTZjNUxqOVZQVFJDMkNIeHBjMkVUS25kWmhKNUxjCk1ZN1Z4ckV3RTltUE1Pb1VJZGRZYU8veG5ZbFNzc1V5TVZDaVRtU2owcC9NNjB3aWpnMG8yYjN0UG0rM05mTUQKbTNBSllibkxsVmxicVp6L1RJelF6aVFEcHoxS1RaTGwvMVBrYjREZm9IUGRFK1NqM2xFc1VEWkVwck1HZ0JMdQovci9ZSUlWUmEyWDRFSTZEdHNKcGpCTFUxZG5md0JWekFnTUJBQUdqWVRCZk1BNEdBMVVkRHdFQi93UUVBd0lDCnBEQWRCZ05WSFNVRUZqQVVCZ2dyQmdFRkJRY0RBUVlJS3dZQkJRVUhBd0l3RHdZRFZSMFRBUUgvQkFVd0F3RUIKL3pBZEJnTlZIUTRFRmdRVVdRenFqbnlzcXNuTk05WEt0M0ZtUjVuNXRLc3dEUVlKS29aSWh2Y05BUUVMQlFBRApnZ0VCQURESEh1VWcxL0lOcnc4aGJtNXNrZnpVbGlEejB5a2NVc0JLdzJpcmNGb0dZL2dhSEZ6SHlPVlNSN3RFCnZnclV1NXN1bGZEK0IrdjhydHpxbzRZUzh1V0NKWlZ1YTNMUi9OMDhoNHJhaXU0MjV5THFqWXVpRFIwd0pJSjIKeDY0eFR5TDhwaXBhdGE1TFVKUnduZjNOQ1dEbzdzV1VlQW9SaVJ1KzRUM0w5QW5TU2RvSUMzeGl3MmI2Z1MwWgpBTVlyZGxkbzd5U1ZnTDUrYUMydjFZRDJPS1RTQ21hS1RlZ3pDcmkzbDdvV2xzQ1lHNWU0YTJyUHNESlRSNmlwCmlrTXpoMkl0S0p5ci84ekNqM1ZtK09pcDJDeFVkOGMvU2xtU0FaRk1RK2g0UjBydE5WM1RoQURaaStVcDgwdW4KNlZBdHlNWnBMU0l3c2dDWWdDQmFXY1JMSFE4PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+    service:
+      name: kuma-control-plane
+      namespace: kuma
+      path: /default-kuma-io-v1alpha1-mesh
+  failurePolicy: Fail
+  name: mesh.defaulter.kuma-admission.kuma.io
+  rules:
+  - apiGroups:
+    - kuma.io
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - meshes
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    caBundle: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURFRENDQWZpZ0F3SUJBZ0lSQUk3Y2NRQzc5dkZHTWVGV2FTcTNWY1V3RFFZSktvWklodmNOQVFFTEJRQXcKRWpFUU1BNEdBMVVFQXhNSGEzVnRZUzFqWVRBZUZ3MHlNakV3TURRd01USTROREphRncwek1qRXdNREV3TVRJNApOREphTUJJeEVEQU9CZ05WQkFNVEIydDFiV0V0WTJFd2dnRWlNQTBHQ1NxR1NJYjNEUUVCQVFVQUE0SUJEd0F3CmdnRUtBb0lCQVFESnRTUmhMZEFRcERxS1VWNlBwZ3FCdjBHMmNmdjJ3Y2xaZU1NUzFhT21sd2dGdVFuQkVLa0oKZGl3RmlnQk9melJkTUJhZ0dtREJMR0JadHIrU0RZOUlZdFlaZjNsV1FIcTFGSlQ0ME5CTFM5UlI5WGhQRjZ4SwozQUsvK2oxbWFnWVFNSE9BVzUzY3VqNUVEc3BjOXBaK3JVUTZjNUxqOVZQVFJDMkNIeHBjMkVUS25kWmhKNUxjCk1ZN1Z4ckV3RTltUE1Pb1VJZGRZYU8veG5ZbFNzc1V5TVZDaVRtU2owcC9NNjB3aWpnMG8yYjN0UG0rM05mTUQKbTNBSllibkxsVmxicVp6L1RJelF6aVFEcHoxS1RaTGwvMVBrYjREZm9IUGRFK1NqM2xFc1VEWkVwck1HZ0JMdQovci9ZSUlWUmEyWDRFSTZEdHNKcGpCTFUxZG5md0JWekFnTUJBQUdqWVRCZk1BNEdBMVVkRHdFQi93UUVBd0lDCnBEQWRCZ05WSFNVRUZqQVVCZ2dyQmdFRkJRY0RBUVlJS3dZQkJRVUhBd0l3RHdZRFZSMFRBUUgvQkFVd0F3RUIKL3pBZEJnTlZIUTRFRmdRVVdRenFqbnlzcXNuTk05WEt0M0ZtUjVuNXRLc3dEUVlKS29aSWh2Y05BUUVMQlFBRApnZ0VCQURESEh1VWcxL0lOcnc4aGJtNXNrZnpVbGlEejB5a2NVc0JLdzJpcmNGb0dZL2dhSEZ6SHlPVlNSN3RFCnZnclV1NXN1bGZEK0IrdjhydHpxbzRZUzh1V0NKWlZ1YTNMUi9OMDhoNHJhaXU0MjV5THFqWXVpRFIwd0pJSjIKeDY0eFR5TDhwaXBhdGE1TFVKUnduZjNOQ1dEbzdzV1VlQW9SaVJ1KzRUM0w5QW5TU2RvSUMzeGl3MmI2Z1MwWgpBTVlyZGxkbzd5U1ZnTDUrYUMydjFZRDJPS1RTQ21hS1RlZ3pDcmkzbDdvV2xzQ1lHNWU0YTJyUHNESlRSNmlwCmlrTXpoMkl0S0p5ci84ekNqM1ZtK09pcDJDeFVkOGMvU2xtU0FaRk1RK2g0UjBydE5WM1RoQURaaStVcDgwdW4KNlZBdHlNWnBMU0l3c2dDWWdDQmFXY1JMSFE4PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+    service:
+      name: kuma-control-plane
+      namespace: kuma
+      path: /owner-reference-kuma-io-v1alpha1
+  failurePolicy: Fail
+  name: owner-reference.kuma-admission.kuma.io
+  rules:
+  - apiGroups:
+    - kuma.io
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    resources:
+    - circuitbreakers
+    - externalservices
+    - faultinjections
+    - healthchecks
+    - meshgateways
+    - meshgatewayroutes
+    - proxytemplates
+    - ratelimits
+    - retries
+    - timeouts
+    - trafficlogs
+    - trafficpermissions
+    - trafficroutes
+    - traffictraces
+    - virtualoutbounds
+  sideEffects: None
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  labels:
+    app: kuma-control-plane
+    app.kubernetes.io/instance: kuma
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: kuma
+    app.kubernetes.io/version: 1.8.0
+    helm.sh/chart: kuma-1.8.0
+  name: kuma-validating-webhook-configuration
+  namespace: kuma
+webhooks:
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    caBundle: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURFRENDQWZpZ0F3SUJBZ0lSQUk3Y2NRQzc5dkZHTWVGV2FTcTNWY1V3RFFZSktvWklodmNOQVFFTEJRQXcKRWpFUU1BNEdBMVVFQXhNSGEzVnRZUzFqWVRBZUZ3MHlNakV3TURRd01USTROREphRncwek1qRXdNREV3TVRJNApOREphTUJJeEVEQU9CZ05WQkFNVEIydDFiV0V0WTJFd2dnRWlNQTBHQ1NxR1NJYjNEUUVCQVFVQUE0SUJEd0F3CmdnRUtBb0lCQVFESnRTUmhMZEFRcERxS1VWNlBwZ3FCdjBHMmNmdjJ3Y2xaZU1NUzFhT21sd2dGdVFuQkVLa0oKZGl3RmlnQk9melJkTUJhZ0dtREJMR0JadHIrU0RZOUlZdFlaZjNsV1FIcTFGSlQ0ME5CTFM5UlI5WGhQRjZ4SwozQUsvK2oxbWFnWVFNSE9BVzUzY3VqNUVEc3BjOXBaK3JVUTZjNUxqOVZQVFJDMkNIeHBjMkVUS25kWmhKNUxjCk1ZN1Z4ckV3RTltUE1Pb1VJZGRZYU8veG5ZbFNzc1V5TVZDaVRtU2owcC9NNjB3aWpnMG8yYjN0UG0rM05mTUQKbTNBSllibkxsVmxicVp6L1RJelF6aVFEcHoxS1RaTGwvMVBrYjREZm9IUGRFK1NqM2xFc1VEWkVwck1HZ0JMdQovci9ZSUlWUmEyWDRFSTZEdHNKcGpCTFUxZG5md0JWekFnTUJBQUdqWVRCZk1BNEdBMVVkRHdFQi93UUVBd0lDCnBEQWRCZ05WSFNVRUZqQVVCZ2dyQmdFRkJRY0RBUVlJS3dZQkJRVUhBd0l3RHdZRFZSMFRBUUgvQkFVd0F3RUIKL3pBZEJnTlZIUTRFRmdRVVdRenFqbnlzcXNuTk05WEt0M0ZtUjVuNXRLc3dEUVlKS29aSWh2Y05BUUVMQlFBRApnZ0VCQURESEh1VWcxL0lOcnc4aGJtNXNrZnpVbGlEejB5a2NVc0JLdzJpcmNGb0dZL2dhSEZ6SHlPVlNSN3RFCnZnclV1NXN1bGZEK0IrdjhydHpxbzRZUzh1V0NKWlZ1YTNMUi9OMDhoNHJhaXU0MjV5THFqWXVpRFIwd0pJSjIKeDY0eFR5TDhwaXBhdGE1TFVKUnduZjNOQ1dEbzdzV1VlQW9SaVJ1KzRUM0w5QW5TU2RvSUMzeGl3MmI2Z1MwWgpBTVlyZGxkbzd5U1ZnTDUrYUMydjFZRDJPS1RTQ21hS1RlZ3pDcmkzbDdvV2xzQ1lHNWU0YTJyUHNESlRSNmlwCmlrTXpoMkl0S0p5ci84ekNqM1ZtK09pcDJDeFVkOGMvU2xtU0FaRk1RK2g0UjBydE5WM1RoQURaaStVcDgwdW4KNlZBdHlNWnBMU0l3c2dDWWdDQmFXY1JMSFE4PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+    service:
+      name: kuma-control-plane
+      namespace: kuma
+      path: /validate-kuma-io-v1alpha1
+  failurePolicy: Fail
+  name: validator.kuma-admission.kuma.io
+  rules:
+  - apiGroups:
+    - kuma.io
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    - DELETE
+    resources:
+    - circuitbreakers
+    - dataplanes
+    - externalservices
+    - faultinjections
+    - gatewayinstances
+    - healthchecks
+    - meshes
+    - meshgateways
+    - meshgatewayroutes
+    - proxytemplates
+    - ratelimits
+    - retries
+    - trafficlogs
+    - trafficpermissions
+    - trafficroutes
+    - traffictraces
+    - virtualoutbounds
+    - zones
+    - containerpatches
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    caBundle: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURFRENDQWZpZ0F3SUJBZ0lSQUk3Y2NRQzc5dkZHTWVGV2FTcTNWY1V3RFFZSktvWklodmNOQVFFTEJRQXcKRWpFUU1BNEdBMVVFQXhNSGEzVnRZUzFqWVRBZUZ3MHlNakV3TURRd01USTROREphRncwek1qRXdNREV3TVRJNApOREphTUJJeEVEQU9CZ05WQkFNVEIydDFiV0V0WTJFd2dnRWlNQTBHQ1NxR1NJYjNEUUVCQVFVQUE0SUJEd0F3CmdnRUtBb0lCQVFESnRTUmhMZEFRcERxS1VWNlBwZ3FCdjBHMmNmdjJ3Y2xaZU1NUzFhT21sd2dGdVFuQkVLa0oKZGl3RmlnQk9melJkTUJhZ0dtREJMR0JadHIrU0RZOUlZdFlaZjNsV1FIcTFGSlQ0ME5CTFM5UlI5WGhQRjZ4SwozQUsvK2oxbWFnWVFNSE9BVzUzY3VqNUVEc3BjOXBaK3JVUTZjNUxqOVZQVFJDMkNIeHBjMkVUS25kWmhKNUxjCk1ZN1Z4ckV3RTltUE1Pb1VJZGRZYU8veG5ZbFNzc1V5TVZDaVRtU2owcC9NNjB3aWpnMG8yYjN0UG0rM05mTUQKbTNBSllibkxsVmxicVp6L1RJelF6aVFEcHoxS1RaTGwvMVBrYjREZm9IUGRFK1NqM2xFc1VEWkVwck1HZ0JMdQovci9ZSUlWUmEyWDRFSTZEdHNKcGpCTFUxZG5md0JWekFnTUJBQUdqWVRCZk1BNEdBMVVkRHdFQi93UUVBd0lDCnBEQWRCZ05WSFNVRUZqQVVCZ2dyQmdFRkJRY0RBUVlJS3dZQkJRVUhBd0l3RHdZRFZSMFRBUUgvQkFVd0F3RUIKL3pBZEJnTlZIUTRFRmdRVVdRenFqbnlzcXNuTk05WEt0M0ZtUjVuNXRLc3dEUVlKS29aSWh2Y05BUUVMQlFBRApnZ0VCQURESEh1VWcxL0lOcnc4aGJtNXNrZnpVbGlEejB5a2NVc0JLdzJpcmNGb0dZL2dhSEZ6SHlPVlNSN3RFCnZnclV1NXN1bGZEK0IrdjhydHpxbzRZUzh1V0NKWlZ1YTNMUi9OMDhoNHJhaXU0MjV5THFqWXVpRFIwd0pJSjIKeDY0eFR5TDhwaXBhdGE1TFVKUnduZjNOQ1dEbzdzV1VlQW9SaVJ1KzRUM0w5QW5TU2RvSUMzeGl3MmI2Z1MwWgpBTVlyZGxkbzd5U1ZnTDUrYUMydjFZRDJPS1RTQ21hS1RlZ3pDcmkzbDdvV2xzQ1lHNWU0YTJyUHNESlRSNmlwCmlrTXpoMkl0S0p5ci84ekNqM1ZtK09pcDJDeFVkOGMvU2xtU0FaRk1RK2g0UjBydE5WM1RoQURaaStVcDgwdW4KNlZBdHlNWnBMU0l3c2dDWWdDQmFXY1JMSFE4PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+    service:
+      name: kuma-control-plane
+      namespace: kuma
+      path: /validate-v1-secret
+  failurePolicy: Ignore
+  name: secret.validator.kuma-admission.kuma.io
+  namespaceSelector:
+    matchLabels:
+      kuma.io/system-namespace: "true"
+  rules:
+  - apiGroups:
+    - ""
+    apiVersions:
+    - v1
+    operations:
+    - CREATE
+    - UPDATE
+    - DELETE
+    resources:
+    - secrets
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    caBundle: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURFRENDQWZpZ0F3SUJBZ0lSQUk3Y2NRQzc5dkZHTWVGV2FTcTNWY1V3RFFZSktvWklodmNOQVFFTEJRQXcKRWpFUU1BNEdBMVVFQXhNSGEzVnRZUzFqWVRBZUZ3MHlNakV3TURRd01USTROREphRncwek1qRXdNREV3TVRJNApOREphTUJJeEVEQU9CZ05WQkFNVEIydDFiV0V0WTJFd2dnRWlNQTBHQ1NxR1NJYjNEUUVCQVFVQUE0SUJEd0F3CmdnRUtBb0lCQVFESnRTUmhMZEFRcERxS1VWNlBwZ3FCdjBHMmNmdjJ3Y2xaZU1NUzFhT21sd2dGdVFuQkVLa0oKZGl3RmlnQk9melJkTUJhZ0dtREJMR0JadHIrU0RZOUlZdFlaZjNsV1FIcTFGSlQ0ME5CTFM5UlI5WGhQRjZ4SwozQUsvK2oxbWFnWVFNSE9BVzUzY3VqNUVEc3BjOXBaK3JVUTZjNUxqOVZQVFJDMkNIeHBjMkVUS25kWmhKNUxjCk1ZN1Z4ckV3RTltUE1Pb1VJZGRZYU8veG5ZbFNzc1V5TVZDaVRtU2owcC9NNjB3aWpnMG8yYjN0UG0rM05mTUQKbTNBSllibkxsVmxicVp6L1RJelF6aVFEcHoxS1RaTGwvMVBrYjREZm9IUGRFK1NqM2xFc1VEWkVwck1HZ0JMdQovci9ZSUlWUmEyWDRFSTZEdHNKcGpCTFUxZG5md0JWekFnTUJBQUdqWVRCZk1BNEdBMVVkRHdFQi93UUVBd0lDCnBEQWRCZ05WSFNVRUZqQVVCZ2dyQmdFRkJRY0RBUVlJS3dZQkJRVUhBd0l3RHdZRFZSMFRBUUgvQkFVd0F3RUIKL3pBZEJnTlZIUTRFRmdRVVdRenFqbnlzcXNuTk05WEt0M0ZtUjVuNXRLc3dEUVlKS29aSWh2Y05BUUVMQlFBRApnZ0VCQURESEh1VWcxL0lOcnc4aGJtNXNrZnpVbGlEejB5a2NVc0JLdzJpcmNGb0dZL2dhSEZ6SHlPVlNSN3RFCnZnclV1NXN1bGZEK0IrdjhydHpxbzRZUzh1V0NKWlZ1YTNMUi9OMDhoNHJhaXU0MjV5THFqWXVpRFIwd0pJSjIKeDY0eFR5TDhwaXBhdGE1TFVKUnduZjNOQ1dEbzdzV1VlQW9SaVJ1KzRUM0w5QW5TU2RvSUMzeGl3MmI2Z1MwWgpBTVlyZGxkbzd5U1ZnTDUrYUMydjFZRDJPS1RTQ21hS1RlZ3pDcmkzbDdvV2xzQ1lHNWU0YTJyUHNESlRSNmlwCmlrTXpoMkl0S0p5ci84ekNqM1ZtK09pcDJDeFVkOGMvU2xtU0FaRk1RK2g0UjBydE5WM1RoQURaaStVcDgwdW4KNlZBdHlNWnBMU0l3c2dDWWdDQmFXY1JMSFE4PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+    service:
+      name: kuma-control-plane
+      namespace: kuma
+      path: /validate-gatewayclass
+  failurePolicy: Ignore
+  name: gateway.validator.kuma-admission.kuma.io
+  rules:
+  - apiGroups:
+    - gateway.networking.k8s.io
+    apiVersions:
+    - v1alpha2
+    - v1beta1
+    operations:
+    - CREATE
+    resources:
+    - gatewayclasses
+  sideEffects: None
