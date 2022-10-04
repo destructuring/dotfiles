@@ -21,7 +21,7 @@ spec:
         emptyDir: {}
       containers:
       - name: buildkit
-        image: earthly/buildkitd:v0.6.24
+        image: earthly/buildkitd:v0.6.25
         imagePullPolicy: IfNotPresent
         command:
         - sh

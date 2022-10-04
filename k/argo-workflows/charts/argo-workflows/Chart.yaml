@@ -1,8 +1,8 @@
 annotations:
   artifacthub.io/changes: |
-    - "[Added]: Additional manifests to deploy within the chart"
+    - "[Changed]: Upgrade ArgoWorkflows to v3.4.1"
 apiVersion: v2
-appVersion: v3.4.0
+appVersion: v3.4.1
 description: A Helm chart for Argo Workflows
 home: https://github.com/argoproj/argo-helm
 icon: https://raw.githubusercontent.com/argoproj/argo-workflows/master/docs/assets/argo.png
@@ -13,4 +13,4 @@ name: argo-workflows
 sources:
 - https://github.com/argoproj/argo-workflows
 type: application
-version: 0.20.0
+version: 0.20.1

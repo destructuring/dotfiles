@@ -62,7 +62,7 @@ spec:
             [registry."169.254.32.1:5000"]
               http = true
               insecure = true
-        image: earthly/buildkitd:v0.6.24
+        image: earthly/buildkitd:v0.6.25
         imagePullPolicy: IfNotPresent
         name: buildkit
         securityContext:
