@@ -1,9 +1,9 @@
-# kumactl generate zone-ingress-token --zone=grove-0 > /tmp/ingress-token
-# kuma-dp run --proxy-type=ingress --admin-port=9902 --cp-address=https://100.115.182.58:5678 --dataplane-token-file=/tmp/ingress-token --dataplane-file=ingress-dp.yaml
+# kumactl generate zone-ingress-token --zone=control > /tmp/ingress-token
+# kuma-dp run --proxy-type=ingress --admin-port=9902 --cp-address=https://100.103.25.109:5678 --dataplane-token-file=/tmp/ingress-token --dataplane-file=ingress-dp.yaml
 type: ZoneIngress
 name: ingress
 networking:
-  address: 100.115.182.58
+  address: 100.103.25.109
   port: 10000
-  advertisedAddress: grove-0.tiger-mamba.ts.net
+  advertisedAddress: 100.103.25.109
   advertisedPort: 10000
