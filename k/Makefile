@@ -54,8 +54,8 @@ kuma-global-cert-gen:
 	--key-file=tls.key
 
 	cp tls.crt ca.crt
-kuma-global-cert-apply:
 
+kuma-global-cert-apply:
 	-global delete secret generic-tls-certs -n kuma
 
 	global create secret generic generic-tls-certs -n kuma \
