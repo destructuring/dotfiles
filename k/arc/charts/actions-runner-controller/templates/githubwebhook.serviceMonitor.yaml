@@ -1,4 +1,4 @@
-{{- if .Values.metrics.serviceMonitor }}
+{{- if and .Values.githubWebhookServer.enabled .Values.metrics.serviceMonitor }}
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
@@ -7,7 +7,8 @@ metadata:
   {{- with .Values.metrics.serviceMonitorLabels }}
     {{- toYaml . | nindent 4 }}
   {{- end }}
-  name: {{ include "actions-runner-controller.serviceMonitorName" . }}
+  name: {{ include "actions-runner-controller-github-webhook-server.serviceMonitorName" . }}
+  namespace: {{ .Release.Namespace }}
 spec:
   endpoints:
     - path: /metrics
@@ -20,5 +21,5 @@ spec:
       {{- end }}
   selector:
     matchLabels:
-      {{- include "actions-runner-controller.selectorLabels" . | nindent 6 }}
+      {{- include "actions-runner-controller-github-webhook-server.selectorLabels" . | nindent 6 }}
 {{- end }}
