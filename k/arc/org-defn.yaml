@@ -3,12 +3,8 @@ kind: RunnerDeployment
 metadata:
   name: defn
 spec:
-  replicas: 1
   template:
     spec:
-      githubAPICredentialsFrom:
-        secretRef:
-          name: controller-manager
       organization: defn
       dockerdWithinRunnerContainer: true
       image: summerwind/actions-runner-dind
@@ -18,9 +14,6 @@ kind: HorizontalRunnerAutoscaler
 metadata:
   name: defn
 spec:
-  githubAPICredentialsFrom:
-    secretRef:
-      name: controller-manager
   scaleTargetRef:
     name: defn
   minReplicas: 0
