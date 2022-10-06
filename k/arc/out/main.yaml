@@ -34476,6 +34476,34 @@ spec:
       - emptyDir: {}
         name: tmp
 ---
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: HorizontalRunnerAutoscaler
+metadata:
+  name: defn
+  namespace: arc
+spec:
+  githubAPICredentialsFrom:
+    secretRef:
+      name: controller-manager
+  maxReplicas: 1
+  minReplicas: 0
+  scaleTargetRef:
+    name: defn
+---
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: RunnerDeployment
+metadata:
+  name: defn
+  namespace: arc
+spec:
+  template:
+    spec:
+      dockerdWithinRunnerContainer: true
+      githubAPICredentialsFrom:
+        secretRef:
+          name: controller-manager
+      organization: defn
+---
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
@@ -34497,26 +34525,6 @@ metadata:
   namespace: arc
 spec:
   selfSigned: {}
----
-kind: HorizontalRunnerAutoscaler
-metadata:
-  name: defn
-  namespace: arc
-spec:
-  githubAPICredentialsFrom:
-    secretRef:
-      name: controller-manager
----
-kind: RunnerDeployment
-metadata:
-  name: defn
-  namespace: arc
-spec:
-  template:
-    spec:
-      githubAPICredentialsFrom:
-        secretRef:
-          name: controller-manager
 ---
 apiVersion: admissionregistration.k8s.io/v1
 kind: MutatingWebhookConfiguration
