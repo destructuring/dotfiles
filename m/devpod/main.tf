@@ -268,7 +268,7 @@ resource "kubernetes_stateful_set" "dev" {
           image_pull_policy = "Always"
 
           command = ["/usr/bin/tini", "--"]
-          args    = ["bash", "-c", "while true; do ts_ip=`tailscale ip -4 || true`; if test -n \"$ts_ip\"; then break; fi; sleep 1; done; exec ~/bin/e nomad agent -config=etc/nomad.conf -data-dir=/work/nomad -dc=control-region=spiral -node=control-0 -bootstrap-expect 1 -bind 127.0.0.1 -bind \"$ts_ip\""]
+          args    = ["bash", "-c", "exec ~/bin/e nomad agent -config=etc/nomad.conf -data-dir=/work/nomad -dc=dev -region=control -node=`uname -n` -bootstrap-expect 1"]
 
           volume_mount {
             name       = "mntwork"
