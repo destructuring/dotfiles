@@ -3,6 +3,7 @@ kind: RunnerDeployment
 metadata:
   name: defn
 spec:
+  replicas: 0
   template:
     spec:
       githubAPICredentialsFrom:
