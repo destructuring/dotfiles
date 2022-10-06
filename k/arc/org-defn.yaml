@@ -1,3 +1,4 @@
+apiVersion: actions.summerwind.dev/v1alpha1
 kind: RunnerDeployment
 metadata:
   name: defn
@@ -8,6 +9,7 @@ spec:
         secretRef:
           name: controller-manager
 ---
+apiVersion: actions.summerwind.dev/v1alpha1
 kind: HorizontalRunnerAutoscaler
 metadata:
   name: defn
