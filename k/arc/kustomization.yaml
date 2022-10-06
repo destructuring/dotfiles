@@ -8,6 +8,3 @@ helmCharts:
   repo: https://actions-runner-controller.github.io/actions-runner-controller
   includeCRDs: true
   valuesInline:
-
-resources:
-  - defn-dev.yaml

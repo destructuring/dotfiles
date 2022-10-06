@@ -34476,23 +34476,6 @@ spec:
       - emptyDir: {}
         name: tmp
 ---
-apiVersion: actions.summerwind.dev/v1alpha1
-kind: RunnerSet
-metadata:
-  name: defn-dev
-  namespace: arc
-spec:
-  replicas: 1
-  repository: defn/dev
-  selector:
-    matchLabels:
-      app: defn-dev
-  serviceName: defn-dev
-  template:
-    metadata:
-      labels:
-        app: defn-dev
----
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
