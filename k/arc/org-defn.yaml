@@ -3,6 +3,7 @@ kind: RunnerDeployment
 metadata:
   name: defn
 spec:
+  replicas: 2
   template:
     spec:
       organization: defn
