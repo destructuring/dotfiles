@@ -5,7 +5,7 @@ metadata:
 spec:
   template:
     spec:
-      oganization: defn
+      organization: defn
       dockerdWithinRunnerContainer: true
       githubAPICredentialsFrom:
         secretRef:
