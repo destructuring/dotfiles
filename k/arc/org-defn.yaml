@@ -5,6 +5,8 @@ metadata:
 spec:
   template:
     spec:
+      oganization: defn
+      dockerdWithinRunnerContainer: true
       githubAPICredentialsFrom:
         secretRef:
           name: controller-manager
@@ -14,6 +16,10 @@ kind: HorizontalRunnerAutoscaler
 metadata:
   name: defn
 spec:
+  scaleTargetRef:
+    name: defn
+  minReplicas: 0
+  maxReplicas: 1
   githubAPICredentialsFrom:
     secretRef:
       name: controller-manager
