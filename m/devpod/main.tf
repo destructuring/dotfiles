@@ -309,7 +309,8 @@ resource "kubernetes_stateful_set" "dev" {
           image             = "docker:dind"
           image_pull_policy = "IfNotPresent"
 
-          args = ["-H", "tcp://0.0.0.0:2375"]
+          command = ["sh", "-c"]
+          args = ["( echo -n '{ \"mtu\": '; ifconfig eth0 | grep MTU | awk '{print $5}' | cut -d: -f2; echo '}' ) > /etc/docker/daemon.json; exec /usr/local/bin/dockerd-entrypoint.sh"]
 
           env {
             name  = "DOCKER_TLS_CERTDIR"
