@@ -8,19 +8,3 @@ spec:
       organization: defn
       dockerdWithinRunnerContainer: true
       image: summerwind/actions-runner-dind
----
-apiVersion: actions.summerwind.dev/v1alpha1
-kind: HorizontalRunnerAutoscaler
-metadata:
-  name: defn
-spec:
-  scaleTargetRef:
-    name: defn
-  minReplicas: 0
-  maxReplicas: 3
-  metrics:
-  - type: PercentageRunnersBusy
-    scaleUpThreshold: '0.60'
-    scaleDownThreshold: '0.30'
-    scaleUpAdjustment: 1
-    scaleDownAdjustment: 1   
