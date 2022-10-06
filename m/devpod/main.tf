@@ -310,7 +310,7 @@ resource "kubernetes_stateful_set" "dev" {
           image_pull_policy = "IfNotPresent"
 
           command = ["sh", "-c"]
-          args = ["exec /usr/local/bin/dockerd-entrypoint.sh --mtu=`ifconfig eth0 | grep MTU | awk '{print $5}' | cut -d: -f2`"]
+          args = ["exec /usr/local/bin/dockerd-entrypoint.sh --storage-driver overlay2 --mtu=`ifconfig eth0 | grep MTU | awk '{print $5}' | cut -d: -f2`"]
 
           env {
             name  = "DOCKER_TLS_CERTDIR"
