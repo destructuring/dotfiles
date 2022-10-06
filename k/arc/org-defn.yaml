@@ -5,21 +5,27 @@ metadata:
 spec:
   template:
     spec:
-      organization: defn
-      dockerdWithinRunnerContainer: true
       githubAPICredentialsFrom:
         secretRef:
           name: controller-manager
+      organization: defn
+      dockerdWithinRunnerContainer: true
 ---
 apiVersion: actions.summerwind.dev/v1alpha1
 kind: HorizontalRunnerAutoscaler
 metadata:
   name: defn
 spec:
+  githubAPICredentialsFrom:
+    secretRef:
+      name: controller-manager
   scaleTargetRef:
     name: defn
   minReplicas: 0
   maxReplicas: 1
-  githubAPICredentialsFrom:
-    secretRef:
-      name: controller-manager
+  metrics:
+  - type: PercentageRunnersBusy
+    scaleUpThreshold: '1.00'
+    scaleDownThreshold: '0.00'
+    scaleUpAdjustment: 1
+    scaleDownAdjustment: 1   
