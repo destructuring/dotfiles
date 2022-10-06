@@ -5,6 +5,9 @@ metadata:
 spec:
   template:
     spec:
+      githubAPICredentialsFrom:
+        secretRef:
+          name: controller-manager
       organization: defn
       dockerdWithinRunnerContainer: true
       image: summerwind/actions-runner-dind
