@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: k3d-control-arc
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - name: arc
+            path: arc
+            cluster: in-cluster
+  template:
+    metadata:
+      name: "k3d-control-{{name}}"
+      namespace: argocd
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/defn/app
+        path: k/{{path}}
+        targetRevision: master
+      destination:
+        name: "{{cluster}}"
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
+          - Replace=true
+        automated:
+          prune: true

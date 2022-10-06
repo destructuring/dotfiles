@@ -43,10 +43,6 @@ spec:
             namespace: kuma
             cluster: in-cluster
             path: kuma-zone
-          - name: arc
-            namespace: arc
-            cluster: in-cluster
-            path: arc
   template:
     metadata:
       name: "k3d-control-{{name}}"
