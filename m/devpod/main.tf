@@ -304,27 +304,27 @@ resource "kubernetes_stateful_set" "dev" {
           args    = ["bash", "-c", "exec sudo ~/bin/e coredns"]
         }
 
-#        container {
-#          name              = "dind"
-#          image             = "docker:dind"
-#          image_pull_policy = "IfNotPresent"
-#
-#          args = ["-H", "tcp://0.0.0.0:2375"]
-#
-#          env {
-#            name  = "DOCKER_TLS_CERTDIR"
-#            value = ""
-#          }
-#
-#          volume_mount {
-#            name       = "dind"
-#            mount_path = "/var/lib/docker"
-#          }
-#
-#          security_context {
-#            privileged = true
-#          }
-#        }
+        container {
+          name              = "dind"
+          image             = "docker:dind"
+          image_pull_policy = "IfNotPresent"
+
+          args = ["-H", "tcp://0.0.0.0:2375"]
+
+          env {
+            name  = "DOCKER_TLS_CERTDIR"
+            value = ""
+          }
+
+          volume_mount {
+            name       = "dind"
+            mount_path = "/var/lib/docker"
+          }
+
+          security_context {
+            privileged = true
+          }
+        }
 
         container {
           name              = "buildkit"
