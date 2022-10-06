@@ -3,9 +3,27 @@ kind: RunnerDeployment
 metadata:
   name: defn
 spec:
-  replicas: 1
   template:
     spec:
       organization: defn
       dockerdWithinRunnerContainer: true
       image: summerwind/actions-runner-dind
+---
+apiVersion: actions.summerwind.dev/v1alpha1
+kind: HorizontalRunnerAutoscaler
+metadata:
+  name: defn
+spec:
+  githubAPICredentialsFrom:
+    secretRef:
+      name: controller-manager
+  scaleTargetRef:
+    name: defn
+  minReplicas: 0
+  maxReplicas: 1
+  metrics:
+  - type: PercentageRunnersBusy
+    scaleUpThreshold: '1.00'
+    scaleDownThreshold: '0.00'
+    scaleUpAdjustment: 1
+    scaleDownAdjustment: 1   
