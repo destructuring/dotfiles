@@ -3,7 +3,6 @@ kind: RunnerDeployment
 metadata:
   name: defn
 spec:
-  replicas: 0
   template:
     spec:
       githubAPICredentialsFrom:
@@ -11,6 +10,7 @@ spec:
           name: controller-manager
       organization: defn
       dockerdWithinRunnerContainer: true
+      image: summerwind/actions-runner-dind
 ---
 apiVersion: actions.summerwind.dev/v1alpha1
 kind: HorizontalRunnerAutoscaler
