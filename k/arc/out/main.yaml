@@ -34498,6 +34498,26 @@ metadata:
 spec:
   selfSigned: {}
 ---
+kind: HorizontalRunnerAutoscaler
+metadata:
+  name: defn
+  namespace: arc
+spec:
+  githubAPICredentialsFrom:
+    secretRef:
+      name: controller-manager
+---
+kind: RunnerDeployment
+metadata:
+  name: defn
+  namespace: arc
+spec:
+  template:
+    spec:
+      githubAPICredentialsFrom:
+        secretRef:
+          name: controller-manager
+---
 apiVersion: admissionregistration.k8s.io/v1
 kind: MutatingWebhookConfiguration
 metadata:

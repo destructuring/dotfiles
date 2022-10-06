@@ -1,0 +1,17 @@
+kind: RunnerDeployment
+metadata:
+  name: defn
+spec:
+  template:
+    spec:
+      githubAPICredentialsFrom:
+        secretRef:
+          name: controller-manager
+---
+kind: HorizontalRunnerAutoscaler
+metadata:
+  name: defn
+spec:
+  githubAPICredentialsFrom:
+    secretRef:
+      name: controller-manager
