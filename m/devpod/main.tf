@@ -109,6 +109,13 @@ resource "kubernetes_stateful_set" "dev" {
         }
 
         volume {
+          name = "registry"
+          host_path {
+            path = "/mnt/registry"
+          }
+        }
+
+        volume {
           name = "dind"
           host_path {
             path = "/mnt/dind"
@@ -369,6 +376,11 @@ resource "kubernetes_stateful_set" "dev" {
           name              = "registry"
           image             = "registry:2"
           image_pull_policy = "IfNotPresent"
+
+          volume_mount {
+            name       = "registry"
+            mount_path = "/var/lib/registry"
+          }
         }
       }
     }
