@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: k3d-global
+  name: k3d-circus
   namespace: argocd
 spec:
   generators:
@@ -10,18 +10,18 @@ spec:
           - name: kyverno
             namespace: kyverno
             path: kyverno
-            cluster: k3d-global
+            cluster: k3d-circus
           - name: cert-manager
             namespace: cert-manager
             path: cert-manager
-            cluster: k3d-global
+            cluster: k3d-circus
           - name: kuma-global
             namespace: kuma
             path: kuma-global
-            cluster: k3d-global
+            cluster: k3d-circus
   template:
     metadata:
-      name: "k3d-global-{{name}}"
+      name: "k3d-circus-{{name}}"
       namespace: argocd
     spec:
       project: default

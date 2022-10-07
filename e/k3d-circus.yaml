@@ -1,13 +1,13 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: k3d-global
+  name: k3d-circus
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: https://github.com/defn/app
-    path: e/k3d-global
+    path: e/k3d-circus
     targetRevision: master
   destination:
     name: in-cluster
