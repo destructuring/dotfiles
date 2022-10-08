@@ -37,6 +37,7 @@ $ helm install kong/kong --generate-name
     - [Certificates](#certificates)
     - [Control plane node configuration](#control-plane-node-configuration)
     - [Data plane node configuration](#data-plane-node-configuration)
+  - [Cert Manager Integration](#cert-manager-integration)
   - [CRD management](#crd-management)
   - [InitContainers](#initcontainers)
   - [HostAliases](#hostaliases)
@@ -46,15 +47,18 @@ $ helm install kong/kong --generate-name
   - [User Defined Volume Mounts](#user-defined-volume-mounts)
   - [Removing cluster-scoped permissions](#removing-cluster-scoped-permissions)
   - [Using a DaemonSet](#using-a-daemonset)
+  - [Using dnsPolicy and dnsConfig](#using-dnspolicy-and-dnsconfig)
   - [Example configurations](#example-configurations)
 - [Configuration](#configuration)
   - [Kong parameters](#kong-parameters)
     - [Kong Service Parameters](#kong-service-parameters)
     - [Stream listens](#stream-listens)
   - [Ingress Controller Parameters](#ingress-controller-parameters)
-  - [General Parameters](#general-parameters)
     - [The `env` section](#the-env-section)
-    - [The `customEnv` section](#the-customEnv-section)
+    - [The `customEnv` section](#the-customenv-section)
+  - [General Parameters](#general-parameters)
+    - [The `env` section](#the-env-section-1)
+    - [The `customEnv` section](#the-customenv-section-1)
     - [The `extraLabels` section](#the-extralabels-section)
 - [Kong Enterprise Parameters](#kong-enterprise-parameters)
   - [Overview](#overview)
@@ -442,6 +446,29 @@ documentation on Service
 DNS](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/)
 for more detail.
 
+### Cert Manager Integration
+
+By default, Kong will create self-signed certificates on start for its TLS
+listens if you do not provide your own. The chart can create
+[cert-manager](https://cert-manager.io/docs/) Certificates for its Services and
+configure them for you. To use this integration, install cert-manager, create
+an issuer, set `certificates.enabled: true` in values.yaml, and set your issuer
+name in `certificates.issuer` or `certificates.clusterIssuer` depending on the
+issuer type. 
+
+If you do not have an issuer available, you can install the example [self-signed ClusterIssuer](https://cert-manager.io/docs/configuration/selfsigned/#bootstrapping-ca-issuers)
+and set `certificates.clusterIssuer: selfsigned-issuer` for testing. You
+should, however, migrate to an issuer using a CA your clients trust for actual
+usage.
+
+The `proxy`, `admin`, `portal`, and `cluster` subsections under `certificates`
+let you choose hostnames or override issuers on a per-certificate basis for the
+proxy, admin API and Manager, Portal and Portal API, and hybrid mode mTLS
+services, respectively.
+
+To use hybrid mode, the control and data plane releases must use the same
+issuer for their cluster certificates.
+
 ### CRD management
 
 Earlier versions of this chart (<2.0) created CRDs associated with the ingress
@@ -532,27 +559,17 @@ resource.
 ### Removing cluster-scoped permissions
 
 You can limit the controller's access to allow it to only watch specific
-namespaces for resources. By default, the controller watches all namespaces.
-Limiting access requires several changes to configuration:
+namespaces for namespaced resources. By default, the controller watches all
+namespaces. Limiting access requires several changes to configuration:
 
 - Set `ingressController.watchNamespaces` to a list of namespaces you want to
   watch. The chart will automatically generate roles for each namespace and
   assign them to the controller's service account.
-- Set `ingressController.env.enable_controller_kongclusterplugin=false` and
-  `ingressController.env.enable_controller_ingress_class_networkingv1=false`.
-  These are cluster-scoped resources, and controllers with no ClusterRole
-  cannot access them.
 - Optionally set `ingressContrller.installCRDs=false` if your user role (the
   role you use when running `helm install`, not the controller service
   account's role) does not have access to get CRDs. By default, the chart
   attempts to look up the controller CRDs for [a legacy behavior
   check](#crd-management).
-
-Because there is no namespaced version of IngressClass, controllers without
-cluster-scoped permissions cannot access them. The controller will rely
-entirely on whether the ingress class annotation or `ingressClassName` value
-matches the value set by `--ingress-class` or `CONTROLLER_INGRESS_CLASS` to
-determine which Ingresses it should use.
 
 ### Using a DaemonSet
 
@@ -712,7 +729,7 @@ section of `values.yaml` file:
 #### The `env` section
 For a complete list of all configuration values you can set in the
 `env` section, please read the Kong Ingress Controller's
-[configuration document](https://github.com/Kong/kubernetes-ingress-controller/blob/main/docs/references/cli-arguments.md).
+[configuration document](https://github.com/Kong/docs.konghq.com/blob/main/src/kubernetes-ingress-controller/references/cli-arguments.md).
 
 #### The `customEnv` section
 
@@ -741,6 +758,7 @@ kong:
 | deployment.userDefinedVolumes      | Create volumes. Please go to Kubernetes doc for the spec of the volumes               |                     |
 | deployment.userDefinedVolumeMounts | Create volumeMounts. Please go to Kubernetes doc for the spec of the volumeMounts     |                     |
 | deployment.serviceAccount.create   | Create Service Account for the Deployment / Daemonset and the migrations              | `true`              |
+| deployment.serviceAccount.automountServiceAccountToken   | Enable ServiceAccount token automount in Kong deployment        | `false`             |
 | deployment.serviceAccount.name     | Name of the Service Account, a default one will be generated if left blank.           | ""                  |
 | deployment.serviceAccount.annotations | Annotations for the Service Account                                                | {}                  |
 | deployment.test.enabled            | Enable creation of test resources for use with "helm test"                            | `false`             |
@@ -783,7 +801,9 @@ kong:
 | serviceMonitor.metricRelabelings   | ServiceMonitor metricRelabelings                                                      | `{}`                |
 | extraConfigMaps                    | ConfigMaps to add to mounted volumes                                                  | `[]`                |
 | extraSecrets                       | Secrets to add to mounted volumes                                                     | `[]`                |
-
+| nameOverride                       | Replaces "kong" in resource names, like "RELEASENAME-nameOverride" instead of "RELEASENAME-kong" | `""`                |
+| fullnameOverride                   | Overrides the entire resource name string                                             | `""`                |
+| extraObjects                       | Create additional k8s resources                                                       | `[]`                |
 **Note:** If you are using `deployment.hostNetwork` to bind to lower ports ( < 1024), which may be the desired option (ports 80 and 433), you also
 need to tweak the `containerSecurityContext` configuration as in the example:
 

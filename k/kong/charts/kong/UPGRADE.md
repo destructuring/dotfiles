@@ -17,6 +17,7 @@ upgrading from a previous version.
 ## Table of contents
 
 - [Upgrade considerations for all versions](#upgrade-considerations-for-all-versions)
+- [2.13.0](#2130)
 - [2.8.0](#280)
 - [2.7.0](#270)
 - [2.4.0](#240)
@@ -65,6 +66,41 @@ text ending with `field is immutable`. This is typically due to a bug with the
 `init-migrations` job, which was not removed automatically prior to 1.5.0.
 If you encounter this error, deleting any existing `init-migrations` jobs will
 clear it.
+
+### Updates to CRDs
+
+Helm installs CRDs at initial install but [does not update them
+after](https://github.com/helm/community/blob/main/hips/hip-0011.md). Some
+chart releases include updates to CRDs that must be applied to successfully
+upgrade. Because Helm does not handle these updates, you must manually apply
+them before upgrading your release.
+
+``` kubectl apply -f
+https://raw.githubusercontent.com/Kong/charts/kong-<version>/charts/kong/crds/custom-resource-definitions.yaml
+```
+
+For example, if your release is 2.6.4, you would apply
+`https://raw.githubusercontent.com/Kong/charts/kong-2.6.4/charts/kong/crds/custom-resource-definitions.yaml`.
+
+## 2.13.0
+
+2.13.0 includes updated CRDs. You must [apply these manually](#updates-to-crds)
+before upgrading an existing release.
+
+2.13 changes the default Kong tag to 3.0 and the default KIC tag to 2.6. We
+recommend that you set these versions (`image.tag` and
+`ingressController.image.tag`) in your values.yaml to allow updating the chart
+without also updating the container versions. If you do update to these
+container image versions, you should first review the Kong 3.0 breaking changes
+(see the [open
+source](https://github.com/Kong/kong/blob/master/CHANGELOG.md#300) and
+[Enterprise](https://docs.konghq.com/gateway/changelog/#3000) Kong changelogs)
+and the [ingress controller upgrade guide for Kong
+3.x](https://docs.konghq.com/kubernetes-ingress-controller/2.6.x/guides/upgrade-kong-3x).
+
+Kong 3.0 requires KIC version 2.6 at minimum. It will not work with any
+previous versions. Changes to regular expression paths in Kong 3.x furthermore
+require changes to Ingresses that use regular expression paths in rules.
 
 ## 2.8.0
 
@@ -140,38 +176,44 @@ If you are configured with the following:
 - ingressController.enabled=true
 - postgresql.enabled=true
 
-and do not override the ingress controller version, you must perform a
-preliminary upgrade to disable the ingress controller prior to upgrading to the
-chart version 2.4.
+and do not override the ingress controller version, you must perform the
+upgrade in multiple steps:
+
+First, pin the controller version and upgrade to chart 2.4.0:
+
+```console
+$ helm upgrade --wait \
+  --set ingressController.image.tag=<CURRENT_CONTROLLER_VERSION> \
+  --version 2.4.0 \
+  --namespace <YOUR_RELEASE_NAMESPACE> \
+  <YOUR_RELEASE_NAME> kong/kong
+```
+Second, temporarily disable the ingress controller:
+
+```console
+$ helm upgrade --wait \
+  --set ingressController.enabled=false \
+  --set deployment.serviceaccount.create=true \
+  --version 2.4.0 \
+  --namespace <YOUR_RELEASE_NAMESPACE> \
+  <YOUR_RELEASE_NAME> kong/kong
+```
+Finally, re-enable the ingress controller at the new version:
+
+```console
+$ helm upgrade --wait \
+  --set ingressController.enabled=true \
+  --set ingressController.image.tag=<NEW_CONTROLLER_VERSION> \
+  --version 2.4.0 \
+  --namespace <YOUR_RELEASE_NAMESPACE> \
+  <YOUR_RELEASE_NAME> kong/kong
+```
 
 While the controller is disabled, changes to Kubernetes configuration (Ingress
 resources, KongPlugin resources, Service Endpoints, etc.) will not update Kong
 proxy configuration. We recommend you establish an active maintenance window
 under which to perform this upgrade and inform users and stakeholders so as to
 avoid unexpected disruption.
-
-First, run an upgrade that keeps the current version, but disables the ingress
-controller:
-
-```console
-$ helm upgrade --wait \
-  --set ingressController.enabled=false \
-  --version <CURRENT_CHART_VERSION> \
-  --namespace <YOUR_RELEASE_NAMESPACE> \
-  <YOUR_RELEASE_NAME> kong/kong
-```
-
-Once the upgrade completes you will only have the proxy itself running, and can
-run a second upgrade to re-enable the ingress controller and update to chart
-version 2.4:
-
-```console
-$ helm upgrade \
-  --set ingressController.enabled=true \
-  --version 2.4.0 \
-  --namespace <YOUR_RELEASE_NAMESPACE> \
-  <YOUR_RELEASE_NAME> kong/kong
-```
 
 ### Changed ServiceAccount configuration location
 

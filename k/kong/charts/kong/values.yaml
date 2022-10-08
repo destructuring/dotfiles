@@ -19,9 +19,13 @@ deployment:
     # Setting this to false with ingressController.enabled=true will create a
     # controller-only release.
     enabled: true
-  ## Specify the service account to create and to be assigned to the deployment / daemonset and for th migrations
+  ## Specify the service account to create and to be assigned to the deployment / daemonset and for the migrations
   serviceAccount:
     create: true
+    # Automount the service account token. By default, this is disabled, and the token is only mounted on the controller
+    # container. Some sidecars require enabling this. Note that enabling this exposes Kubernetes credentials to Kong
+    # Lua code, increasing potential attack surface.
+    automountServiceAccountToken: false
   ## Optionally specify the name of the service account to create and the annotations to add.
   #  name:
   #  annotations: {}
@@ -53,7 +57,12 @@ deployment:
   # Use a DaemonSet controller instead of a Deployment controller
   daemonset: false
   hostNetwork: false
-
+  # kong_prefix empty dir size
+  prefixDir:
+    sizeLimit: 256Mi
+  # tmp empty dir size
+  tmpDir:
+    sizeLimit: 1Gi
 # Override namepsace for Kong chart resources. By default, the chart creates resources in the release namespace.
 # This may not be desirable when using this chart as a dependency.
 # namespace: "example"
@@ -72,6 +81,11 @@ deployment:
 # is set below. In general, you should not set values here if they are set elsewhere.
 env:
   database: "off"
+  # the chart uses the traditional router (for Kong 3.x+) because the ingress
+  # controller generates traditional routes. if you do not use the controller,
+  # you may set this to "traditional_compatible" or "expression" to use the new
+  # DSL-based router
+  router_flavor: "traditional"
   nginx_worker_processes: "2"
   proxy_access_log: /dev/stdout
   admin_access_log: /dev/stdout
@@ -104,15 +118,14 @@ extraLabels: {}
 # Specify Kong's Docker image and repository details here
 image:
   repository: kong
-  tag: "2.8"
+  tag: "3.0"
   # Kong Enterprise
   # repository: kong/kong-gateway
-  # tag: "2.8"
+  # tag: "3.0"
 
   pullPolicy: IfNotPresent
   ## Optionally specify an array of imagePullSecrets.
   ## Secrets must be manually created in the namespace.
-  ## If using the official Kong Enterprise registry above, you MUST provide a secret.
   ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
   ##
   # pullSecrets:
@@ -190,6 +203,9 @@ status:
     enabled: false
     containerPort: 8543
     parameters: []
+
+# Name the kong hybrid cluster CA certificate secret
+clusterCaSecretName: ""
 
 # Specify Kong cluster service and listener configuration
 #
@@ -449,7 +465,7 @@ ingressController:
   enabled: true
   image:
     repository: kong/kubernetes-ingress-controller
-    tag: "2.3"
+    tag: "2.7"
     # Optionally set a semantic version for version-gated features. This can normally
     # be left unset. You only need to set this if your tag is not a semver string,
     # such as when you are using a "next" tag. Set this to the effective semantic
@@ -458,16 +474,12 @@ ingressController:
     effectiveSemver:
   args: []
 
-  # Sets the termination grace period for pods spawned by the Kubernetes Deployment.
-  # Ref: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/#hook-handler-execution
-  terminationGracePeriodSeconds: 30
-
   # Specify individual namespaces to watch for ingress configuration. By default,
   # when no namespaces are set, the controller watches all namespaces and uses a
   # ClusterRole to grant access to Kubernetes resources. When you list specific
   # namespaces, the controller will watch those namespaces only and will create
-  # namespaced-scoped Roles for each of them. Note that watching specific namespaces
-  # disables KongClusterPlugin usage, as KongClusterPlugins only exist as cluster resources.
+  # namespaced-scoped Roles for each of them. The controller will still use a
+  # ClusterRole for cluster-scoped resources.
   # Requires controller 2.0.0 or newer.
   watchNamespaces: []
 
@@ -586,6 +598,71 @@ postgresql:
       postgresql: "5432"
 
 # -----------------------------------------------------------------------------
+# Configure cert-manager integration
+# -----------------------------------------------------------------------------
+
+certificates:
+  enabled: false
+
+  # Set either `issuer` or `clusterIssuer` to the name of the desired cert manager issuer
+  # If left blank a built in self-signed issuer will be created and utilized
+  issuer: ""
+  clusterIssuer: ""
+
+  # Set proxy.enabled to true to issue default kong-proxy certificate with cert-manager
+  proxy:
+    enabled: true
+    # Set `issuer` or `clusterIssuer` to name of alternate cert-manager clusterIssuer to override default
+    # self-signed issuer.
+    issuer: ""
+    clusterIssuer: ""
+    # Use commonName and dnsNames to set the common name and dns alt names which this
+    # certificate is valid for. Wildcard records are supported by the included self-signed issuer.
+    commonName: "app.example"
+    # Remove the "[]" and uncomment/change the examples to add SANs
+    dnsNames: []
+    # - "app.example"
+    # - "*.apps.example"
+    # - "*.kong.example"
+
+  # Set admin.enabled true to issue kong admin api and manager certificate with cert-manager
+  admin:
+    enabled: true
+    # Set `issuer` or `clusterIssuer` to name of alternate cert-manager clusterIssuer to override default
+    # self-signed issuer.
+    issuer: ""
+    clusterIssuer: ""
+    # Use commonName and dnsNames to set the common name and dns alt names which this
+    # certificate is valid for. Wildcard records are supported by the included self-signed issuer.
+    commonName: "kong.example"
+    # Remove the "[]" and uncomment/change the examples to add SANs
+    dnsNames: []
+    # - "manager.kong.example"
+
+  # Set portal.enabled to true to issue a developer portal certificate with cert-manager
+  portal:
+    enabled: true
+    # Set `issuer` or `clusterIssuer` to name of alternate cert-manager clusterIssuer to override default
+    # self-signed issuer.
+    issuer: ""
+    clusterIssuer: ""
+    # Use commonName and dnsNames to set the common name and dns alt names which this
+    # certificate is valid for. Wildcard records are supported by the included self-signed issuer.
+    commonName: "developer.example"
+    # Remove the "{}" and uncomment/change the examples to add SANs
+    dnsNames: []
+    # - "manager.kong.example"
+
+  # Set cluster.enabled true to issue kong hybrid mtls certificate with cert-manager
+  cluster:
+    enabled: true
+    # Issuers used by the control and data plane releases must match for this certificate.
+    issuer: ""
+    clusterIssuer: ""
+    # commonName: "kong_cluster"
+    # dnsNames: []
+
+# -----------------------------------------------------------------------------
 # Miscellaneous parameters
 # -----------------------------------------------------------------------------
 
@@ -649,7 +726,8 @@ livenessProbe:
 lifecycle:
   preStop:
     exec:
-      # Note kong quit has a default timeout of 10 seconds
+      # kong quit has a default timeout of 10 seconds, and a default wait of 0 seconds.
+      # Note: together they should be less than the terminationGracePeriodSeconds setting below.
       command:
         - kong
         - quit
@@ -1014,3 +1092,13 @@ extraSecrets: []
 # - name: my-secret
 #   mountPath: /mount/to/my/location
 #   subPath: my-subpath # Optional, if you wish to mount a single key and not the entire ConfigMap
+
+extraObjects: []
+# extraObjects:
+# - apiVersion: configuration.konghq.com/v1
+#   kind: KongClusterPlugin
+#   metadata:
+#     name: prometheus
+#   config:
+#     per_consumer: false
+#   plugin: prometheus
