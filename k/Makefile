@@ -56,15 +56,15 @@ kuma-global-cert-gen:
 	cp tls.crt ca.crt
 
 kuma-global-cert-apply:
-	-global delete secret generic-tls-certs -n kuma
+	-circus delete secret generic-tls-certs -n kuma
 
-	global create secret generic generic-tls-certs -n kuma \
+	circus create secret generic generic-tls-certs -n kuma \
 	--from-file=tls.crt=tls.crt \
 	--from-file=tls.key=tls.key \
 	--from-file=ca.crt=ca.crt
 
-	-global delete secret kds-server-tls -n kuma 
+	-circus delete secret kds-server-tls -n kuma 
 
-	global create secret tls kds-server-tls -n kuma \
+	circus create secret tls kds-server-tls -n kuma \
 	--cert=tls.crt \
 	--key=tls.key
