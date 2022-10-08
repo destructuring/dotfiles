@@ -1,5 +1,5 @@
 build-site:
-	cd app && earthly --push --no-output +buil32.1:5000/workspace:latest
+	cd app && earthly --push --no-output +build
 
 manual-site:
 	if test -f /run/secrets/kubernetes.io/serviceaccount/ca.crt; then \
