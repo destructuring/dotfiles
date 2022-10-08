@@ -11,9 +11,6 @@ helmCharts:
       enabled: true
   includeCRDs: true
 
-resources:
-- ns.yaml
-
 patchesStrategicMerge:
 - |-
   apiVersion: v1
