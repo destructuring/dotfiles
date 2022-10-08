@@ -4,7 +4,7 @@ helmCharts:
 - releaseName: vcluster
   name: vcluster
   namespace: vc4
-  version: 0.12.0
+  version: 0.12.2
   repo: https://charts.loft.sh
   includeCRDs: true
   valuesInline:

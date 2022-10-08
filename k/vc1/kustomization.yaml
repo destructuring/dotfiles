@@ -4,7 +4,7 @@ helmCharts:
 - releaseName: vcluster
   name: vcluster
   namespace: vc1
-  version: 0.12.1
+  version: 0.12.2
   repo: https://charts.loft.sh
   includeCRDs: true
   valuesInline:
@@ -19,10 +19,10 @@ helmCharts:
     sync:
       nodes:
         enabled: true
-        nodeSelector: "env=vc1"
+        nodeSelector: "env=control"
     tolerations:
       - key: env
-        value: vc1
+        value: control
         operator: Equal
     affinity:
       nodeAffinity:
@@ -32,4 +32,4 @@ helmCharts:
             - key: env
               operator: In
               values:
-              - vc1
+              - control
