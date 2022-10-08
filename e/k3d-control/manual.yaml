@@ -7,10 +7,6 @@ spec:
   generators:
     - list:
         elements:
-          - name: vc1
-            namespace: vc1
-            cluster: in-cluster
-            path: vc1
           - name: vc2
             namespace: vc2
             cluster: in-cluster
