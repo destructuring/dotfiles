@@ -81,7 +81,7 @@ spec:
         env:
         - name: PASSWORD
           value: admin
-        image: 169.254.32.1:5000/defn/dev:latest
+        image: 169.254.32.1:5000/workspace
         imagePullPolicy: Always
         name: code-server
         securityContext:
