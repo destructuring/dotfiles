@@ -1499,6 +1499,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  annotations:
+    kuma.io/gateway: enabled
+    kuma.io/mesh: default
   labels:
     app.kubernetes.io/instance: kong
     app.kubernetes.io/managed-by: Helm

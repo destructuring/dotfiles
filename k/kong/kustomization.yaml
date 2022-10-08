@@ -9,6 +9,10 @@ helmCharts:
   valuesInline:
     enterprise:
       enabled: true
+    proxy:
+      annotations:
+        kuma.io/gateway: enabled
+        kuma.io/mesh: default
   includeCRDs: true
 
 patchesStrategicMerge:
