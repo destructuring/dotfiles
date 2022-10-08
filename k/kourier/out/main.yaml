@@ -263,59 +263,6 @@ metadata:
   name: kourier-bootstrap
   namespace: kourier-system
 ---
-apiVersion: serving.knative.dev/v1
-kind: Service
-metadata:
-  labels:
-    networking.knative.dev/visibility: cluster-local
-  name: hello
-  namespace: default
-spec:
-  template:
-    spec:
-      containerConcurrency: 0
-      containers:
-      - image: containous/whoami:latest
-        name: whoami
-        ports:
-        - containerPort: 80
-  traffic:
-  - latestRevision: true
-    percent: 100
----
-apiVersion: serving.knative.dev/v1
-kind: Service
-metadata:
-  labels:
-    networking.knative.dev/visibility: cluster-local
-  name: hi
-  namespace: default
-spec:
-  template:
-    spec:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: env
-                operator: In
-                values:
-                - vc2
-      containerConcurrency: 0
-      containers:
-      - image: containous/whoami:latest
-        name: whoami
-        ports:
-        - containerPort: 80
-      tolerations:
-      - key: env
-        operator: Equal
-        value: vc2
-  traffic:
-  - latestRevision: true
-    percent: 100
----
 apiVersion: v1
 kind: Service
 metadata:
