@@ -1,5 +1,7 @@
 namespace: kong
 
+# helm template --namespace kong kong kong/kong --version 2.13.1 --api-versions=networking.k8s.io/v1/IngressClass --include-crds --set enterprise.enabled=true > kong.yaml
+
 helmCharts:
 - releaseName: kong
   name: kong
