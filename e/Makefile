@@ -1,7 +1,9 @@
 SHELL := /bin/bash
 
-gen:
+check:
 	cue fmt
 	cue eval -c
-	rm -f *.yaml */*.yaml
+
+gen:
+	$(MAKE) check
 	c gen
