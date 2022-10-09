@@ -1,9 +1,6 @@
 package env
 
-#Env: {
-	_type: string
-	_name: string
-
+#EnvApp: {
 	apiVersion: "argoproj.io/v1alpha1"
 	kind:       "Application"
 
@@ -23,44 +20,104 @@ package env
 }
 
 #K3D: ctx={
-	#Env
+	type: "k3d"
+	name: string
 
-	_type: "k3d"
+	env: {
+		#EnvApp
 
-	metadata: {
-		name: "k3d-\(ctx._name)"
-	}
-
-	spec: {
-		source: {
-			path: "e/k3d-\(ctx._name)"
+		metadata: {
+			name: "k3d-\(ctx.name)"
 		}
 
-		syncPolicy: {
-			automated: {
-				prune: true
-			}
+		spec: {
+			source: path: "e/k3d-\(ctx.name)"
+
+			syncPolicy: automated: prune: true
 		}
 	}
 }
 
 #VCluster: ctx={
-	#Env
+	type: "vcluster"
+	name: string
 
-	_type: "vcluster"
+	k3d: #K3D
 
-	metadata: {
-		name: "\(ctx._name)"
+	env: {
+		#EnvApp
+
+		metadata: {
+			name: "\(k3d.env.metadata.name)-\(ctx.name)"
+		}
+		spec: {
+			source: path: "e/\(ctx.name)"
+		}
 	}
 
-	spec: {
-		source: {
-			path: "e/\(ctx._name)"
+	vcluster: {
+		apiVersion: "argoproj.io/v1alpha1"
+		kind:       "Application"
+		metadata: {
+			name:      "\(ctx.env.metadata.name)-vcluster"
+			namespace: "argocd"
+		}
+		spec: {
+			project: "default"
+			source: {
+				repoURL:        "https://github.com/defn/app"
+				path:           "k/\(ctx.env.metadata.name)"
+				targetRevision: "master"
+			}
+			destination: {
+				namespace: ctx.env.metadata.name
+				name:      "in-cluster"
+			}
+			syncPolicy: syncOptions: ["CreateNamespace=true"]
+		}
+	}
+
+	appset: {
+		apiVersion: "argoproj.io/v1alpha1"
+		kind:       "ApplicationSet"
+		metadata: {
+			name:      ctx.env.metadata.name
+			namespace: "argocd"
+		}
+		spec: {
+			generators: [{
+				list: elements: [{
+					name:      "dev"
+					namespace: "default"
+					path:      "dev"
+					cluster:   ctx.env.metadata.name
+				}]
+			}]
+			template: {
+				metadata: {
+					name:      "\(ctx.env.metadata.name)-{{name}}"
+					namespace: "argocd"
+				}
+				spec: {
+					project: "default"
+					source: {
+						repoURL:        "https://github.com/defn/app"
+						path:           "k/{{path}}"
+						targetRevision: "master"
+					}
+					destination: {
+						namespace: "{{namespace}}"
+						name:      "{{cluster}}"
+					}
+					syncPolicy: syncOptions: ["CreateNamespace=true"]
+				}
+			}
 		}
 	}
 }
 
-env: [NAME=string]: (#K3D | #VCluster) & {_name: NAME}
+env: [NAME=string]: name: NAME
+env: [NAME=string]: #K3D | #VCluster
 
 env: circus: #K3D & {
 }
@@ -71,11 +128,18 @@ env: control: #K3D & {
 env: smiley: #K3D & {
 }
 
+env: vc1: #VCluster & {
+	k3d: env.control
+}
+
 env: vc2: #VCluster & {
+	k3d: env.control
 }
 
 env: vc3: #VCluster & {
+	k3d: env.control
 }
 
 env: vc4: #VCluster & {
+	k3d: env.control
 }

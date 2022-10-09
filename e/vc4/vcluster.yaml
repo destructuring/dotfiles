@@ -1,15 +1,17 @@
-# ManagedBy: cue
-
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
+  name: "vc4-vcluster"
   namespace: argocd
-  name: k3d-control-vc1
 spec:
   project: default
-  destination:
-    name: in-cluster
   source:
     repoURL: https://github.com/defn/app
-    path: e/vc1
+    path: k/vc4
     targetRevision: master
+  destination:
+    namespace: vc4
+    name: in-cluster
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true

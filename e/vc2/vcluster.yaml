@@ -1,15 +1,17 @@
-# ManagedBy: cue
-
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
+  name: "vc2-vcluster"
   namespace: argocd
-  name: vc2
 spec:
   project: default
-  destination:
-    name: in-cluster
   source:
     repoURL: https://github.com/defn/app
-    path: e/vc2
+    path: k/vc2
     targetRevision: master
+  destination:
+    namespace: vc2
+    name: in-cluster
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
