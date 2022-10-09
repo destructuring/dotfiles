@@ -150,9 +150,17 @@ package env
 	}
 }
 
-#K3D: ctx={
-	type: "k3d"
+#Machine: {
+	type: string
 	name: string
+	appset: [string]: #AppSet & {
+		_name: name
+	}
+}
+
+#K3D: ctx={
+	#Machine
+	type: "k3d"
 
 	env: #EnvApp & {
 		metadata: {
@@ -181,8 +189,8 @@ package env
 }
 
 #VCluster: ctx={
+	#Machine
 	type: "vcluster"
-	name: string
 
 	k3d: #K3D
 

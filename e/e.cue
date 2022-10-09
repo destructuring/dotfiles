@@ -1,12 +1,11 @@
 package env
 
+// Each environment is a k3d or vcluster machine.  Set the machine's name to the env key.
 env: [NAME=string]: (#K3D | #VCluster) & {
 	name: NAME
-	appset: [string]: #AppSet & {
-		_name: NAME
-	}
 }
 
+// Env: control is the control plane, used by the operator.
 env: control: #K3D & {
 	appset: default: _apps: [{
 		name: "kyverno"
@@ -29,6 +28,7 @@ env: control: #K3D & {
 	}]
 }
 
+// Env: circus is the global control plane, used by all machines.
 env: circus: #K3D & {
 	appset: default: _apps: [{
 		name: "kyverno"
@@ -40,6 +40,7 @@ env: circus: #K3D & {
 	}]
 }
 
+// Env: smiley is the second machine used for multi-cluster.
 env: smiley: #K3D & {
 	appset: default: _apps: [{
 		name: "kyverno"
@@ -48,6 +49,7 @@ env: smiley: #K3D & {
 	}]
 }
 
+// Env: vc1..vc4 is one of many vcluster machines.  The k3d machine must be set.
 env: vc1: #VCluster & {
 	k3d: env.control
 
