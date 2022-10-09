@@ -177,6 +177,18 @@ package env
 	}
 
 	appset: [string]: #AppSet
+	appset: [NAME=string]: {
+		_prefix: "k3d-"
+		_prune:  true
+
+		if NAME != "default" {
+			_suffix: "-\(NAME)"
+		}
+
+		if NAME == "nons" {
+			_namespace: false
+		}
+	}
 }
 
 #VCluster: ctx={
@@ -227,9 +239,6 @@ env: [NAME=string]: #K3D | #VCluster
 
 env: control: #K3D & {
 	appset: default: {
-		_prefix: "k3d-"
-		_prune:  true
-
 		_apps: [{
 			name: "kyverno"
 		}, {
@@ -248,10 +257,6 @@ env: control: #K3D & {
 	}
 
 	appset: nons: {
-		_prefix:    "k3d-"
-		_suffix:    "-nons"
-		_namespace: false
-		_prune:     true
 		_apps: [{
 			name: "kourier"
 		}]
@@ -260,8 +265,6 @@ env: control: #K3D & {
 
 env: circus: #K3D & {
 	appset: default: {
-		_prefix: "k3d-"
-		_prune:  true
 		_apps: [{
 			name: "kyverno"
 		}, {
@@ -275,8 +278,6 @@ env: circus: #K3D & {
 
 env: smiley: #K3D & {
 	appset: default: {
-		_prefix: "k3d-"
-		_prune:  true
 		_apps: [{
 			name: "kyverno"
 		}, {
