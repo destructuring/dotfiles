@@ -11,6 +11,10 @@ rebuild:
 	rm -rf charts out
 	$(MAKE) build
 
+test:
+	kustomize build out > out/same.yaml
+	diff out/main.yaml out/same.yaml
+
 karpenter:
 	pass hello
 	./doit
