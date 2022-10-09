@@ -24,16 +24,15 @@ package env
 }
 
 #AppSetItem: {
-	name:      string
-	path:      string | *name
-	cluster:   string
-	namespace: string | *name
-}
-
-#AppSetItemNoNs: {
 	name:    string
 	path:    string | *name
 	cluster: string
+
+	_has_namespace: bool
+	namespace?:     string
+	if _has_namespace {
+		namespace: string | *name
+	}
 }
 
 #AppSet: {
@@ -55,7 +54,7 @@ package env
 
 	spec: {...}
 
-	_appitemns: {
+	_ai_cluster: {
 		if _name == "control" {
 			cluster: "in-cluster"
 		}
@@ -63,17 +62,10 @@ package env
 			cluster: "\(_prefix)\(_name)"
 		}
 	}
-	_appitem: {
-		if _namespace {
-			#AppSetItem & _appitemns
-		}
-		if !_namespace {
-			#AppSetItemNoNs & _appitemns
-		}
-	}
+	_ai: #AppSetItem & _ai_cluster & {_has_namespace: _namespace}
 
 	spec: generators: [{
-		list: elements: [..._appitem]
+		list: elements: [..._ai]
 		list: elements: _apps
 	}]
 
