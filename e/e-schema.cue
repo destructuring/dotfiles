@@ -37,17 +37,17 @@ env: [NAME=string]: (#K3D | #VCluster) & {
 		namespace: "argocd"
 	}
 
-	_ai_cluster: {
-		if _name == "control" {
-			cluster: "in-cluster"
-		}
-		if _name != "control" {
-			cluster: "\(_prefix)\(_name)"
-		}
-	}
-	_ai: _ai_cluster & {_has_namespace: _namespace}
-
 	spec: generators: [{
+		_ai_cluster: {
+			if _name == "control" {
+				cluster: "in-cluster"
+			}
+			if _name != "control" {
+				cluster: "\(_prefix)\(_name)"
+			}
+		}
+		_ai: _ai_cluster & {_has_namespace: _namespace}
+
 		list: {
 			elements: [..._ai]
 			elements: _apps
