@@ -2,27 +2,59 @@ package env
 
 #K3D: {
 	_type: "k3d"
+	_name: string
+
+	metadata: {
+		name: "k3d-\(_name)"
+		...
+	}
+
+	spec: {
+		source: {
+			path: "e/k3d-\(_name)"
+			...
+		}
+
+		syncPolicy: {
+			automated: {
+				prune: true
+				...
+			}
+			...
+		}
+		...
+	}
+
 	...
 }
 
 #VCluster: {
 	_type: "vcluster"
+	_name: string
+
+	metadata: {
+		name: "\(_name)"
+		...
+	}
+
+	spec: {
+		source: {
+			path: "e/\(_name)"
+			...
+		}
+		...
+	}
+
 	...
 }
 
-env: [NAME=string]: ctx={
-	apiVersion: "argoproj.io/v1alpha1"
-	kind:       "Application"
+env: [NAME=string]: (#K3D | #VCluster) & {_name: NAME}
+
+env: [string]: {
+	apiVrsion: "argoproj.io/v1alpha1"
+	kind:      "Application"
 	metadata: {
 		namespace: "argocd"
-
-		if ctx._type == "k3d" {
-			name: "k3d-\(NAME)"
-		}
-
-		if ctx._type == "vcluster" {
-			name: "\(NAME)"
-		}
 	}
 
 	spec: {
@@ -32,18 +64,6 @@ env: [NAME=string]: ctx={
 		source: {
 			repoURL:        "https://github.com/defn/app"
 			targetRevision: "master"
-
-			if ctx._type == "k3d" {
-				path: "e/k3d-\(NAME)"
-			}
-
-			if ctx._type == "vcluster" {
-				path: "e/\(NAME)"
-			}
-		}
-
-		if ctx._type == "k3d" {
-			syncPolicy: automated: prune: true
 		}
 	}
 }
