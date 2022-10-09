@@ -51,18 +51,13 @@ package env
 
 	metadata: {
 		name: "\(ctx._name)"
-		...
 	}
 
 	spec: {
 		source: {
 			path: "e/\(ctx._name)"
-			...
 		}
-		...
 	}
-
-	...
 }
 
 env: [NAME=string]: (#K3D | #VCluster) & {_name: NAME}
