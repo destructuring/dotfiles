@@ -428,3 +428,51 @@ kustomize: "dev": #Kustomize & {
 		}]
 	}
 }
+
+kustomize: "kong": #KustomizeHelm & {
+	namespace: "kong"
+
+	helm: {
+		release: "kong"
+		name:    "kong"
+		version: "2.13.1"
+		repo:    "https://charts.konghq.com"
+		values: {
+			enterprise: enabled: true
+		}
+	}
+
+	psm: "service-kong-kong-proxy-set-cluster-ip":
+		"""
+			apiVersion: v1
+			kind: Service
+			metadata:
+			  name: kong-kong-proxy
+			  namespace: kong
+			spec:
+			  type: ClusterIP
+			"""
+}
+
+kustomize: "arc": #KustomizeHelm & {
+	namespace: "arc"
+
+	helm: {
+		release: "arc"
+		name:    "actions-runner-controller"
+		version: "0.21.0"
+		repo:    "https://actions-runner-controller.github.io/actions-runner-controller"
+	}
+
+	resource: "runner-deployment-defn": {
+		resources: ["org-defn.yaml"]
+		apiVersion: "actions.summerwind.dev/v1alpha1"
+		kind:       "RunnerDeployment"
+		metadata: name: "defn"
+		spec: template: spec: {
+			organization:                 "defn"
+			dockerdWithinRunnerContainer: true
+			image:                        "summerwind/actions-runner-dind"
+		}
+	}
+}
