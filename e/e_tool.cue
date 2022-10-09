@@ -36,7 +36,7 @@ command: gen: {
 			if e.type == "vcluster" {
 				// ex: k3d-control/k3d-control-vc1.yaml
 				"\(ename)-env": file.Create & {
-					filename: "\(e.k3d.env.metadata.name)/\(e.k3d.env.metadata.name)-\(e.name).yaml"
+					filename: "\(e.machine.env.metadata.name)/\(e.machine.env.metadata.name)-\(e.name).yaml"
 					contents: "# ManagedBy: cue\n\n" + yaml.Marshal(e.env)
 				}
 

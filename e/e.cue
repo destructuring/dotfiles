@@ -38,7 +38,7 @@ env: smiley: #K3D & {
 
 // Env: vc1..vc4 is one of many vcluster machines.  The k3d machine must be set.
 env: vc1: #VCluster & {
-	k3d: env.control
+	machine: env.control
 
 	apps: default: {
 		"dev": {
@@ -48,13 +48,13 @@ env: vc1: #VCluster & {
 }
 
 env: vc2: #VCluster & {
-	k3d: env.control
+	machine: env.control
 }
 
 env: vc3: #VCluster & {
-	k3d: env.control
+	machine: env.control
 }
 
 env: vc4: #VCluster & {
-	k3d: env.control
+	machine: env.control
 }

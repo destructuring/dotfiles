@@ -242,11 +242,11 @@ env: [NAME=string]: (#K3D | #VCluster) & {
 	#Machine
 	type: "vcluster"
 
-	k3d: #K3D
+	machine: #K3D
 
 	env: {
 		// ex: k3d-control-vc1
-		metadata: name: "\(k3d.env.metadata.name)-\(ctx.name)"
+		metadata: name: "\(machine.env.metadata.name)-\(ctx.name)"
 
 		// ex: e/vc1
 		spec: source: path: "e/\(ctx.name)"
