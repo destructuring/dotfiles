@@ -1,46 +1,60 @@
 package kustomize
 
-kustomize: [string]: #Kustomize
+kustomize: [string]: #KustomizeHelm | #KustomizeVCluster | #Kustomize
+
+#Helm: {
+	release: string
+	name:    string
+	version: string
+	repo:    string
+
+	values: {...} | *{}
+}
 
 #Kustomize: {
-	helm: {...} | *null
-	helm: {
-		values: {...} | *null
-		...
-	}
+	namespace: string
+	let kns = namespace
 
-	psm: {...} | {}
+	psm: {...} | *{}
+
+	resource: {...} | *{}
 
 	out: {
-		namespace: string | *helm.namespace
-
-		if helm != null {
-			helmCharts: [{
-				releaseName: helm.release
-				name:        helm.name
-				namespace:   helm.namespace
-				version:     helm.version
-				repo:        helm.repo
-				includeCRDs: true
-
-				if helm.values != null {
-					valuesInline: helm.values
-				}
-			}]
-		}
+		namespace: kns
 
 		patchesStrategicMerge: [
 			for _psm_name, _psm in psm {
 				"\(_psm_name).yaml"
 			},
 		]
-	}
 
-	...
+		helmCharts?: [...{...}]
+	}
+}
+
+#KustomizeHelm: ctx={
+	#Kustomize
+
+	helm: #Helm
+
+	out: {
+		helmCharts: [{
+			releaseName: helm.release
+			name:        helm.name
+			namespace:   ctx.namespace
+			version:     helm.version
+			repo:        helm.repo
+			includeCRDs: true
+
+			if helm.values != null {
+				valuesInline: helm.values
+			}
+		}]
+	}
 }
 
 #KustomizeVCluster: {
-	#Kustomize
+	#KustomizeHelm
 
 	vc_name:    string
 	vc_machine: string | *"control"
@@ -82,6 +96,4 @@ kustomize: [string]: #Kustomize
 			}]
 		}
 	}
-
-	...
 }

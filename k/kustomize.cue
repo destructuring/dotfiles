@@ -1,12 +1,33 @@
 package kustomize
 
-kustomize: "argo-cd": {
+kustomize: "vc1": #KustomizeVCluster & {
+	namespace: "vc1"
+	vc_name:   "vc1"
+}
+
+kustomize: "vc2": #KustomizeVCluster & {
+	namespace: "vc1"
+	vc_name:   "vc2"
+}
+
+kustomize: "vc3": #KustomizeVCluster & {
+	namespace: "vc1"
+	vc_name:   "vc3"
+}
+
+kustomize: "vc4": #KustomizeVCluster & {
+	namespace: "vc1"
+	vc_name:   "vc4"
+}
+
+kustomize: "argo-cd": #KustomizeHelm & {
+	namespace: "argocd"
+
 	helm: {
-		release:   "argocd"
-		name:      "argo-cd"
-		namespace: "argocd"
-		version:   "5.5.11"
-		repo:      "https://argoproj.github.io/argo-helm"
+		release: "argocd"
+		name:    "argo-cd"
+		version: "5.5.11"
+		repo:    "https://argoproj.github.io/argo-helm"
 	}
 
 	psm: "configmap-argocd-cm": {
@@ -50,72 +71,61 @@ kustomize: "argo-cd": {
 	}
 }
 
-kustomize: "argo-events": {
+kustomize: "argo-events": #KustomizeHelm & {
+	namespace: "argo-events"
+
 	helm: {
-		release:   "argo-events"
-		name:      "argo-events"
-		namespace: "argo-events"
-		version:   "2.0.6"
-		repo:      "https://argoproj.github.io/argo-helm"
+		release: "argo-events"
+		name:    "argo-events"
+		version: "2.0.6"
+		repo:    "https://argoproj.github.io/argo-helm"
 	}
 }
 
-kustomize: "argo-workflows": {
+kustomize: "argo-workflows": #KustomizeHelm & {
+	namespace: "argo-workflows"
+
 	helm: {
-		release:   "argo-workflows"
-		name:      "argo-workflows"
-		namespace: "argo-workflows"
-		version:   "0.20.1"
-		repo:      "https://argoproj.github.io/argo-helm"
+		release: "argo-workflows"
+		name:    "argo-workflows"
+		version: "0.20.1"
+		repo:    "https://argoproj.github.io/argo-helm"
 	}
 }
 
-kustomize: "kyverno": {
+kustomize: "kyverno": #KustomizeHelm & {
+	namespace: "kyverno"
+
 	helm: {
-		release:   "kyverno"
-		name:      "kyverno"
-		namespace: "kyverno"
-		version:   "2.5.2"
-		repo:      "https://kyverno.github.io/kyverno"
+		release: "kyverno"
+		name:    "kyverno"
+		version: "2.5.2"
+		repo:    "https://kyverno.github.io/kyverno"
 		values: {
 			replicaCount: 1
 		}
 	}
 }
 
-kustomize: "vc1": #KustomizeVCluster & {
-	vc_name: "vc1"
-}
+kustomize: "keda": #KustomizeHelm & {
+	namespace: "keda"
 
-kustomize: "vc2": #KustomizeVCluster & {
-	vc_name: "vc2"
-}
-
-kustomize: "vc3": #KustomizeVCluster & {
-	vc_name: "vc3"
-}
-
-kustomize: "vc4": #KustomizeVCluster & {
-	vc_name: "vc4"
-}
-
-kustomize: "keda": {
 	helm: {
-		release:   "keda"
-		name:      "keda"
-		namespace: "keda"
-		version:   "2.8.2"
-		repo:      "https://kedacore.github.io/charts"
+		release: "keda"
+		name:    "keda"
+		version: "2.8.2"
+		repo:    "https://kedacore.github.io/charts"
 	}
 }
 
-kustomize: "external-dns": {
+kustomize: "external-dns": #KustomizeHelm & {
+	namespace: "external-dns"
+
 	helm: {
-		release:   "external-dns"
-		name:      "external-dns"
-		namespace: "external-dns"
-		version:   "6.7.2"
-		repo:      "https://charts.bitnami.com/bitnami"
+		release: "external-dns"
+		name:    "external-dns"
+		version: "6.7.2"
+		repo:    "https://charts.bitnami.com/bitnami"
 		values: {
 			sources: [
 				"service",
@@ -126,14 +136,14 @@ kustomize: "external-dns": {
 	}
 }
 
-kustomize: "external-secrets": {
+kustomize: "external-secrets": #KustomizeHelm & {
+	namespace: "external-secrets"
 
 	helm: {
-		release:   "external-secrets"
-		name:      "external-secrets"
-		namespace: "external-secrets"
-		version:   "0.5.8"
-		repo:      "https://charts.external-secrets.io"
+		release: "external-secrets"
+		name:    "external-secrets"
+		version: "0.5.8"
+		repo:    "https://charts.external-secrets.io"
 		values: {
 			webhook: create:        false
 			certController: create: false
@@ -141,14 +151,14 @@ kustomize: "external-secrets": {
 	}
 }
 
-kustomize: "datadog": {
+kustomize: "datadog": #KustomizeHelm & {
+	namespace: "datadog"
 
 	helm: {
-		release:   "datadog"
-		name:      "datadog"
-		namespace: "datadog"
-		version:   "3.1.1"
-		repo:      "https://helm.datadoghq.com"
+		release: "datadog"
+		name:    "datadog"
+		version: "3.1.1"
+		repo:    "https://helm.datadoghq.com"
 		values: {
 			clusterAgent: {
 				enabled: "true"
@@ -168,13 +178,14 @@ kustomize: "datadog": {
 	}
 }
 
-kustomize: "kuma-global": {
+kustomize: "kuma-global": #KustomizeHelm & {
+	namespace: "kuma"
+
 	helm: {
-		release:   "kuma"
-		name:      "kuma"
-		namespace: "kuma"
-		version:   "1.8.0"
-		repo:      "https://kumahq.github.io/charts"
+		release: "kuma"
+		name:    "kuma"
+		version: "1.8.0"
+		repo:    "https://kumahq.github.io/charts"
 		values: {
 			controlPlane: {
 				mode: "global"
@@ -191,13 +202,14 @@ kustomize: "kuma-global": {
 	}
 }
 
-kustomize: "kuma-remote": {
+kustomize: "kuma-remote": #KustomizeHelm & {
+	namespace: "kuma"
+
 	helm: {
-		release:   "kuma"
-		name:      "kuma"
-		namespace: "kuma"
-		version:   "1.8.0"
-		repo:      "https://kumahq.github.io/charts"
+		release: "kuma"
+		name:    "kuma"
+		version: "1.8.0"
+		repo:    "https://kumahq.github.io/charts"
 		values: {
 			controlPlane: {
 				mode:             "zone"
@@ -217,14 +229,15 @@ kustomize: "kuma-remote": {
 	}
 }
 
-kustomize: "vault": {
+kustomize: "vault": #KustomizeHelm & {
+	namespace: "vault"
+
 	helm: {
-		release:   "vault"
-		name:      "vault"
-		namespace: "vault"
-		version:   "0.20.1"
-		repo:      "https://helm.releases.hashicorp.com"
-		valuesInline: {
+		release: "vault"
+		name:    "vault"
+		version: "0.20.1"
+		repo:    "https://helm.releases.hashicorp.com"
+		values: {
 			server: {
 				dataStorage: size: "1Gi"
 				standalone: config: """
@@ -251,6 +264,7 @@ kustomize: "vault": {
 
 					"""
 			}
+		}
 	}
 
 	psm: "statefulset-vault-set-vault-token": {
@@ -273,5 +287,144 @@ kustomize: "vault": {
 			                  name: vault-unseal
 			                  key: VAULT_TOKEN
 			"""
+	}
+}
+
+kustomize: "kourier": #Kustomize & {
+	namespace: "kourier-system"
+
+	resource: "kourier": "https://github.com/knative-sandbox/net-kourier/releases/download/knative-v1.7.0/kourier.yaml"
+
+	psm: "service-kourier-set-cluster-ip": {
+		apiVersion: "v1"
+		kind:       "Service"
+		metadata: {
+			name:      "kourier"
+			namespace: "kourier-system"
+		}
+		spec: type: "ClusterIP"
+	}
+}
+
+kustomize: "dev": #Kustomize & {
+	namespace: "default"
+
+	resource: "statefulset-dev": {
+		apiVersion: "apps/v1"
+		kind:       "StatefulSet"
+		metadata: {
+			name:      "dev"
+			namespace: "default"
+		}
+		spec: {
+			serviceName: "dev"
+			replicas:    1
+			selector: matchLabels: app: "dev"
+			template: {
+				metadata: labels: app: "dev"
+				spec: {
+					volumes: [{
+						name: "earthly"
+						emptyDir: {}
+					}, {
+						name: "work"
+						emptyDir: {}
+					}]
+					containers: [{
+						name:            "buildkit"
+						image:           "earthly/buildkitd:v0.6.25"
+						imagePullPolicy: "IfNotPresent"
+						command: [
+							"sh",
+							"-c",
+						]
+						args: [
+							"awk '/if.*rm.*data_root.*then/ {print \"rm -rf $data_root || true; data_root=/tmp/meh;\" }; {print}' /var/earthly/dockerd-wrapper.sh > /tmp/1 && chmod 755 /tmp/1 && mv -f /tmp/1 /var/earthly/dockerd-wrapper.sh; exec /usr/bin/entrypoint.sh buildkitd --config=/etc/buildkitd.toml",
+						]
+						tty: true
+						env: [{
+							name:  "BUILDKIT_TCP_TRANSPORT_ENABLED"
+							value: "true"
+						}, {
+							name:  "BUILDKIT_MAX_PARALLELISM"
+							value: "4"
+						}, {
+							name:  "CACHE_SIZE_PCT"
+							value: "90"
+						}, {
+							name: "EARTHLY_ADDITIONAL_BUILDKIT_CONFIG"
+							value: """
+						[registry.\"169.254.32.1:5000\"]
+						  http = true
+						  insecure = true
+						"""
+						}]
+
+						volumeMounts: [{
+							mountPath: "/tmp/earthly"
+							name:      "earthly"
+						}]
+						securityContext: privileged: true
+					}, {
+						name:            "code-server"
+						image:           "169.254.32.1:5000/workspace"
+						imagePullPolicy: "Always"
+						command: [
+							"/usr/bin/tini",
+							"--",
+						]
+						args: [
+							"bash",
+							"-c",
+							"exec ~/bin/e code-server --bind-addr 0.0.0.0:8888 --disable-telemetry",
+						]
+						tty: true
+						env: [{
+							name:  "PASSWORD"
+							value: "admin"
+						}]
+						securityContext: privileged: true
+						volumeMounts: [{
+							mountPath: "/work"
+							name:      "work"
+						}]
+					}]
+				}
+			}
+		}
+	}
+
+	resource: "service-dev": {
+		apiVersion: "v1"
+		kind:       "Service"
+		metadata: {
+			name:      "dev"
+			namespace: "default"
+		}
+		spec: {
+			ports: [{
+				port:       80
+				protocol:   "TCP"
+				targetPort: 8888
+			}]
+			selector: app: "dev"
+			type: "ClusterIP"
+		}
+	}
+
+	resource: "cluster-role-binding-dev": {
+		apiVersion: "rbac.authorization.k8s.io/v1"
+		kind:       "ClusterRoleBinding"
+		metadata: name: "dev"
+		roleRef: {
+			apiGroup: "rbac.authorization.k8s.io"
+			kind:     "ClusterRole"
+			name:     "cluster-admin"
+		}
+		subjects: [{
+			kind:      "ServiceAccount"
+			name:      "default"
+			namespace: "default"
+		}]
 	}
 }
