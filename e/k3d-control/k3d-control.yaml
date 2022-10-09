@@ -2,38 +2,41 @@
 
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
+metadata:
+  name: k3d-control
+  namespace: argocd
 spec:
   generators:
     - list:
         elements:
           - name: kyverno
-            namespace: kyverno
             path: kyverno
             cluster: in-cluster
+            namespace: kyverno
           - name: cert-manager
-            namespace: cert-manager
             path: cert-manager
             cluster: in-cluster
+            namespace: cert-manager
           - name: external-secrets
-            namespace: external-secrets
-            cluster: in-cluster
             path: external-secrets
+            cluster: in-cluster
+            namespace: external-secrets
           - name: argo-cd
-            namespace: argocd
-            cluster: in-cluster
             path: argo-cd
+            cluster: in-cluster
+            namespace: argo-cd
           - name: argo-events
-            namespace: argo-events
-            cluster: in-cluster
             path: argo-events
+            cluster: in-cluster
+            namespace: argo-events
           - name: argo-workflows
-            namespace: argo-workflows
-            cluster: in-cluster
             path: argo-workflows
-          - name: knative
-            namespace: knative-serving
             cluster: in-cluster
+            namespace: argo-workflows
+          - name: knative
             path: knative
+            cluster: in-cluster
+            namespace: knative
   template:
     metadata:
       name: k3d-control-{{name}}
@@ -48,10 +51,10 @@ spec:
         name: '{{cluster}}'
         namespace: '{{namespace}}'
       syncPolicy:
-        automated:
-          prune: true
         syncOptions:
           - CreateNamespace=true
+        automated:
+          prune: true
       ignoreDifferences:
         - kind: MutatingWebhookConfiguration
           group: admissionregistration.k8s.io
@@ -87,6 +90,3 @@ spec:
           kind: ClusterPolicy
           jqPathExpressions:
             - .spec.rules[] | select(.name|test("autogen-."))
-metadata:
-  name: k3d-control
-  namespace: argocd

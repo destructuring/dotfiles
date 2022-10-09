@@ -10,9 +10,9 @@ spec:
     - list:
         elements:
           - name: dev
-            namespace: default
             path: dev
             cluster: vc4
+            namespace: default
   template:
     metadata:
       name: vc4-{{name}}

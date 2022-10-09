@@ -23,12 +23,26 @@ package env
 	}
 }
 
+#AppSetItem: {
+	name:      string
+	path:      string | *name
+	cluster:   string
+	namespace: string | *name
+}
+
+#AppSetItemNoNs: {
+	name:    string
+	path:    string | *name
+	cluster: string
+}
+
 #AppSet: {
 	_name:      string
 	_prefix:    string | *""
 	_suffix:    string | *""
 	_namespace: bool | *true
 	_prune:     bool | *false
+	_apps: [...{...}]
 
 	apiVersion: "argoproj.io/v1alpha1"
 	kind:       "ApplicationSet"
@@ -40,24 +54,51 @@ package env
 	}
 
 	spec: {...}
+
+	_appitemns: {
+		if _name == "control" {
+			cluster: "in-cluster"
+		}
+		if _name != "control" {
+			cluster: "\(_prefix)\(_name)"
+		}
+	}
+	_appitem: {
+		if _namespace {
+			#AppSetItem & _appitemns
+		}
+		if !_namespace {
+			#AppSetItemNoNs & _appitemns
+		}
+	}
+
+	spec: generators: [{
+		list: elements: [..._appitem]
+		list: elements: _apps
+	}]
+
 	spec: template: {
 		metadata: {
 			name:      "\(_prefix)\(_name)-{{name}}"
 			namespace: "argocd"
 		}
+
 		spec: {
 			project: "default"
+
 			source: {
 				repoURL:        "https://github.com/defn/app"
 				path:           "k/{{path}}"
 				targetRevision: "master"
 			}
+
 			destination: {
 				if _namespace {
 					namespace: "{{namespace}}"
 				}
 				name: "{{cluster}}"
 			}
+
 			syncPolicy: {
 				syncOptions: [
 					"CreateNamespace=true",
@@ -66,6 +107,7 @@ package env
 					automated: prune: true
 				}
 			}
+
 			ignoreDifferences: [{
 				kind:  "MutatingWebhookConfiguration"
 				group: "admissionregistration.k8s.io"
@@ -175,22 +217,7 @@ package env
 		}
 	}
 
-	appset: [string]: #AppSet
-	appset: default: {
-		metadata: {
-			name: ctx.name
-		}
-		spec: {
-			generators: [{
-				list: elements: [{
-					name:      "dev"
-					namespace: "default"
-					path:      "dev"
-					cluster:   ctx.name
-				}]
-			}]
-		}
-	}
+	appset?: [string]: #AppSet
 }
 
 env: [NAME=string]: name: NAME
@@ -203,47 +230,21 @@ env: control: #K3D & {
 		_prefix: "k3d-"
 		_prune:  true
 
-		spec: {
-			generators: [{
-				list: elements: [{
-					name:      "kyverno"
-					namespace: "kyverno"
-					path:      "kyverno"
-					cluster:   "in-cluster"
-				}, {
-					name:      "cert-manager"
-					namespace: "cert-manager"
-					path:      "cert-manager"
-					cluster:   "in-cluster"
-				}, {
-					name:      "external-secrets"
-					namespace: "external-secrets"
-					cluster:   "in-cluster"
-					path:      "external-secrets"
-				}, {
-					name:      "argo-cd"
-					namespace: "argocd"
-					cluster:   "in-cluster"
-					path:      "argo-cd"
-				}, {
-					name:      "argo-events"
-					namespace: "argo-events"
-					cluster:   "in-cluster"
-					path:      "argo-events"
-				}, {
-					name:      "argo-workflows"
-					namespace: "argo-workflows"
-					cluster:   "in-cluster"
-					path:      "argo-workflows"
-				}, {
-					name:      "knative"
-					namespace: "knative-serving"
-					cluster:   "in-cluster"
-					path:      "knative"
-				}]
-			}]
-			template: spec: syncPolicy: automated: prune: true
-		}
+		_apps: [{
+			name: "kyverno"
+		}, {
+			name: "cert-manager"
+		}, {
+			name: "external-secrets"
+		}, {
+			name: "argo-cd"
+		}, {
+			name: "argo-events"
+		}, {
+			name: "argo-workflows"
+		}, {
+			name: "knative"
+		}]
 	}
 
 	appset: nons: {
@@ -251,17 +252,9 @@ env: control: #K3D & {
 		_suffix:    "-nons"
 		_namespace: false
 		_prune:     true
-
-		spec: {
-			generators: [{
-				list: elements: [{
-					name:    "kourier"
-					path:    "kourier"
-					cluster: "in-cluster"
-				}]
-			}]
-			template: spec: syncPolicy: automated: prune: true
-		}
+		_apps: [{
+			name: "kourier"
+		}]
 	}
 }
 
@@ -269,28 +262,14 @@ env: circus: #K3D & {
 	appset: default: {
 		_prefix: "k3d-"
 		_prune:  true
-
-		spec: {
-			generators: [{
-				list: elements: [{
-					name:      "kyverno"
-					namespace: "kyverno"
-					path:      "kyverno"
-					cluster:   "k3d-circus"
-				}, {
-					name:      "cert-manager"
-					namespace: "cert-manager"
-					path:      "cert-manager"
-					cluster:   "k3d-circus"
-				}, {
-					name:      "kuma-global"
-					namespace: "kuma"
-					path:      "kuma-global"
-					cluster:   "k3d-circus"
-				}]
-			}]
-			template: spec: syncPolicy: automated: prune: true
-		}
+		_apps: [{
+			name: "kyverno"
+		}, {
+			name: "cert-manager"
+		}, {
+			name:      "kuma-global"
+			namespace: "kuma"
+		}]
 	}
 }
 
@@ -298,27 +277,23 @@ env: smiley: #K3D & {
 	appset: default: {
 		_prefix: "k3d-"
 		_prune:  true
-
-		spec: {
-			generators: [{
-				list: elements: [{
-					name:      "kyverno"
-					namespace: "kyverno"
-					path:      "kyverno"
-					cluster:   "k3d-smiley"
-				}, {
-					name:      "cert-manager"
-					namespace: "cert-manager"
-					path:      "cert-manager"
-					cluster:   "k3d-smiley"
-				}]
-			}]
-		}
+		_apps: [{
+			name: "kyverno"
+		}, {
+			name: "cert-manager"
+		}]
 	}
 }
 
 env: vc1: #VCluster & {
 	k3d: env.control
+
+	appset: default: {
+		_apps: [{
+			name:      "dev"
+			namespace: "default"
+		}]
+	}
 }
 
 env: vc2: #VCluster & {
