@@ -40,16 +40,16 @@ command: gen: {
 					contents: "# ManagedBy: cue\n\n" + yaml.Marshal(e.env)
 				}
 
-				// ex: vc1/cluster.yaml
+				// ex: vc1/vc1-vcluster.yaml
 				"\(ename)-vcluster": file.Create & {
-					filename: "\(e.name)/vcluster.yaml"
+					filename: "\(e.name)/\(e.name)-vcluster.yaml"
 					contents: "# ManagedBy: cue\n\n" + yaml.Marshal(e.vcluster)
 				}
 
-				// ex: vc1/appset.yaml
+				// ex: vc1/vc1.yaml
 				for aname, appset in e.appset {
 					"\(ename)-appset-\(appset.metadata.name)": file.Create & {
-						filename: "\(e.name)/appset.yaml"
+						filename: "\(e.name)/\(e.name).yaml"
 						contents: "# ManagedBy: cue\n\n" + yaml.Marshal(appset)
 					}
 				}

@@ -190,8 +190,20 @@ env: [NAME=string]: (#K3D | #VCluster) & {
 
 	env: #EnvApp
 
+	apps: [string]: [string]: {...}
+
 	appset: [string]: #AppSet & {
 		_name: name
+	}
+
+	appset: {
+		for _appset_name, _appset in apps {
+			"\(_appset_name)": _apps: [
+				for _app_name, _app in _appset {
+					{name: _app_name} & _app
+				},
+			]
+		}
 	}
 }
 
