@@ -6,10 +6,10 @@ metadata:
 spec:
   generators:
     - list:
-        elements:
-          - name: arc
-            path: arc
-            cluster: in-cluster
+#        elements:
+#          - name: arc
+#            path: arc
+#            cluster: in-cluster
   template:
     metadata:
       name: "k3d-control-{{name}}"
