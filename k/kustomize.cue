@@ -268,25 +268,25 @@ kustomize: "vault": #KustomizeHelm & {
 	}
 
 	psm: "statefulset-vault-set-vault-token": {
-		"""
-			apiVersion: apps/v1
-			kind: StatefulSet
-			metadata:
-			  name: vault
-			  namespace: vault
-			spec:
-			  template:
-			    spec:
-			      containers:
-			        - name: vault
-			          env:
-			            -
-			              name: VAULT_TOKEN
-			              valueFrom:
-			                secretKeyRef:
-			                  name: vault-unseal
-			                  key: VAULT_TOKEN
-			"""
+		apiVersion: "apps/v1"
+		kind:       "StatefulSet"
+		metadata: {
+			name:      "vault"
+			namespace: "vault"
+		}
+		spec: template: spec: containers: [
+			{name: "vault"
+				env: [
+					{
+						name: "VAULT_TOKEN"
+						valueFrom: secretKeyRef: {
+							name: "vault-unseal"
+							key:  "VAULT_TOKEN"
+						}
+					},
+				]
+			},
+		]
 	}
 }
 
@@ -303,16 +303,15 @@ kustomize: "kong": #KustomizeHelm & {
 		}
 	}
 
-	psm: "service-kong-kong-proxy-set-cluster-ip":
-		"""
-			apiVersion: v1
-			kind: Service
-			metadata:
-			  name: kong-kong-proxy
-			  namespace: kong
-			spec:
-			  type: ClusterIP
-			"""
+	psm: "service-kong-kong-proxy-set-cluster-ip": {
+		apiVersion: "v1"
+		kind:       "Service"
+		metadata: {
+			name:      "kong-kong-proxy"
+			namespace: "kong"
+		}
+		spec: type: "ClusterIP"
+	}
 }
 
 kustomize: "arc": #KustomizeHelm & {
@@ -402,10 +401,10 @@ kustomize: "dev": #Kustomize & {
 						}, {
 							name: "EARTHLY_ADDITIONAL_BUILDKIT_CONFIG"
 							value: """
-						[registry.\"169.254.32.1:5000\"]
-						  http = true
-						  insecure = true
-						"""
+								[registry."169.254.32.1:5000"]
+								http = true
+								insecure = true
+								"""
 						}]
 
 						volumeMounts: [{
