@@ -1,13 +1,15 @@
+# ManagedBy: cue
+
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: vc4
   namespace: argocd
+  name: vc4
 spec:
   project: default
+  destination:
+    name: in-cluster
   source:
     repoURL: https://github.com/defn/app
     path: e/vc4
     targetRevision: master
-  destination:
-    name: in-cluster

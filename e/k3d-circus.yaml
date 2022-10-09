@@ -1,16 +1,18 @@
+# ManagedBy: cue
+
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: k3d-circus
   namespace: argocd
+  name: k3d-circus
 spec:
   project: default
+  destination:
+    name: in-cluster
   source:
     repoURL: https://github.com/defn/app
     path: e/k3d-circus
     targetRevision: master
-  destination:
-    name: in-cluster
   syncPolicy:
     automated:
       prune: true
