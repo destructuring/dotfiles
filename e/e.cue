@@ -1,6 +1,30 @@
 package env
 
-#K3D: {
+#Env: {
+	apiVersion: "argoproj.io/v1alpha1"
+	kind:       "Application"
+
+	metadata: {
+		namespace: "argocd"
+		...
+	}
+
+	spec: {
+		project: "default"
+
+		destination: name: "in-cluster"
+		source: {
+			repoURL:        "https://github.com/defn/app"
+			targetRevision: "master"
+			...
+		}
+		...
+	}
+
+	...
+}
+
+#K3D: #Env & {
 	_type: "k3d"
 	_name: string
 
@@ -28,7 +52,7 @@ package env
 	...
 }
 
-#VCluster: {
+#VCluster: #Env & {
 	_type: "vcluster"
 	_name: string
 
@@ -49,24 +73,6 @@ package env
 }
 
 env: [NAME=string]: (#K3D | #VCluster) & {_name: NAME}
-
-env: [string]: {
-	apiVrsion: "argoproj.io/v1alpha1"
-	kind:      "Application"
-	metadata: {
-		namespace: "argocd"
-	}
-
-	spec: {
-		project: "default"
-
-		destination: name: "in-cluster"
-		source: {
-			repoURL:        "https://github.com/defn/app"
-			targetRevision: "master"
-		}
-	}
-}
 
 env: circus: #K3D & {
 }
