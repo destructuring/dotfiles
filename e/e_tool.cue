@@ -1,7 +1,7 @@
 package env
 
 import (
-    "tool/file"
+	"tool/file"
 	"encoding/yaml"
 )
 
@@ -11,11 +11,11 @@ command: {
 
 command: gen: {
 	genYaml: {
-        for ename, e in env {
-            "\(ename)": file.Create & {
-                filename: "\(e.metadata.name).yaml"
-                contents: "# ManagedBy: cue\n\n" + yaml.Marshal(e)
-            }
-        }
+		for ename, e in env {
+			"\(ename)": file.Create & {
+				filename: "\(e.metadata.name).yaml"
+				contents: "# ManagedBy: cue\n\n" + yaml.Marshal(e)
+			}
+		}
 	}
 }
