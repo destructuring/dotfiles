@@ -2,9 +2,6 @@
 
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
-metadata:
-  name: k3d-control
-  namespace: argocd
 spec:
   generators:
     - list:
@@ -65,3 +62,6 @@ spec:
             - /data/server-key.pem
           name: karpenter-cert
           namespace: karpenter
+metadata:
+  name: k3d-control
+  namespace: argocd

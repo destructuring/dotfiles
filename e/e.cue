@@ -44,7 +44,8 @@ package env
 	type: "k3d"
 	name: string
 
-	env: #EnvApp & {
+	env: #EnvApp
+	env: {
 		metadata: {
 			name: "k3d-\(ctx.name)"
 		}
@@ -65,7 +66,8 @@ package env
 
 	k3d: #K3D
 
-	env: #EnvApp & {
+	env: #EnvApp
+	env: {
 		metadata: {
 			name: "\(k3d.env.metadata.name)-\(ctx.name)"
 		}
@@ -96,8 +98,8 @@ package env
 		}
 	}
 
-	appset: default: #AppSet & {
-
+	appset: [string]: #AppSet
+	appset: default: {
 		metadata: {
 			name: ctx.name
 		}
@@ -135,15 +137,13 @@ package env
 
 env: [NAME=string]: name: NAME
 env: [NAME=string]: appset: [string]: _name: NAME
+env: [NAME=string]: appset: [string]: #AppSet
 env: [NAME=string]: #K3D | #VCluster
 
 env: control: #K3D & {
 	appset: default: {
 		_prefix: "k3d-"
-		metadata: {
-			name:      "k3d-control"
-			namespace: "argocd"
-		}
+
 		spec: {
 			generators: [{
 				list: elements: [{
