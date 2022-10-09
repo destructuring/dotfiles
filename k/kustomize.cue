@@ -17,7 +17,7 @@ kustomize: "argo-cd": {
 			"kustomize.buildOptions": "--enable-helm"
 			"resource.customizations.health.networking.k8s.io_Ingress": """
 				hs = {}
-				hs.status = \"Healthy\"
+				hs.status = "Healthy"
 				return hs
 
 				"""
@@ -43,7 +43,7 @@ kustomize: "argo-cd": {
 
 			"resource.customizations.ignoreDifferences.kyverno.io_ClusterPolicy": """
 				jqPathExpressions:
-				  - .spec.rules[] | select(.name|test(\"autogen-.\"))
+				  - .spec.rules[] | select(.name|test("autogen-."))
 
 				"""
 		}
@@ -214,5 +214,64 @@ kustomize: "kuma-remote": {
 			ingress: enabled: true
 			egress: enabled:  true
 		}
+	}
+}
+
+kustomize: "vault": {
+	helm: {
+		release:   "vault"
+		name:      "vault"
+		namespace: "vault"
+		version:   "0.20.1"
+		repo:      "https://helm.releases.hashicorp.com"
+		valuesInline: {
+			server: {
+				dataStorage: size: "1Gi"
+				standalone: config: """
+					disable_mlock = true
+					ui = true
+
+					listener "tcp" {
+					  tls_disable = 1
+					  address = "[::]:8200"
+					  cluster_address = "[::]:8201"
+					}
+
+					storage "file" {
+					  path = "/vault/data"
+					}
+
+					seal "transit" {
+					  address = "http://vault.default.svc:8200"
+					  disable_renewal = "false"
+					  key_name = "autounseal-remo"
+					  mount_path = "transit/"
+					  tls_skip_verify = "true"
+					}
+
+					"""
+			}
+	}
+
+	psm: "statefulset-vault-set-vault-token": {
+		"""
+			apiVersion: apps/v1
+			kind: StatefulSet
+			metadata:
+			  name: vault
+			  namespace: vault
+			spec:
+			  template:
+			    spec:
+			      containers:
+			        - name: vault
+			          env:
+			            -
+			              name: VAULT_TOKEN
+			              valueFrom:
+			                secretKeyRef:
+			                  name: vault-unseal
+			                  key: VAULT_TOKEN
+			"""
 	}
 }

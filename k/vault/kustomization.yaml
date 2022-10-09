@@ -34,9 +34,6 @@ helmCharts:
           }
   includeCRDs: true
 
-resources:
-- ingress.yaml
-
 patchesStrategicMerge:
 - |-
   apiVersion: apps/v1
