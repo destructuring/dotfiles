@@ -17,6 +17,13 @@ command: gen: {
 					filename: "\(e.env.metadata.name).yaml"
 					contents: "# ManagedBy: cue\n\n" + yaml.Marshal(e.env)
 				}
+
+				for appset in e.appsets {
+					"\(ename)-appset-\(appset.metadata.name)": file.Create & {
+						filename: "\(e.env.metadata.name)/\(appset.metadata.name).yaml"
+						contents: "# ManagedBy: cue\n\n" + yaml.Marshal(appset)
+					}
+				}
 			}
 
 			if e.type == "vcluster" {

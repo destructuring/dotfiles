@@ -1,3 +1,5 @@
+# ManagedBy: cue
+
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
@@ -17,7 +19,7 @@ spec:
             cluster: k3d-smiley
   template:
     metadata:
-      name: "k3d-smiley-{{name}}"
+      name: k3d-smiley-{{name}}
       namespace: argocd
     spec:
       project: default
@@ -26,8 +28,8 @@ spec:
         path: k/{{path}}
         targetRevision: master
       destination:
-        namespace: "{{namespace}}"
-        name: "{{cluster}}"
+        namespace: '{{namespace}}'
+        name: '{{cluster}}'
       syncPolicy:
         syncOptions:
           - CreateNamespace=true

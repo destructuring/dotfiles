@@ -1,18 +1,20 @@
+# ManagedBy: cue
+
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: k3d-control-replace
+  name: k3d-control-nons
   namespace: argocd
 spec:
   generators:
     - list:
-#        elements:
-#          - name: arc
-#            path: arc
-#            cluster: in-cluster
+        elements:
+          - name: kourier
+            path: kourier
+            cluster: in-cluster
   template:
     metadata:
-      name: "k3d-control-{{name}}"
+      name: k3d-control-{{name}}
       namespace: argocd
     spec:
       project: default
@@ -21,10 +23,9 @@ spec:
         path: k/{{path}}
         targetRevision: master
       destination:
-        name: "{{cluster}}"
+        name: '{{cluster}}'
       syncPolicy:
         syncOptions:
           - CreateNamespace=true
-          - Replace=false
         automated:
           prune: true

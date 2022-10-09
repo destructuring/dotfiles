@@ -1,3 +1,5 @@
+# ManagedBy: cue
+
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
@@ -11,10 +13,6 @@ spec:
             namespace: kyverno
             path: kyverno
             cluster: in-cluster
-#          - name: karpenter
-#            namespace: karpenter
-#            path: karpenter
-#            cluster: in-cluster
           - name: cert-manager
             namespace: cert-manager
             path: cert-manager
@@ -39,17 +37,9 @@ spec:
             namespace: knative-serving
             cluster: in-cluster
             path: knative
-#          - name: kuma-zone
-#            namespace: kuma
-#            cluster: in-cluster
-#            path: kuma-zone
-#          - name: kong
-#            namespace: kong
-#            cluster: in-cluster
-#            path: kong
   template:
     metadata:
-      name: "k3d-control-{{name}}"
+      name: k3d-control-{{name}}
       namespace: argocd
     spec:
       project: default
@@ -58,20 +48,20 @@ spec:
         path: k/{{path}}
         targetRevision: master
       destination:
-        namespace: "{{namespace}}"
-        name: "{{cluster}}"
+        namespace: '{{namespace}}'
+        name: '{{cluster}}'
       syncPolicy:
         syncOptions:
           - CreateNamespace=true
         automated:
           prune: true
       ignoreDifferences:
-      - group: ""
-        kind: Secret
-        jsonPointers:
-        - /data
-        - /data/ca-cert.pem
-        - /data/server-cert.pem
-        - /data/server-key.pem
-        name: karpenter-cert
-        namespace: karpenter
+        - group: ""
+          kind: Secret
+          jsonPointers:
+            - /data
+            - /data/ca-cert.pem
+            - /data/server-cert.pem
+            - /data/server-key.pem
+          name: karpenter-cert
+          namespace: karpenter
