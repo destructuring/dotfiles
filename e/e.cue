@@ -1,12 +1,14 @@
 package env
 
 #Env: {
+	_type: string
+	_name: string
+
 	apiVersion: "argoproj.io/v1alpha1"
 	kind:       "Application"
 
 	metadata: {
 		namespace: "argocd"
-		...
 	}
 
 	spec: {
@@ -16,54 +18,45 @@ package env
 		source: {
 			repoURL:        "https://github.com/defn/app"
 			targetRevision: "master"
-			...
 		}
-		...
 	}
-
-	...
 }
 
-#K3D: #Env & {
+#K3D: ctx={
+	#Env
+
 	_type: "k3d"
-	_name: string
 
 	metadata: {
-		name: "k3d-\(_name)"
-		...
+		name: "k3d-\(ctx._name)"
 	}
 
 	spec: {
 		source: {
-			path: "e/k3d-\(_name)"
-			...
+			path: "e/k3d-\(ctx._name)"
 		}
 
 		syncPolicy: {
 			automated: {
 				prune: true
-				...
 			}
-			...
 		}
-		...
 	}
-
-	...
 }
 
-#VCluster: #Env & {
+#VCluster: ctx={
+	#Env
+
 	_type: "vcluster"
-	_name: string
 
 	metadata: {
-		name: "\(_name)"
+		name: "\(ctx._name)"
 		...
 	}
 
 	spec: {
 		source: {
-			path: "e/\(_name)"
+			path: "e/\(ctx._name)"
 			...
 		}
 		...
