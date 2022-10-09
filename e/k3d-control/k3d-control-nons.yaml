@@ -21,6 +21,41 @@ spec:
         targetRevision: master
       destination:
         name: '{{cluster}}'
+      ignoreDifferences:
+        - kind: MutatingWebhookConfiguration
+          group: admissionregistration.k8s.io
+          name: vault-agent-injector-cfg
+          jsonPointers:
+            - /webhooks/0/clientConfig/caBundle
+        - kind: MutatingWebhookConfiguration
+          group: admissionregistration.k8s.io
+          name: webhook.domainmapping.serving.knative.dev
+          jsonPointers:
+            - /webhooks/0/rules
+        - kind: MutatingWebhookConfiguration
+          group: admissionregistration.k8s.io
+          name: webhook.serving.knative.dev
+          jsonPointers:
+            - /webhooks/0/rules
+        - kind: ValidatingWebhookConfiguration
+          group: admissionregistration.k8s.io
+          name: validation.webhook.serving.knative.dev
+          jsonPointers:
+            - /webhooks/0/rules
+        - kind: ValidatingWebhookConfiguration
+          group: admissionregistration.k8s.io
+          name: validation.webhook.domainmapping.serving.knative.dev
+          jsonPointers:
+            - /webhooks/0/rules
+        - kind: Deployment
+          group: apps
+          name: kong-kong
+          jsonPointers:
+            - /spec/template/spec/tolerations
+        - group: kyverno.io
+          kind: ClusterPolicy
+          jqPathExpressions:
+            - .spec.rules[] | select(.name|test("autogen-."))
       syncPolicy:
         syncOptions:
           - CreateNamespace=true

@@ -38,6 +38,64 @@ package env
 	}
 
 	spec: {...}
+	spec: template: {
+		metadata: {
+			namespace: "argocd"
+			...
+		}
+		spec: {
+			ignoreDifferences: [{
+				kind:  "MutatingWebhookConfiguration"
+				group: "admissionregistration.k8s.io"
+				name:  "vault-agent-injector-cfg"
+				jsonPointers: [
+					"/webhooks/0/clientConfig/caBundle",
+				]
+			}, {
+				kind:  "MutatingWebhookConfiguration"
+				group: "admissionregistration.k8s.io"
+				name:  "webhook.domainmapping.serving.knative.dev"
+				jsonPointers: [
+					"/webhooks/0/rules",
+				]
+			}, {
+				kind:  "MutatingWebhookConfiguration"
+				group: "admissionregistration.k8s.io"
+				name:  "webhook.serving.knative.dev"
+				jsonPointers: [
+					"/webhooks/0/rules",
+				]
+			}, {
+				kind:  "ValidatingWebhookConfiguration"
+				group: "admissionregistration.k8s.io"
+				name:  "validation.webhook.serving.knative.dev"
+				jsonPointers: [
+					"/webhooks/0/rules",
+				]
+			}, {
+				kind:  "ValidatingWebhookConfiguration"
+				group: "admissionregistration.k8s.io"
+				name:  "validation.webhook.domainmapping.serving.knative.dev"
+				jsonPointers: [
+					"/webhooks/0/rules",
+				]
+			}, {
+				kind:  "Deployment"
+				group: "apps"
+				name:  "kong-kong"
+				jsonPointers: [
+					"/spec/template/spec/tolerations",
+				]
+			}, {
+				group: "kyverno.io"
+				kind:  "ClusterPolicy"
+				jqPathExpressions: [".spec.rules[] | select(.name|test(\"autogen-.\"))"]
+			}]
+			...
+		}
+
+		...
+	}
 }
 
 #K3D: ctx={
@@ -205,18 +263,6 @@ env: control: #K3D & {
 						]
 						automated: prune: true
 					}
-					ignoreDifferences: [{
-						group: ""
-						kind:  "Secret"
-						jsonPointers: [
-							"/data",
-							"/data/ca-cert.pem",
-							"/data/server-cert.pem",
-							"/data/server-key.pem",
-						]
-						name:      "karpenter-cert"
-						namespace: "karpenter"
-					}]
 				}
 			}
 		}
@@ -236,8 +282,7 @@ env: control: #K3D & {
 			}]
 			template: {
 				metadata: {
-					name:      "k3d-control-{{name}}"
-					namespace: "argocd"
+					name: "k3d-control-{{name}}"
 				}
 				spec: {
 					project: "default"
@@ -304,53 +349,6 @@ env: circus: #K3D & {
 						]
 						automated: prune: true
 					}
-					ignoreDifferences: [{
-						kind:  "MutatingWebhookConfiguration"
-						group: "admissionregistration.k8s.io"
-						name:  "vault-agent-injector-cfg"
-						jsonPointers: [
-							"/webhooks/0/clientConfig/caBundle",
-						]
-					}, {
-						kind:  "MutatingWebhookConfiguration"
-						group: "admissionregistration.k8s.io"
-						name:  "webhook.domainmapping.serving.knative.dev"
-						jsonPointers: [
-							"/webhooks/0/rules",
-						]
-					}, {
-						kind:  "MutatingWebhookConfiguration"
-						group: "admissionregistration.k8s.io"
-						name:  "webhook.serving.knative.dev"
-						jsonPointers: [
-							"/webhooks/0/rules",
-						]
-					}, {
-						kind:  "ValidatingWebhookConfiguration"
-						group: "admissionregistration.k8s.io"
-						name:  "validation.webhook.serving.knative.dev"
-						jsonPointers: [
-							"/webhooks/0/rules",
-						]
-					}, {
-						kind:  "ValidatingWebhookConfiguration"
-						group: "admissionregistration.k8s.io"
-						name:  "validation.webhook.domainmapping.serving.knative.dev"
-						jsonPointers: [
-							"/webhooks/0/rules",
-						]
-					}, {
-						kind:  "Deployment"
-						group: "apps"
-						name:  "kong-kong"
-						jsonPointers: [
-							"/spec/template/spec/tolerations",
-						]
-					}, {
-						group: "kyverno.io"
-						kind:  "ClusterPolicy"
-						jqPathExpressions: [".spec.rules[] | select(.name|test(\"autogen-.\"))"]
-					}]
 				}
 			}
 		}
@@ -397,53 +395,6 @@ env: smiley: #K3D & {
 						]
 						automated: prune: true
 					}
-					ignoreDifferences: [{
-						kind:  "MutatingWebhookConfiguration"
-						group: "admissionregistration.k8s.io"
-						name:  "vault-agent-injector-cfg"
-						jsonPointers: [
-							"/webhooks/0/clientConfig/caBundle",
-						]
-					}, {
-						kind:  "MutatingWebhookConfiguration"
-						group: "admissionregistration.k8s.io"
-						name:  "webhook.domainmapping.serving.knative.dev"
-						jsonPointers: [
-							"/webhooks/0/rules",
-						]
-					}, {
-						kind:  "MutatingWebhookConfiguration"
-						group: "admissionregistration.k8s.io"
-						name:  "webhook.serving.knative.dev"
-						jsonPointers: [
-							"/webhooks/0/rules",
-						]
-					}, {
-						kind:  "ValidatingWebhookConfiguration"
-						group: "admissionregistration.k8s.io"
-						name:  "validation.webhook.serving.knative.dev"
-						jsonPointers: [
-							"/webhooks/0/rules",
-						]
-					}, {
-						kind:  "ValidatingWebhookConfiguration"
-						group: "admissionregistration.k8s.io"
-						name:  "validation.webhook.domainmapping.serving.knative.dev"
-						jsonPointers: [
-							"/webhooks/0/rules",
-						]
-					}, {
-						kind:  "Deployment"
-						group: "apps"
-						name:  "kong-kong"
-						jsonPointers: [
-							"/spec/template/spec/tolerations",
-						]
-					}, {
-						group: "kyverno.io"
-						kind:  "ClusterPolicy"
-						jqPathExpressions: [".spec.rules[] | select(.name|test(\"autogen-.\"))"]
-					}]
 				}
 			}
 		}
