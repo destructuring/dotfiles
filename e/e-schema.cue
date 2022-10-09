@@ -41,18 +41,15 @@ package env
 	_suffix:    string | *""
 	_namespace: bool | *true
 	_prune:     bool | *false
-	_apps: [...{...}]
+	_apps: [...#AppSetItem]
 
 	apiVersion: "argoproj.io/v1alpha1"
 	kind:       "ApplicationSet"
 
-	metadata: {...}
 	metadata: {
 		name:      "\(_prefix)\(_name)\(_suffix)"
 		namespace: "argocd"
 	}
-
-	spec: {...}
 
 	_ai_cluster: {
 		if _name == "control" {
@@ -62,11 +59,13 @@ package env
 			cluster: "\(_prefix)\(_name)"
 		}
 	}
-	_ai: #AppSetItem & _ai_cluster & {_has_namespace: _namespace}
+	_ai: _ai_cluster & {_has_namespace: _namespace}
 
 	spec: generators: [{
-		list: elements: [..._ai]
-		list: elements: _apps
+		list: {
+			elements: [..._ai]
+			elements: _apps
+		}
 	}]
 
 	spec: template: {
@@ -155,8 +154,7 @@ package env
 	type: "k3d"
 	name: string
 
-	env: #EnvApp
-	env: {
+	env: #EnvApp & {
 		metadata: {
 			name: "k3d-\(ctx.name)"
 		}
@@ -168,8 +166,7 @@ package env
 		}
 	}
 
-	appset: [string]: #AppSet
-	appset: [NAME=string]: {
+	appset: [NAME=string]: #AppSet & {
 		_prefix: "k3d-"
 		_prune:  true
 
