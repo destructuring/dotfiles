@@ -36,25 +36,18 @@ env: smiley: #K3D & {
 	}
 }
 
-// Env: vc1..vc4 is one of many vcluster machines.  The k3d machine must be set.
-env: vc1: #VCluster & {
-	machine: env.control
+// VClusters on control run dev environments
+env: {
+	_vc: #VCluster & {machine: env.control}
 
-	apps: default: {
+	_vc_apps: apps: default: {
 		"dev": {
 			namespace: "default"
 		}
 	}
-}
 
-env: vc2: #VCluster & {
-	machine: env.control
-}
-
-env: vc3: #VCluster & {
-	machine: env.control
-}
-
-env: vc4: #VCluster & {
-	machine: env.control
+	vc1: _vc & _vc_apps
+	vc2: _vc & _vc_apps
+	vc3: _vc & _vc_apps
+	vc4: _vc & _vc_apps
 }
