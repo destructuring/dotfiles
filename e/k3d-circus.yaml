@@ -11,8 +11,8 @@ spec:
     name: in-cluster
   source:
     repoURL: https://github.com/defn/app
-    path: e/k3d-circus
     targetRevision: master
+    path: e/k3d-circus
   syncPolicy:
     automated:
       prune: true

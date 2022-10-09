@@ -6,6 +6,7 @@ package env
 
 	metadata: {
 		namespace: "argocd"
+		name:      string
 	}
 
 	spec: {
@@ -15,17 +16,35 @@ package env
 		source: {
 			repoURL:        "https://github.com/defn/app"
 			targetRevision: "master"
+			path:           string
 		}
+
+		syncPolicy?: automated?: prune?: bool
 	}
+}
+
+#AppSet: {
+	_name:   string
+	_prefix: string | *""
+	_suffix: string | *""
+
+	apiVersion: "argoproj.io/v1alpha1"
+	kind:       "ApplicationSet"
+
+	metadata: {...}
+	metadata: {
+		name:      "\(_prefix)\(_name)\(_suffix)"
+		namespace: "argocd"
+	}
+
+	spec: {...}
 }
 
 #K3D: ctx={
 	type: "k3d"
 	name: string
 
-	env: {
-		#EnvApp
-
+	env: #EnvApp & {
 		metadata: {
 			name: "k3d-\(ctx.name)"
 		}
@@ -37,7 +56,7 @@ package env
 		}
 	}
 
-	appsets: [...{...}]
+	appset: [string]: #AppSet
 }
 
 #VCluster: ctx={
@@ -46,9 +65,7 @@ package env
 
 	k3d: #K3D
 
-	env: {
-		#EnvApp
-
+	env: #EnvApp & {
 		metadata: {
 			name: "\(k3d.env.metadata.name)-\(ctx.name)"
 		}
@@ -79,12 +96,10 @@ package env
 		}
 	}
 
-	appset: {
-		apiVersion: "argoproj.io/v1alpha1"
-		kind:       "ApplicationSet"
+	appset: default: #AppSet & {
+
 		metadata: {
-			name:      ctx.name
-			namespace: "argocd"
+			name: ctx.name
 		}
 		spec: {
 			generators: [{
@@ -119,12 +134,12 @@ package env
 }
 
 env: [NAME=string]: name: NAME
+env: [NAME=string]: appset: [string]: _name: NAME
 env: [NAME=string]: #K3D | #VCluster
 
 env: control: #K3D & {
-	appsets: [{
-		apiVersion: "argoproj.io/v1alpha1"
-		kind:       "ApplicationSet"
+	appset: default: {
+		_prefix: "k3d-"
 		metadata: {
 			name:      "k3d-control"
 			namespace: "argocd"
@@ -205,13 +220,12 @@ env: control: #K3D & {
 				}
 			}
 		}
-	}, {
-		apiVersion: "argoproj.io/v1alpha1"
-		kind:       "ApplicationSet"
-		metadata: {
-			name:      "k3d-control-nons"
-			namespace: "argocd"
-		}
+	}
+
+	appset: nons: {
+		_prefix: "k3d-"
+		_suffix: "-nons"
+
 		spec: {
 			generators: [{
 				list: elements: [{
@@ -242,17 +256,13 @@ env: control: #K3D & {
 				}
 			}
 		}
-	}]
+	}
 }
 
 env: circus: #K3D & {
-	appsets: [{
-		apiVersion: "argoproj.io/v1alpha1"
-		kind:       "ApplicationSet"
-		metadata: {
-			name:      "k3d-circus"
-			namespace: "argocd"
-		}
+	appset: default: {
+		_prefix: "k3d-"
+
 		spec: {
 			generators: [{
 				list: elements: [{
@@ -344,17 +354,13 @@ env: circus: #K3D & {
 				}
 			}
 		}
-	}]
+	}
 }
 
 env: smiley: #K3D & {
-	appsets: [{
-		apiVersion: "argoproj.io/v1alpha1"
-		kind:       "ApplicationSet"
-		metadata: {
-			name:      "k3d-smiley"
-			namespace: "argocd"
-		}
+	appset: default: {
+		_prefix: "k3d-"
+
 		spec: {
 			generators: [{
 				list: elements: [{
@@ -441,7 +447,7 @@ env: smiley: #K3D & {
 				}
 			}
 		}
-	}]
+	}
 }
 
 env: vc1: #VCluster & {

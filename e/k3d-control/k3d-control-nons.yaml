@@ -2,9 +2,6 @@
 
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
-metadata:
-  name: k3d-control-nons
-  namespace: argocd
 spec:
   generators:
     - list:
@@ -29,3 +26,6 @@ spec:
           - CreateNamespace=true
         automated:
           prune: true
+metadata:
+  name: k3d-control-nons
+  namespace: argocd

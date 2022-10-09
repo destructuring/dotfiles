@@ -2,9 +2,6 @@
 
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
-metadata:
-  name: k3d-smiley
-  namespace: argocd
 spec:
   generators:
     - list:
@@ -70,3 +67,6 @@ spec:
           kind: ClusterPolicy
           jqPathExpressions:
             - .spec.rules[] | select(.name|test("autogen-."))
+metadata:
+  name: k3d-smiley
+  namespace: argocd

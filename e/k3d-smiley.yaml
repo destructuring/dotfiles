@@ -11,8 +11,8 @@ spec:
     name: in-cluster
   source:
     repoURL: https://github.com/defn/app
-    path: e/k3d-smiley
     targetRevision: master
+    path: e/k3d-smiley
   syncPolicy:
     automated:
       prune: true

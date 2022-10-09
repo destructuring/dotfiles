@@ -11,5 +11,5 @@ spec:
     name: in-cluster
   source:
     repoURL: https://github.com/defn/app
-    path: e/vc4
     targetRevision: master
+    path: e/vc4

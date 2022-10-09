@@ -18,7 +18,7 @@ command: gen: {
 					contents: "# ManagedBy: cue\n\n" + yaml.Marshal(e.env)
 				}
 
-				for appset in e.appsets {
+				for aname, appset in e.appset {
 					"\(ename)-appset-\(appset.metadata.name)": file.Create & {
 						filename: "\(e.env.metadata.name)/\(appset.metadata.name).yaml"
 						contents: "# ManagedBy: cue\n\n" + yaml.Marshal(appset)
@@ -37,9 +37,11 @@ command: gen: {
 					contents: "# ManagedBy: cue\n\n" + yaml.Marshal(e.vcluster)
 				}
 
-				"\(ename)-appset": file.Create & {
-					filename: "\(e.name)/appset.yaml"
-					contents: "# ManagedBy: cue\n\n" + yaml.Marshal(e.appset)
+				for aname, appset in e.appset {
+					"\(ename)-appset-\(appset.metadata.name)": file.Create & {
+						filename: "\(e.name)/appset.yaml"
+						contents: "# ManagedBy: cue\n\n" + yaml.Marshal(appset)
+					}
 				}
 			}
 		}
