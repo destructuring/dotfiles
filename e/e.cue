@@ -1,10 +1,21 @@
 package env
 
+// Common apps on all K3D machines.
+common: apps: {
+	"kyverno": {}
+	"cert-manager": {}
+}
+
+common: dev: {
+	"dev": {
+		namespace: "default"
+	}
+}
+
 // Env: control is the control plane, used by the operator.
 env: control: #K3D & {
 	apps: default: {
-		"kyverno": {}
-		"cert-manager": {}
+		common.apps
 		"external-secrets": {}
 		"argo-cd": {}
 		"argo-events": {}
@@ -20,8 +31,7 @@ env: control: #K3D & {
 // Env: circus is the global control plane, used by all machines.
 env: circus: #K3D & {
 	apps: default: {
-		"kyverno": {}
-		"cert-manager": {}
+		common.apps
 		"kuma-global": {
 			namespace: "kuma"
 		}
@@ -31,8 +41,7 @@ env: circus: #K3D & {
 // Env: smiley is the second machine used for multi-cluster.
 env: smiley: #K3D & {
 	apps: default: {
-		"kyverno": {}
-		"cert-manager": {}
+		common.apps
 	}
 }
 
@@ -42,11 +51,7 @@ env: {
 	_vc_machine: #VCluster & {machine: env.control}
 
 	// Running dev environments
-	_vc_apps: apps: default: {
-		"dev": {
-			namespace: "default"
-		}
-	}
+	_vc_apps: apps: default: common.dev
 
 	// The VClusters
 	vc1: _vc_machine & _vc_apps
