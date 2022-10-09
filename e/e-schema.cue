@@ -201,8 +201,10 @@ env: [NAME=string]: (#K3D | #VCluster) & {
 	type: "k3d"
 
 	env: {
+		// ex: k3d-control
 		metadata: name: "k3d-\(ctx.name)"
 
+		// ex: e/k3d-control
 		spec: source: path: "e/k3d-\(ctx.name)"
 
 		spec: syncPolicy: automated: prune: true
@@ -210,11 +212,12 @@ env: [NAME=string]: (#K3D | #VCluster) & {
 
 	appset: [NAME=string]: {
 		_prefix: "k3d-"
-		_prune:  true
 
 		if NAME != "default" {
 			_suffix: "-\(NAME)"
 		}
+
+		_prune: true
 
 		if NAME == "nons" {
 			_namespace: false
@@ -230,16 +233,21 @@ env: [NAME=string]: (#K3D | #VCluster) & {
 	k3d: #K3D
 
 	env: {
+		// ex: k3d-control-vc1
 		metadata: name: "\(k3d.env.metadata.name)-\(ctx.name)"
 
+		// ex: e/vc1
 		spec: source: path: "e/\(ctx.name)"
 	}
 
 	vcluster: #VClusterApp & {
+		// ex: vc1-vcluster
 		metadata: name: "\(ctx.name)-vcluster"
 
+		// ex: k/vc1
 		spec: source: path: "k/\(ctx.name)"
 
+		// ex: namespace: vc1
 		spec: destination: namespace: ctx.name
 	}
 }
