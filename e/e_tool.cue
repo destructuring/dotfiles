@@ -10,10 +10,11 @@ command: {
 	args: string @tag(args)
 }
 
+// Generate configs in e/ for Environments and ApplicationSets
 command: gen: {
 	genYaml: {
 		for ename, e in env {
-			// Configuration for a K3D machine
+			// Configuration for K3D:
 			// k3d -> [appset, appset, vcluster]
 			if e.type == "k3d" {
 				// ex: k3d-control.yaml
@@ -31,7 +32,7 @@ command: gen: {
 				}
 			}
 
-			// Configuration for a Vcluster machine.
+			// Configuration for VCluster:
 			// k3d -> [vcluster -> [appset, appset]]
 			if e.type == "vcluster" {
 				// ex: k3d-control/k3d-control-vc1.yaml
