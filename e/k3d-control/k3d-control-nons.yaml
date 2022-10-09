@@ -21,6 +21,11 @@ spec:
         targetRevision: master
       destination:
         name: '{{cluster}}'
+      syncPolicy:
+        automated:
+          prune: true
+        syncOptions:
+          - CreateNamespace=true
       ignoreDifferences:
         - kind: MutatingWebhookConfiguration
           group: admissionregistration.k8s.io
@@ -56,11 +61,6 @@ spec:
           kind: ClusterPolicy
           jqPathExpressions:
             - .spec.rules[] | select(.name|test("autogen-."))
-      syncPolicy:
-        syncOptions:
-          - CreateNamespace=true
-        automated:
-          prune: true
 metadata:
   name: k3d-control-nons
   namespace: argocd

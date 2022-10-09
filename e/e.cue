@@ -24,9 +24,11 @@ package env
 }
 
 #AppSet: {
-	_name:   string
-	_prefix: string | *""
-	_suffix: string | *""
+	_name:      string
+	_prefix:    string | *""
+	_suffix:    string | *""
+	_namespace: bool | *true
+	_prune:     bool | *false
 
 	apiVersion: "argoproj.io/v1alpha1"
 	kind:       "ApplicationSet"
@@ -40,10 +42,30 @@ package env
 	spec: {...}
 	spec: template: {
 		metadata: {
+			name:      "\(_prefix)\(_name)-{{name}}"
 			namespace: "argocd"
-			...
 		}
 		spec: {
+			project: "default"
+			source: {
+				repoURL:        "https://github.com/defn/app"
+				path:           "k/{{path}}"
+				targetRevision: "master"
+			}
+			destination: {
+				if _namespace {
+					namespace: "{{namespace}}"
+				}
+				name: "{{cluster}}"
+			}
+			syncPolicy: {
+				syncOptions: [
+					"CreateNamespace=true",
+				]
+				if _prune {
+					automated: prune: true
+				}
+			}
 			ignoreDifferences: [{
 				kind:  "MutatingWebhookConfiguration"
 				group: "admissionregistration.k8s.io"
@@ -91,10 +113,7 @@ package env
 				kind:  "ClusterPolicy"
 				jqPathExpressions: [".spec.rules[] | select(.name|test(\"autogen-.\"))"]
 			}]
-			...
 		}
-
-		...
 	}
 }
 
@@ -170,25 +189,6 @@ package env
 					cluster:   ctx.name
 				}]
 			}]
-			template: {
-				metadata: {
-					name:      "\(ctx.name)-{{name}}"
-					namespace: "argocd"
-				}
-				spec: {
-					project: "default"
-					source: {
-						repoURL:        "https://github.com/defn/app"
-						path:           "k/{{path}}"
-						targetRevision: "master"
-					}
-					destination: {
-						namespace: "{{namespace}}"
-						name:      "{{cluster}}"
-					}
-					syncPolicy: syncOptions: ["CreateNamespace=true"]
-				}
-			}
 		}
 	}
 }
@@ -201,6 +201,7 @@ env: [NAME=string]: #K3D | #VCluster
 env: control: #K3D & {
 	appset: default: {
 		_prefix: "k3d-"
+		_prune:  true
 
 		spec: {
 			generators: [{
@@ -241,36 +242,15 @@ env: control: #K3D & {
 					path:      "knative"
 				}]
 			}]
-			template: {
-				metadata: {
-					name:      "k3d-control-{{name}}"
-					namespace: "argocd"
-				}
-				spec: {
-					project: "default"
-					source: {
-						repoURL:        "https://github.com/defn/app"
-						path:           "k/{{path}}"
-						targetRevision: "master"
-					}
-					destination: {
-						namespace: "{{namespace}}"
-						name:      "{{cluster}}"
-					}
-					syncPolicy: {
-						syncOptions: [
-							"CreateNamespace=true",
-						]
-						automated: prune: true
-					}
-				}
-			}
+			template: spec: syncPolicy: automated: prune: true
 		}
 	}
 
 	appset: nons: {
-		_prefix: "k3d-"
-		_suffix: "-nons"
+		_prefix:    "k3d-"
+		_suffix:    "-nons"
+		_namespace: false
+		_prune:     true
 
 		spec: {
 			generators: [{
@@ -280,26 +260,7 @@ env: control: #K3D & {
 					cluster: "in-cluster"
 				}]
 			}]
-			template: {
-				metadata: {
-					name: "k3d-control-{{name}}"
-				}
-				spec: {
-					project: "default"
-					source: {
-						repoURL:        "https://github.com/defn/app"
-						path:           "k/{{path}}"
-						targetRevision: "master"
-					}
-					destination: name: "{{cluster}}"
-					syncPolicy: {
-						syncOptions: [
-							"CreateNamespace=true",
-						]
-						automated: prune: true
-					}
-				}
-			}
+			template: spec: syncPolicy: automated: prune: true
 		}
 	}
 }
@@ -307,6 +268,7 @@ env: control: #K3D & {
 env: circus: #K3D & {
 	appset: default: {
 		_prefix: "k3d-"
+		_prune:  true
 
 		spec: {
 			generators: [{
@@ -327,30 +289,7 @@ env: circus: #K3D & {
 					cluster:   "k3d-circus"
 				}]
 			}]
-			template: {
-				metadata: {
-					name:      "k3d-circus-{{name}}"
-					namespace: "argocd"
-				}
-				spec: {
-					project: "default"
-					source: {
-						repoURL:        "https://github.com/defn/app"
-						path:           "k/{{path}}"
-						targetRevision: "master"
-					}
-					destination: {
-						namespace: "{{namespace}}"
-						name:      "{{cluster}}"
-					}
-					syncPolicy: {
-						syncOptions: [
-							"CreateNamespace=true",
-						]
-						automated: prune: true
-					}
-				}
-			}
+			template: spec: syncPolicy: automated: prune: true
 		}
 	}
 }
@@ -358,6 +297,7 @@ env: circus: #K3D & {
 env: smiley: #K3D & {
 	appset: default: {
 		_prefix: "k3d-"
+		_prune:  true
 
 		spec: {
 			generators: [{
@@ -373,30 +313,6 @@ env: smiley: #K3D & {
 					cluster:   "k3d-smiley"
 				}]
 			}]
-			template: {
-				metadata: {
-					name:      "k3d-smiley-{{name}}"
-					namespace: "argocd"
-				}
-				spec: {
-					project: "default"
-					source: {
-						repoURL:        "https://github.com/defn/app"
-						path:           "k/{{path}}"
-						targetRevision: "master"
-					}
-					destination: {
-						namespace: "{{namespace}}"
-						name:      "{{cluster}}"
-					}
-					syncPolicy: {
-						syncOptions: [
-							"CreateNamespace=true",
-						]
-						automated: prune: true
-					}
-				}
-			}
 		}
 	}
 }
