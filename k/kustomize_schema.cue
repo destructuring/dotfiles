@@ -40,6 +40,8 @@ kustomize: [string]: #Kustomize
 }
 
 #KustomizeVCluster: {
+	#Kustomize
+
 	vc_name:    string
 	vc_machine: string | *"control"
 
