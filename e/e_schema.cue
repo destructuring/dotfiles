@@ -2,7 +2,6 @@ package env
 
 // Each environment is hosted on a Kubernetes machine.  
 // The machine's name is set to the env key.
-// ApplicationSets configure what applications are run.
 env: [NAME=string]: (#K3D | #VCluster) & {
 	name: NAME
 }
@@ -136,8 +135,8 @@ env: [NAME=string]: (#K3D | #VCluster) & {
 	}
 }
 
-// Application for a Machine's ApplicationSets
-#EnvApp: {
+// Env Application to deploy ApplicationSets, VCluster Applications
+#EnvAppSet: {
 	apiVersion: "argoproj.io/v1alpha1"
 	kind:       "Application"
 
@@ -160,14 +159,16 @@ env: [NAME=string]: (#K3D | #VCluster) & {
 	}
 }
 
-// Application for a Vcluster
+// VCluster Application to deploy vcluster
 #VClusterApp: {
 	apiVersion: "argoproj.io/v1alpha1"
 	kind:       "Application"
+
 	metadata: {
 		name:      string
 		namespace: "argocd"
 	}
+
 	spec: {
 		project: "default"
 		source: {
@@ -188,7 +189,7 @@ env: [NAME=string]: (#K3D | #VCluster) & {
 	type: string
 	name: string
 
-	env: #EnvApp
+	env: #EnvAppSet
 
 	apps: [string]: [string]: {...}
 

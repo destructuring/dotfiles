@@ -36,18 +36,20 @@ env: smiley: #K3D & {
 	}
 }
 
-// VClusters on control run dev environments
 env: {
-	_vc: #VCluster & {machine: env.control}
+	// VClusters on control machine
+	_vc_machine: #VCluster & {machine: env.control}
 
+	// Running dev environments
 	_vc_apps: apps: default: {
 		"dev": {
 			namespace: "default"
 		}
 	}
 
-	vc1: _vc & _vc_apps
-	vc2: _vc & _vc_apps
-	vc3: _vc & _vc_apps
-	vc4: _vc & _vc_apps
+	// The VClusters
+	vc1: _vc_machine & _vc_apps
+	vc2: _vc_machine & _vc_apps
+	vc3: _vc_machine & _vc_apps
+	vc4: _vc_machine & _vc_apps
 }
