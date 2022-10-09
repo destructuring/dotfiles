@@ -156,7 +156,7 @@ env: [NAME=string]: (#K3D | #VCluster) & {
 			path:           string
 		}
 
-		syncPolicy?: automated?: prune?: bool
+		syncPolicy: automated: prune: bool | *true
 	}
 }
 

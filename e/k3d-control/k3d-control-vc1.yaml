@@ -13,3 +13,6 @@ spec:
     repoURL: https://github.com/defn/app
     targetRevision: master
     path: e/vc1
+  syncPolicy:
+    automated:
+      prune: true
