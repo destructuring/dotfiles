@@ -7,30 +7,6 @@ env: [NAME=string]: (#K3D | #VCluster) & {
 	name: NAME
 }
 
-// Application for an environment hosted on a machine.
-#Env: {
-	apiVersion: "argoproj.io/v1alpha1"
-	kind:       "Application"
-
-	metadata: {
-		namespace: "argocd"
-		name:      string
-	}
-
-	spec: {
-		project: "default"
-
-		destination: name: "in-cluster"
-		source: {
-			repoURL:        "https://github.com/defn/app"
-			targetRevision: "master"
-			path:           string
-		}
-
-		syncPolicy?: automated?: prune?: bool
-	}
-}
-
 // Applications configured in an ApplicationSet
 #AppSetElement: {
 	name:    string
@@ -44,7 +20,7 @@ env: [NAME=string]: (#K3D | #VCluster) & {
 	}
 }
 
-// ApplicationSet configured in a machine
+// ApplicationSet configured in a Machine
 #AppSet: {
 	_name:      string
 	_prefix:    string | *""
@@ -160,35 +136,79 @@ env: [NAME=string]: (#K3D | #VCluster) & {
 	}
 }
 
-// Machines run ApplicationSets, hosted on K3D or Vcluster
+// Application for a Machine's ApplicationSets
+#EnvApp: {
+	apiVersion: "argoproj.io/v1alpha1"
+	kind:       "Application"
+
+	metadata: {
+		namespace: "argocd"
+		name:      string
+	}
+
+	spec: {
+		project: "default"
+
+		destination: name: "in-cluster"
+		source: {
+			repoURL:        "https://github.com/defn/app"
+			targetRevision: "master"
+			path:           string
+		}
+
+		syncPolicy?: automated?: prune?: bool
+	}
+}
+
+// Application for a Vcluster
+#VClusterApp: {
+	apiVersion: "argoproj.io/v1alpha1"
+	kind:       "Application"
+	metadata: {
+		name:      string
+		namespace: "argocd"
+	}
+	spec: {
+		project: "default"
+		source: {
+			repoURL:        "https://github.com/defn/app"
+			path:           string
+			targetRevision: "master"
+		}
+		destination: {
+			namespace: string
+			name:      "in-cluster"
+		}
+		syncPolicy: syncOptions: ["CreateNamespace=true"]
+	}
+}
+
+// Machines run ApplicationSets
 #Machine: {
 	type: string
 	name: string
+
+	env: #EnvApp
+
 	appset: [string]: #AppSet & {
 		_name: name
 	}
-
-	env: #Env
 }
 
-// K3D machine
+// K3D Machine
 #K3D: ctx={
 	#Machine
 	type: "k3d"
 
 	env: {
-		metadata: {
-			name: "k3d-\(ctx.name)"
-		}
+		metadata: name: "k3d-\(ctx.name)"
 
-		spec: {
-			source: path: "e/k3d-\(ctx.name)"
+		spec: source: path: "e/k3d-\(ctx.name)"
 
-			syncPolicy: automated: prune: true
-		}
+		spec: syncPolicy: automated: prune: true
 	}
 
-	appset: [NAME=string]: #AppSet & {
+	appset: [NAME=string]: {
 		_prefix: "k3d-"
 		_prune:  true
 
@@ -202,7 +222,7 @@ env: [NAME=string]: (#K3D | #VCluster) & {
 	}
 }
 
-// VCluster machine
+// VCluster Machine
 #VCluster: ctx={
 	#Machine
 	type: "vcluster"
@@ -210,35 +230,16 @@ env: [NAME=string]: (#K3D | #VCluster) & {
 	k3d: #K3D
 
 	env: {
-		metadata: {
-			name: "\(k3d.env.metadata.name)-\(ctx.name)"
-		}
-		spec: {
-			source: path: "e/\(ctx.name)"
-		}
+		metadata: name: "\(k3d.env.metadata.name)-\(ctx.name)"
+
+		spec: source: path: "e/\(ctx.name)"
 	}
 
-	vcluster: {
-		apiVersion: "argoproj.io/v1alpha1"
-		kind:       "Application"
-		metadata: {
-			name:      "\(ctx.name)-vcluster"
-			namespace: "argocd"
-		}
-		spec: {
-			project: "default"
-			source: {
-				repoURL:        "https://github.com/defn/app"
-				path:           "k/\(ctx.name)"
-				targetRevision: "master"
-			}
-			destination: {
-				namespace: ctx.name
-				name:      "in-cluster"
-			}
-			syncPolicy: syncOptions: ["CreateNamespace=true"]
-		}
-	}
+	vcluster: #VClusterApp & {
+		metadata: name: "\(ctx.name)-vcluster"
 
-	appset?: [string]: #AppSet
+		spec: source: path: "k/\(ctx.name)"
+
+		spec: destination: namespace: ctx.name
+	}
 }

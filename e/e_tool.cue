@@ -5,6 +5,7 @@ import (
 	"encoding/yaml"
 )
 
+// This makes the c wrapper happy.
 command: {
 	args: string @tag(args)
 }
