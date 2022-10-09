@@ -1,10 +1,5 @@
 package env
 
-// Each environment is a k3d or vcluster machine.  Set the machine's name to the env key.
-env: [NAME=string]: (#K3D | #VCluster) & {
-	name: NAME
-}
-
 // Env: control is the control plane, used by the operator.
 env: control: #K3D & {
 	appset: default: _apps: [{

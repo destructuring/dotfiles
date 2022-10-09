@@ -1,6 +1,14 @@
 package env
 
-#EnvApp: {
+// Each environment is hosted on a Kubernetes machine.  
+// The machine's name is set to the env key.
+// ApplicationSets configure what applications are run.
+env: [NAME=string]: (#K3D | #VCluster) & {
+	name: NAME
+}
+
+// Application for an environment hosted on a machine.
+#Env: {
 	apiVersion: "argoproj.io/v1alpha1"
 	kind:       "Application"
 
@@ -23,7 +31,8 @@ package env
 	}
 }
 
-#AppSetItem: {
+// Applications configured in an ApplicationSet
+#AppSetElement: {
 	name:    string
 	path:    string | *name
 	cluster: string
@@ -35,13 +44,14 @@ package env
 	}
 }
 
+// ApplicationSet configured in a machine
 #AppSet: {
 	_name:      string
 	_prefix:    string | *""
 	_suffix:    string | *""
 	_namespace: bool | *true
 	_prune:     bool | *false
-	_apps: [...#AppSetItem]
+	_apps: [...#AppSetElement]
 
 	apiVersion: "argoproj.io/v1alpha1"
 	kind:       "ApplicationSet"
@@ -150,19 +160,23 @@ package env
 	}
 }
 
+// Machines run ApplicationSets, hosted on K3D or Vcluster
 #Machine: {
 	type: string
 	name: string
 	appset: [string]: #AppSet & {
 		_name: name
 	}
+
+	env: #Env
 }
 
+// K3D machine
 #K3D: ctx={
 	#Machine
 	type: "k3d"
 
-	env: #EnvApp & {
+	env: {
 		metadata: {
 			name: "k3d-\(ctx.name)"
 		}
@@ -188,13 +202,13 @@ package env
 	}
 }
 
+// VCluster machine
 #VCluster: ctx={
 	#Machine
 	type: "vcluster"
 
 	k3d: #K3D
 
-	env: #EnvApp
 	env: {
 		metadata: {
 			name: "\(k3d.env.metadata.name)-\(ctx.name)"
