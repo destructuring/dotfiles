@@ -27,6 +27,7 @@ env: [NAME=string]: ctx={
 
 	spec: {
 		project: "default"
+
 		destination: name: "in-cluster"
 		source: {
 			repoURL:        "https://github.com/defn/app"
@@ -40,25 +41,20 @@ env: [NAME=string]: ctx={
 				path: "e/\(NAME)"
 			}
 		}
+
+		if ctx._type == "k3d" {
+			syncPolicy: automated: prune: true
+		}
 	}
 }
 
 env: circus: #K3D & {
-	spec: {
-		syncPolicy: automated: prune: true
-	}
 }
 
 env: control: #K3D & {
-	spec: {
-		syncPolicy: automated: prune: true
-	}
 }
 
 env: smiley: #K3D & {
-	spec: {
-		syncPolicy: automated: prune: true
-	}
 }
 
 env: vc2: #VCluster & {
