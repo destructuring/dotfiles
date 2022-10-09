@@ -1,7 +1,9 @@
+# ManagedBy: cue
+
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: "vc4-vcluster"
+  name: vc4-vcluster
   namespace: argocd
 spec:
   project: default

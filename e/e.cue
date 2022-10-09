@@ -59,18 +59,18 @@ package env
 		apiVersion: "argoproj.io/v1alpha1"
 		kind:       "Application"
 		metadata: {
-			name:      "\(ctx.env.metadata.name)-vcluster"
+			name:      "\(ctx.name)-vcluster"
 			namespace: "argocd"
 		}
 		spec: {
 			project: "default"
 			source: {
 				repoURL:        "https://github.com/defn/app"
-				path:           "k/\(ctx.env.metadata.name)"
+				path:           "k/\(ctx.name)"
 				targetRevision: "master"
 			}
 			destination: {
-				namespace: ctx.env.metadata.name
+				namespace: ctx.name
 				name:      "in-cluster"
 			}
 			syncPolicy: syncOptions: ["CreateNamespace=true"]
@@ -81,7 +81,7 @@ package env
 		apiVersion: "argoproj.io/v1alpha1"
 		kind:       "ApplicationSet"
 		metadata: {
-			name:      ctx.env.metadata.name
+			name:      ctx.name
 			namespace: "argocd"
 		}
 		spec: {
@@ -90,12 +90,12 @@ package env
 					name:      "dev"
 					namespace: "default"
 					path:      "dev"
-					cluster:   ctx.env.metadata.name
+					cluster:   ctx.name
 				}]
 			}]
 			template: {
 				metadata: {
-					name:      "\(ctx.env.metadata.name)-{{name}}"
+					name:      "\(ctx.name)-{{name}}"
 					namespace: "argocd"
 				}
 				spec: {
