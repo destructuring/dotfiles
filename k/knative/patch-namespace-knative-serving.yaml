@@ -1,8 +1,8 @@
 #ManagedBy: cue
 
-apiVersion: v1
-kind: Namespace
 metadata:
   name: knative-serving
   labels:
     kuma.io/sidecar-injection: disabled
+kind: Namespace
+apiVersion: v1

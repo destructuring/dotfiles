@@ -2,9 +2,9 @@
 
 patchesStrategicMerge:
   - patch-namespace-knative-serving.yaml
+  - patch-config-map-config-defaults.yaml
+  - patch-config-map-config-domain.yaml
+  - patch-config-map-config-features.yaml
+  - patch-config-map-config-network.yaml
 resources:
   - https://github.com/knative/serving/releases/download/knative-v1.7.2/serving-core.yaml
-  - resource-config-map-config-defaults.yaml
-  - resource-config-map-config-domain.yaml
-  - resource-config-map-config-features.yaml
-  - resource-config-map-config-network.yaml

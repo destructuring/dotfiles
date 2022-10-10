@@ -1,7 +1,5 @@
 #ManagedBy: cue
 
-apiVersion: v1
-kind: ConfigMap
 metadata:
   name: argocd-cm
 data:
@@ -23,3 +21,5 @@ data:
   resource.customizations.ignoreDifferences.kyverno.io_ClusterPolicy: |
     jqPathExpressions:
       - .spec.rules[] | select(.name|test("autogen-."))
+kind: ConfigMap
+apiVersion: v1
