@@ -1,7 +1,5 @@
 #ManagedBy: cue
 
-apiVersion: apps/v1
-kind: StatefulSet
 metadata:
   name: dev
   namespace: default
@@ -67,3 +65,5 @@ spec:
           volumeMounts:
             - mountPath: /work
               name: work
+kind: StatefulSet
+apiVersion: apps/v1

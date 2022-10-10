@@ -2,7 +2,8 @@ package c
 
 import (
 	core "github.com/defn/boot/k8s.io/api/core/v1"
-	// apps "github.com/defn/boot/k8s.io/api/apps/v1"
+	apps "github.com/defn/boot/k8s.io/api/apps/v1"
+	rbac "github.com/defn/boot/k8s.io/api/rbac/v1"
 )
 
 kustomize: "vc1": #KustomizeVCluster & {
@@ -35,7 +36,7 @@ kustomize: "argo-cd": #KustomizeHelm & {
 		repo:    "https://argoproj.github.io/argo-helm"
 	}
 
-	psm: "configmap-argocd-cm": {
+	psm: "configmap-argocd-cm": core.#ConfigMap & {
 		apiVersion: "v1"
 		kind:       "ConfigMap"
 		metadata: name: "argocd-cm"
@@ -359,7 +360,7 @@ kustomize: "kourier": #Kustomize & {
 kustomize: "dev": #Kustomize & {
 	namespace: "default"
 
-	resource: "statefulset-dev": {
+	resource: "statefulset-dev": apps.#StatefulSet & {
 		apiVersion: "apps/v1"
 		kind:       "StatefulSet"
 		metadata: {
@@ -462,7 +463,7 @@ kustomize: "dev": #Kustomize & {
 		}
 	}
 
-	resource: "cluster-role-binding-dev": {
+	resource: "cluster-role-binding-dev": rbac.#ClusterRoleBinding & {
 		apiVersion: "rbac.authorization.k8s.io/v1"
 		kind:       "ClusterRoleBinding"
 		metadata: name: "dev"
