@@ -340,8 +340,6 @@ kustomize: "arc": #KustomizeHelm & {
 }
 
 kustomize: "kourier": #Kustomize & {
-	namespace: "kourier-system"
-
 	resource: "kourier": {
 		url: "https://github.com/knative-sandbox/net-kourier/releases/download/knative-v1.7.0/kourier.yaml"
 	}

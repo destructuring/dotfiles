@@ -4,4 +4,3 @@ patchesStrategicMerge:
   - patch-service-kourier-set-cluster-ip.yaml
 resources:
   - https://github.com/knative-sandbox/net-kourier/releases/download/knative-v1.7.0/kourier.yaml
-namespace: kourier-system
