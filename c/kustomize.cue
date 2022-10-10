@@ -599,7 +599,8 @@ kustomize: "knative": #Kustomize & {
 		apiVersion: "v1"
 		kind:       "ConfigMap"
 		metadata: {
-			name: "config-defaults"
+			name:      "config-defaults"
+			namespace: "knative-serving"
 		}
 		data: {
 			"revision-timeout-seconds":     "1800"
@@ -611,7 +612,8 @@ kustomize: "knative": #Kustomize & {
 		apiVersion: "v1"
 		kind:       "ConfigMap"
 		metadata: {
-			name: "config-domain"
+			name:      "config-domain"
+			namespace: "knative-serving"
 		}
 		data: "svc.cluster.local": ""
 	}
@@ -620,7 +622,8 @@ kustomize: "knative": #Kustomize & {
 		apiVersion: "v1"
 		kind:       "ConfigMap"
 		metadata: {
-			name: "config-features"
+			name:      "config-features"
+			namespace: "knative-serving"
 		}
 		data: {
 			"kubernetes.podspec-affinity":    "enabled"
@@ -632,7 +635,8 @@ kustomize: "knative": #Kustomize & {
 		apiVersion: "v1"
 		kind:       "ConfigMap"
 		metadata: {
-			name: "config-network"
+			name:      "config-network"
+			namespace: "knative-serving"
 		}
 		data: "ingress-class": "kourier.ingress.networking.knative.dev"
 	}

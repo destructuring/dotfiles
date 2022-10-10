@@ -2,6 +2,7 @@
 
 metadata:
   name: config-defaults
+  namespace: knative-serving
 data:
   revision-timeout-seconds: "1800"
   max-revision-timeout-seconds: "1800"

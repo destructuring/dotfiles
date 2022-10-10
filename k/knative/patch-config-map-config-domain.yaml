@@ -2,6 +2,7 @@
 
 metadata:
   name: config-domain
+  namespace: knative-serving
 data:
   svc.cluster.local: ""
 kind: ConfigMap
