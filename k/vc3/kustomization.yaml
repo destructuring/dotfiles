@@ -1,14 +1,14 @@
 #ManagedBy: cue
 
-namespace: vc1
 patchesStrategicMerge: []
 resources: []
+namespace: vc1
 helmCharts:
   - releaseName: vcluster
     name: vcluster
-    namespace: vc1
     version: 0.12.2
     repo: https://charts.loft.sh
+    namespace: vc1
     valuesInline:
       service:
         type: ClusterIP

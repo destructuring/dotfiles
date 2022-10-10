@@ -1,14 +1,14 @@
 #ManagedBy: cue
 
-namespace: kuma
 patchesStrategicMerge: []
 resources: []
+namespace: kuma
 helmCharts:
   - releaseName: kuma
     name: kuma
-    namespace: kuma
     version: 1.8.0
     repo: https://kumahq.github.io/charts
+    namespace: kuma
     valuesInline:
       controlPlane:
         mode: global

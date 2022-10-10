@@ -1,14 +1,14 @@
 #ManagedBy: cue
 
-namespace: external-secrets
 patchesStrategicMerge: []
 resources: []
+namespace: external-secrets
 helmCharts:
   - releaseName: external-secrets
     name: external-secrets
-    namespace: external-secrets
     version: 0.5.8
     repo: https://charts.external-secrets.io
+    namespace: external-secrets
     valuesInline:
       webhook:
         create: false

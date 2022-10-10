@@ -7,7 +7,7 @@ metadata:
     heritage: Helm
     release: vcluster
   name: vc-vcluster
-  namespace: vc3
+  namespace: vc1
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -18,7 +18,7 @@ metadata:
     heritage: Helm
     release: vcluster
   name: vc-workload-vcluster
-  namespace: vc3
+  namespace: vc1
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
@@ -29,7 +29,7 @@ metadata:
     heritage: Helm
     release: vcluster
   name: vcluster
-  namespace: vc3
+  namespace: vc1
 rules:
 - apiGroups:
   - ""
@@ -93,6 +93,37 @@ rules:
   - watch
 ---
 apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app: vcluster
+    chart: vcluster-0.12.2
+    heritage: Helm
+    release: vcluster
+  name: vc-vcluster-v-vc1
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - nodes
+  - nodes/status
+  verbs:
+  - get
+  - watch
+  - list
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  - nodes/proxy
+  - nodes/metrics
+  - nodes/stats
+  verbs:
+  - get
+  - watch
+  - list
+---
+apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   labels:
@@ -101,7 +132,7 @@ metadata:
     heritage: Helm
     release: vcluster
   name: vcluster
-  namespace: vc3
+  namespace: vc1
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -109,7 +140,25 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: vc-vcluster
-  namespace: vc3
+  namespace: vc1
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    app: vcluster
+    chart: vcluster-0.12.2
+    heritage: Helm
+    release: vcluster
+  name: vc-vcluster-v-vc1
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: vc-vcluster-v-vc1
+subjects:
+- kind: ServiceAccount
+  name: vc-vcluster
+  namespace: vc1
 ---
 apiVersion: v1
 data:
@@ -330,7 +379,7 @@ data:
 kind: ConfigMap
 metadata:
   name: vcluster-coredns
-  namespace: vc3
+  namespace: vc1
 ---
 apiVersion: v1
 data:
@@ -343,7 +392,7 @@ metadata:
     heritage: Helm
     release: vcluster
   name: vcluster-init-manifests
-  namespace: vc3
+  namespace: vc1
 ---
 apiVersion: v1
 kind: Service
@@ -354,7 +403,7 @@ metadata:
     heritage: Helm
     release: vcluster
   name: vcluster
-  namespace: vc3
+  namespace: vc1
 spec:
   ports:
   - name: https
@@ -375,7 +424,7 @@ metadata:
     heritage: Helm
     release: vcluster
   name: vcluster-headless
-  namespace: vc3
+  namespace: vc1
 spec:
   clusterIP: None
   ports:
@@ -396,7 +445,7 @@ metadata:
     heritage: Helm
     release: vcluster
   name: vcluster
-  namespace: vc3
+  namespace: vc1
 spec:
   replicas: 1
   selector:
@@ -410,7 +459,15 @@ spec:
         app: vcluster
         release: vcluster
     spec:
-      affinity: {}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: env
+                operator: In
+                values:
+                - control
       containers:
       - args:
         - -c
@@ -447,7 +504,10 @@ spec:
         - --name=vcluster
         - --service-account=vc-workload-vcluster
         - --kube-config-context-name=my-vcluster
+        - --sync=nodes
+        - --node-selector=env=control
         - --tls-san=vcluster.vc3.svc.cluster.local
+        - --enforce-toleration=env=vc3:NoSchedule
         env:
         - name: POD_IP
           valueFrom:
@@ -493,7 +553,10 @@ spec:
       nodeSelector: {}
       serviceAccountName: vc-vcluster
       terminationGracePeriodSeconds: 10
-      tolerations: []
+      tolerations:
+      - key: env
+        operator: Equal
+        value: control
       volumes:
       - emptyDir: {}
         name: config

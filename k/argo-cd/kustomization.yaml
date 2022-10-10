@@ -1,14 +1,14 @@
 #ManagedBy: cue
 
-namespace: argocd
 patchesStrategicMerge:
-  - configmap-argocd-cm.yaml
+  - patch-configmap-argocd-cm.yaml
 resources: []
+namespace: argocd
 helmCharts:
   - releaseName: argocd
     name: argo-cd
-    namespace: argocd
     version: 5.5.11
     repo: https://argoproj.github.io/argo-helm
+    namespace: argocd
     valuesInline: {}
     includeCRDs: true

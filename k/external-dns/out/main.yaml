@@ -18,8 +18,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: external-dns
     helm.sh/chart: external-dns-6.7.2
-  name: external-dns-default
-  namespace: default
+  name: external-dns-external-dns
+  namespace: external-dns
 rules:
 - apiGroups:
   - ""
@@ -110,12 +110,12 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/name: external-dns
     helm.sh/chart: external-dns-6.7.2
-  name: external-dns-default
-  namespace: default
+  name: external-dns-external-dns
+  namespace: external-dns
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: external-dns-default
+  name: external-dns-external-dns
 subjects:
 - kind: ServiceAccount
   name: external-dns
@@ -179,7 +179,7 @@ spec:
                   app.kubernetes.io/instance: external-dns
                   app.kubernetes.io/name: external-dns
               namespaces:
-              - default
+              - external-dns
               topologyKey: kubernetes.io/hostname
             weight: 1
       containers:

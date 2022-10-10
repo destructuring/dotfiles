@@ -1,15 +1,15 @@
 #ManagedBy: cue
 
-namespace: vault
 patchesStrategicMerge:
-  - statefulset-vault-set-vault-token.yaml
+  - patch-statefulset-vault-set-vault-token.yaml
 resources: []
+namespace: vault
 helmCharts:
   - releaseName: vault
     name: vault
-    namespace: vault
     version: 0.20.1
     repo: https://helm.releases.hashicorp.com
+    namespace: vault
     valuesInline:
       server:
         dataStorage:

@@ -924,61 +924,6 @@ metadata:
     app.kubernetes.io/part-of: argo-workflows
     helm.sh/chart: argo-workflows-0.20.1
   name: argo-workflows-workflow
-  namespace: argo-workflows
-rules:
-- apiGroups:
-  - ""
-  resources:
-  - pods
-  verbs:
-  - get
-  - watch
-  - patch
-- apiGroups:
-  - ""
-  resources:
-  - pods/log
-  verbs:
-  - get
-  - watch
-- apiGroups:
-  - ""
-  resources:
-  - pods/exec
-  verbs:
-  - create
-- apiGroups:
-  - argoproj.io
-  resources:
-  - workflowtaskresults
-  verbs:
-  - create
-- apiGroups:
-  - argoproj.io
-  resources:
-  - workflowtasksets
-  verbs:
-  - list
-  - watch
-- apiGroups:
-  - argoproj.io
-  resources:
-  - workflowtasksets/status
-  - workflowtasksets
-  verbs:
-  - patch
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
-metadata:
-  labels:
-    app.kubernetes.io/component: workflow-controller
-    app.kubernetes.io/instance: argo-workflows
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/name: argo-workflows-workflow-controller
-    app.kubernetes.io/part-of: argo-workflows
-    helm.sh/chart: argo-workflows-0.20.1
-  name: argo-workflows-workflow
   namespace: default
 rules:
 - apiGroups:
@@ -1391,27 +1336,6 @@ metadata:
     app.kubernetes.io/part-of: argo-workflows
     helm.sh/chart: argo-workflows-0.20.1
   name: argo-workflows-workflow
-  namespace: argo-workflows
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: Role
-  name: argo-workflows-workflow
-subjects:
-- kind: ServiceAccount
-  name: argo-workflow
-  namespace: argo-workflows
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
-metadata:
-  labels:
-    app.kubernetes.io/component: workflow-controller
-    app.kubernetes.io/instance: argo-workflows
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/name: argo-workflows-workflow-controller
-    app.kubernetes.io/part-of: argo-workflows
-    helm.sh/chart: argo-workflows-0.20.1
-  name: argo-workflows-workflow
   namespace: default
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -1440,7 +1364,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: argo-workflows-server
-  namespace: argo-workflows
+  namespace: default
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -1460,7 +1384,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: argo-workflows-server
-  namespace: argo-workflows
+  namespace: default
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -1480,7 +1404,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: argo-workflows-workflow-controller
-  namespace: argo-workflows
+  namespace: default
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -1500,7 +1424,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: argo-workflows-workflow-controller
-  namespace: argo-workflows
+  namespace: default
 ---
 apiVersion: v1
 data:

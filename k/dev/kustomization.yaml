@@ -1,8 +1,8 @@
 #ManagedBy: cue
 
-namespace: default
 patchesStrategicMerge: []
 resources:
   - resource-statefulset-dev.yaml
   - resource-service-dev.yaml
   - resource-cluster-role-binding-dev.yaml
+namespace: default

@@ -1,15 +1,15 @@
 #ManagedBy: cue
 
-namespace: kong
 patchesStrategicMerge:
-  - service-kong-kong-proxy-set-cluster-ip.yaml
+  - patch-service-kong-kong-proxy-set-cluster-ip.yaml
 resources: []
+namespace: kong
 helmCharts:
   - releaseName: kong
     name: kong
-    namespace: kong
     version: 2.13.1
     repo: https://charts.konghq.com
+    namespace: kong
     valuesInline:
       enterprise:
         enabled: true

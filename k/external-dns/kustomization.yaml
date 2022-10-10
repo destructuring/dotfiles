@@ -1,14 +1,14 @@
 #ManagedBy: cue
 
-namespace: external-dns
 patchesStrategicMerge: []
 resources: []
+namespace: external-dns
 helmCharts:
   - releaseName: external-dns
     name: external-dns
-    namespace: external-dns
     version: 6.7.2
     repo: https://charts.bitnami.com/bitnami
+    namespace: external-dns
     valuesInline:
       sources:
         - service

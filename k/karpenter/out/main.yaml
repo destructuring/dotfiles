@@ -1181,7 +1181,7 @@ metadata:
     app.kubernetes.io/version: 0.16.3
     helm.sh/chart: karpenter-0.16.3
   name: defaulting.webhook.provisioners.karpenter.sh
-  namespace: default
+  namespace: karpenter
 webhooks:
 - admissionReviewVersions:
   - v1
@@ -1225,7 +1225,7 @@ metadata:
     app.kubernetes.io/version: 0.16.3
     helm.sh/chart: karpenter-0.16.3
   name: validation.webhook.config.karpenter.sh
-  namespace: default
+  namespace: karpenter
 webhooks:
 - admissionReviewVersions:
   - v1
@@ -1250,7 +1250,7 @@ metadata:
     app.kubernetes.io/version: 0.16.3
     helm.sh/chart: karpenter-0.16.3
   name: validation.webhook.provisioners.karpenter.sh
-  namespace: default
+  namespace: karpenter
 webhooks:
 - admissionReviewVersions:
   - v1

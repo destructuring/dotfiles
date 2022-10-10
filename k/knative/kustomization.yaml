@@ -1,10 +1,9 @@
 #ManagedBy: cue
 
-namespace: knative-serving
-patchesStrategicMerge: []
+patchesStrategicMerge:
+  - patch-namespace-knative-serving.yaml
 resources:
   - https://github.com/knative/serving/releases/download/knative-v1.7.2/serving-core.yaml
-  - resource-namespace-knative-serving.yaml
   - resource-config-map-config-defaults.yaml
   - resource-config-map-config-domain.yaml
   - resource-config-map-config-features.yaml

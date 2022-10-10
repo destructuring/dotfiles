@@ -18,7 +18,7 @@ kustomize: [string]: #KustomizeHelm | #KustomizeVCluster | #Kustomize
 }
 
 #Kustomize: {
-	namespace: string
+	namespace: string | *""
 	let kns = namespace
 
 	psm: {...} | *{}
@@ -27,11 +27,13 @@ kustomize: [string]: #KustomizeHelm | #KustomizeVCluster | #Kustomize
 	resource: [string]: #Resource
 
 	out: {
-		namespace: kns
+		if kns != "" {
+			namespace: kns
+		}
 
 		patchesStrategicMerge: [
 			for _psm_name, _psm in psm {
-				"\(_psm_name).yaml"
+				"patch-\(_psm_name).yaml"
 			},
 		]
 
@@ -59,7 +61,9 @@ kustomize: [string]: #KustomizeHelm | #KustomizeVCluster | #Kustomize
 		helmCharts: [{
 			releaseName: helm.release
 			name:        helm.name
-			namespace:   ctx.namespace
+			if ctx.namespace != "" {
+				namespace: ctx.namespace
+			}
 			version:     helm.version
 			repo:        helm.repo
 			includeCRDs: true

@@ -6267,8 +6267,6 @@ data:
     # to set this value to `false`.
     # See https://github.com/knative/serving/issues/8498.
     enable-service-links: "false"
-  max-revision-timeout-seconds: "1800"
-  revision-timeout-seconds: "1800"
 kind: ConfigMap
 metadata:
   annotations:
@@ -6404,7 +6402,6 @@ data:
     svc.cluster.local: |
       selector:
         app: secret
-  svc.cluster.local: ""
 kind: ConfigMap
 metadata:
   annotations:
@@ -6587,8 +6584,6 @@ data:
     #
     # NOTE THAT THIS IS AN EXPERIMENTAL / ALPHA FEATURE
     queueproxy.mount-podinfo: "disabled"
-  kubernetes.podspec-affinity: enabled
-  kubernetes.podspec-tolerations: enabled
 kind: ConfigMap
 metadata:
   annotations:
@@ -6957,7 +6952,6 @@ data:
     # NOTE: This flag is in an alpha state and is mostly here to enable internal testing
     #       for now. Use with caution.
     internal-encryption: "false"
-  ingress-class: kourier.ingress.networking.knative.dev
 kind: ConfigMap
 metadata:
   annotations:
@@ -7104,6 +7098,36 @@ metadata:
     app.kubernetes.io/version: 1.7.2
   name: config-tracing
   namespace: knative-serving
+---
+apiVersion: v1
+data:
+  max-revision-timeout-seconds: "1800"
+  revision-timeout-seconds: "1800"
+kind: ConfigMap
+metadata:
+  name: config-defaults
+---
+apiVersion: v1
+data:
+  svc.cluster.local: ""
+kind: ConfigMap
+metadata:
+  name: config-domain
+---
+apiVersion: v1
+data:
+  kubernetes.podspec-affinity: enabled
+  kubernetes.podspec-tolerations: enabled
+kind: ConfigMap
+metadata:
+  name: config-features
+---
+apiVersion: v1
+data:
+  ingress-class: kourier.ingress.networking.knative.dev
+kind: ConfigMap
+metadata:
+  name: config-network
 ---
 apiVersion: v1
 kind: Secret

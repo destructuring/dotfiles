@@ -1,16 +1,16 @@
 #ManagedBy: cue
 
-namespace: karpenter
 patchesStrategicMerge: []
 resources:
   - resource-provisioner-vc1.yaml
   - resource-provisioner-vc2.yaml
+namespace: karpenter
 helmCharts:
   - releaseName: karpenter
     name: karpenter
-    namespace: karpenter
     version: 0.16.3
     repo: https://charts.karpenter.sh
+    namespace: karpenter
     valuesInline:
       logLevel: error
       clusterName: k3d-control

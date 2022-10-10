@@ -1,14 +1,14 @@
 #ManagedBy: cue
 
-namespace: datadog
 patchesStrategicMerge: []
 resources: []
+namespace: datadog
 helmCharts:
   - releaseName: datadog
     name: datadog
-    namespace: datadog
     version: 3.1.1
     repo: https://helm.datadoghq.com
+    namespace: datadog
     valuesInline:
       clusterAgent:
         enabled: "true"

@@ -1,12 +1,10 @@
 #ManagedBy: cue
 
-namespace: argo-workflows
 patchesStrategicMerge: []
 resources: []
 helmCharts:
   - releaseName: argo-workflows
     name: argo-workflows
-    namespace: argo-workflows
     version: 0.20.1
     repo: https://argoproj.github.io/argo-helm
     valuesInline: {}

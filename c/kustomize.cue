@@ -88,8 +88,6 @@ kustomize: "argo-events": #KustomizeHelm & {
 }
 
 kustomize: "argo-workflows": #KustomizeHelm & {
-	namespace: "argo-workflows"
-
 	helm: {
 		release: "argo-workflows"
 		name:    "argo-workflows"
@@ -584,13 +582,11 @@ kustomize: "karpenter": #KustomizeHelm & {
 }
 
 kustomize: "knative": #Kustomize & {
-	namespace: "knative-serving"
-
 	resource: "knative-serving": {
 		url: "https://github.com/knative/serving/releases/download/knative-v1.7.2/serving-core.yaml"
 	}
 
-	resource: "namespace-knative-serving": {
+	psm: "namespace-knative-serving": {
 		apiVersion: "v1"
 		kind:       "Namespace"
 		metadata: {
