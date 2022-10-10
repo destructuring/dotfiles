@@ -638,13 +638,12 @@ kustomize: "knative": #Kustomize & {
 }
 
 kustomize: "cert-manager": #KustomizeHelm & {
-	namespace: "cert-manager"
-
 	helm: {
-		release: "cert-manager"
-		name:    "cert-manager"
-		version: "1.9.1"
-		repo:    "https://charts.jetstack.io"
+		release:   "cert-manager"
+		name:      "cert-manager"
+		namespace: "cert-manager"
+		version:   "1.9.1"
+		repo:      "https://charts.jetstack.io"
 	}
 
 	resource: "cert-manager-crds": {
