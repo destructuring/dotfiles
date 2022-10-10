@@ -207,7 +207,7 @@ kustomize: "kuma-global": #KustomizeHelm & {
 	}
 }
 
-kustomize: "kuma-remote": #KustomizeHelm & {
+kustomize: "kuma-zone": #KustomizeHelm & {
 	namespace: "kuma"
 
 	helm: {
@@ -345,7 +345,9 @@ kustomize: "arc": #KustomizeHelm & {
 kustomize: "kourier": #Kustomize & {
 	namespace: "kourier-system"
 
-	resource: "kourier": "https://github.com/knative-sandbox/net-kourier/releases/download/knative-v1.7.0/kourier.yaml"
+	resource: "kourier": {
+		url: "https://github.com/knative-sandbox/net-kourier/releases/download/knative-v1.7.0/kourier.yaml"
+	}
 
 	psm: "service-kourier-set-cluster-ip": {
 		apiVersion: "v1"
@@ -480,3 +482,179 @@ kustomize: "dev": #Kustomize & {
 		}]
 	}
 }
+
+kustomize: "karpenter": #KustomizeHelm & {
+	namespace: "karpenter"
+
+	helm: {
+		release: "karpenter"
+		name:    "karpenter"
+		version: "0.16.3"
+		repo:    "https://charts.karpenter.sh"
+		values: {
+			logLevel:        "error"
+			clusterName:     "k3d-control"
+			clusterEndpoint: "https://kubernetes.default.svc.cluster.local"
+			controller: env: [{
+				name:  "AWS_REGION"
+				value: "us-west-1"
+			}, {
+				name:  "AWS_NODE_NAME_CONVENTION"
+				value: "resource-name"
+			}, {
+				name: "AWS_ACCESS_KEY_ID"
+				valueFrom: secretKeyRef: {
+					name: "karpenter-aws"
+					key:  "AWS_ACCESS_KEY_ID"
+				}
+			}, {
+				name: "AWS_SECRET_ACCESS_KEY"
+				valueFrom: secretKeyRef: {
+					name: "karpenter-aws"
+					key:  "AWS_SECRET_ACCESS_KEY"
+				}
+			}, {
+				name: "AWS_SESSION_TOKEN"
+				valueFrom: secretKeyRef: {
+					name: "karpenter-aws"
+					key:  "AWS_SESSION_TOKEN"
+				}
+			}]
+		}
+	}
+
+	resource: "provisioner-vc1": {
+		apiVersion: "karpenter.sh/v1alpha5"
+		kind:       "Provisioner"
+		metadata: name: "vc1"
+		spec: {
+			requirements: [{
+				key:      "karpenter.sh/capacity-type"
+				operator: "In"
+				values: ["spot"]
+			}, {
+				key:      "kubernetes.io/arch"
+				operator: "In"
+				values: ["amd64"]
+			}, {
+				key:      "node.kubernetes.io/instance-type"
+				operator: "In"
+				values: ["t3.medium", "t3a.medium"]
+			}]
+			limits: resources: cpu: "2"
+			labels: env: "vc1"
+			taints: [{
+				key:    "env"
+				value:  "vc1"
+				effect: "NoSchedule"
+			}]
+			providerRef: name: "default"
+			ttlSecondsAfterEmpty: 600
+		}
+	}
+
+	resource: "provisioner-vc2": {
+		apiVersion: "karpenter.sh/v1alpha5"
+		kind:       "Provisioner"
+		metadata: name: "vc2"
+		spec: {
+			requirements: [{
+				key:      "karpenter.sh/capacity-type"
+				operator: "In"
+				values: ["spot"]
+			}, {
+				key:      "kubernetes.io/arch"
+				operator: "In"
+				values: ["amd64"]
+			}, {
+				key:      "node.kubernetes.io/instance-type"
+				operator: "In"
+				values: ["m3.medium", "m1.medium", "t3.medium", "t3a.medium"]
+			}]
+			limits: resources: cpu: "2"
+			labels: env: "vc2"
+			taints: [{
+				key:    "env"
+				value:  "vc2"
+				effect: "NoSchedule"
+			}]
+			providerRef: name: "default"
+			ttlSecondsAfterEmpty: 1800
+		}
+	}
+}
+
+kustomize: "knative": #Kustomize & {
+	namespace: "knative-serving"
+
+	resource: "knative-serving": {
+		url: "https://github.com/knative/serving/releases/download/knative-v1.7.2/serving-core.yaml"
+	}
+
+	resource: "namespace-knative-serving": {
+		apiVersion: "v1"
+		kind:       "Namespace"
+		metadata: {
+			name: "knative-serving"
+			labels: "kuma.io/sidecar-injection": "disabled"
+		}
+	}
+
+	resource: "config-map-config-defaults": {
+		apiVersion: "v1"
+		kind:       "ConfigMap"
+		metadata: {
+			name: "config-defaults"
+		}
+		data: {
+			"revision-timeout-seconds":     "1800"
+			"max-revision-timeout-seconds": "1800"
+		}
+	}
+
+	resource: "config-map-config-domain": {
+		apiVersion: "v1"
+		kind:       "ConfigMap"
+		metadata: {
+			name: "config-domain"
+		}
+		data: "svc.cluster.local": ""
+	}
+
+	resource: "config-map-config-features": {
+		apiVersion: "v1"
+		kind:       "ConfigMap"
+		metadata: {
+			name: "config-features"
+		}
+		data: {
+			"kubernetes.podspec-affinity":    "enabled"
+			"kubernetes.podspec-tolerations": "enabled"
+		}
+	}
+
+	resource: "config-map-config-network": {
+		apiVersion: "v1"
+		kind:       "ConfigMap"
+		metadata: {
+			name: "config-network"
+		}
+		data: "ingress-class": "kourier.ingress.networking.knative.dev"
+	}
+}
+
+kustomize: "cert-manager": #KustomizeHelm & {
+	namespace: "cert-manager"
+
+	helm: {
+		release: "cert-manager"
+		name:    "cert-manager"
+		version: "1.9.1"
+		repo:    "https://charts.jetstack.io"
+	}
+
+	resource: "cert-mamager-crds": {
+		url: "https://github.com/cert-manager/cert-manager/releases/download/v1.9.1/cert-manager.crds.yaml"
+	}
+}
+// ../k/dex/kustomization.yaml

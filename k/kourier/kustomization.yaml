@@ -1,5 +1,7 @@
-resources:
-- https://github.com/knative-sandbox/net-kourier/releases/download/knative-v1.7.0/kourier.yaml
+#ManagedBy: cue
 
+namespace: kourier-system
 patchesStrategicMerge:
-- service-kourier.yaml
+  - service-kourier-set-cluster-ip.yaml
+resources:
+  - https://github.com/knative-sandbox/net-kourier/releases/download/knative-v1.7.0/kourier.yaml

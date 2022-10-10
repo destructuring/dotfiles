@@ -1,10 +1,14 @@
-namespace: kyverno
+#ManagedBy: cue
 
+namespace: kyverno
+patchesStrategicMerge: []
+resources: []
 helmCharts:
-- releaseName: kyverno
-  name: kyverno
-  version: 2.5.2
-  repo: https://kyverno.github.io/kyverno
-  includeCRDs: true
-  valuesInline:
-    replicaCount: 1
+  - releaseName: kyverno
+    name: kyverno
+    namespace: kyverno
+    version: 2.5.2
+    repo: https://kyverno.github.io/kyverno
+    valuesInline:
+      replicaCount: 1
+    includeCRDs: true

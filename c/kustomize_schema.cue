@@ -11,6 +11,12 @@ kustomize: [string]: #KustomizeHelm | #KustomizeVCluster | #Kustomize
 	values: {...} | *{}
 }
 
+#Resource: {
+	kind: string | *""
+
+	...
+}
+
 #Kustomize: {
 	namespace: string
 	let kns = namespace
@@ -18,6 +24,7 @@ kustomize: [string]: #KustomizeHelm | #KustomizeVCluster | #Kustomize
 	psm: {...} | *{}
 
 	resource: {...} | *{}
+	resource: [string]: #Resource
 
 	out: {
 		namespace: kns
@@ -25,6 +32,17 @@ kustomize: [string]: #KustomizeHelm | #KustomizeVCluster | #Kustomize
 		patchesStrategicMerge: [
 			for _psm_name, _psm in psm {
 				"\(_psm_name).yaml"
+			},
+		]
+
+		resources: [
+			for _rname, _r in resource {
+				if _r.kind == "" {
+					_r.url
+				}
+				if _r.kind != "" {
+					"resource-\(_rname).yaml"
+				}
 			},
 		]
 

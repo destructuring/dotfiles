@@ -1,24 +1,16 @@
+#ManagedBy: cue
+
 namespace: kong
-
-# helm template --namespace kong kong kong/kong --version 2.13.1 --api-versions=networking.k8s.io/v1/IngressClass --include-crds --set enterprise.enabled=true > kong.yaml
-
-helmCharts:
-- releaseName: kong
-  name: kong
-  namespace: kong
-  version: 2.13.1
-  repo: https://charts.konghq.com
-  valuesInline:
-    enterprise:
-      enabled: true
-  includeCRDs: true
-
 patchesStrategicMerge:
-- |-
-  apiVersion: v1
-  kind: Service
-  metadata:
-    name: kong-kong-proxy
+  - service-kong-kong-proxy-set-cluster-ip.yaml
+resources: []
+helmCharts:
+  - releaseName: kong
+    name: kong
     namespace: kong
-  spec:
-    type: ClusterIP
+    version: 2.13.1
+    repo: https://charts.konghq.com
+    valuesInline:
+      enterprise:
+        enabled: true
+    includeCRDs: true

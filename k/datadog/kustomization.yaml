@@ -1,22 +1,26 @@
-namespace: datadog
+#ManagedBy: cue
 
+namespace: datadog
+patchesStrategicMerge: []
+resources: []
 helmCharts:
-- releaseName: datadog
-  name: datadog
-  version: 3.1.1
-  repo: https://helm.datadoghq.com
-  includeCRDs: true
-  valuesInline:
-    clusterAgent:
-      enabled: "true"
-      metricsProvider:
+  - releaseName: datadog
+    name: datadog
+    namespace: datadog
+    version: 3.1.1
+    repo: https://helm.datadoghq.com
+    valuesInline:
+      clusterAgent:
         enabled: "true"
-      processAgent:
-        enabled: "false"
-    targetSystem: "linux"
-    datadog:
-      logs:
-        enabled: true
-        containerCollectAll: true
-      appKeyExistingSecret: datadog-app-secret
-      apiKeyExistingSecret: datadog-api-secret
+        metricsProvider:
+          enabled: "true"
+        processAgent:
+          enabled: "false"
+      targetSystem: linux
+      datadog:
+        logs:
+          enabled: true
+          containerCollectAll: true
+        appKeyExistingSecret: datadog-app-secret
+        apiKeyExistingSecret: datadog-api-secret
+    includeCRDs: true

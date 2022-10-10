@@ -1,35 +1,38 @@
-namespace: vc1
+#ManagedBy: cue
 
+namespace: vc1
+patchesStrategicMerge: []
+resources: []
 helmCharts:
-- releaseName: vcluster
-  name: vcluster
-  namespace: vc1
-  version: 0.12.2
-  repo: https://charts.loft.sh
-  includeCRDs: true
-  valuesInline:
-    service:
-      type: ClusterIP
-    vcluster:
-      image: rancher/k3s:v1.23.12-k3s1
-    syncer:
-      extraArgs:
-        - --tls-san=vcluster.vc1.svc.cluster.local
-        - --enforce-toleration=env=vc1:NoSchedule
-    sync:
-      nodes:
-        enabled: true
-        nodeSelector: "env=control"
-    tolerations:
-      - key: env
-        value: control
-        operator: Equal
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-          - matchExpressions:
-            - key: env
-              operator: In
-              values:
-              - control
+  - releaseName: vcluster
+    name: vcluster
+    namespace: vc1
+    version: 0.12.2
+    repo: https://charts.loft.sh
+    valuesInline:
+      service:
+        type: ClusterIP
+      vcluster:
+        image: rancher/k3s:v1.23.12-k3s1
+      syncer:
+        extraArgs:
+          - --tls-san=vcluster.vc1.svc.cluster.local
+          - --enforce-toleration=env=vc1:NoSchedule
+      sync:
+        nodes:
+          enabled: true
+          nodeSelector: env=control
+      tolerations:
+        - key: env
+          value: control
+          operator: Equal
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: env
+                    operator: In
+                    values:
+                      - control
+    includeCRDs: true

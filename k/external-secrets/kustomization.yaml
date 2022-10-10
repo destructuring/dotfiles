@@ -1,13 +1,17 @@
-namespace: external-secrets
+#ManagedBy: cue
 
+namespace: external-secrets
+patchesStrategicMerge: []
+resources: []
 helmCharts:
-- releaseName: external-secrets
-  name: external-secrets
-  version: 0.5.8
-  repo: https://charts.external-secrets.io
-  includeCRDs: true
-  valuesInline:
-    webhook:
-      create: false
-    certController:
-      create: false
+  - releaseName: external-secrets
+    name: external-secrets
+    namespace: external-secrets
+    version: 0.5.8
+    repo: https://charts.external-secrets.io
+    valuesInline:
+      webhook:
+        create: false
+      certController:
+        create: false
+    includeCRDs: true

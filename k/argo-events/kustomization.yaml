@@ -1,9 +1,13 @@
-namespace: argo-events
+#ManagedBy: cue
 
+namespace: argo-events
+patchesStrategicMerge: []
+resources: []
 helmCharts:
-- releaseName: argo-events
-  name: argo-events
-  version: 2.0.6
-  repo: https://argoproj.github.io/argo-helm
-  includeCRDs: true
-  valuesInline:
+  - releaseName: argo-events
+    name: argo-events
+    namespace: argo-events
+    version: 2.0.6
+    repo: https://argoproj.github.io/argo-helm
+    valuesInline: {}
+    includeCRDs: true

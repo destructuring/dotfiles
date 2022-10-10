@@ -1,11 +1,14 @@
-helmCharts:
-- releaseName: cert-manager
-  name: cert-manager
-  namespace: cert-manager
-  version: 1.9.1
-  repo: https://charts.jetstack.io
-  includeCRDs: true
-  valuesInline:
+#ManagedBy: cue
 
+namespace: cert-manager
+patchesStrategicMerge: []
 resources:
-- cert-manager.crds.yaml
+  - https://github.com/cert-manager/cert-manager/releases/download/v1.9.1/cert-manager.crds.yaml
+helmCharts:
+  - releaseName: cert-manager
+    name: cert-manager
+    namespace: cert-manager
+    version: 1.9.1
+    repo: https://charts.jetstack.io
+    valuesInline: {}
+    includeCRDs: true

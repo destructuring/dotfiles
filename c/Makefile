@@ -6,4 +6,6 @@ check:
 
 gen:
 	$(MAKE) check
+	find ../e/ -name '*.yaml' | xargs rm -v
+	rm -fv ../k/*/kustomization.yaml
 	c gen

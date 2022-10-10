@@ -1,36 +1,39 @@
+#ManagedBy: cue
+
 namespace: karpenter
-
-helmCharts:
-- releaseName: karpenter
-  name: karpenter
-  version: 0.16.3
-  repo:  https://charts.karpenter.sh
-  includeCRDs: true
-  valuesInline:
-    logLevel: error
-    clusterName: k3d-control
-    clusterEndpoint: https://kubernetes.default.svc.cluster.local
-    controller:
-      env:
-        - name: AWS_REGION
-          value: us-west-1
-        - name: AWS_NODE_NAME_CONVENTION
-          value: resource-name
-        - name: AWS_ACCESS_KEY_ID
-          valueFrom:
-            secretKeyRef:
-              name: karpenter-aws
-              key: AWS_ACCESS_KEY_ID
-        - name: AWS_SECRET_ACCESS_KEY
-          valueFrom:
-            secretKeyRef:
-              name: karpenter-aws
-              key: AWS_SECRET_ACCESS_KEY
-        - name: AWS_SESSION_TOKEN
-          valueFrom:
-            secretKeyRef:
-              name: karpenter-aws
-              key: AWS_SESSION_TOKEN
-
+patchesStrategicMerge: []
 resources:
-- provisioner.yaml
+  - resource-provisioner-vc1.yaml
+  - resource-provisioner-vc2.yaml
+helmCharts:
+  - releaseName: karpenter
+    name: karpenter
+    namespace: karpenter
+    version: 0.16.3
+    repo: https://charts.karpenter.sh
+    valuesInline:
+      logLevel: error
+      clusterName: k3d-control
+      clusterEndpoint: https://kubernetes.default.svc.cluster.local
+      controller:
+        env:
+          - name: AWS_REGION
+            value: us-west-1
+          - name: AWS_NODE_NAME_CONVENTION
+            value: resource-name
+          - name: AWS_ACCESS_KEY_ID
+            valueFrom:
+              secretKeyRef:
+                name: karpenter-aws
+                key: AWS_ACCESS_KEY_ID
+          - name: AWS_SECRET_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: karpenter-aws
+                key: AWS_SECRET_ACCESS_KEY
+          - name: AWS_SESSION_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: karpenter-aws
+                key: AWS_SESSION_TOKEN
+    includeCRDs: true

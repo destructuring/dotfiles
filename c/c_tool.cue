@@ -12,6 +12,17 @@ command: {
 
 // Generate configs in e/ for Environments and ApplicationSets
 command: gen: {
+	genKustomizeYaml: {
+		for kname, k in kustomize {
+			// Configure for kustomization.yaml
+			// ex: argo-cd/kustomization.yaml
+			"\(kname)-kustomization.yaml": file.Create & {
+				filename: "../k/\(kname)/kustomization.yaml"
+				contents: "#ManagedBy: cue\n\n" + yaml.Marshal(k.out)
+			}
+		}
+	}
+
 	genEnvYaml: {
 		for ename, e in env {
 			// Configuration for K3D:

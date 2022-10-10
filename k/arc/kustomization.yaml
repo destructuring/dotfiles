@@ -1,13 +1,14 @@
+#ManagedBy: cue
+
 namespace: arc
-
-helmCharts:
-- releaseName: arc
-  name: actions-runner-controller
-  namespace: arc
-  version: 0.21.0
-  repo: https://actions-runner-controller.github.io/actions-runner-controller
-  includeCRDs: true
-  valuesInline:
-
+patchesStrategicMerge: []
 resources:
-- org-defn.yaml
+  - resource-runner-deployment-defn.yaml
+helmCharts:
+  - releaseName: arc
+    name: actions-runner-controller
+    namespace: arc
+    version: 0.21.0
+    repo: https://actions-runner-controller.github.io/actions-runner-controller
+    valuesInline: {}
+    includeCRDs: true

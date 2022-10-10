@@ -1,8 +1,13 @@
-namespace: keda
+#ManagedBy: cue
 
+namespace: keda
+patchesStrategicMerge: []
+resources: []
 helmCharts:
-- releaseName: keda
-  name: keda
-  namespace: keda
-  version: 2.8.2
-  repo: https://kedacore.github.io/charts
+  - releaseName: keda
+    name: keda
+    namespace: keda
+    version: 2.8.2
+    repo: https://kedacore.github.io/charts
+    valuesInline: {}
+    includeCRDs: true
