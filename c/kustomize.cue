@@ -36,7 +36,7 @@ kustomize: "argo-cd": #KustomizeHelm & {
 		repo:    "https://argoproj.github.io/argo-helm"
 	}
 
-	psm: "configmap-argocd-cm": core.#ConfigMap & {
+	psm: "configmap-argocd-cm": {
 		apiVersion: "v1"
 		kind:       "ConfigMap"
 		metadata: name: "argocd-cm"
@@ -595,7 +595,7 @@ kustomize: "knative": #Kustomize & {
 		}
 	}
 
-	resource: "config-map-config-defaults": {
+	resource: "config-map-config-defaults": core.#ConfigMap & {
 		apiVersion: "v1"
 		kind:       "ConfigMap"
 		metadata: {
@@ -607,7 +607,7 @@ kustomize: "knative": #Kustomize & {
 		}
 	}
 
-	resource: "config-map-config-domain": {
+	resource: "config-map-config-domain": core.#ConfigMap & {
 		apiVersion: "v1"
 		kind:       "ConfigMap"
 		metadata: {
@@ -616,7 +616,7 @@ kustomize: "knative": #Kustomize & {
 		data: "svc.cluster.local": ""
 	}
 
-	resource: "config-map-config-features": {
+	resource: "config-map-config-features": core.#ConfigMap & {
 		apiVersion: "v1"
 		kind:       "ConfigMap"
 		metadata: {
@@ -628,7 +628,7 @@ kustomize: "knative": #Kustomize & {
 		}
 	}
 
-	resource: "config-map-config-network": {
+	resource: "config-map-config-network": core.#ConfigMap & {
 		apiVersion: "v1"
 		kind:       "ConfigMap"
 		metadata: {

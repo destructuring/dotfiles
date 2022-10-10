@@ -1,9 +1,9 @@
 #ManagedBy: cue
 
-apiVersion: v1
-kind: ConfigMap
 metadata:
   name: config-defaults
 data:
   revision-timeout-seconds: "1800"
   max-revision-timeout-seconds: "1800"
+kind: ConfigMap
+apiVersion: v1

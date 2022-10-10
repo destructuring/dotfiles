@@ -1,9 +1,9 @@
 #ManagedBy: cue
 
-apiVersion: v1
-kind: ConfigMap
 metadata:
   name: config-features
 data:
   kubernetes.podspec-affinity: enabled
   kubernetes.podspec-tolerations: enabled
+kind: ConfigMap
+apiVersion: v1
