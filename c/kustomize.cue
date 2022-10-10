@@ -89,10 +89,11 @@ kustomize: "argo-events": #KustomizeHelm & {
 
 kustomize: "argo-workflows": #KustomizeHelm & {
 	helm: {
-		release: "argo-workflows"
-		name:    "argo-workflows"
-		version: "0.20.1"
-		repo:    "https://argoproj.github.io/argo-helm"
+		release:   "argo-workflows"
+		name:      "argo-workflows"
+		namespace: "argo-workflows"
+		version:   "0.20.1"
+		repo:      "https://argoproj.github.io/argo-helm"
 	}
 }
 

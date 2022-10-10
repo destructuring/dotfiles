@@ -8,4 +8,5 @@ helmCharts:
     version: 0.20.1
     repo: https://argoproj.github.io/argo-helm
     valuesInline: {}
+    namespace: argo-workflows
     includeCRDs: true

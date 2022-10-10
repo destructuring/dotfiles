@@ -3,10 +3,11 @@ package c
 kustomize: [string]: #KustomizeHelm | #KustomizeVCluster | #Kustomize
 
 #Helm: {
-	release: string
-	name:    string
-	version: string
-	repo:    string
+	release:   string
+	name:      string
+	version:   string
+	repo:      string
+	namespace: string | *""
 
 	values: {...} | *{}
 }
@@ -63,6 +64,11 @@ kustomize: [string]: #KustomizeHelm | #KustomizeVCluster | #Kustomize
 			name:        helm.name
 			if ctx.namespace != "" {
 				namespace: ctx.namespace
+			}
+			if ctx.namespace == "" {
+				if helm.namespace != "" {
+					namespace: helm.namespace
+				}
 			}
 			version:     helm.version
 			repo:        helm.repo
