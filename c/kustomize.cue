@@ -330,7 +330,6 @@ kustomize: "arc": #KustomizeHelm & {
 	}
 
 	resource: "runner-deployment-defn": {
-		resources: ["org-defn.yaml"]
 		apiVersion: "actions.summerwind.dev/v1alpha1"
 		kind:       "RunnerDeployment"
 		metadata: name: "defn"
@@ -653,8 +652,7 @@ kustomize: "cert-manager": #KustomizeHelm & {
 		repo:    "https://charts.jetstack.io"
 	}
 
-	resource: "cert-mamager-crds": {
+	resource: "cert-manager-crds": {
 		url: "https://github.com/cert-manager/cert-manager/releases/download/v1.9.1/cert-manager.crds.yaml"
 	}
 }
-// ../k/dex/kustomization.yaml

@@ -1,3 +1,5 @@
+#ManagedBy: cue
+
 apiVersion: v1
 kind: ConfigMap
 metadata:

@@ -1,27 +1,35 @@
+#ManagedBy: cue
+
 apiVersion: karpenter.sh/v1alpha5
 kind: Provisioner
 metadata:
-  name: vc1
+  name: vc2
 spec:
   requirements:
     - key: karpenter.sh/capacity-type
       operator: In
-      values: ["spot"]
+      values:
+        - spot
     - key: kubernetes.io/arch
       operator: In
-      values: ["amd64"]
-    - key: "node.kubernetes.io/instance-type"
+      values:
+        - amd64
+    - key: node.kubernetes.io/instance-type
       operator: In
-      values: ["t3.medium", "t3a.medium"]
+      values:
+        - m3.medium
+        - m1.medium
+        - t3.medium
+        - t3a.medium
   limits:
     resources:
       cpu: "2"
   labels:
-    env: vc1
+    env: vc2
   taints:
     - key: env
-      value: vc1
+      value: vc2
       effect: NoSchedule
   providerRef:
     name: default
-  ttlSecondsAfterEmpty: 600
+  ttlSecondsAfterEmpty: 1800

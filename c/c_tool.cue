@@ -14,11 +14,31 @@ command: {
 command: gen: {
 	genKustomizeYaml: {
 		for kname, k in kustomize {
-			// Configure for kustomization.yaml
+			// Configure kustomization.yaml
 			// ex: argo-cd/kustomization.yaml
-			"\(kname)-kustomization.yaml": file.Create & {
+			"\(kname)-kustomization": file.Create & {
 				filename: "../k/\(kname)/kustomization.yaml"
 				contents: "#ManagedBy: cue\n\n" + yaml.Marshal(k.out)
+			}
+
+			for rname, r in k.resource {
+				// Configure resources
+				// ex: argoc-cd/resource-TYPE-NAME.yaml
+				if r.kind != "" {
+					"\(kname)-resource-\(rname)": file.Create & {
+						filename: "../k/\(kname)/resource-\(rname).yaml"
+						contents: "#ManagedBy: cue\n\n" + yaml.Marshal(r)
+					}
+				}
+			}
+
+			for pname, p in k.psm {
+				// Configure patches
+				// ex: argoc-cd/patch-NAME.yaml
+				"\(kname)-patch-\(pname)": file.Create & {
+					filename: "../k/\(kname)/patch-\(pname).yaml"
+					contents: "#ManagedBy: cue\n\n" + yaml.Marshal(p)
+				}
 			}
 		}
 	}
