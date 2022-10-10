@@ -1,4 +1,4 @@
-package env
+package c
 
 // Common apps on all K3D machines.
 common: apps: {

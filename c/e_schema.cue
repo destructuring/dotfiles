@@ -1,4 +1,4 @@
-package env
+package c
 
 // Each environment is hosted on a Kubernetes machine.  
 // The machine's name is set to the env key.

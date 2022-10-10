@@ -1,4 +1,4 @@
-package kustomize
+package c
 
 kustomize: [string]: #KustomizeHelm | #KustomizeVCluster | #Kustomize
 

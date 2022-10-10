@@ -1,4 +1,9 @@
-package kustomize
+package c
+
+import (
+	core "github.com/defn/boot/k8s.io/api/core/v1"
+	// apps "github.com/defn/boot/k8s.io/api/apps/v1"
+)
 
 kustomize: "vc1": #KustomizeVCluster & {
 	namespace: "vc1"
@@ -441,7 +446,7 @@ kustomize: "dev": #Kustomize & {
 		}
 	}
 
-	resource: "service-dev": {
+	resource: "service-dev": core.#Service & {
 		apiVersion: "v1"
 		kind:       "Service"
 		metadata: {
