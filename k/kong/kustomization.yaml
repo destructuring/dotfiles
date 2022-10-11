@@ -2,15 +2,6 @@
 
 patchesStrategicMerge:
   - patch-service-kong-kong-proxy-set-cluster-ip.yaml
-resources: []
-namespace: kong
-helmCharts:
-  - releaseName: kong
-    name: kong
-    version: 2.13.1
-    repo: https://charts.konghq.com
-    namespace: kong
-    valuesInline:
-      enterprise:
-        enabled: true
-    includeCRDs: true
+
+resources:
+   - https://raw.githubusercontent.com/Kong/kubernetes-ingress-controller/v2.7.0/deploy/single/all-in-one-dbless-k4k8s-enterprise.yaml
