@@ -1,5 +1,5 @@
 # pod apply -f events.yaml
-# pod create cm feh$(date +%s) --from-literal=message=meh
+# pod create cm feh$(date +%s) --from-file=script=events.sh
 apiVersion: argoproj.io/v1alpha1
 kind: EventBus
 metadata:
@@ -33,7 +33,7 @@ spec:
       eventName: example
   triggers:
     - template:
-        name: looking-for-cm
+        name: run-this
         k8s:
           operation: create
           source:
@@ -41,18 +41,19 @@ spec:
               apiVersion: v1
               kind: Pod
               metadata:
-                generateName: hello-world-
+                generateName: run-this-
                 namespace: default
               spec:
                 containers:
-                  - name: hello-container
-                    args:
-                      - "hello-world"
+                  - name: ubuntu
                     command:
-                      - cowsay
-                    image: "docker/whalesay:latest"
+                      - bash
+                      - -c
+                    args:
+                      - "echo hello-world"
+                    image: "ubuntu:latest"
           parameters:
             - src:
                 dependencyName: input
-                dataTemplate: "{{ .Input.body.data.message }}"
+                dataTemplate: "{{ .Input.body.data.script}}"
               dest: spec.containers.0.args.0
