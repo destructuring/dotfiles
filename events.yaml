@@ -1,0 +1,57 @@
+apiVersion: argoproj.io/v1alpha1
+kind: EventBus
+metadata:
+  name: default
+spec:
+  jetstream:
+    version: latest
+---
+apiVersion: argoproj.io/v1alpha1
+kind: EventSource
+metadata:
+  name: default
+spec:
+  template:
+    serviceAccountName: default
+  resource:
+    example:
+      namespace: default
+      group: ""
+      version: v1
+      resource: configmaps
+      eventTypes:
+        - ADD
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Sensor
+metadata:
+  name: default
+spec:
+  dependencies:
+    - name: input
+      eventSourceName: default
+      eventName: example
+  triggers:
+    - template:
+        name: looking-for-cm
+        k8s:
+          operation: create
+          source:
+            resource:
+              apiVersion: v1
+              kind: Pod
+              metadata:
+                generateName: hello-world-
+                namespace: default
+              spec:
+                containers:
+                  - name: hello-container
+                    args:
+                      - "hello-world"
+                    command:
+                      - cowsay
+                    image: "docker/whalesay:latest"
+          parameters:
+            - src:
+                dependencyName: input
+              dest: spec.containers.0.args.0
