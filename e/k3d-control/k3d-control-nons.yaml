@@ -12,6 +12,9 @@ spec:
           - name: kourier
             path: kourier
             cluster: in-cluster
+          - name: hello
+            path: hello
+            cluster: in-cluster
   template:
     metadata:
       name: k3d-control-{{name}}
