@@ -1,3 +1,5 @@
+# pod apply -f events.yaml
+# pod create cm feh$(date +%s) --from-literal=message=meh
 apiVersion: argoproj.io/v1alpha1
 kind: EventBus
 metadata:
@@ -11,8 +13,6 @@ kind: EventSource
 metadata:
   name: default
 spec:
-  template:
-    serviceAccountName: default
   resource:
     example:
       namespace: default
@@ -54,4 +54,5 @@ spec:
           parameters:
             - src:
                 dependencyName: input
+                dataTemplate: "{{ .Input.body.data.message }}"
               dest: spec.containers.0.args.0
