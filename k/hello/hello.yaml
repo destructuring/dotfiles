@@ -3,6 +3,8 @@ kind: Service
 metadata:
   labels:
     networking.knative.dev/visibility: cluster-local
+  annotations:
+    networking.knative.dev/ingress.class: kong
   name: hello
   namespace: default
 spec:
