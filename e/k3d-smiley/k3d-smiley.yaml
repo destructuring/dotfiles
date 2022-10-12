@@ -9,14 +9,14 @@ spec:
   generators:
     - list:
         elements:
-          - name: kyverno
-            path: kyverno
-            cluster: k3d-smiley
-            namespace: kyverno
           - name: cert-manager
             path: cert-manager
             cluster: k3d-smiley
             namespace: cert-manager
+          - name: kyverno
+            path: kyverno
+            cluster: k3d-smiley
+            namespace: kyverno
   template:
     metadata:
       name: k3d-smiley-{{name}}

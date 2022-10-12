@@ -9,10 +9,6 @@ spec:
   generators:
     - list:
         elements:
-          - name: kyverno
-            path: kyverno
-            cluster: in-cluster
-            namespace: kyverno
           - name: cert-manager
             path: cert-manager
             cluster: in-cluster
@@ -33,18 +29,6 @@ spec:
             path: argo-workflows
             cluster: in-cluster
             namespace: argo-workflows
-          - name: knative
-            path: knative
-            cluster: in-cluster
-            namespace: knative
-          - name: kong
-            path: kong
-            cluster: in-cluster
-            namespace: kong
-          - name: hello
-            path: hello
-            cluster: in-cluster
-            namespace: hello
           - name: bootstrap
             path: bootstrap
             cluster: in-cluster

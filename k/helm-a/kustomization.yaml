@@ -1,6 +1,0 @@
-#ManagedBy: cue
-
-patchesStrategicMerge: []
-resources:
-  - helm-a.yaml
-namespace: default

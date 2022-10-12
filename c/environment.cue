@@ -2,7 +2,6 @@ package c
 
 // Common apps on all K3D machines.
 common: apps: {
-	"kyverno": {}
 	"cert-manager": {}
 }
 
@@ -21,9 +20,6 @@ env: control: #K3D & {
 		"argo-cd": {}
 		"argo-events": {}
 		"argo-workflows": {}
-		"knative": {}
-		"kong": {}
-		"hello": {}
 		"bootstrap": {}
 	}
 }
@@ -32,6 +28,7 @@ env: control: #K3D & {
 env: circus: #K3D & {
 	apps: default: {
 		common.apps
+		"kyverno": {}
 		"kuma-global": {
 			namespace: "kuma"
 		}
@@ -42,6 +39,7 @@ env: circus: #K3D & {
 env: smiley: #K3D & {
 	apps: default: {
 		common.apps
+		"kyverno": {}
 	}
 }
 

@@ -9,14 +9,14 @@ spec:
   generators:
     - list:
         elements:
-          - name: kyverno
-            path: kyverno
-            cluster: k3d-circus
-            namespace: kyverno
           - name: cert-manager
             path: cert-manager
             cluster: k3d-circus
             namespace: cert-manager
+          - name: kyverno
+            path: kyverno
+            cluster: k3d-circus
+            namespace: kyverno
           - name: kuma-global
             path: kuma-global
             cluster: k3d-circus
