@@ -720,14 +720,6 @@ kustomize: "knative": #Kustomize & {
 		url: "https://github.com/knative/serving/releases/download/knative-v1.7.2/serving-core.yaml"
 	}
 
-	resource: "namespace-knative-serving": core.#Namespace & {
-		apiVersion: "v1"
-		kind:       "Namespace"
-		metadata: {
-			name: "knative-serving"
-		}
-	}
-
 	psm: "namespace-knative-serving": core.#Namespace & {
 		apiVersion: "v1"
 		kind:       "Namespace"
