@@ -76,7 +76,7 @@ helmAppA: {
 		source: {
 			repoURL:        "https://github.com/defn/app"
 			targetRevision: "master"
-			path:           "helm-a"
+			path:           "k/helm-a"
 		}
 
 		syncPolicy: automated: prune: true
@@ -100,7 +100,7 @@ helmAppB: {
 		source: {
 			repoURL:        "https://github.com/defn/app"
 			targetRevision: "master"
-			path:           "helm-b"
+			path:           "k/helm-b"
 		}
 
 		syncPolicy: automated: prune: true
