@@ -8,60 +8,8 @@ import (
 	rbac "github.com/defn/boot/k8s.io/api/rbac/v1"
 )
 
-kustomize: "vc1": #KustomizeVCluster & {
-	namespace: "vc1"
-	vc_name:   "vc1"
-}
-
-kustomize: "vc2": #KustomizeVCluster & {
-	namespace: "vc1"
-	vc_name:   "vc2"
-}
-
-kustomize: "vc3": #KustomizeVCluster & {
-	namespace: "vc1"
-	vc_name:   "vc3"
-}
-
-kustomize: "vc4": #KustomizeVCluster & {
-	namespace: "vc1"
-	vc_name:   "vc4"
-}
-
-kustomize: "helm-a": #Kustomize & {
-	namespace: "default"
-
-	resource: "helm-a": {
-		url: "helm-a.yaml"
-	}
-}
-
-kustomize: "helm-b": #Kustomize & {
-	namespace: "default"
-
-	resource: "helm-b": {
-		url: "helm-b.yaml"
-	}
-}
-
-kustomize: "bootstrap": #KustomizeHelm & {
-	helm: {
-		release: "bootstrap"
-		name:    "any-resource"
-		version: "0.1.0"
-		repo:    "https://kiwigrid.github.io"
-		values: {
-			anyResources: {
-				for a, h in ordered {
-					"helm-\(a)": yaml.Marshal(h)
-				}
-			}
-		}
-	}
-}
-
-ordered: {
-	for a, w in {hello: 13, kong: 12, knative: 11, kyverno: 10} {
+bootstrap: control: {
+	for a, w in {"cert-manager": 8, "external-secrets": 9, kyverno: 10, "argo-events": 11, knative: 12, kong: 13, "argo-workflows": 14, hello: 15} {
 		"\(a)": {
 			apiVersion: "argoproj.io/v1alpha1"
 			kind:       "Application"
@@ -86,6 +34,42 @@ ordered: {
 			}
 		}
 	}
+}
+
+kustomize: "control-bootstrap": #KustomizeHelm & {
+	helm: {
+		release: "bootstrap"
+		name:    "any-resource"
+		version: "0.1.0"
+		repo:    "https://kiwigrid.github.io"
+		values: {
+			anyResources: {
+				for a, h in bootstrap.control {
+					"\(a)": yaml.Marshal(h)
+				}
+			}
+		}
+	}
+}
+
+kustomize: "vc1": #KustomizeVCluster & {
+	namespace: "vc1"
+	vc_name:   "vc1"
+}
+
+kustomize: "vc2": #KustomizeVCluster & {
+	namespace: "vc1"
+	vc_name:   "vc2"
+}
+
+kustomize: "vc3": #KustomizeVCluster & {
+	namespace: "vc1"
+	vc_name:   "vc3"
+}
+
+kustomize: "vc4": #KustomizeVCluster & {
+	namespace: "vc1"
+	vc_name:   "vc4"
 }
 
 kustomize: "hello": #Kustomize & {

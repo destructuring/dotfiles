@@ -9,30 +9,10 @@ spec:
   generators:
     - list:
         elements:
-          - name: cert-manager
-            path: cert-manager
+          - name: control-bootstrap
+            path: control-bootstrap
             cluster: in-cluster
-            namespace: cert-manager
-          - name: external-secrets
-            path: external-secrets
-            cluster: in-cluster
-            namespace: external-secrets
-          - name: argo-cd
-            path: argo-cd
-            cluster: in-cluster
-            namespace: argo-cd
-          - name: argo-events
-            path: argo-events
-            cluster: in-cluster
-            namespace: argo-events
-          - name: argo-workflows
-            path: argo-workflows
-            cluster: in-cluster
-            namespace: argo-workflows
-          - name: bootstrap
-            path: bootstrap
-            cluster: in-cluster
-            namespace: bootstrap
+            namespace: control-bootstrap
   template:
     metadata:
       name: k3d-control-{{name}}
