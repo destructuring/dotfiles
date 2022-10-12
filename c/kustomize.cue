@@ -52,58 +52,39 @@ kustomize: "bootstrap": #KustomizeHelm & {
 		repo:    "https://kiwigrid.github.io"
 		values: {
 			anyResources: {
-				"helm-a": yaml.Marshal(helmAppA)
-				"helm-b": yaml.Marshal(helmAppB)
+				for a, h in helmApp {
+					"helm-\(a)": yaml.Marshal(h)
+				}
 			}
 		}
 	}
 }
 
-helmAppA: {
-	apiVersion: "argoproj.io/v1alpha1"
-	kind:       "Application"
+helmApp: {
+	for a, w in {a: 10, b: 11, c: 12, d: 13, e: 14, f: 15, g: 16} {
+		"\(a)": {
+			apiVersion: "argoproj.io/v1alpha1"
+			kind:       "Application"
 
-	metadata: {
-		namespace: "argocd"
-		name:      "helm-a"
-		annotations: "argocd.argoproj.io/sync-wave": "10"
-	}
+			metadata: {
+				namespace: "argocd"
+				name:      "helm-\(a)"
+				annotations: "argocd.argoproj.io/sync-wave": "\(w)"
+			}
 
-	spec: {
-		project: "default"
+			spec: {
+				project: "default"
 
-		destination: name: "in-cluster"
-		source: {
-			repoURL:        "https://github.com/defn/app"
-			targetRevision: "master"
-			path:           "k/helm-a"
+				destination: name: "in-cluster"
+				source: {
+					repoURL:        "https://github.com/defn/app"
+					targetRevision: "master"
+					path:           "k/helm-\(a)"
+				}
+
+				syncPolicy: automated: prune: true
+			}
 		}
-
-		syncPolicy: automated: prune: true
-	}
-}
-
-helmAppB: {
-	apiVersion: "argoproj.io/v1alpha1"
-	kind:       "Application"
-
-	metadata: {
-		namespace: "argocd"
-		name:      "helm-b"
-		annotations: "argocd.argoproj.io/sync-wave": "20"
-	}
-
-	spec: {
-		project: "default"
-
-		destination: name: "in-cluster"
-		source: {
-			repoURL:        "https://github.com/defn/app"
-			targetRevision: "master"
-			path:           "k/helm-b"
-		}
-
-		syncPolicy: automated: prune: true
 	}
 }
 

@@ -35,7 +35,7 @@ helmCharts:
             namespace: argocd
             name: helm-b
             annotations:
-              argocd.argoproj.io/sync-wave: "20"
+              argocd.argoproj.io/sync-wave: "11"
           spec:
             project: default
             destination:
@@ -44,6 +44,101 @@ helmCharts:
               repoURL: https://github.com/defn/app
               targetRevision: master
               path: k/helm-b
+            syncPolicy:
+              automated:
+                prune: true
+        helm-c: |
+          apiVersion: argoproj.io/v1alpha1
+          kind: Application
+          metadata:
+            namespace: argocd
+            name: helm-c
+            annotations:
+              argocd.argoproj.io/sync-wave: "12"
+          spec:
+            project: default
+            destination:
+              name: in-cluster
+            source:
+              repoURL: https://github.com/defn/app
+              targetRevision: master
+              path: k/helm-c
+            syncPolicy:
+              automated:
+                prune: true
+        helm-d: |
+          apiVersion: argoproj.io/v1alpha1
+          kind: Application
+          metadata:
+            namespace: argocd
+            name: helm-d
+            annotations:
+              argocd.argoproj.io/sync-wave: "13"
+          spec:
+            project: default
+            destination:
+              name: in-cluster
+            source:
+              repoURL: https://github.com/defn/app
+              targetRevision: master
+              path: k/helm-d
+            syncPolicy:
+              automated:
+                prune: true
+        helm-e: |
+          apiVersion: argoproj.io/v1alpha1
+          kind: Application
+          metadata:
+            namespace: argocd
+            name: helm-e
+            annotations:
+              argocd.argoproj.io/sync-wave: "14"
+          spec:
+            project: default
+            destination:
+              name: in-cluster
+            source:
+              repoURL: https://github.com/defn/app
+              targetRevision: master
+              path: k/helm-e
+            syncPolicy:
+              automated:
+                prune: true
+        helm-f: |
+          apiVersion: argoproj.io/v1alpha1
+          kind: Application
+          metadata:
+            namespace: argocd
+            name: helm-f
+            annotations:
+              argocd.argoproj.io/sync-wave: "15"
+          spec:
+            project: default
+            destination:
+              name: in-cluster
+            source:
+              repoURL: https://github.com/defn/app
+              targetRevision: master
+              path: k/helm-f
+            syncPolicy:
+              automated:
+                prune: true
+        helm-g: |
+          apiVersion: argoproj.io/v1alpha1
+          kind: Application
+          metadata:
+            namespace: argocd
+            name: helm-g
+            annotations:
+              argocd.argoproj.io/sync-wave: "16"
+          spec:
+            project: default
+            destination:
+              name: in-cluster
+            source:
+              repoURL: https://github.com/defn/app
+              targetRevision: master
+              path: k/helm-g
             syncPolicy:
               automated:
                 prune: true
