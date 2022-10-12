@@ -33,14 +33,18 @@ spec:
             path: argo-workflows
             cluster: in-cluster
             namespace: argo-workflows
-          - name: kong
-            path: kong
-            cluster: in-cluster
-            namespace: kong
           - name: knative
             path: knative
             cluster: in-cluster
             namespace: knative
+          - name: kong
+            path: kong
+            cluster: in-cluster
+            namespace: kong
+          - name: hello
+            path: hello
+            cluster: in-cluster
+            namespace: hello
   template:
     metadata:
       name: k3d-control-{{name}}

@@ -2,12 +2,12 @@ SHELL := /bin/bash
 
 check:
 	cue fmt
-	cue eval -c
+	cue eval -c >/dev/null
 
 gen:
 	$(MAKE) check
-	find ../e/ -name '*.yaml' | xargs rm -fv
-	rm -fv ../k/*/kustomization.yaml
-	rm -fv ../k/*/resource-*.yaml
-	rm -fv ../k/*/patch-*.yaml
+	find ../e/ -name '*.yaml' | xargs rm -f
+	rm -f ../k/*/kustomization.yaml
+	rm -f ../k/*/resource-*.yaml
+	rm -f ../k/*/patch-*.yaml
 	c gen

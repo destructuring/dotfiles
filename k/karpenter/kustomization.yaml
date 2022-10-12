@@ -1,7 +1,5 @@
 #ManagedBy: cue
 
-# helm template karpenter --include-crds --version v0.18.0 -f values.yaml oci://public.ecr.aws/karpenter/karpenter > karpenter.yaml
-
 patchesStrategicMerge: []
 resources:
   - karpenter.yaml

@@ -1,7 +1,7 @@
 #ManagedBy: cue
 
 patchesStrategicMerge:
-  - patch-service-kong-kong-proxy-set-cluster-ip.yaml
-
+  - patch-service-kong-proxy-set-cluster-ip.yaml
 resources:
-   - https://raw.githubusercontent.com/Kong/kubernetes-ingress-controller/v2.7.0/deploy/single/all-in-one-dbless.yaml
+  - https://raw.githubusercontent.com/Kong/kubernetes-ingress-controller/v2.7.0/deploy/single/all-in-one-dbless.yaml
+namespace: kong

@@ -26,6 +26,18 @@ kustomize: "vc4": #KustomizeVCluster & {
 	vc_name:   "vc4"
 }
 
+kustomize: "hello": #Kustomize & {
+	namespace: "default"
+
+	resource: "hello": {
+		url: "hello.yaml"
+	}
+
+	resource: "events.yaml": {
+		url: "events.yaml"
+	}
+}
+
 kustomize: "argo-cd": #KustomizeHelm & {
 	namespace: "argocd"
 
@@ -295,24 +307,18 @@ kustomize: "vault": #KustomizeHelm & {
 	}
 }
 
-kustomize: "kong": #KustomizeHelm & {
+kustomize: "kong": #Kustomize & {
 	namespace: "kong"
 
-	helm: {
-		release: "kong"
-		name:    "kong"
-		version: "2.13.1"
-		repo:    "https://charts.konghq.com"
-		values: {
-			enterprise: enabled: true
-		}
+	resource: "kong": {
+		url: "https://raw.githubusercontent.com/Kong/kubernetes-ingress-controller/v2.7.0/deploy/single/all-in-one-dbless.yaml"
 	}
 
-	psm: "service-kong-kong-proxy-set-cluster-ip": {
+	psm: "service-kong-proxy-set-cluster-ip": {
 		apiVersion: "v1"
 		kind:       "Service"
 		metadata: {
-			name:      "kong-kong-proxy"
+			name:      "kong-proxy"
 			namespace: "kong"
 		}
 		spec: type: "ClusterIP"
@@ -480,44 +486,12 @@ kustomize: "dev": #Kustomize & {
 	}
 }
 
-kustomize: "karpenter": #KustomizeHelm & {
+// helm template karpenter --include-crds --version v0.18.0 -f values.yaml oci://public.ecr.aws/karpenter/karpenter > karpenter.yaml
+kustomize: "karpenter": #Kustomize & {
 	namespace: "karpenter"
 
-	helm: {
-		release: "karpenter"
-		name:    "karpenter"
-		version: "0.16.3"
-		repo:    "https://charts.karpenter.sh"
-		values: {
-			logLevel:        "error"
-			clusterName:     "k3d-control"
-			clusterEndpoint: "https://kubernetes.default.svc.cluster.local"
-			controller: env: [{
-				name:  "AWS_REGION"
-				value: "us-west-1"
-			}, {
-				name:  "AWS_NODE_NAME_CONVENTION"
-				value: "resource-name"
-			}, {
-				name: "AWS_ACCESS_KEY_ID"
-				valueFrom: secretKeyRef: {
-					name: "karpenter-aws"
-					key:  "AWS_ACCESS_KEY_ID"
-				}
-			}, {
-				name: "AWS_SECRET_ACCESS_KEY"
-				valueFrom: secretKeyRef: {
-					name: "karpenter-aws"
-					key:  "AWS_SECRET_ACCESS_KEY"
-				}
-			}, {
-				name: "AWS_SESSION_TOKEN"
-				valueFrom: secretKeyRef: {
-					name: "karpenter-aws"
-					key:  "AWS_SESSION_TOKEN"
-				}
-			}]
-		}
+	resource: "karpenter": {
+		url: "karpenter.yaml"
 	}
 
 	resource: "provisioner-vc1": {
@@ -638,7 +612,7 @@ kustomize: "knative": #Kustomize & {
 			name:      "config-network"
 			namespace: "knative-serving"
 		}
-		data: "ingress-class": "kourier.ingress.networking.knative.dev"
+		data: "ingress-class": "kong"
 	}
 }
 

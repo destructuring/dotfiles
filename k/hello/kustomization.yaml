@@ -1,5 +1,7 @@
-namespace: default
+#ManagedBy: cue
 
+patchesStrategicMerge: []
 resources:
   - hello.yaml
   - events.yaml
+namespace: default

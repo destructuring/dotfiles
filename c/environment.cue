@@ -21,10 +21,8 @@ env: control: #K3D & {
 		"argo-events": {}
 		"argo-workflows": {}
 		"knative": {}
-	}
-
-	apps: nons: {
-		"kourier": {}
+		"kong": {}
+		"hello": {}
 	}
 }
 
