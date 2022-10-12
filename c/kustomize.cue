@@ -169,7 +169,7 @@ kustomize: "argo-cd": #KustomizeHelm & {
 				"""
 
 			"resource.customizations": """
-				argoproj.io/Application: 
+				argoproj.io/Application:
 					health.lua: |
 						hs = {}
 						hs.status = "Progressing"
@@ -177,9 +177,9 @@ kustomize: "argo-cd": #KustomizeHelm & {
 						if obj.status ~= nil then
 							if obj.status.health ~= nil then
 							hs.status = obj.status.health.status
-							if obj.status.health.message ~= nil then
-								hs.message = obj.status.health.message
-							end
+								if obj.status.health.message ~= nil then
+									hs.message = obj.status.health.message
+								end
 							end
 						end
 						return hs
