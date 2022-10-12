@@ -1,6 +1,7 @@
 package c
 
 kustomize: [string]: #KustomizeHelm | #KustomizeVCluster | #Kustomize
+kustomize: [NAME=string]: _name: NAME
 
 #Helm: {
 	release:   string
@@ -19,6 +20,9 @@ kustomize: [string]: #KustomizeHelm | #KustomizeVCluster | #Kustomize
 }
 
 #Kustomize: {
+	_name: string
+	app: "\(_name)": {}
+
 	namespace: string | *""
 	let kns = namespace
 

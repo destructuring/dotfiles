@@ -45,6 +45,10 @@ spec:
             path: hello
             cluster: in-cluster
             namespace: hello
+          - name: bootstrap
+            path: bootstrap
+            cluster: in-cluster
+            namespace: bootstrap
   template:
     metadata:
       name: k3d-control-{{name}}

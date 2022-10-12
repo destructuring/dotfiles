@@ -6,6 +6,7 @@ common: apps: {
 	"cert-manager": {}
 }
 
+// Dev environment app.
 common: dev: {
 	"dev": {
 		namespace: "default"
@@ -23,6 +24,7 @@ env: control: #K3D & {
 		"knative": {}
 		"kong": {}
 		"hello": {}
+		"bootstrap": {}
 	}
 }
 

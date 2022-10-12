@@ -1,6 +1,8 @@
 package c
 
 import (
+	"encoding/yaml"
+
 	core "github.com/defn/boot/k8s.io/api/core/v1"
 	apps "github.com/defn/boot/k8s.io/api/apps/v1"
 	rbac "github.com/defn/boot/k8s.io/api/rbac/v1"
@@ -24,6 +26,85 @@ kustomize: "vc3": #KustomizeVCluster & {
 kustomize: "vc4": #KustomizeVCluster & {
 	namespace: "vc1"
 	vc_name:   "vc4"
+}
+
+kustomize: "helm-a": #Kustomize & {
+	namespace: "default"
+
+	resource: "helm-a": {
+		url: "helm-a.yaml"
+	}
+}
+
+kustomize: "helm-b": #Kustomize & {
+	namespace: "default"
+
+	resource: "helm-b": {
+		url: "helm-b.yaml"
+	}
+}
+
+kustomize: "bootstrap": #KustomizeHelm & {
+	helm: {
+		release: "bootstrap"
+		name:    "any-resource"
+		version: "0.1.0"
+		repo:    "https://kiwigrid.github.io"
+		values: {
+			anyResources: {
+				"helm-a": yaml.Marshal(helmAppA)
+				"helm-b": yaml.Marshal(helmAppB)
+			}
+		}
+	}
+}
+
+helmAppA: {
+	apiVersion: "argoproj.io/v1alpha1"
+	kind:       "Application"
+
+	metadata: {
+		namespace: "argocd"
+		name:      "helm-a"
+		annotations: "argocd.argoproj.io/sync-wave": "10"
+	}
+
+	spec: {
+		project: "default"
+
+		destination: name: "in-cluster"
+		source: {
+			repoURL:        "https://github.com/defn/app"
+			targetRevision: "master"
+			path:           "helm-a"
+		}
+
+		syncPolicy: automated: prune: true
+	}
+}
+
+helmAppB: {
+	apiVersion: "argoproj.io/v1alpha1"
+	kind:       "Application"
+
+	metadata: {
+		namespace: "argocd"
+		name:      "helm-b"
+		annotations: "argocd.argoproj.io/sync-wave": "20"
+	}
+
+	spec: {
+		project: "default"
+
+		destination: name: "in-cluster"
+		source: {
+			repoURL:        "https://github.com/defn/app"
+			targetRevision: "master"
+			path:           "helm-b"
+		}
+
+		syncPolicy: automated: prune: true
+	}
 }
 
 kustomize: "hello": #Kustomize & {
