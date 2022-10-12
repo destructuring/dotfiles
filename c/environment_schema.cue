@@ -191,6 +191,14 @@ env: [NAME=string]: (#K3D | #VCluster) & {
 
 	env: #EnvAppSet
 
+	env: {
+		// ex: k/k3d-control
+		// ex: k/vcluster-vc1-bootstrap
+		spec: source: path: "e/\(type)-\(name)"
+
+		spec: syncPolicy: automated: prune: true
+	}
+
 	apps: [string]: [string]: {...}
 
 	appset: [string]: #AppSet & {
@@ -213,18 +221,11 @@ env: [NAME=string]: (#K3D | #VCluster) & {
 	#Machine
 	type: "k3d"
 
-	env: {
-		// ex: k3d-control
-		metadata: name: "k3d-\(ctx.name)"
-
-		// ex: k/k3d-control-bootstrap
-		spec: source: path: "k/k3d-\(ctx.name)-bootstrap"
-
-		spec: syncPolicy: automated: prune: true
-	}
+	// ex: k3d-control
+	env: metadata: name: "\(type)-\(ctx.name)"
 
 	appset: [NAME=string]: {
-		_prefix: "k3d-"
+		_prefix: "\(type)-"
 
 		if NAME != "default" {
 			_suffix: "-\(NAME)"
@@ -245,24 +246,17 @@ env: [NAME=string]: (#K3D | #VCluster) & {
 
 	machine: #K3D
 
-	env: {
-		// ex: k3d-control-vc1
-		metadata: name: "\(machine.env.metadata.name)-\(ctx.name)"
-
-		// ex: k/vc1-bootstrap
-		spec: source: path: "e/\(ctx.name)-bootstrap"
-
-		spec: syncPolicy: automated: prune: true
-	}
+	// ex: k3d-control-vc1
+	env: metadata: name: "\(machine.env.metadata.name)-\(ctx.name)"
 
 	vcluster: #VClusterApp & {
 		// ex: vc1-vcluster
 		metadata: name: "\(ctx.name)-vcluster"
 
-		// ex: k/vc1
-		spec: source: path: "k/\(ctx.name)"
+		// ex: k/vcluster-vc1
+		spec: source: path: "k/\(type)-\(ctx.name)"
 
-		// ex: namespace: vc1
+		// ex: namespace: vc
 		spec: destination: namespace: ctx.name
 	}
 }

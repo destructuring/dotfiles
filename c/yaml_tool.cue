@@ -15,7 +15,7 @@ command: gen: {
 	genKustomizeYaml: {
 		for kname, k in kustomize {
 			// Configure kustomization.yaml
-			// ex: argo-cd/kustomization.yaml
+			// ex: k/argo-cd/kustomization.yaml
 			"\(kname)-kustomization": file.Create & {
 				filename: "../k/\(kname)/kustomization.yaml"
 				contents: "#ManagedBy: cue\n\n" + yaml.Marshal(k.out)
@@ -23,7 +23,7 @@ command: gen: {
 
 			for rname, r in k.resource {
 				// Configure resources
-				// ex: argoc-cd/resource-TYPE-NAME.yaml
+				// ex: k/argoc-cd/resource-TYPE-NAME.yaml
 				if r.kind != "" {
 					"\(kname)-resource-\(rname)": file.Create & {
 						filename: "../k/\(kname)/resource-\(rname).yaml"
@@ -34,7 +34,7 @@ command: gen: {
 
 			for pname, p in k.psm {
 				// Configure patches
-				// ex: argoc-cd/patch-NAME.yaml
+				// ex: k/argoc-cd/patch-NAME.yaml
 				"\(kname)-patch-\(pname)": file.Create & {
 					filename: "../k/\(kname)/patch-\(pname).yaml"
 					contents: "#ManagedBy: cue\n\n" + yaml.Marshal(p)
@@ -48,26 +48,10 @@ command: gen: {
 			// Configuration for K3D:
 			// env application -> bootstrap
 			if e.type == "k3d" {
-				// ex: k3d-control.yaml
+				// ex: e/k3d-control.yaml
 				"\(ename)-env": file.Create & {
 					filename: "../e/\(e.env.metadata.name).yaml"
 					contents: "# ManagedBy: cue\n\n" + yaml.Marshal(e.env)
-				}
-			}
-
-			// Configuration for VCluster:
-			// env application -> bootstrap, vcluster
-			if e.type == "vcluster" {
-				// ex: k3d-control/k3d-control-vc1.yaml
-				"\(ename)-env": file.Create & {
-					filename: "../e/\(e.machine.env.metadata.name)/\(e.machine.env.metadata.name)-\(e.name).yaml"
-					contents: "# ManagedBy: cue\n\n" + yaml.Marshal(e.env)
-				}
-
-				// ex: vc1/vc1-vcluster.yaml
-				"\(ename)-vcluster": file.Create & {
-					filename: "../e/\(e.name)/\(e.name)-vcluster.yaml"
-					contents: "# ManagedBy: cue\n\n" + yaml.Marshal(e.vcluster)
 				}
 			}
 		}

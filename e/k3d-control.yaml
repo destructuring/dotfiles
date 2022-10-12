@@ -12,7 +12,7 @@ spec:
   source:
     repoURL: https://github.com/defn/app
     targetRevision: master
-    path: k/k3d-control-bootstrap
+    path: e/k3d-control
   syncPolicy:
     automated:
       prune: true

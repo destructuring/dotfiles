@@ -92,7 +92,7 @@ bootstrap: smiley: {
 	}
 }
 
-kustomize: "k3d-control-bootstrap": #KustomizeHelm & {
+kustomize: "k3d-control": #KustomizeHelm & {
 	helm: {
 		release: "bootstrap"
 		name:    "any-resource"
@@ -108,7 +108,7 @@ kustomize: "k3d-control-bootstrap": #KustomizeHelm & {
 	}
 }
 
-kustomize: "k3d-circus-bootstrap": #KustomizeHelm & {
+kustomize: "k3d-circus": #KustomizeHelm & {
 	helm: {
 		release: "bootstrap"
 		name:    "any-resource"
@@ -124,7 +124,7 @@ kustomize: "k3d-circus-bootstrap": #KustomizeHelm & {
 	}
 }
 
-kustomize: "k3d-smiley-bootstrap": #KustomizeHelm & {
+kustomize: "k3d-smiley": #KustomizeHelm & {
 	helm: {
 		release: "bootstrap"
 		name:    "any-resource"
