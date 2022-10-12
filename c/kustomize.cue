@@ -9,7 +9,7 @@ import (
 )
 
 bootstrap: control: {
-	for a, w in {"cert-manager": 8, "external-secrets": 9, kyverno: 10, "argo-events": 11, knative: 12, kong: 13, hello: 15} {
+	for a, w in {"cert-manager": 10, "external-secrets": 10, kyverno: 10, "argo-events": 10, knative: 10, kong: 100, hello: 1000} {
 		"\(a)": {
 			apiVersion: "argoproj.io/v1alpha1"
 			kind:       "Application"

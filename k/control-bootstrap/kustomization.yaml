@@ -16,7 +16,7 @@ helmCharts:
             namespace: argocd
             name: k3d-control-cert-manager
             annotations:
-              argocd.argoproj.io/sync-wave: "8"
+              argocd.argoproj.io/sync-wave: "10"
           spec:
             project: default
             destination:
@@ -35,7 +35,7 @@ helmCharts:
             namespace: argocd
             name: k3d-control-external-secrets
             annotations:
-              argocd.argoproj.io/sync-wave: "9"
+              argocd.argoproj.io/sync-wave: "10"
           spec:
             project: default
             destination:
@@ -73,7 +73,7 @@ helmCharts:
             namespace: argocd
             name: k3d-control-argo-events
             annotations:
-              argocd.argoproj.io/sync-wave: "11"
+              argocd.argoproj.io/sync-wave: "10"
           spec:
             project: default
             destination:
@@ -92,7 +92,7 @@ helmCharts:
             namespace: argocd
             name: k3d-control-knative
             annotations:
-              argocd.argoproj.io/sync-wave: "12"
+              argocd.argoproj.io/sync-wave: "10"
           spec:
             project: default
             destination:
@@ -111,7 +111,7 @@ helmCharts:
             namespace: argocd
             name: k3d-control-kong
             annotations:
-              argocd.argoproj.io/sync-wave: "13"
+              argocd.argoproj.io/sync-wave: "100"
           spec:
             project: default
             destination:
@@ -130,7 +130,7 @@ helmCharts:
             namespace: argocd
             name: k3d-control-hello
             annotations:
-              argocd.argoproj.io/sync-wave: "15"
+              argocd.argoproj.io/sync-wave: "1000"
           spec:
             project: default
             destination:
