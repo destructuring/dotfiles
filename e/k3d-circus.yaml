@@ -6,6 +6,7 @@ metadata:
   namespace: argocd
   name: k3d-circus
 spec:
+  project: default
   destination:
     name: in-cluster
   source:

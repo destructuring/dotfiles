@@ -21,6 +21,8 @@ bootstrap: control: {
 			}
 
 			spec: {
+				project: "default"
+
 				destination: name: "in-cluster"
 				source: {
 					repoURL:        "https://github.com/defn/app"

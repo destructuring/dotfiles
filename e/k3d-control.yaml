@@ -6,6 +6,7 @@ metadata:
   namespace: argocd
   name: k3d-control
 spec:
+  project: default
   destination:
     name: in-cluster
   source:

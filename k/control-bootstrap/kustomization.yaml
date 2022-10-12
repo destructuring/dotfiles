@@ -18,6 +18,7 @@ helmCharts:
             annotations:
               argocd.argoproj.io/sync-wave: "8"
           spec:
+            project: default
             destination:
               name: in-cluster
             source:
@@ -36,6 +37,7 @@ helmCharts:
             annotations:
               argocd.argoproj.io/sync-wave: "9"
           spec:
+            project: default
             destination:
               name: in-cluster
             source:
@@ -54,6 +56,7 @@ helmCharts:
             annotations:
               argocd.argoproj.io/sync-wave: "10"
           spec:
+            project: default
             destination:
               name: in-cluster
             source:
@@ -72,6 +75,7 @@ helmCharts:
             annotations:
               argocd.argoproj.io/sync-wave: "11"
           spec:
+            project: default
             destination:
               name: in-cluster
             source:
@@ -90,6 +94,7 @@ helmCharts:
             annotations:
               argocd.argoproj.io/sync-wave: "12"
           spec:
+            project: default
             destination:
               name: in-cluster
             source:
@@ -108,6 +113,7 @@ helmCharts:
             annotations:
               argocd.argoproj.io/sync-wave: "13"
           spec:
+            project: default
             destination:
               name: in-cluster
             source:
@@ -126,6 +132,7 @@ helmCharts:
             annotations:
               argocd.argoproj.io/sync-wave: "14"
           spec:
+            project: default
             destination:
               name: in-cluster
             source:
@@ -144,6 +151,7 @@ helmCharts:
             annotations:
               argocd.argoproj.io/sync-wave: "15"
           spec:
+            project: default
             destination:
               name: in-cluster
             source:

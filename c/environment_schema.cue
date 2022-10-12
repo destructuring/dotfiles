@@ -60,6 +60,8 @@ env: [NAME=string]: (#K3D | #VCluster) & {
 		}
 
 		spec: {
+			project: "default"
+
 			source: {
 				repoURL:        "https://github.com/defn/app"
 				path:           "k/{{path}}"
@@ -144,6 +146,8 @@ env: [NAME=string]: (#K3D | #VCluster) & {
 	}
 
 	spec: {
+		project: "default"
+
 		destination: name: "in-cluster"
 		source: {
 			repoURL:        "https://github.com/defn/app"
@@ -166,6 +170,7 @@ env: [NAME=string]: (#K3D | #VCluster) & {
 	}
 
 	spec: {
+		project: "default"
 		source: {
 			repoURL:        "https://github.com/defn/app"
 			path:           string
