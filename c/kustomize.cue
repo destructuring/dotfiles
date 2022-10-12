@@ -173,6 +173,8 @@ kustomize: "argo-events": #KustomizeHelm & {
 }
 
 kustomize: "argo-workflows": #KustomizeHelm & {
+	namespace: "argo-workflows"
+
 	helm: {
 		release:   "argo-workflows"
 		name:      "argo-workflows"
