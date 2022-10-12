@@ -9,69 +9,12 @@ helmCharts:
     repo: https://kiwigrid.github.io
     valuesInline:
       anyResources:
-        helm-a: |
+        helm-hello: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
           metadata:
             namespace: argocd
-            name: helm-a
-            annotations:
-              argocd.argoproj.io/sync-wave: "10"
-          spec:
-            project: default
-            destination:
-              name: in-cluster
-            source:
-              repoURL: https://github.com/defn/app
-              targetRevision: master
-              path: k/helm-a
-            syncPolicy:
-              automated:
-                prune: true
-        helm-b: |
-          apiVersion: argoproj.io/v1alpha1
-          kind: Application
-          metadata:
-            namespace: argocd
-            name: helm-b
-            annotations:
-              argocd.argoproj.io/sync-wave: "11"
-          spec:
-            project: default
-            destination:
-              name: in-cluster
-            source:
-              repoURL: https://github.com/defn/app
-              targetRevision: master
-              path: k/helm-b
-            syncPolicy:
-              automated:
-                prune: true
-        helm-c: |
-          apiVersion: argoproj.io/v1alpha1
-          kind: Application
-          metadata:
-            namespace: argocd
-            name: helm-c
-            annotations:
-              argocd.argoproj.io/sync-wave: "12"
-          spec:
-            project: default
-            destination:
-              name: in-cluster
-            source:
-              repoURL: https://github.com/defn/app
-              targetRevision: master
-              path: k/helm-c
-            syncPolicy:
-              automated:
-                prune: true
-        helm-d: |
-          apiVersion: argoproj.io/v1alpha1
-          kind: Application
-          metadata:
-            namespace: argocd
-            name: helm-d
+            name: hello
             annotations:
               argocd.argoproj.io/sync-wave: "13"
           spec:
@@ -81,18 +24,18 @@ helmCharts:
             source:
               repoURL: https://github.com/defn/app
               targetRevision: master
-              path: k/helm-d
+              path: k/hello
             syncPolicy:
               automated:
                 prune: true
-        helm-e: |
+        helm-kong: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
           metadata:
             namespace: argocd
-            name: helm-e
+            name: kong
             annotations:
-              argocd.argoproj.io/sync-wave: "14"
+              argocd.argoproj.io/sync-wave: "12"
           spec:
             project: default
             destination:
@@ -100,18 +43,18 @@ helmCharts:
             source:
               repoURL: https://github.com/defn/app
               targetRevision: master
-              path: k/helm-e
+              path: k/kong
             syncPolicy:
               automated:
                 prune: true
-        helm-f: |
+        helm-knative: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
           metadata:
             namespace: argocd
-            name: helm-f
+            name: knative
             annotations:
-              argocd.argoproj.io/sync-wave: "15"
+              argocd.argoproj.io/sync-wave: "11"
           spec:
             project: default
             destination:
@@ -119,18 +62,18 @@ helmCharts:
             source:
               repoURL: https://github.com/defn/app
               targetRevision: master
-              path: k/helm-f
+              path: k/knative
             syncPolicy:
               automated:
                 prune: true
-        helm-g: |
+        helm-kyverno: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
           metadata:
             namespace: argocd
-            name: helm-g
+            name: kyverno
             annotations:
-              argocd.argoproj.io/sync-wave: "16"
+              argocd.argoproj.io/sync-wave: "10"
           spec:
             project: default
             destination:
@@ -138,7 +81,7 @@ helmCharts:
             source:
               repoURL: https://github.com/defn/app
               targetRevision: master
-              path: k/helm-g
+              path: k/kyverno
             syncPolicy:
               automated:
                 prune: true

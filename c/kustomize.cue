@@ -52,7 +52,7 @@ kustomize: "bootstrap": #KustomizeHelm & {
 		repo:    "https://kiwigrid.github.io"
 		values: {
 			anyResources: {
-				for a, h in helmApp {
+				for a, h in ordered {
 					"helm-\(a)": yaml.Marshal(h)
 				}
 			}
@@ -60,15 +60,15 @@ kustomize: "bootstrap": #KustomizeHelm & {
 	}
 }
 
-helmApp: {
-	for a, w in {a: 10, b: 11, c: 12, d: 13, e: 14, f: 15, g: 16} {
+ordered: {
+	for a, w in {hello: 13, kong: 12, knative: 11, kyverno: 10} {
 		"\(a)": {
 			apiVersion: "argoproj.io/v1alpha1"
 			kind:       "Application"
 
 			metadata: {
 				namespace: "argocd"
-				name:      "helm-\(a)"
+				name:      "\(a)"
 				annotations: "argocd.argoproj.io/sync-wave": "\(w)"
 			}
 
@@ -79,7 +79,7 @@ helmApp: {
 				source: {
 					repoURL:        "https://github.com/defn/app"
 					targetRevision: "master"
-					path:           "k/helm-\(a)"
+					path:           "k/\(a)"
 				}
 
 				syncPolicy: automated: prune: true
