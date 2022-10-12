@@ -409,7 +409,7 @@ kustomize: "kuma-global": #KustomizeHelm & {
 	helm: {
 		release: "kuma"
 		name:    "kuma"
-		version: "1.8.0"
+		version: "1.8.1"
 		repo:    "https://kumahq.github.io/charts"
 		values: {
 			controlPlane: {
@@ -441,7 +441,7 @@ kustomize: "kuma-zone": #KustomizeHelm & {
 	helm: {
 		release: "kuma"
 		name:    "kuma"
-		version: "1.8.0"
+		version: "1.8.1"
 		repo:    "https://kumahq.github.io/charts"
 		values: {
 			controlPlane: {

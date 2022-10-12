@@ -7,7 +7,7 @@ namespace: kuma
 helmCharts:
   - releaseName: kuma
     name: kuma
-    version: 1.8.0
+    version: 1.8.1
     repo: https://kumahq.github.io/charts
     namespace: kuma
     valuesInline:
