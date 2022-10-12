@@ -135,6 +135,7 @@ kustomize: "argo-cd": #KustomizeHelm & {
 		metadata: name: "argocd-cm"
 		data: {
 			"kustomize.buildOptions": "--enable-helm"
+
 			"resource.customizations.health.networking.k8s.io_Ingress": """
 				hs = {}
 				hs.status = "Healthy"
@@ -165,6 +166,23 @@ kustomize: "argo-cd": #KustomizeHelm & {
 				jqPathExpressions:
 				  - .spec.rules[] | select(.name|test("autogen-."))
 
+				"""
+
+			"resource.customizations": """
+				argoproj.io/Application: 
+					health.lua: |
+						hs = {}
+						hs.status = "Progressing"
+						hs.message = ""
+						if obj.status ~= nil then
+							if obj.status.health ~= nil then
+							hs.status = obj.status.health.status
+							if obj.status.health.message ~= nil then
+								hs.message = obj.status.health.message
+							end
+							end
+						end
+						return hs
 				"""
 		}
 	}

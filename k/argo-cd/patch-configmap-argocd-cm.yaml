@@ -21,5 +21,6 @@ data:
   resource.customizations.ignoreDifferences.kyverno.io_ClusterPolicy: |
     jqPathExpressions:
       - .spec.rules[] | select(.name|test("autogen-."))
+  resource.customizations: "argoproj.io/Application: \n\thealth.lua: |\n\t\ths = {}\n\t\ths.status = \"Progressing\"\n\t\ths.message = \"\"\n\t\tif obj.status ~= nil then\n\t\t\tif obj.status.health ~= nil then\n\t\t\ths.status = obj.status.health.status\n\t\t\tif obj.status.health.message ~= nil then\n\t\t\t\ths.message = obj.status.health.message\n\t\t\tend\n\t\t\tend\n\t\tend\n\t\treturn hs"
 kind: ConfigMap
 apiVersion: v1
