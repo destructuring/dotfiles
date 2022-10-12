@@ -36,7 +36,7 @@ bootstrap: control: {
 	}
 }
 
-kustomize: "control-bootstrap": #KustomizeHelm & {
+kustomize: "bootstrap": #KustomizeHelm & {
 	helm: {
 		release: "bootstrap"
 		name:    "any-resource"

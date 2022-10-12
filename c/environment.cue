@@ -3,7 +3,7 @@ package c
 // Env: control is the control plane, used by the operator.
 env: control: #K3D & {
 	apps: default: {
-		"control-bootstrap": {}
+		"bootstrap": {}
 	}
 }
 

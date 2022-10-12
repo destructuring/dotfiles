@@ -9,10 +9,10 @@ spec:
   generators:
     - list:
         elements:
-          - name: control-bootstrap
-            path: control-bootstrap
+          - name: bootstrap
+            path: bootstrap
             cluster: in-cluster
-            namespace: control-bootstrap
+            namespace: bootstrap
   template:
     metadata:
       name: k3d-control-{{name}}
