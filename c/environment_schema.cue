@@ -217,8 +217,8 @@ env: [NAME=string]: (#K3D | #VCluster) & {
 		// ex: k3d-control
 		metadata: name: "k3d-\(ctx.name)"
 
-		// ex: e/k3d-control
-		spec: source: path: "e/k3d-\(ctx.name)"
+		// ex: k/k3d-control-bootstrap
+		spec: source: path: "k/k3d-\(ctx.name)-bootstrap"
 
 		spec: syncPolicy: automated: prune: true
 	}
@@ -249,8 +249,8 @@ env: [NAME=string]: (#K3D | #VCluster) & {
 		// ex: k3d-control-vc1
 		metadata: name: "\(machine.env.metadata.name)-\(ctx.name)"
 
-		// ex: e/vc1
-		spec: source: path: "e/\(ctx.name)"
+		// ex: k/vc1-bootstrap
+		spec: source: path: "e/\(ctx.name)-bootstrap"
 
 		spec: syncPolicy: automated: prune: true
 	}

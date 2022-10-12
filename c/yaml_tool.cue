@@ -46,25 +46,17 @@ command: gen: {
 	genEnvYaml: {
 		for ename, e in env {
 			// Configuration for K3D:
-			// k3d -> [appsets, bootstrap, vcluster]
+			// env application -> bootstrap
 			if e.type == "k3d" {
 				// ex: k3d-control.yaml
 				"\(ename)-env": file.Create & {
 					filename: "../e/\(e.env.metadata.name).yaml"
 					contents: "# ManagedBy: cue\n\n" + yaml.Marshal(e.env)
 				}
-
-				// ex: k3d-control/k3d-control.yaml
-				for aname, appset in e.appset {
-					"\(ename)-appset-\(appset.metadata.name)": file.Create & {
-						filename: "../e/\(e.env.metadata.name)/\(appset.metadata.name).yaml"
-						contents: "# ManagedBy: cue\n\n" + yaml.Marshal(appset)
-					}
-				}
 			}
 
 			// Configuration for VCluster:
-			// k3d -> [vcluster -> [appset, appset]]
+			// env application -> bootstrap, vcluster
 			if e.type == "vcluster" {
 				// ex: k3d-control/k3d-control-vc1.yaml
 				"\(ename)-env": file.Create & {
@@ -76,14 +68,6 @@ command: gen: {
 				"\(ename)-vcluster": file.Create & {
 					filename: "../e/\(e.name)/\(e.name)-vcluster.yaml"
 					contents: "# ManagedBy: cue\n\n" + yaml.Marshal(e.vcluster)
-				}
-
-				// ex: vc1/vc1.yaml
-				for aname, appset in e.appset {
-					"\(ename)-appset-\(appset.metadata.name)": file.Create & {
-						filename: "../e/\(e.name)/\(e.name).yaml"
-						contents: "# ManagedBy: cue\n\n" + yaml.Marshal(appset)
-					}
 				}
 			}
 		}

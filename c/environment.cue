@@ -6,11 +6,6 @@ env: control: #K3D & {
 
 // Env: circus is the global control plane, used by all machines.
 env: circus: #K3D & {
-	apps: default: {
-		"kuma-global": {
-			namespace: "kuma"
-		}
-	}
 }
 
 // Env: smiley is the second machine used for multi-cluster.
@@ -22,11 +17,6 @@ env: smiley: #K3D & {
 env: {
 	// VClusters on control machine
 	_vc_machine: #VCluster & {machine: env.control}
-
-	// Running dev environments
-	_vc_apps: apps: default: dev: {
-		namespace: "default"
-	}
 
 	// The VClusters
 	//vc1: _vc_machine & _vc_apps
