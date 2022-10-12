@@ -46,7 +46,7 @@ command: gen: {
 	genEnvYaml: {
 		for ename, e in env {
 			// Configuration for K3D:
-			// k3d -> [appset, appset, vcluster]
+			// k3d -> [appsets, bootstrap, vcluster]
 			if e.type == "k3d" {
 				// ex: k3d-control.yaml
 				"\(ename)-env": file.Create & {
@@ -60,6 +60,12 @@ command: gen: {
 						filename: "../e/\(e.env.metadata.name)/\(appset.metadata.name).yaml"
 						contents: "# ManagedBy: cue\n\n" + yaml.Marshal(appset)
 					}
+				}
+
+				// ex: k3d-control/k3d-control-bootstrap.yaml
+				"\(ename)-bootstrap": file.Create & {
+					filename: "../e/\(e.env.metadata.name)/\(e.env.metadata.name)-bootstrap.yaml"
+					contents: "# ManagedBy: cue\n\n" + yaml.Marshal(kustomize["\(e.env.metadata.name)-bootstrap"])
 				}
 			}
 

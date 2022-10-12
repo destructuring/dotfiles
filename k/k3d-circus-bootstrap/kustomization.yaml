@@ -1,0 +1,31 @@
+#ManagedBy: cue
+
+patchesStrategicMerge: []
+resources: []
+helmCharts:
+  - releaseName: bootstrap
+    name: any-resource
+    version: 0.1.0
+    repo: https://kiwigrid.github.io
+    valuesInline:
+      anyResources:
+        kyverno: |
+          apiVersion: argoproj.io/v1alpha1
+          kind: Application
+          metadata:
+            namespace: argocd
+            name: k3d-circus-kyverno
+            annotations:
+              argocd.argoproj.io/sync-wave: "10"
+          spec:
+            project: default
+            destination:
+              name: in-cluster
+            source:
+              repoURL: https://github.com/defn/app
+              targetRevision: master
+              path: k/kyverno
+            syncPolicy:
+              automated:
+                prune: true
+    includeCRDs: true

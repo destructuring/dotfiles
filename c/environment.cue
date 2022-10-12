@@ -2,16 +2,11 @@ package c
 
 // Env: control is the control plane, used by the operator.
 env: control: #K3D & {
-	apps: default: {
-		"bootstrap": {}
-	}
 }
 
 // Env: circus is the global control plane, used by all machines.
 env: circus: #K3D & {
 	apps: default: {
-		"cert-manager": {}
-		"kyverno": {}
 		"kuma-global": {
 			namespace: "kuma"
 		}
@@ -20,10 +15,6 @@ env: circus: #K3D & {
 
 // Env: smiley is the second machine used for multi-cluster.
 env: smiley: #K3D & {
-	apps: default: {
-		"cert-manager": {}
-		"kyverno": {}
-	}
 }
 
 // Env: VClusters
