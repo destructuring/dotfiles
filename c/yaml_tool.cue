@@ -61,12 +61,6 @@ command: gen: {
 						contents: "# ManagedBy: cue\n\n" + yaml.Marshal(appset)
 					}
 				}
-
-				// ex: k3d-control/k3d-control-bootstrap.yaml
-				"\(ename)-bootstrap": file.Create & {
-					filename: "../e/\(e.env.metadata.name)/\(e.env.metadata.name)-bootstrap.yaml"
-					contents: "# ManagedBy: cue\n\n" + yaml.Marshal(kustomize["\(e.env.metadata.name)-bootstrap"])
-				}
 			}
 
 			// Configuration for VCluster:
