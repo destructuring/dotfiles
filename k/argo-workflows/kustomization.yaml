@@ -1,14 +1,12 @@
 #ManagedBy: cue
 
 patchesStrategicMerge: []
-resources:
-  - resource-namespace-argo-workflows.yaml
-namespace: argo-workflows
+resources: []
 helmCharts:
   - releaseName: argo-workflows
     name: argo-workflows
     version: 0.20.1
     repo: https://argoproj.github.io/argo-helm
-    namespace: argo-workflows
     valuesInline: {}
+    namespace: argo-workflows
     includeCRDs: true
