@@ -2,11 +2,12 @@
 
 patchesStrategicMerge: []
 resources: []
+namespace: argo-workflows
 helmCharts:
   - releaseName: argo-workflows
     name: argo-workflows
     version: 0.20.1
     repo: https://argoproj.github.io/argo-helm
-    valuesInline: {}
     namespace: argo-workflows
+    valuesInline: {}
     includeCRDs: true
