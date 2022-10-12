@@ -251,6 +251,8 @@ env: [NAME=string]: (#K3D | #VCluster) & {
 
 		// ex: e/vc1
 		spec: source: path: "e/\(ctx.name)"
+
+		spec: syncPolicy: automated: prune: true
 	}
 
 	vcluster: #VClusterApp & {
