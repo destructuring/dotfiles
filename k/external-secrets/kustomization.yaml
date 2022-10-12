@@ -1,7 +1,8 @@
 #ManagedBy: cue
 
 patchesStrategicMerge: []
-resources: []
+resources:
+  - resource-namespace-external-secrets.yaml
 namespace: external-secrets
 helmCharts:
   - releaseName: external-secrets

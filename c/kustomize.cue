@@ -230,6 +230,14 @@ kustomize: "external-secrets": #KustomizeHelm & {
 			certController: create: false
 		}
 	}
+
+	resource: "namespace-external-secrets": core.#Namespace & {
+		apiVersion: "v1"
+		kind:       "Namespace"
+		metadata: {
+			name: "external-secrets"
+		}
+	}
 }
 
 kustomize: "datadog": #KustomizeHelm & {
