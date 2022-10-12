@@ -9,14 +9,14 @@ import (
 )
 
 bootstrap: control: {
-	for a, w in {"cert-manager": 8, "external-secrets": 9, kyverno: 10, "argo-events": 11, knative: 12, kong: 13, "argo-workflows": 14, hello: 15} {
+	for a, w in {"cert-manager": 8, "external-secrets": 9, kyverno: 10, "argo-events": 11, knative: 12, kong: 13, hello: 15} {
 		"\(a)": {
 			apiVersion: "argoproj.io/v1alpha1"
 			kind:       "Application"
 
 			metadata: {
 				namespace: "argocd"
-				name:      "\(a)"
+				name:      "k3d-control-\(a)"
 				annotations: "argocd.argoproj.io/sync-wave": "\(w)"
 			}
 

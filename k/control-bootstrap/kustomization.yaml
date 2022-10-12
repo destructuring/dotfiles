@@ -14,7 +14,7 @@ helmCharts:
           kind: Application
           metadata:
             namespace: argocd
-            name: cert-manager
+            name: k3d-control-cert-manager
             annotations:
               argocd.argoproj.io/sync-wave: "8"
           spec:
@@ -33,7 +33,7 @@ helmCharts:
           kind: Application
           metadata:
             namespace: argocd
-            name: external-secrets
+            name: k3d-control-external-secrets
             annotations:
               argocd.argoproj.io/sync-wave: "9"
           spec:
@@ -52,7 +52,7 @@ helmCharts:
           kind: Application
           metadata:
             namespace: argocd
-            name: kyverno
+            name: k3d-control-kyverno
             annotations:
               argocd.argoproj.io/sync-wave: "10"
           spec:
@@ -71,7 +71,7 @@ helmCharts:
           kind: Application
           metadata:
             namespace: argocd
-            name: argo-events
+            name: k3d-control-argo-events
             annotations:
               argocd.argoproj.io/sync-wave: "11"
           spec:
@@ -90,7 +90,7 @@ helmCharts:
           kind: Application
           metadata:
             namespace: argocd
-            name: knative
+            name: k3d-control-knative
             annotations:
               argocd.argoproj.io/sync-wave: "12"
           spec:
@@ -109,7 +109,7 @@ helmCharts:
           kind: Application
           metadata:
             namespace: argocd
-            name: kong
+            name: k3d-control-kong
             annotations:
               argocd.argoproj.io/sync-wave: "13"
           spec:
@@ -123,31 +123,12 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
-        argo-workflows: |
-          apiVersion: argoproj.io/v1alpha1
-          kind: Application
-          metadata:
-            namespace: argocd
-            name: argo-workflows
-            annotations:
-              argocd.argoproj.io/sync-wave: "14"
-          spec:
-            project: default
-            destination:
-              name: in-cluster
-            source:
-              repoURL: https://github.com/defn/app
-              targetRevision: master
-              path: k/argo-workflows
-            syncPolicy:
-              automated:
-                prune: true
         hello: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
           metadata:
             namespace: argocd
-            name: hello
+            name: k3d-control-hello
             annotations:
               argocd.argoproj.io/sync-wave: "15"
           spec:
