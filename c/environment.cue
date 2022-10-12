@@ -29,7 +29,7 @@ env: {
 	}
 
 	// The VClusters
-	vc1: _vc_machine & _vc_apps
+	//vc1: _vc_machine & _vc_apps
 	//vc2: _vc_machine & _vc_apps
 	//vc3: _vc_machine & _vc_apps
 	//vc4: _vc_machine & _vc_apps
