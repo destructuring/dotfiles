@@ -22,7 +22,6 @@ spec:
       name: k3d-smiley-{{name}}
       namespace: argocd
     spec:
-      project: default
       source:
         repoURL: https://github.com/defn/app
         path: k/{{path}}

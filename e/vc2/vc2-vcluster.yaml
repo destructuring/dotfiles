@@ -6,7 +6,6 @@ metadata:
   name: vc2-vcluster
   namespace: argocd
 spec:
-  project: default
   source:
     repoURL: https://github.com/defn/app
     path: k/vc2

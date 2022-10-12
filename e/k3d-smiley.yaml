@@ -6,7 +6,6 @@ metadata:
   namespace: argocd
   name: k3d-smiley
 spec:
-  project: default
   destination:
     name: in-cluster
   source:

@@ -26,7 +26,6 @@ spec:
       name: k3d-circus-{{name}}
       namespace: argocd
     spec:
-      project: default
       source:
         repoURL: https://github.com/defn/app
         path: k/{{path}}

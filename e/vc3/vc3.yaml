@@ -18,7 +18,6 @@ spec:
       name: vc3-{{name}}
       namespace: argocd
     spec:
-      project: default
       source:
         repoURL: https://github.com/defn/app
         path: k/{{path}}
