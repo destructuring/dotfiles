@@ -3,6 +3,7 @@
 patchesStrategicMerge: []
 resources:
   - resource-runner-deployment-defn.yaml
+  - resource-namespace-arc.yaml
 namespace: arc
 helmCharts:
   - releaseName: arc

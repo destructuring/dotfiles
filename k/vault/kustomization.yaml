@@ -2,7 +2,8 @@
 
 patchesStrategicMerge:
   - patch-statefulset-vault-set-vault-token.yaml
-resources: []
+resources:
+  - resource-namespace-vault.yaml
 namespace: vault
 helmCharts:
   - releaseName: vault

@@ -1,7 +1,8 @@
 #ManagedBy: cue
 
 patchesStrategicMerge: []
-resources: []
+resources:
+  - resource-namespace-kyverno.yaml
 namespace: kyverno
 helmCharts:
   - releaseName: kyverno

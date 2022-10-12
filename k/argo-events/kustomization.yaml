@@ -1,7 +1,8 @@
 #ManagedBy: cue
 
 patchesStrategicMerge: []
-resources: []
+resources:
+  - resource-namespace-argo-events.yaml
 namespace: argo-events
 helmCharts:
   - releaseName: argo-events

@@ -162,6 +162,14 @@ kustomize: "argo-events": #KustomizeHelm & {
 		version: "2.0.6"
 		repo:    "https://argoproj.github.io/argo-helm"
 	}
+
+	resource: "namespace-argo-events": core.#Namespace & {
+		apiVersion: "v1"
+		kind:       "Namespace"
+		metadata: {
+			name: "argo-events"
+		}
+	}
 }
 
 kustomize: "argo-workflows": #KustomizeHelm & {
@@ -171,6 +179,14 @@ kustomize: "argo-workflows": #KustomizeHelm & {
 		namespace: "argo-workflows"
 		version:   "0.20.1"
 		repo:      "https://argoproj.github.io/argo-helm"
+	}
+
+	resource: "namespace-argo-workflows": core.#Namespace & {
+		apiVersion: "v1"
+		kind:       "Namespace"
+		metadata: {
+			name: "argo-workflows"
+		}
 	}
 }
 
@@ -186,6 +202,14 @@ kustomize: "kyverno": #KustomizeHelm & {
 			replicaCount: 1
 		}
 	}
+
+	resource: "namespace-kyverno": core.#Namespace & {
+		apiVersion: "v1"
+		kind:       "Namespace"
+		metadata: {
+			name: "kyverno"
+		}
+	}
 }
 
 kustomize: "keda": #KustomizeHelm & {
@@ -196,6 +220,14 @@ kustomize: "keda": #KustomizeHelm & {
 		name:    "keda"
 		version: "2.8.2"
 		repo:    "https://kedacore.github.io/charts"
+	}
+
+	resource: "namespace-keda": core.#Namespace & {
+		apiVersion: "v1"
+		kind:       "Namespace"
+		metadata: {
+			name: "keda"
+		}
 	}
 }
 
@@ -213,6 +245,14 @@ kustomize: "external-dns": #KustomizeHelm & {
 				"ingress",
 			]
 			provider: "cloudflare"
+		}
+	}
+
+	resource: "namespace-external-dns": core.#Namespace & {
+		apiVersion: "v1"
+		kind:       "Namespace"
+		metadata: {
+			name: "external-dns"
 		}
 	}
 }
@@ -265,6 +305,14 @@ kustomize: "datadog": #KustomizeHelm & {
 			}
 		}
 	}
+
+	resource: "namespace-datadog": core.#Namespace & {
+		apiVersion: "v1"
+		kind:       "Namespace"
+		metadata: {
+			name: "datadog"
+		}
+	}
 }
 
 kustomize: "kuma-global": #KustomizeHelm & {
@@ -287,6 +335,14 @@ kustomize: "kuma-global": #KustomizeHelm & {
 					kdsGlobalServer: secretName: "kds-server-tls"
 				}
 			}
+		}
+	}
+
+	resource: "namespace-kuma": core.#Namespace & {
+		apiVersion: "v1"
+		kind:       "Namespace"
+		metadata: {
+			name: "kuma"
 		}
 	}
 }
@@ -314,6 +370,14 @@ kustomize: "kuma-zone": #KustomizeHelm & {
 			}
 			ingress: enabled: true
 			egress: enabled:  true
+		}
+	}
+
+	resource: "namespace-kuma": core.#Namespace & {
+		apiVersion: "v1"
+		kind:       "Namespace"
+		metadata: {
+			name: "kuma"
 		}
 	}
 }
@@ -356,6 +420,14 @@ kustomize: "vault": #KustomizeHelm & {
 		}
 	}
 
+	resource: "namespace-vault": core.#Namespace & {
+		apiVersion: "v1"
+		kind:       "Namespace"
+		metadata: {
+			name: "vault"
+		}
+	}
+
 	psm: "statefulset-vault-set-vault-token": {
 		apiVersion: "apps/v1"
 		kind:       "StatefulSet"
@@ -395,6 +467,14 @@ kustomize: "kong": #Kustomize & {
 		}
 		spec: type: "ClusterIP"
 	}
+
+	resource: "namespace-kong": core.#Namespace & {
+		apiVersion: "v1"
+		kind:       "Namespace"
+		metadata: {
+			name: "kong"
+		}
+	}
 }
 
 kustomize: "arc": #KustomizeHelm & {
@@ -417,6 +497,14 @@ kustomize: "arc": #KustomizeHelm & {
 			image:                        "summerwind/actions-runner-dind"
 		}
 	}
+
+	resource: "namespace-arc": core.#Namespace & {
+		apiVersion: "v1"
+		kind:       "Namespace"
+		metadata: {
+			name: "arc"
+		}
+	}
 }
 
 kustomize: "kourier": #Kustomize & {
@@ -432,6 +520,14 @@ kustomize: "kourier": #Kustomize & {
 			namespace: "kourier-system"
 		}
 		spec: type: "ClusterIP"
+	}
+
+	resource: "namespace-kourier-system": core.#Namespace & {
+		apiVersion: "v1"
+		kind:       "Namespace"
+		metadata: {
+			name: "kourier-system"
+		}
 	}
 }
 
@@ -566,6 +662,14 @@ kustomize: "karpenter": #Kustomize & {
 		url: "karpenter.yaml"
 	}
 
+	resource: "namespace-karpenter": core.#Namespace & {
+		apiVersion: "v1"
+		kind:       "Namespace"
+		metadata: {
+			name: "karpenter"
+		}
+	}
+
 	resource: "provisioner-vc1": {
 		apiVersion: "karpenter.sh/v1alpha5"
 		kind:       "Provisioner"
@@ -630,6 +734,14 @@ kustomize: "karpenter": #Kustomize & {
 kustomize: "knative": #Kustomize & {
 	resource: "knative-serving": {
 		url: "https://github.com/knative/serving/releases/download/knative-v1.7.2/serving-core.yaml"
+	}
+
+	resource: "namespace-knative-serving": core.#Namespace & {
+		apiVersion: "v1"
+		kind:       "Namespace"
+		metadata: {
+			name: "knative-serving"
+		}
 	}
 
 	psm: "namespace-knative-serving": core.#Namespace & {

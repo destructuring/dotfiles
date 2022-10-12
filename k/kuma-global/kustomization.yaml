@@ -1,7 +1,8 @@
 #ManagedBy: cue
 
 patchesStrategicMerge: []
-resources: []
+resources:
+  - resource-namespace-kuma.yaml
 namespace: kuma
 helmCharts:
   - releaseName: kuma

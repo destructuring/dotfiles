@@ -1,0 +1,6 @@
+#ManagedBy: cue
+
+metadata:
+  name: kong
+kind: Namespace
+apiVersion: v1
