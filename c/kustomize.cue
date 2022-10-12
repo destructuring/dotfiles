@@ -689,6 +689,14 @@ kustomize: "cert-manager": #KustomizeHelm & {
 		repo:      "https://charts.jetstack.io"
 	}
 
+	resource: "namespace-cert-manager": core.#Namespace & {
+		apiVersion: "v1"
+		kind:       "Namespace"
+		metadata: {
+			name: "cert-manager"
+		}
+	}
+
 	resource: "cert-manager-crds": {
 		url: "https://github.com/cert-manager/cert-manager/releases/download/v1.9.1/cert-manager.crds.yaml"
 	}
