@@ -467,14 +467,6 @@ kustomize: "kong": #Kustomize & {
 		}
 		spec: type: "ClusterIP"
 	}
-
-	resource: "namespace-kong": core.#Namespace & {
-		apiVersion: "v1"
-		kind:       "Namespace"
-		metadata: {
-			name: "kong"
-		}
-	}
 }
 
 kustomize: "arc": #KustomizeHelm & {
@@ -520,14 +512,6 @@ kustomize: "kourier": #Kustomize & {
 			namespace: "kourier-system"
 		}
 		spec: type: "ClusterIP"
-	}
-
-	resource: "namespace-kourier-system": core.#Namespace & {
-		apiVersion: "v1"
-		kind:       "Namespace"
-		metadata: {
-			name: "kourier-system"
-		}
 	}
 }
 
