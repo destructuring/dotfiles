@@ -1,39 +1,10 @@
 #ManagedBy: cue
 
+# helm template karpenter --include-crds --version v0.18.0 -f values.yaml oci://public.ecr.aws/karpenter/karpenter > karpenter.yaml
+
 patchesStrategicMerge: []
 resources:
+  - karpenter.yaml
   - resource-provisioner-vc1.yaml
   - resource-provisioner-vc2.yaml
 namespace: karpenter
-helmCharts:
-  - releaseName: karpenter
-    name: karpenter
-    version: 0.16.3
-    repo: https://charts.karpenter.sh
-    namespace: karpenter
-    valuesInline:
-      logLevel: error
-      clusterName: k3d-control
-      clusterEndpoint: https://kubernetes.default.svc.cluster.local
-      controller:
-        env:
-          - name: AWS_REGION
-            value: us-west-1
-          - name: AWS_NODE_NAME_CONVENTION
-            value: resource-name
-          - name: AWS_ACCESS_KEY_ID
-            valueFrom:
-              secretKeyRef:
-                name: karpenter-aws
-                key: AWS_ACCESS_KEY_ID
-          - name: AWS_SECRET_ACCESS_KEY
-            valueFrom:
-              secretKeyRef:
-                name: karpenter-aws
-                key: AWS_SECRET_ACCESS_KEY
-          - name: AWS_SESSION_TOKEN
-            valueFrom:
-              secretKeyRef:
-                name: karpenter-aws
-                key: AWS_SESSION_TOKEN
-    includeCRDs: true
