@@ -11,7 +11,7 @@ spec:
   template:
     spec:
       metadata:
-		    annotations: 
+        annotations: 
           kuma.io/sidecar-injection: "enabled"
           kuma.io/virtual-probes: "disabled"
           traffic.kuma.io/exclude-inbound-ports:  "8012"
