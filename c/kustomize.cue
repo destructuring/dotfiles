@@ -396,7 +396,8 @@ kustomize: "kong": #Kustomize & {
 		apiVersion: "v1"
 		kind:       "Namespace"
 		metadata: {
-			name: "kong"
+			name:      "kong"
+			namespace: "kong"
 			labels: "kuma.io/sidecar-injection": "enabled"
 		}
 	}
@@ -405,7 +406,8 @@ kustomize: "kong": #Kustomize & {
 		apiVersion: "apps/v1"
 		kind:       "Deployment"
 		metadata: {
-			name: "ingress-kong"
+			name:      "ingress-kong"
+			namespace: "kong"
 			annotations: "kuma.io/gateway": "enabled"
 		}
 	}
