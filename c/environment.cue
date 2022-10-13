@@ -13,7 +13,8 @@ env: control: #K3D & {
 		"knative":             10
 		"kyverno":             10
 		"k3d-control-secrets": 20
-		"kong":                30
+		"kuma-zone":           30
+		"kong":                40
 		"hello":               100
 	}
 }
