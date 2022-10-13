@@ -3,7 +3,10 @@
 metadata:
   name: webhook
   namespace: knative-serving
-  annotations:
-    traffic.kuma.io/exclude-inbound-ports: "8443"
+spec:
+  template:
+    metadata:
+      annotations:
+        traffic.kuma.io/exclude-inbound-ports: "8443"
 kind: Deployment
 apiVersion: apps/v1
