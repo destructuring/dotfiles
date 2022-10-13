@@ -46,7 +46,7 @@ kustomize: "k3d-control-secrets": #Kustomize & {
 				name:  "sleep"
 				image: "ubuntu"
 				command: ["bash", "-c"]
-				args: ["sleep", "infinity"]
+				args: ["sleep infinity"]
 
 				volumeMounts: [
 					for s in _secrets {
