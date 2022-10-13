@@ -7,14 +7,15 @@ metadata:
     networking.knative.dev/ingress.class: kong
   name: hello
   namespace: default
+
 spec:
   template:
+    metadata:
+      annotations: 
+        kuma.io/sidecar-injection: "enabled"
+        kuma.io/virtual-probes: "disabled"
+        traffic.kuma.io/exclude-inbound-ports:  "8012"
     spec:
-      metadata:
-        annotations: 
-          kuma.io/sidecar-injection: "enabled"
-          kuma.io/virtual-probes: "disabled"
-          traffic.kuma.io/exclude-inbound-ports:  "8012"
       containerConcurrency: 0
       containers:
       - name: whoami
