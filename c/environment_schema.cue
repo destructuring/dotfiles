@@ -167,7 +167,7 @@ for _machine_name, _machine in env {
 }
 
 // Env Application to deploy ApplicationSets, VCluster Applications
-#EnvAppSet: {
+#EnvApp: {
 	apiVersion: "argoproj.io/v1alpha1"
 	kind:       "Application"
 
@@ -222,12 +222,12 @@ for _machine_name, _machine in env {
 
 	bootstrap: [string]: int
 
-	env: #EnvAppSet
+	env: #EnvApp
 
 	env: {
 		// ex: k/k3d-control
 		// ex: k/vcluster-vc1-bootstrap
-		spec: source: path: "e/\(type)-\(name)"
+		spec: source: path: "k/\(type)-\(name)"
 
 		spec: syncPolicy: automated: prune: true
 	}
