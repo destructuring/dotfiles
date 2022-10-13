@@ -1,5 +1,9 @@
 package c
 
+import (
+	"encoding/yaml"
+)
+
 // Each environment is hosted on a Kubernetes machine.  
 // The machine's name is set to the env key.
 env: [NAME=string]: (#K3D | #VCluster) & {
@@ -8,6 +12,29 @@ env: [NAME=string]: (#K3D | #VCluster) & {
 
 bootstrap: [NAME=string]: #BootstrapMachine & {
 	machine_name: NAME
+}
+
+for _machine_name, _machine in env {
+	bootstrap: "\(_machine_name)": {
+		machine_type: _machine.type
+		apps:         _machine.bootstrap
+	}
+
+	kustomize: "\(_machine.type)-\(_machine_name)": #KustomizeHelm & {
+		helm: {
+			release: "bootstrap"
+			name:    "any-resource"
+			version: "0.1.0"
+			repo:    "https://kiwigrid.github.io"
+			values: {
+				anyResources: {
+					for _app_name, _app in bootstrap[_machine_name].out {
+						"\(_app_name)": yaml.Marshal(_app.out)
+					}
+				}
+			}
+		}
+	}
 }
 
 // Applications configured in an ApplicationSet
@@ -192,6 +219,8 @@ bootstrap: [NAME=string]: #BootstrapMachine & {
 #Machine: {
 	type: string
 	name: string
+
+	bootstrap: [string]: int
 
 	env: #EnvAppSet
 

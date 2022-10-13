@@ -1,25 +1,8 @@
 package c
 
-import (
-	"encoding/yaml"
-)
-
 // Env: control is the control plane, used by the operator.
 env: control: #K3D & {
-}
-
-// Env: circus is the global control plane, used by all machines.
-env: circus: #K3D & {
-}
-
-// Env: smiley is the second machine used for multi-cluster.
-env: smiley: #K3D & {
-}
-
-bootstrap: control: #BootstrapMachine & {
-	machine_type: "k3d"
-
-	apps: {
+	bootstrap: {
 		"cert-manager":     10
 		"external-secrets": 10
 		"kyverno":          10
@@ -32,37 +15,17 @@ bootstrap: control: #BootstrapMachine & {
 	}
 }
 
-bootstrap: circus: {
-	machine_type: "k3d"
-
-	apps: {
+// Env: circus is the global control plane, used by all machines.
+env: circus: #K3D & {
+	bootstrap: {
 		"kyverno": 10
 	}
 }
 
-bootstrap: smiley: {
-	machine_type: "k3d"
-
-	apps: {
+// Env: smiley is the second machine used for multi-cluster.
+env: smiley: #K3D & {
+	bootstrap: {
 		"kyverno": 10
-	}
-}
-
-for _machine_name, _machine in bootstrap {
-	kustomize: "\(_machine.machine_type)-\(_machine.machine_name)": #KustomizeHelm & {
-		helm: {
-			release: "bootstrap"
-			name:    "any-resource"
-			version: "0.1.0"
-			repo:    "https://kiwigrid.github.io"
-			values: {
-				anyResources: {
-					for _app_name, _app in _machine.out {
-						"\(_app_name)": yaml.Marshal(_app.out)
-					}
-				}
-			}
-		}
 	}
 }
 
