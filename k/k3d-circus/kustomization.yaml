@@ -28,4 +28,42 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
+        k3d-circus-secrets: |
+          apiVersion: argoproj.io/v1alpha1
+          kind: Application
+          metadata:
+            namespace: argocd
+            name: k3d-circus-k3d-circus-secrets
+            annotations:
+              argocd.argoproj.io/sync-wave: "20"
+          spec:
+            project: default
+            destination:
+              name: in-cluster
+            source:
+              repoURL: https://github.com/defn/app
+              targetRevision: master
+              path: k/k3d-circus-secrets
+            syncPolicy:
+              automated:
+                prune: true
+        kuma-global: |
+          apiVersion: argoproj.io/v1alpha1
+          kind: Application
+          metadata:
+            namespace: argocd
+            name: k3d-circus-kuma-global
+            annotations:
+              argocd.argoproj.io/sync-wave: "30"
+          spec:
+            project: default
+            destination:
+              name: in-cluster
+            source:
+              repoURL: https://github.com/defn/app
+              targetRevision: master
+              path: k/kuma-global
+            syncPolicy:
+              automated:
+                prune: true
     includeCRDs: true

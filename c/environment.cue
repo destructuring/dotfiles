@@ -123,7 +123,110 @@ kustomize: "k3d-control-secrets": #Kustomize & {
 // Env: circus is the global control plane, used by all machines.
 env: circus: #K3D & {
 	bootstrap: {
-		"kyverno": 10
+		"kyverno":            10
+		"k3d-circus-secrets": 20
+		"kuma-global":        30
+	}
+}
+
+kustomize: "k3d-circus-secrets": #Kustomize & {
+	namespace: "secrets"
+
+	resource: "namespace-secrets": core.#Namespace & {
+		apiVersion: "v1"
+		kind:       "Namespace"
+		metadata: {
+			name: "secrets"
+		}
+	}
+
+	_secrets: [
+		"kuma-global-kds-server-tls",
+		"kuma-global-generic-tls-cert",
+	]
+
+	resource: "kyverno-sync-secrets": {
+		apiVersion: "kyverno.io/v1"
+		kind:       "ClusterPolicy"
+		metadata: name: "sync-secret-kuma-global"
+		spec: rules: [{
+			name: "sync-secret-kuma-global-generic-tls-cert"
+			match: any: [{
+				resources: {
+					kinds: [
+						"Namespace",
+					]
+					names: [
+						"kuma",
+					]
+				}
+			}]
+			generate: {
+				apiVersion:  "v1"
+				kind:        "Secret"
+				name:        "generic-tls-cert"
+				namespace:   "{{request.object.metadata.name}}"
+				synchronize: true
+				clone: {
+					namespace: "secrets"
+					name:      "kuma-global-generic-tls-cert"
+				}
+			}
+		}, {
+			name: "sync-secret-kuma-zone-kds-server-tls"
+			match: any: [{
+				resources: {
+					kinds: [
+						"Namespace",
+					]
+					names: [
+						"kuma",
+					]
+				}
+			}]
+			generate: {
+				apiVersion:  "v1"
+				kind:        "Secret"
+				name:        "kds-server-tls"
+				namespace:   "{{request.object.metadata.name}}"
+				synchronize: true
+				clone: {
+					namespace: "secrets"
+					name:      "kuma-global-kds-server-tls"
+				}
+			}
+		}]
+	}
+
+	resource: "pod-secrets": core.#Pod & {
+		apiVersion: "v1"
+		kind:       "Pod"
+		metadata: name: "secrets"
+		spec: {
+			containers: [{
+				name:  "sleep"
+				image: "ubuntu"
+				command: ["bash", "-c"]
+				args: ["sleep infinity"]
+
+				volumeMounts: [
+					for s in _secrets {
+						name:      s
+						mountPath: "/mnt/secrets/\(s)"
+						readOnly:  true
+					},
+				]
+			}]
+			volumes: [
+				for s in _secrets {
+					name: s
+					secret: {
+						secretName: s
+						optional:   false
+					}
+				},
+			]
+		}
 	}
 }
 
