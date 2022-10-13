@@ -15,3 +15,16 @@ secrets:
 	circus create secret tls kuma-global-kds-server-tls -n secrets \
 		--cert=kuma-global-tls.crt \
 		--key=kuma-global-tls.key
+
+gen:
+	rm -f kuma-global-tls.crt kuma-global-tls.key kuma-global-ca.crt
+
+	kumactl generate tls-certificate \
+		--type=server \
+		--hostname=kuma-control-plane.kuma \
+		--hostname=kuma-control-plane.kuma.svc \
+		--hostname=100.64.110.16 \
+		--cert-file=kuma-global-tls.crt \
+		--key-file=kuma-global-tls.key
+
+	cp kuma-global-tls.crt kuma-global-ca.crt
