@@ -9,6 +9,25 @@ helmCharts:
     repo: https://kiwigrid.github.io
     valuesInline:
       anyResources:
+        k3d-control-secrets: |
+          apiVersion: argoproj.io/v1alpha1
+          kind: Application
+          metadata:
+            namespace: argocd
+            name: k3d-control-k3d-control-secrets
+            annotations:
+              argocd.argoproj.io/sync-wave: "1"
+          spec:
+            project: default
+            destination:
+              name: in-cluster
+            source:
+              repoURL: https://github.com/defn/app
+              targetRevision: master
+              path: k/k3d-control-secrets
+            syncPolicy:
+              automated:
+                prune: true
         cert-manager: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application

@@ -1,8 +1,14 @@
 package c
 
+import (
+	core "github.com/defn/boot/k8s.io/api/core/v1"
+)
+
 // Env: control is the control plane, used by the operator.
 env: control: #K3D & {
 	bootstrap: {
+		"k3d-control-secrets": 1
+
 		"cert-manager":     10
 		"external-secrets": 10
 		"kyverno":          10
@@ -12,6 +18,54 @@ env: control: #K3D & {
 		"kong": 100
 
 		"hello": 1000
+	}
+}
+
+kustomize: "k3d-control-secrets": #Kustomize & {
+	namespace: "secrets"
+
+	resource: "namespace-secrets": core.#Namespace & {
+		apiVersion: "v1"
+		kind:       "Namespace"
+		metadata: {
+			name: "secrets"
+		}
+	}
+
+	_secrets: [
+		"kuma-zone-kds-ca-certs",
+		"kuma-zone-kuma-tls-cert",
+	]
+
+	resource: "pod-secrets": core.#Pod & {
+		apiVersion: "v1"
+		kind:       "Pod"
+		metadata: name: "secrets"
+		spec: {
+			containers: [{
+				name:  "sleep"
+				image: "ubuntu"
+				command: ["bash", "-c"]
+				args: ["sleep", "infinity"]
+
+				volumeMounts: [
+					for s in _secrets {
+						name:      s
+						mountPath: "/mnt/secrets/\(s)"
+						readOnly:  true
+					},
+				]
+			}]
+			volumes: [
+				for s in _secrets {
+					name: s
+					secret: {
+						secretName: s
+						optional:   false
+					}
+				},
+			]
+		}
 	}
 }
 

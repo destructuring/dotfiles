@@ -1,0 +1,7 @@
+#ManagedBy: cue
+
+patchesStrategicMerge: []
+resources:
+  - resource-namespace-secrets.yaml
+  - resource-pod-secrets.yaml
+namespace: secrets
