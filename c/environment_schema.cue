@@ -6,6 +6,10 @@ env: [NAME=string]: (#K3D | #VCluster) & {
 	name: NAME
 }
 
+bootstrap: [NAME=string]: #BootstrapMachine & {
+	machine_name: NAME
+}
+
 // Applications configured in an ApplicationSet
 #AppSetElement: {
 	name:    string
@@ -258,5 +262,55 @@ env: [NAME=string]: (#K3D | #VCluster) & {
 
 		// ex: namespace: vc
 		spec: destination: namespace: ctx.name
+	}
+}
+
+#BootstrapApp: {
+	machine_type: string
+	machine_name: string
+	app_name:     string
+	app_wave:     int
+
+	out: {
+		apiVersion: "argoproj.io/v1alpha1"
+		kind:       "Application"
+
+		metadata: {
+			namespace: "argocd"
+			name:      "\(machine_type)-\(machine_name)-\(app_name)"
+			annotations: "argocd.argoproj.io/sync-wave": "\(app_wave)"
+		}
+
+		spec: {
+			project: "default"
+
+			destination: name: "in-cluster"
+			source: {
+				repoURL:        "https://github.com/defn/app"
+				targetRevision: "master"
+				path:           "k/\(app_name)"
+			}
+
+			syncPolicy: automated: prune: true
+		}
+	}
+}
+
+#BootstrapMachine: ctx={
+	machine_type: string
+	machine_name: string
+
+	apps: [string]: int
+
+	out: [string]: #BootstrapApp
+	out: {
+		for _app_name, _app_weight in apps {
+			"\(_app_name)": #BootstrapApp & {
+				machine_type: ctx.machine_type
+				machine_name: ctx.machine_name
+				app_name:     _app_name
+				app_wave:     _app_weight
+			}
+		}
 	}
 }

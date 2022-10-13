@@ -16,144 +16,50 @@ env: circus: #K3D & {
 env: smiley: #K3D & {
 }
 
-// Env: VClusters
+bootstrap: control: #BootstrapMachine & {
+	machine_type: "k3d"
 
-env: {
-	// VClusters on control machine
-	_vc_machine: #VCluster & {machine: env.control}
+	apps: {
+		"cert-manager":     10
+		"external-secrets": 10
+		"kyverno":          10
+		"argo-events":      10
+		"knative":          10
 
-	// The VClusters
-	//vc1: _vc_machine & _vc_apps
-	//vc2: _vc_machine & _vc_apps
-	//vc3: _vc_machine & _vc_apps
-	//vc4: _vc_machine & _vc_apps
-}
-bootstrap: control: {
-	for a, w in {"cert-manager": 10, "external-secrets": 10, kyverno: 10, "argo-events": 10, knative: 10, kong: 100, hello: 1000} {
-		"\(a)": {
-			apiVersion: "argoproj.io/v1alpha1"
-			kind:       "Application"
+		"kong": 100
 
-			metadata: {
-				namespace: "argocd"
-				name:      "k3d-control-\(a)"
-				annotations: "argocd.argoproj.io/sync-wave": "\(w)"
-			}
-
-			spec: {
-				project: "default"
-
-				destination: name: "in-cluster"
-				source: {
-					repoURL:        "https://github.com/defn/app"
-					targetRevision: "master"
-					path:           "k/\(a)"
-				}
-
-				syncPolicy: automated: prune: true
-			}
-		}
+		"hello": 1000
 	}
 }
 
 bootstrap: circus: {
-	for a, w in {kyverno: 10} {
-		"\(a)": {
-			apiVersion: "argoproj.io/v1alpha1"
-			kind:       "Application"
+	machine_type: "k3d"
 
-			metadata: {
-				namespace: "argocd"
-				name:      "k3d-circus-\(a)"
-				annotations: "argocd.argoproj.io/sync-wave": "\(w)"
-			}
-
-			spec: {
-				project: "default"
-
-				destination: name: "in-cluster"
-				source: {
-					repoURL:        "https://github.com/defn/app"
-					targetRevision: "master"
-					path:           "k/\(a)"
-				}
-
-				syncPolicy: automated: prune: true
-			}
-		}
+	apps: {
+		"kyverno": 10
 	}
 }
 
 bootstrap: smiley: {
-	for a, w in {kyverno: 10} {
-		"\(a)": {
-			apiVersion: "argoproj.io/v1alpha1"
-			kind:       "Application"
+	machine_type: "k3d"
 
-			metadata: {
-				namespace: "argocd"
-				name:      "k3d-smiley-\(a)"
-				annotations: "argocd.argoproj.io/sync-wave": "\(w)"
-			}
-
-			spec: {
-				project: "default"
-
-				destination: name: "in-cluster"
-				source: {
-					repoURL:        "https://github.com/defn/app"
-					targetRevision: "master"
-					path:           "k/\(a)"
-				}
-
-				syncPolicy: automated: prune: true
-			}
-		}
+	apps: {
+		"kyverno": 10
 	}
 }
 
-kustomize: "k3d-control": #KustomizeHelm & {
-	helm: {
-		release: "bootstrap"
-		name:    "any-resource"
-		version: "0.1.0"
-		repo:    "https://kiwigrid.github.io"
-		values: {
-			anyResources: {
-				for a, h in bootstrap.control {
-					"\(a)": yaml.Marshal(h)
-				}
-			}
-		}
-	}
-}
-
-kustomize: "k3d-circus": #KustomizeHelm & {
-	helm: {
-		release: "bootstrap"
-		name:    "any-resource"
-		version: "0.1.0"
-		repo:    "https://kiwigrid.github.io"
-		values: {
-			anyResources: {
-				for a, h in bootstrap.circus {
-					"\(a)": yaml.Marshal(h)
-				}
-			}
-		}
-	}
-}
-
-kustomize: "k3d-smiley": #KustomizeHelm & {
-	helm: {
-		release: "bootstrap"
-		name:    "any-resource"
-		version: "0.1.0"
-		repo:    "https://kiwigrid.github.io"
-		values: {
-			anyResources: {
-				for a, h in bootstrap.smiley {
-					"\(a)": yaml.Marshal(h)
+for _machine_name, _machine in bootstrap {
+	kustomize: "\(_machine.machine_type)-\(_machine.machine_name)": #KustomizeHelm & {
+		helm: {
+			release: "bootstrap"
+			name:    "any-resource"
+			version: "0.1.0"
+			repo:    "https://kiwigrid.github.io"
+			values: {
+				anyResources: {
+					for _app_name, _app in _machine.out {
+						"\(_app_name)": yaml.Marshal(_app.out)
+					}
 				}
 			}
 		}
