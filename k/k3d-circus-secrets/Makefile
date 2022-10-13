@@ -1,6 +1,8 @@
 SHELL := bash
 
 secrets:
+	circus create ns secrets 2>/dev/null || true
+
 	circus delete secret kuma-global-generic-tls-cert -n secrets 2>/dev/null || true
 
 	circus create secret generic kuma-global-generic-tls-cert -n secrets \
