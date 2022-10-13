@@ -20,7 +20,7 @@ helmCharts:
           spec:
             project: default
             destination:
-              name: smiley
+              name: k3d-smiley
             source:
               repoURL: https://github.com/defn/app
               targetRevision: master

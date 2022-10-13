@@ -119,7 +119,7 @@ for _machine_name, _machine in env {
 			name: "in-cluster"
 		}
 		if ctx.name != "control" {
-			name: ctx.name
+			name: "\(type)-\(ctx.name)"
 		}
 	}
 }
@@ -139,7 +139,7 @@ for _machine_name, _machine in env {
 			name: "in-cluster"
 		}
 		if machine.env.metadata.name != "k3d-control" {
-			name: ctx.name
+			name: "\(type)-\(ctx.name)"
 		}
 	}
 
@@ -180,7 +180,7 @@ for _machine_name, _machine in env {
 					name: "in-cluster"
 				}
 				if machine_name != "control" {
-					name: machine_name
+					name: "\(machine_type)-\(machine_name)"
 				}
 			}
 

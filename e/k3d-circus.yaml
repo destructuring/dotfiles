@@ -8,7 +8,7 @@ metadata:
 spec:
   project: default
   destination:
-    name: circus
+    name: k3d-circus
   source:
     repoURL: https://github.com/defn/app
     targetRevision: master
