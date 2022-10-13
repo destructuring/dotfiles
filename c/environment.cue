@@ -7,17 +7,17 @@ import (
 // Env: control is the control plane, used by the operator.
 env: control: #K3D & {
 	bootstrap: {
-		"k3d-control-secrets": 1
+		"k3d-control-secrets": 10
+		"cert-manager":        10
+		"external-secrets":    10
+		"argo-events":         10
+		"knative":             10
 
-		"cert-manager":     10
-		"external-secrets": 10
-		"kyverno":          10
-		"argo-events":      10
-		"knative":          10
+		"kyverno": 20
 
-		"kong": 100
+		"kong": 30
 
-		"hello": 1000
+		"hello": 100
 	}
 }
 

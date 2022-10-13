@@ -16,7 +16,7 @@ helmCharts:
             namespace: argocd
             name: k3d-control-k3d-control-secrets
             annotations:
-              argocd.argoproj.io/sync-wave: "1"
+              argocd.argoproj.io/sync-wave: "10"
           spec:
             project: default
             destination:
@@ -66,25 +66,6 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
-        kyverno: |
-          apiVersion: argoproj.io/v1alpha1
-          kind: Application
-          metadata:
-            namespace: argocd
-            name: k3d-control-kyverno
-            annotations:
-              argocd.argoproj.io/sync-wave: "10"
-          spec:
-            project: default
-            destination:
-              name: in-cluster
-            source:
-              repoURL: https://github.com/defn/app
-              targetRevision: master
-              path: k/kyverno
-            syncPolicy:
-              automated:
-                prune: true
         argo-events: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
@@ -123,6 +104,25 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
+        kyverno: |
+          apiVersion: argoproj.io/v1alpha1
+          kind: Application
+          metadata:
+            namespace: argocd
+            name: k3d-control-kyverno
+            annotations:
+              argocd.argoproj.io/sync-wave: "20"
+          spec:
+            project: default
+            destination:
+              name: in-cluster
+            source:
+              repoURL: https://github.com/defn/app
+              targetRevision: master
+              path: k/kyverno
+            syncPolicy:
+              automated:
+                prune: true
         kong: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
@@ -130,7 +130,7 @@ helmCharts:
             namespace: argocd
             name: k3d-control-kong
             annotations:
-              argocd.argoproj.io/sync-wave: "100"
+              argocd.argoproj.io/sync-wave: "30"
           spec:
             project: default
             destination:
@@ -149,7 +149,7 @@ helmCharts:
             namespace: argocd
             name: k3d-control-hello
             annotations:
-              argocd.argoproj.io/sync-wave: "1000"
+              argocd.argoproj.io/sync-wave: "100"
           spec:
             project: default
             destination:
