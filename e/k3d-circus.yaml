@@ -8,7 +8,7 @@ metadata:
 spec:
   project: default
   destination:
-    name: in-cluster
+    name: circus
   source:
     repoURL: https://github.com/defn/app
     targetRevision: master

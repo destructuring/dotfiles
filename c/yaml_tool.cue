@@ -10,7 +10,6 @@ command: {
 	args: string @tag(args)
 }
 
-// Generate configs in e/ for Environments and ApplicationSets
 command: gen: {
 	genKustomizeYaml: {
 		for kname, k in kustomize {

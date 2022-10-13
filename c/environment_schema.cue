@@ -37,135 +37,6 @@ for _machine_name, _machine in env {
 	}
 }
 
-// Applications configured in an ApplicationSet
-#AppSetElement: {
-	name:    string
-	path:    string | *name
-	cluster: string
-
-	_has_namespace: bool
-	namespace?:     string
-	if _has_namespace {
-		namespace: string | *name
-	}
-}
-
-// ApplicationSet configured in a Machine
-#AppSet: {
-	_name:      string
-	_prefix:    string | *""
-	_suffix:    string | *""
-	_namespace: bool | *true
-	_prune:     bool | *false
-	_apps: [...#AppSetElement]
-
-	apiVersion: "argoproj.io/v1alpha1"
-	kind:       "ApplicationSet"
-
-	metadata: {
-		name:      "\(_prefix)\(_name)\(_suffix)"
-		namespace: "argocd"
-	}
-
-	spec: generators: [{
-		_ai_cluster: {
-			if _name == "control" {
-				cluster: "in-cluster"
-			}
-			if _name != "control" {
-				cluster: "\(_prefix)\(_name)"
-			}
-		}
-		_ai: _ai_cluster & {_has_namespace: _namespace}
-
-		list: {
-			elements: [..._ai]
-			elements: _apps
-		}
-	}]
-
-	spec: template: {
-		metadata: {
-			name:      "\(_prefix)\(_name)-{{name}}"
-			namespace: "argocd"
-		}
-
-		spec: {
-			project: "default"
-
-			source: {
-				repoURL:        "https://github.com/defn/app"
-				path:           "k/{{path}}"
-				targetRevision: "master"
-			}
-
-			destination: {
-				if _namespace {
-					namespace: "{{namespace}}"
-				}
-				name: "{{cluster}}"
-			}
-
-			syncPolicy: {
-				syncOptions: [
-					"CreateNamespace=true",
-				]
-				if _prune {
-					automated: prune: true
-				}
-			}
-
-			ignoreDifferences: [{
-				kind:  "MutatingWebhookConfiguration"
-				group: "admissionregistration.k8s.io"
-				name:  "vault-agent-injector-cfg"
-				jsonPointers: [
-					"/webhooks/0/clientConfig/caBundle",
-				]
-			}, {
-				kind:  "MutatingWebhookConfiguration"
-				group: "admissionregistration.k8s.io"
-				name:  "webhook.domainmapping.serving.knative.dev"
-				jsonPointers: [
-					"/webhooks/0/rules",
-				]
-			}, {
-				kind:  "MutatingWebhookConfiguration"
-				group: "admissionregistration.k8s.io"
-				name:  "webhook.serving.knative.dev"
-				jsonPointers: [
-					"/webhooks/0/rules",
-				]
-			}, {
-				kind:  "ValidatingWebhookConfiguration"
-				group: "admissionregistration.k8s.io"
-				name:  "validation.webhook.serving.knative.dev"
-				jsonPointers: [
-					"/webhooks/0/rules",
-				]
-			}, {
-				kind:  "ValidatingWebhookConfiguration"
-				group: "admissionregistration.k8s.io"
-				name:  "validation.webhook.domainmapping.serving.knative.dev"
-				jsonPointers: [
-					"/webhooks/0/rules",
-				]
-			}, {
-				kind:  "Deployment"
-				group: "apps"
-				name:  "kong-kong"
-				jsonPointers: [
-					"/spec/template/spec/tolerations",
-				]
-			}, {
-				group: "kyverno.io"
-				kind:  "ClusterPolicy"
-				jqPathExpressions: [".spec.rules[] | select(.name|test(\"autogen-.\"))"]
-			}]
-		}
-	}
-}
-
 // Env Application to deploy ApplicationSets, VCluster Applications
 #EnvApp: {
 	apiVersion: "argoproj.io/v1alpha1"
@@ -179,7 +50,7 @@ for _machine_name, _machine in env {
 	spec: {
 		project: "default"
 
-		destination: name: "in-cluster"
+		destination: name: string
 		source: {
 			repoURL:        "https://github.com/defn/app"
 			targetRevision: "master"
@@ -209,7 +80,7 @@ for _machine_name, _machine in env {
 		}
 		destination: {
 			namespace: string
-			name:      "in-cluster"
+			name:      string
 		}
 		syncPolicy: syncOptions: ["CreateNamespace=true"]
 	}
@@ -233,20 +104,6 @@ for _machine_name, _machine in env {
 	}
 
 	apps: [string]: [string]: {...}
-
-	appset: [string]: #AppSet & {
-		_name: name
-	}
-
-	appset: {
-		for _appset_name, _appset in apps {
-			"\(_appset_name)": _apps: [
-				for _app_name, _app in _appset {
-					{name: _app_name} & _app
-				},
-			]
-		}
-	}
 }
 
 // K3D Machine
@@ -257,17 +114,12 @@ for _machine_name, _machine in env {
 	// ex: k3d-control
 	env: metadata: name: "\(type)-\(ctx.name)"
 
-	appset: [NAME=string]: {
-		_prefix: "\(type)-"
-
-		if NAME != "default" {
-			_suffix: "-\(NAME)"
+	env: spec: destination: {
+		if ctx.name == "control" {
+			name: "in-cluster"
 		}
-
-		_prune: true
-
-		if NAME == "nons" {
-			_namespace: false
+		if ctx.name != "control" {
+			name: ctx.name
 		}
 	}
 }
@@ -281,6 +133,15 @@ for _machine_name, _machine in env {
 
 	// ex: k3d-control-vc1
 	env: metadata: name: "\(machine.env.metadata.name)-\(ctx.name)"
+
+	env: spec: destination: {
+		if machine.env.metadata.name == "k3d-control" {
+			name: "in-cluster"
+		}
+		if machine.env.metadata.name != "k3d-control" {
+			name: ctx.name
+		}
+	}
 
 	vcluster: #VClusterApp & {
 		// ex: vc1-vcluster
@@ -313,7 +174,16 @@ for _machine_name, _machine in env {
 		spec: {
 			project: "default"
 
-			destination: name: "in-cluster"
+			destination: {
+				name: string
+				if machine_name == "control" {
+					name: "in-cluster"
+				}
+				if machine_name != "control" {
+					name: machine_name
+				}
+			}
+
 			source: {
 				repoURL:        "https://github.com/defn/app"
 				targetRevision: "master"

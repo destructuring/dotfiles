@@ -20,7 +20,7 @@ helmCharts:
           spec:
             project: default
             destination:
-              name: in-cluster
+              name: smiley
             source:
               repoURL: https://github.com/defn/app
               targetRevision: master
