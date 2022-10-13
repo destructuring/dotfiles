@@ -692,7 +692,8 @@ kustomize: "knative": #Kustomize & {
 		}
 
 		spec: template: metadata: annotations: "traffic.kuma.io/exclude-inbound-ports": "8443"
-		spec: template: metadata: annotations: "kuma.io/virtual-probes":                "disabled"
+
+		spec: template: metadata: annotations: "kuma.io/virtual-probes": "disabled"
 	}
 
 	psm: "deployment-domainmappingwebhook": apps.#Deployment & {
@@ -704,6 +705,30 @@ kustomize: "knative": #Kustomize & {
 		}
 
 		spec: template: metadata: annotations: "traffic.kuma.io/exclude-inbound-ports": "8443"
+
+		spec: template: metadata: annotations: "kuma.io/virtual-probes": "disabled"
+	}
+
+	psm: "deployment-domain-mapping": apps.#Deployment & {
+		apiVersion: "apps/v1"
+		kind:       "Deployment"
+		metadata: {
+			name:      "domain-mapping"
+			namespace: "knative-serving"
+		}
+
+		spec: template: metadata: annotations: "kuma.io/virtual-probes": "disabled"
+	}
+
+	psm: "deployment-controller": apps.#Deployment & {
+		apiVersion: "apps/v1"
+		kind:       "Deployment"
+		metadata: {
+			name:      "controller"
+			namespace: "knative-serving"
+		}
+
+		spec: template: metadata: annotations: "kuma.io/virtual-probes": "disabled"
 	}
 
 	psm: "deployment-autoscaler": apps.#Deployment & {
@@ -715,6 +740,8 @@ kustomize: "knative": #Kustomize & {
 		}
 
 		spec: template: metadata: annotations: "traffic.kuma.io/exclude-inbound-ports": "8080"
+
+		spec: template: metadata: annotations: "kuma.io/virtual-probes": "disabled"
 	}
 
 	psm: "deployment-activator": apps.#Deployment & {
@@ -727,6 +754,8 @@ kustomize: "knative": #Kustomize & {
 
 		spec: template: metadata: annotations: "traffic.kuma.io/exclude-inbound-ports":  "8012"
 		spec: template: metadata: annotations: "traffic.kuma.io/exclude-outbound-ports": "8080"
+
+		spec: template: metadata: annotations: "kuma.io/virtual-probes": "disabled"
 	}
 
 	psm: "config-map-config-defaults": core.#ConfigMap & {

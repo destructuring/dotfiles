@@ -1,13 +1,12 @@
 #ManagedBy: cue
 
 metadata:
-  name: domainmapping-webhook
+  name: domain-mapping
   namespace: knative-serving
 spec:
   template:
     metadata:
       annotations:
-        traffic.kuma.io/exclude-inbound-ports: "8443"
         kuma.io/virtual-probes: disabled
 kind: Deployment
 apiVersion: apps/v1
