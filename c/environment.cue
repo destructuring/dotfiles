@@ -54,7 +54,7 @@ kustomize: "k3d-control-secrets": #Kustomize & {
 				apiVersion:  "v1"
 				kind:        "Secret"
 				name:        "kuma-tls-cert"
-				namespace:   "{{request.object.metadata.namespace}}"
+				namespace:   "{{request.object.metadata.name}}"
 				synchronize: true
 				clone: {
 					namespace: "secrets"
@@ -77,7 +77,7 @@ kustomize: "k3d-control-secrets": #Kustomize & {
 				apiVersion:  "v1"
 				kind:        "Secret"
 				name:        "kds-ca-certs"
-				namespace:   "{{request.object.metadata.namespace}}"
+				namespace:   "{{request.object.metadata.name}}"
 				synchronize: true
 				clone: {
 					namespace: "secrets"
