@@ -97,8 +97,10 @@ for _machine_name, _machine in env {
 
 	env: {
 		// ex: k/k3d-control
-		// ex: k/vcluster-vc1-bootstrap
+		// ex: k/vcluster-vc1
 		spec: source: path: "k/\(type)-\(name)"
+
+		spec: destination: name: "in-cluster"
 
 		spec: syncPolicy: automated: prune: true
 	}
@@ -113,15 +115,6 @@ for _machine_name, _machine in env {
 
 	// ex: k3d-control
 	env: metadata: name: "\(type)-\(ctx.name)"
-
-	env: spec: destination: {
-		if ctx.name == "control" {
-			name: "in-cluster"
-		}
-		if ctx.name != "control" {
-			name: "\(type)-\(ctx.name)"
-		}
-	}
 }
 
 // VCluster Machine
@@ -133,15 +126,6 @@ for _machine_name, _machine in env {
 
 	// ex: k3d-control-vc1
 	env: metadata: name: "\(machine.env.metadata.name)-\(ctx.name)"
-
-	env: spec: destination: {
-		if machine.env.metadata.name == "k3d-control" {
-			name: "in-cluster"
-		}
-		if machine.env.metadata.name != "k3d-control" {
-			name: "\(type)-\(ctx.name)"
-		}
-	}
 
 	vcluster: #VClusterApp & {
 		// ex: vc1-vcluster
