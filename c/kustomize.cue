@@ -689,8 +689,9 @@ kustomize: "knative": #Kustomize & {
 		metadata: {
 			name:      "webhook"
 			namespace: "knative-serving"
-			annotations: "traffic.kuma.io/exclude-inbound-ports": "8443"
 		}
+
+		spec: template: metadata: annotations: "traffic.kuma.io/exclude-inbound-ports": "8443"
 	}
 
 	psm: "deployment-domainmappingwebhook": apps.#Deployment & {
@@ -699,8 +700,9 @@ kustomize: "knative": #Kustomize & {
 		metadata: {
 			name:      "domainmapping-webhook"
 			namespace: "knative-serving"
-			annotations: "traffic.kuma.io/exclude-inbound-ports": "8443"
 		}
+
+		spec: template: metadata: annotations: "traffic.kuma.io/exclude-inbound-ports": "8443"
 	}
 
 	psm: "deployment-autoscaler": apps.#Deployment & {
@@ -709,8 +711,9 @@ kustomize: "knative": #Kustomize & {
 		metadata: {
 			name:      "autoscaler"
 			namespace: "knative-serving"
-			annotations: "traffic.kuma.io/exclude-inbound-ports": "8080"
 		}
+
+		spec: template: metadata: annotations: "traffic.kuma.io/exclude-inbound-ports": "8080"
 	}
 
 	psm: "deployment-activator": apps.#Deployment & {
@@ -719,9 +722,10 @@ kustomize: "knative": #Kustomize & {
 		metadata: {
 			name:      "activator"
 			namespace: "knative-serving"
-			annotations: "traffic.kuma.io/exclude-inbound-ports":  "8012"
-			annotations: "traffic.kuma.io/exclude-outbound-ports": "8080"
 		}
+
+		spec: template: metadata: annotations: "traffic.kuma.io/exclude-inbound-ports":  "8012"
+		spec: template: metadata: annotations: "traffic.kuma.io/exclude-outbound-ports": "8080"
 	}
 
 	psm: "config-map-config-defaults": core.#ConfigMap & {
