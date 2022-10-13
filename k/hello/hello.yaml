@@ -10,6 +10,11 @@ metadata:
 spec:
   template:
     spec:
+      metadata:
+		    annotations: 
+          "kuma.io/sidecar-injection": "enabled"
+          "kuma.io/virtual-probes": "disabled"
+          "traffic.kuma.io/exclude-inbound-ports":  "8012"
       containerConcurrency: 0
       containers:
       - name: whoami
