@@ -8,5 +8,6 @@ spec:
     metadata:
       annotations:
         traffic.kuma.io/exclude-inbound-ports: "8443"
+        kuma.io/virtual-probes: disabled
 kind: Deployment
 apiVersion: apps/v1

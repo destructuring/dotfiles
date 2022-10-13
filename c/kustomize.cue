@@ -692,6 +692,7 @@ kustomize: "knative": #Kustomize & {
 		}
 
 		spec: template: metadata: annotations: "traffic.kuma.io/exclude-inbound-ports": "8443"
+		spec: template: metadata: annotations: "kuma.io/virtual-probes":                "disabled"
 	}
 
 	psm: "deployment-domainmappingwebhook": apps.#Deployment & {
