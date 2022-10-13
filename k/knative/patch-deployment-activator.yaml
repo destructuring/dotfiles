@@ -1,0 +1,9 @@
+#ManagedBy: cue
+
+metadata:
+  name: activator
+  namespace: knative-serving
+  annotations:
+    traffic.kuma.io/exclude-inbound-ports: "8443"
+kind: Deployment
+apiVersion: apps/v1

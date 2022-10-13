@@ -679,7 +679,48 @@ kustomize: "knative": #Kustomize & {
 		kind:       "Namespace"
 		metadata: {
 			name: "knative-serving"
-			labels: "kuma.io/sidecar-injection": "disabled"
+			labels: "kuma.io/sidecar-injection": "enabled"
+		}
+	}
+
+	psm: "deployment-webhook": apps.#Deployment & {
+		apiVersion: "apps/v1"
+		kind:       "Deployment"
+		metadata: {
+			name:      "webhook"
+			namespace: "knative-serving"
+			annotations: "traffic.kuma.io/exclude-inbound-ports": "8443"
+		}
+	}
+
+	psm: "deployment-domainmappingwebhook": apps.#Deployment & {
+		apiVersion: "apps/v1"
+		kind:       "Deployment"
+		metadata: {
+			name:      "domainmapping-webhook"
+			namespace: "knative-serving"
+			annotations: "traffic.kuma.io/exclude-inbound-ports": "8080"
+		}
+	}
+
+	psm: "deployment-autoscaler": apps.#Deployment & {
+		apiVersion: "apps/v1"
+		kind:       "Deployment"
+		metadata: {
+			name:      "autoscaler"
+			namespace: "knative-serving"
+			annotations: "traffic.kuma.io/exclude-inbound-ports":  "8012"
+			annotations: "traffic.kuma.io/exclude-outbound-ports": "8080"
+		}
+	}
+
+	psm: "deployment-activator": apps.#Deployment & {
+		apiVersion: "apps/v1"
+		kind:       "Deployment"
+		metadata: {
+			name:      "activator"
+			namespace: "knative-serving"
+			annotations: "traffic.kuma.io/exclude-inbound-ports": "8443"
 		}
 	}
 
