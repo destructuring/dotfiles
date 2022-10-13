@@ -392,6 +392,24 @@ kustomize: "kong": #Kustomize & {
 		url: "https://raw.githubusercontent.com/Kong/kubernetes-ingress-controller/v2.7.0/deploy/single/all-in-one-dbless.yaml"
 	}
 
+	psm: "namespace-kong": {
+		apiVersion: "v1"
+		kind:       "Namespace"
+		metadata: {
+			name: "kong"
+			labels: "kuma.io/sidecar-injection": "enabled"
+		}
+	}
+
+	psm: "deployment-ingress-kong": {
+		apiVersion: "apps/v1"
+		kind:       "Deployment"
+		metadata: {
+			name: "ingress-kong"
+			annotations: "kuma.io/gateway": "enabled"
+		}
+	}
+
 	psm: "service-kong-proxy-set-cluster-ip": {
 		apiVersion: "v1"
 		kind:       "Service"
