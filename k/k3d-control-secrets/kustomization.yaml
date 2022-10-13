@@ -3,5 +3,6 @@
 patchesStrategicMerge: []
 resources:
   - resource-namespace-secrets.yaml
+  - resource-kyverno-sync-secrets.yaml
   - resource-pod-secrets.yaml
 namespace: secrets

@@ -7,17 +7,14 @@ import (
 // Env: control is the control plane, used by the operator.
 env: control: #K3D & {
 	bootstrap: {
-		"k3d-control-secrets": 10
 		"cert-manager":        10
 		"external-secrets":    10
 		"argo-events":         10
 		"knative":             10
-
-		"kyverno": 20
-
-		"kong": 30
-
-		"hello": 100
+		"kyverno":             10
+		"k3d-control-secrets": 20
+		"kong":                30
+		"hello":               100
 	}
 }
 
@@ -36,6 +33,59 @@ kustomize: "k3d-control-secrets": #Kustomize & {
 		"kuma-zone-kds-ca-certs",
 		"kuma-zone-kuma-tls-cert",
 	]
+
+	resource: "kyverno-sync-secrets": {
+		apiVersion: "kyverno.io/v1"
+		kind:       "ClusterPolicy"
+		metadata: name: "sync-secret-kuma-zone"
+		spec: rules: [{
+			name: "sync-secret-kuma-zone-kuma-tls-cert"
+			match: any: [{
+				resources: {
+					kinds: [
+						"Namespace",
+					]
+					names: [
+						"kuma",
+					]
+				}
+			}]
+			generate: {
+				apiVersion:  "v1"
+				kind:        "Secret"
+				name:        "kuma-tls-cert"
+				namespace:   "{{request.object.metadata.namespace}}"
+				synchronize: true
+				clone: {
+					namespace: "secrets"
+					name:      "kuma-zone-kuma-tls-cert"
+				}
+			}
+		}, {
+			name: "sync-secret-kuma-zone-kds-ca-certs"
+			match: any: [{
+				resources: {
+					kinds: [
+						"Namespace",
+					]
+					names: [
+						"kuma",
+					]
+				}
+			}]
+			generate: {
+				apiVersion:  "v1"
+				kind:        "Secret"
+				name:        "kds-ca-certs"
+				namespace:   "{{request.object.metadata.namespace}}"
+				synchronize: true
+				clone: {
+					namespace: "secrets"
+					name:      "kuma-zone-kds-ca-certs"
+				}
+			}
+		}]
+	}
 
 	resource: "pod-secrets": core.#Pod & {
 		apiVersion: "v1"
