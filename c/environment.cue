@@ -10,11 +10,11 @@ env: control: #K3D & {
 		"cert-manager":        10
 		"external-secrets":    10
 		"argo-events":         10
-		"knative":             10
 		"kyverno":             10
 		"k3d-control-secrets": 20
 		"kuma-zone":           30
-		"kong":                40
+		"knative":             40
+		"kong":                50
 		"hello":               100
 	}
 }

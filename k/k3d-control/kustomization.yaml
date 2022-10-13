@@ -66,25 +66,6 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
-        knative: |
-          apiVersion: argoproj.io/v1alpha1
-          kind: Application
-          metadata:
-            namespace: argocd
-            name: k3d-control-knative
-            annotations:
-              argocd.argoproj.io/sync-wave: "10"
-          spec:
-            project: default
-            destination:
-              name: in-cluster
-            source:
-              repoURL: https://github.com/defn/app
-              targetRevision: master
-              path: k/knative
-            syncPolicy:
-              automated:
-                prune: true
         kyverno: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
@@ -142,6 +123,25 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
+        knative: |
+          apiVersion: argoproj.io/v1alpha1
+          kind: Application
+          metadata:
+            namespace: argocd
+            name: k3d-control-knative
+            annotations:
+              argocd.argoproj.io/sync-wave: "40"
+          spec:
+            project: default
+            destination:
+              name: in-cluster
+            source:
+              repoURL: https://github.com/defn/app
+              targetRevision: master
+              path: k/knative
+            syncPolicy:
+              automated:
+                prune: true
         kong: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
@@ -149,7 +149,7 @@ helmCharts:
             namespace: argocd
             name: k3d-control-kong
             annotations:
-              argocd.argoproj.io/sync-wave: "40"
+              argocd.argoproj.io/sync-wave: "50"
           spec:
             project: default
             destination:
