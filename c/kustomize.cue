@@ -9,6 +9,10 @@ import (
 kustomize: "hello": #Kustomize & {
 	namespace: "default"
 
+	resource: "demo": {
+		url: "https://bit.ly/demokuma"
+	}
+
 	resource: "hello": {
 		url: "hello.yaml"
 	}

@@ -2,6 +2,7 @@
 
 patchesStrategicMerge: []
 resources:
+  - https://bit.ly/demokuma
   - hello.yaml
   - events.yaml
   - resource-default.yaml
