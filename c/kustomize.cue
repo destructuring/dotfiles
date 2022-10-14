@@ -337,7 +337,6 @@ kustomize: "mesh": #Kustomize & {
 			backends: [{
 				name: "ca-dev-1"
 				type: "builtin"
-				mode: "STRICT"
 			}]
 		}
 	}
