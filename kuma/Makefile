@@ -14,3 +14,6 @@ external:
 ingress:
 	kumactl generate zone-ingress-token --zone=pod > /tmp/ingress-token
 	kuma-dp run --proxy-type=ingress --cp-address=https://100.103.25.109:5678 --dataplane-token-file=/tmp/ingress-token --dataplane-file=ingress-dp.yaml
+
+tp:
+	sudo kumactl install  transparent-proxy --kuma-dp-user ubuntu --exclude-outbound-ports 5678 --exclude-inbound-ports 80,443,8000,8888
