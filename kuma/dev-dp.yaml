@@ -18,7 +18,7 @@ networking:
     - port: 50000
       tags:
         kuma.io/service: backend_kuma-demo_svc_3001
-    - port: 50001
+    - port: 8000
       tags:
         kuma.io/service: frontend_kuma-demo_svc_8080
     - port: 50002
