@@ -4,11 +4,14 @@ name: dev
 networking:
   address: 100.103.25.109
   inbound:
-    - port: 30001
+    - port: 30000
       servicePort: 80
       tags:
         kuma.io/service: dev
   outbound:
+    - port: 40000
+      tags:
+        kuma.io/service: dev
     - port: 40001
       tags:
         kuma.io/service: google
