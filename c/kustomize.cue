@@ -17,7 +17,7 @@ kustomize: "hello": #Kustomize & {
 		url: "events.yaml"
 	}
 
-	psm: "default": {
+	resource: "default": {
 		apiVersion: "v1"
 		kind:       "Namespace"
 		metadata: {
