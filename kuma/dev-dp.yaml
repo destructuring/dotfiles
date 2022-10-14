@@ -15,8 +15,17 @@ networking:
     - port: 40001
       tags:
         kuma.io/service: google
-    - port: 40002
+    - port: 50000
       tags:
-        kuma.io/service: kong-proxy_kong_svc_80
+        kuma.io/service: backend_kuma-demo_svc_3001
+    - port: 50001
+      tags:
+        kuma.io/service: frontend_kuma-demo_svc_8080
+    - port: 50002
+      tags:
+        kuma.io/service: postgres_kuma-demo_svc_5432
+    - port: 50003
+      tags: 
+        kuma.io/service: redis_kuma-demo_svc_6379  
   admin:
     port: 19001
