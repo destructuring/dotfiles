@@ -9,10 +9,6 @@ import (
 kustomize: "hello": #Kustomize & {
 	namespace: "default"
 
-	resource: "demo": {
-		url: "https://bit.ly/demokuma"
-	}
-
 	resource: "hello": {
 		url: "hello.yaml"
 	}
@@ -30,6 +26,12 @@ kustomize: "hello": #Kustomize & {
 			labels: "kuma.io/sidecar-injection": "enabled"
 			labels: "kuma.io/mesh":              "dev"
 		}
+	}
+}
+
+kustomize: "demo": #Kustomize & {
+	resource: "demo": {
+		url: "https://bit.ly/demokuma"
 	}
 }
 

@@ -1,0 +1,5 @@
+#ManagedBy: cue
+
+patchesStrategicMerge: []
+resources:
+  - https://bit.ly/demokuma

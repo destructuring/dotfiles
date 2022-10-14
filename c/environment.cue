@@ -16,6 +16,7 @@ env: control: #K3D & {
 		"knative":             50
 		"kong":                60
 		"hello":               100
+		"demo":                100
 	}
 }
 

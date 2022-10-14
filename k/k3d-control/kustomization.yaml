@@ -180,4 +180,23 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
+        demo: |
+          apiVersion: argoproj.io/v1alpha1
+          kind: Application
+          metadata:
+            namespace: argocd
+            name: k3d-control-demo
+            annotations:
+              argocd.argoproj.io/sync-wave: "100"
+          spec:
+            project: default
+            destination:
+              name: in-cluster
+            source:
+              repoURL: https://github.com/defn/app
+              targetRevision: master
+              path: k/demo
+            syncPolicy:
+              automated:
+                prune: true
     includeCRDs: true
