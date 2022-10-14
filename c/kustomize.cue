@@ -331,7 +331,7 @@ kustomize: "mesh": #Kustomize & {
 	resource: "mesh-default": {
 		apiVersion: "kuma.io/v1alpha1"
 		kind:       "Mesh"
-		metadata: name: "dev"
+		metadata: name: "default"
 		spec: mtls: {
 			enabledBackend: "ca-default-1"
 			backends: [{
