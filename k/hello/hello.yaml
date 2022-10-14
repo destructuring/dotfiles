@@ -12,6 +12,7 @@ spec:
   template:
     metadata:
       annotations: 
+        kuma.io/mesh: dev
         kuma.io/sidecar-injection: "enabled"
         kuma.io/virtual-probes: "disabled"
         traffic.kuma.io/exclude-inbound-ports:  "8012"
@@ -39,6 +40,7 @@ spec:
   template:
     metadata:
       annotations: 
+        kuma.io/mesh: dev
         kuma.io/sidecar-injection: "enabled"
         kuma.io/virtual-probes: "disabled"
         traffic.kuma.io/exclude-inbound-ports:  "8012"
@@ -64,6 +66,7 @@ spec:
   template:
     metadata:
       annotations: 
+        kuma.io/mesh: dev
         kuma.io/sidecar-injection: "enabled"
         kuma.io/virtual-probes: "disabled"
         traffic.kuma.io/exclude-inbound-ports:  "8012"

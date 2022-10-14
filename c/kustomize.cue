@@ -16,6 +16,17 @@ kustomize: "hello": #Kustomize & {
 	resource: "events.yaml": {
 		url: "events.yaml"
 	}
+
+	psm: "default": {
+		apiVersion: "v1"
+		kind:       "Namespace"
+		metadata: {
+			name:      "default"
+			namespace: "default"
+			labels: "kuma.io/sidecar-injection": "enabled"
+			labels: "kuma.io/mesh":              "dev"
+		}
+	}
 }
 
 kustomize: "argo-cd": #KustomizeHelm & {
@@ -316,6 +327,22 @@ kustomize: "kuma-zone": #KustomizeHelm & {
 	}
 }
 
+kustomize: "mesh": #Kustomize & {
+	resource: "mesh-dev": {
+		apiVersion: "kuma.io/v1alpha1"
+		kind:       "Mesh"
+		metadata: name: "dev"
+		spec: mtls: {
+			enabledBackend: "ca-dev-1"
+			backends: [{
+				name: "ca-dev-1"
+				type: "builtin"
+				mode: "STRICT"
+			}]
+		}
+	}
+}
+
 kustomize: "vault": #KustomizeHelm & {
 	namespace: "vault"
 
@@ -399,6 +426,7 @@ kustomize: "kong": #Kustomize & {
 			name:      "kong"
 			namespace: "kong"
 			labels: "kuma.io/sidecar-injection": "enabled"
+			labels: "kuma.io/mesh":              "dev"
 		}
 	}
 
@@ -680,6 +708,7 @@ kustomize: "knative": #Kustomize & {
 		metadata: {
 			name: "knative-serving"
 			labels: "kuma.io/sidecar-injection": "enabled"
+			labels: "kuma.io/mesh":              "dev"
 		}
 	}
 

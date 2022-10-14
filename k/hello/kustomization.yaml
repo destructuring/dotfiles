@@ -1,6 +1,7 @@
 #ManagedBy: cue
 
-patchesStrategicMerge: []
+patchesStrategicMerge:
+  - patch-default.yaml
 resources:
   - hello.yaml
   - events.yaml
