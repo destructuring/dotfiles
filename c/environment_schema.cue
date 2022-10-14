@@ -151,7 +151,12 @@ for _machine_name, _machine in env {
 
 		metadata: {
 			namespace: "argocd"
-			name:      "\(machine_type)-\(machine_name)-\(app_name)"
+			if app_name =~ "^\(machine_type)-\(machine_name)-" {
+				name: "\(app_name)"
+			}
+			if app_name !~ "^\(machine_type)-\(machine_name)-" {
+				name: "\(machine_type)-\(machine_name)-\(app_name)"
+			}
 			annotations: "argocd.argoproj.io/sync-wave": "\(app_wave)"
 		}
 

@@ -33,7 +33,7 @@ helmCharts:
           kind: Application
           metadata:
             namespace: argocd
-            name: k3d-circus-k3d-circus-secrets
+            name: k3d-circus-secrets
             annotations:
               argocd.argoproj.io/sync-wave: "20"
           spec:

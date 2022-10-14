@@ -90,7 +90,7 @@ helmCharts:
           kind: Application
           metadata:
             namespace: argocd
-            name: k3d-control-k3d-control-secrets
+            name: k3d-control-secrets
             annotations:
               argocd.argoproj.io/sync-wave: "20"
           spec:
