@@ -2,4 +2,5 @@
 
 patchesStrategicMerge: []
 resources:
+  - resource-mesh-default.yaml
   - resource-mesh-dev.yaml

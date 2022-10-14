@@ -328,6 +328,19 @@ kustomize: "kuma-zone": #KustomizeHelm & {
 }
 
 kustomize: "mesh": #Kustomize & {
+	resource: "mesh-default": {
+		apiVersion: "kuma.io/v1alpha1"
+		kind:       "Mesh"
+		metadata: name: "dev"
+		spec: mtls: {
+			enabledBackend: "ca-default-1"
+			backends: [{
+				name: "ca-default-1"
+				type: "builtin"
+			}]
+		}
+	}
+
 	resource: "mesh-dev": {
 		apiVersion: "kuma.io/v1alpha1"
 		kind:       "Mesh"
