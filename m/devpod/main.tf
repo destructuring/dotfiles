@@ -74,7 +74,8 @@ resource "kubernetes_stateful_set" "dev" {
         }
 
         annotations = {
-          "kuma.io/gateway" = "enabled"
+          "kuma.io/gateway"           = "enabled"
+          "kuma.io/sidecar-injection" = "disabled"
         }
       }
 
