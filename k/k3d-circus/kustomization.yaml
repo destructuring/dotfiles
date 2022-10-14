@@ -66,4 +66,23 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
+        mesh: |
+          apiVersion: argoproj.io/v1alpha1
+          kind: Application
+          metadata:
+            namespace: argocd
+            name: k3d-circus-mesh
+            annotations:
+              argocd.argoproj.io/sync-wave: "40"
+          spec:
+            project: default
+            destination:
+              name: k3d-circus
+            source:
+              repoURL: https://github.com/defn/app
+              targetRevision: master
+              path: k/mesh
+            syncPolicy:
+              automated:
+                prune: true
     includeCRDs: true

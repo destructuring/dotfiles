@@ -13,7 +13,6 @@ env: control: #K3D & {
 		"kyverno":             10
 		"k3d-control-secrets": 20
 		"kuma-zone":           30
-		"mesh":                40
 		"knative":             50
 		"kong":                60
 		"hello":               100
@@ -127,6 +126,7 @@ env: circus: #K3D & {
 		"kyverno":            10
 		"k3d-circus-secrets": 20
 		"kuma-global":        30
+		"mesh":               40
 	}
 }
 
