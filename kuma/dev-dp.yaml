@@ -15,5 +15,8 @@ networking:
     - port: 40001
       tags:
         kuma.io/service: google
+    - port: 40002
+      tags:
+        kuma.io/service: kong-proxy_kong_svc_80
   admin:
     port: 19001
