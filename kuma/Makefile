@@ -8,6 +8,9 @@ dp:
 	kumactl generate dataplane-token > /tmp/dev-token
 	kuma-dp run --cp-address=https://100.103.25.109:5678 --dataplane-token-file=/tmp/dev-token --dataplane-file=dev-dp.yaml
 
+external:
+	circus apply -f google.yaml
+
 ingress:
 	kumactl generate zone-ingress-token --zone=pod > /tmp/ingress-token
 	kuma-dp run --proxy-type=ingress --cp-address=https://100.103.25.109:5678 --dataplane-token-file=/tmp/ingress-token --dataplane-file=ingress-dp.yaml

@@ -1,9 +1,0 @@
-# kumactl generate zone-token --valid-for 24m --scope egress > /tmp/egress-token
-# kuma-dp run --proxy-type=egress --cp-address=https://100.103.25.109:5678 --dataplane-token-file=/tmp/egress-token --dataplane-file=egress-dp.yaml
-type: ZoneEgress
-name: egress
-networking:
-  address: 100.103.25.109
-  port: 10001
-  advertisedAddress: 100.103.25.109
-  advertisedPort: 10001
