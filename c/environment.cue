@@ -20,65 +20,55 @@ env: control: #K3D & {
 		"kuma-zone-kds-ca-certs",
 		"kuma-zone-kuma-tls-cert",
 	]
-}
 
-kustomize: "k3d-control-secrets": #Kustomize & {
-	resource: "kyverno-sync-secrets": {
-		apiVersion: "kyverno.io/v1"
-		kind:       "ClusterPolicy"
-		metadata: name: "kyverno-sync-secrets"
-
-		spec: rules: [{
-			name: "sync-secret-kuma-zone-kuma-tls-cert"
-
-			match: any: [{
-				resources: {
-					kinds: [
-						"Namespace",
-					]
-					names: [
-						"kuma",
-					]
-				}
-			}]
-
-			generate: {
-				apiVersion:  "v1"
-				kind:        "Secret"
-				name:        "kuma-tls-cert"
-				namespace:   "{{request.object.metadata.name}}"
-				synchronize: true
-				clone: {
-					namespace: "secrets"
-					name:      "kuma-zone-kuma-tls-cert"
-				}
-			}
-		}, {
-			name: "sync-secret-kuma-zone-kds-ca-certs"
-
-			match: any: [{
-				resources: {
-					kinds: [
-						"Namespace",
-					]
-					names: [
-						"kuma",
-					]
-				}
-			}]
-
-			generate: {
-				apiVersion:  "v1"
-				kind:        "Secret"
-				name:        "kds-ca-certs"
-				namespace:   "{{request.object.metadata.name}}"
-				synchronize: true
-				clone: {
-					namespace: "secrets"
-					name:      "kuma-zone-kds-ca-certs"
-				}
+	sync: "sync-secret-kuma-zone-kuma-tls-cert": {
+		match: any: [{
+			resources: {
+				kinds: [
+					"Namespace",
+				]
+				names: [
+					"kuma",
+				]
 			}
 		}]
+
+		generate: {
+			apiVersion:  "v1"
+			kind:        "Secret"
+			name:        "kuma-tls-cert"
+			namespace:   "{{request.object.metadata.name}}"
+			synchronize: true
+			clone: {
+				namespace: "secrets"
+				name:      "kuma-zone-kuma-tls-cert"
+			}
+		}
+	}
+
+	sync: "sync-secret-kuma-zone-kds-ca-certs": {
+		match: any: [{
+			resources: {
+				kinds: [
+					"Namespace",
+				]
+				names: [
+					"kuma",
+				]
+			}
+		}]
+
+		generate: {
+			apiVersion:  "v1"
+			kind:        "Secret"
+			name:        "kds-ca-certs"
+			namespace:   "{{request.object.metadata.name}}"
+			synchronize: true
+			clone: {
+				namespace: "secrets"
+				name:      "kuma-zone-kds-ca-certs"
+			}
+		}
 	}
 }
 
@@ -95,6 +85,56 @@ env: circus: #K3D & {
 		"kuma-global-kds-server-tls",
 		"kuma-global-generic-tls-cert",
 	]
+
+	sync: "sync-secret-kuma-global-generic-tls-cert": {
+		match: any: [{
+			resources: {
+				kinds: [
+					"Namespace",
+				]
+				names: [
+					"kuma",
+				]
+			}
+		}]
+
+		generate: {
+			apiVersion:  "v1"
+			kind:        "Secret"
+			name:        "generic-tls-cert"
+			namespace:   "{{request.object.metadata.name}}"
+			synchronize: true
+			clone: {
+				namespace: "secrets"
+				name:      "kuma-global-generic-tls-cert"
+			}
+		}
+	}
+
+	sync: "sync-secret-kuma-zone-kds-server-tls": {
+		match: any: [{
+			resources: {
+				kinds: [
+					"Namespace",
+				]
+				names: [
+					"kuma",
+				]
+			}
+		}]
+
+		generate: {
+			apiVersion:  "v1"
+			kind:        "Secret"
+			name:        "kds-server-tls"
+			namespace:   "{{request.object.metadata.name}}"
+			synchronize: true
+			clone: {
+				namespace: "secrets"
+				name:      "kuma-global-kds-server-tls"
+			}
+		}
+	}
 }
 
 kustomize: "k3d-circus-secrets": #Kustomize & {

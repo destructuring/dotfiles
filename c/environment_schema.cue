@@ -43,7 +43,7 @@ for _machine_name, _machine in env {
 	}
 
 	// Configure the environment secrets
-	kustomize: "k3d-\(_machine.name)-secrets": #Kustomize & {
+	kustomize: "\(_machine.type)-\(_machine.name)-secrets": #Kustomize & {
 		namespace: "secrets"
 
 		resource: "namespace-secrets": core.#Namespace & {
@@ -54,10 +54,24 @@ for _machine_name, _machine in env {
 			}
 		}
 
+		resource: "kyverno-sync-secrets": {
+			apiVersion: "kyverno.io/v1"
+			kind:       "ClusterPolicy"
+			metadata: name: "kyverno-sync-secrets"
+
+			spec: rules: [...{...}]
+			spec: rules: [
+				for sname, s in _machine.sync {
+					s & {name: sname}
+				},
+			]
+		}
+
 		resource: "pod-secrets": core.#Pod & {
 			apiVersion: "v1"
 			kind:       "Pod"
 			metadata: name: "secrets"
+
 			spec: {
 				containers: [{
 					name:  "sleep"
@@ -73,6 +87,7 @@ for _machine_name, _machine in env {
 						},
 					]
 				}]
+
 				volumes: [
 					for s in _machine.secrets {
 						name: s
