@@ -204,12 +204,12 @@ data: kubernetes_config_map: cluster_dns: [{
 	name:       "dind"
 }
 
-#MounEarthly: {
+#MountEarthly: {
 	mount_path: "/tmp/earthly"
 	name:       "earthly"
 }
 
-#MounRegistry: {
+#MountRegistry: {
 	mount_path: "/var/lib/registry"
 	name:       "registry"
 }
@@ -331,11 +331,11 @@ resource: kubernetes_stateful_set: dev: [{
 								"""
 						}]
 
-						volume_mount: [#MounEarthly]
+						volume_mount: [#MountEarthly]
 					},
 					{
 						#ContainerRegistry
-						volume_mount: [#MounRegistry]
+						volume_mount: [#MountRegistry]
 					}]
 
 			}]
