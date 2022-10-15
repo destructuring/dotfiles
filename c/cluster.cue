@@ -1,7 +1,5 @@
 package c
 
-mpath: "../m"
-
 cluster: circus: {}
 
 cluster: smiley: {}
@@ -16,6 +14,6 @@ cluster: control: ctx={
 
 	module: devpod: [{
 		envs:   "${local.envs}"
-		source: "\(mpath)/devpod"
+		source: "\(ctx.mpath)/devpod"
 	}]
 }

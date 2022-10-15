@@ -4,8 +4,9 @@ cluster: [NAME=string]: #Cluster & {cluster_name: NAME}
 
 #Cluster: ctx={
 	cluster_name: string
-	k3d_name:     "k3d-\(cluster_name)"
-	domain:       "tiger-mamba.ts.net"
+	k3d_name:     string | *"k3d-\(cluster_name)"
+	domain:       string | *"tiger-mamba.ts.net"
+	mpath:        string | *"../m"
 
 	locals: [...{...}] | *[{envs: {}}]
 	module: [string]: [...{...}]
