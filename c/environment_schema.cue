@@ -80,19 +80,19 @@ for _machine_name, _machine in env {
 					args: ["sleep infinity"]
 
 					volumeMounts: [
-						for s in _machine.secrets {
-							name:      s
-							mountPath: "/mnt/secrets/\(s)"
+						for sname, s in _machine.sync {
+							name:      sname
+							mountPath: "/mnt/secrets/\(sname)"
 							readOnly:  true
 						},
 					]
 				}]
 
 				volumes: [
-					for s in _machine.secrets {
-						name: s
+					for sname, s in _machine.sync {
+						name: sname
 						secret: {
-							secretName: s
+							secretName: sname
 							optional:   false
 						}
 					},
@@ -169,8 +169,6 @@ for _machine_name, _machine in env {
 	}
 
 	apps: [string]: [string]: {...}
-
-	secrets: [...string]
 
 	sync: [string]: {...}
 }

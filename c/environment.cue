@@ -16,37 +16,7 @@ env: control: #K3D & {
 		"demo":                100
 	}
 
-	secrets: [
-		"kuma-zone-kds-ca-certs",
-		"kuma-zone-kuma-tls-cert",
-	]
-
-	sync: "sync-secret-kuma-zone-kuma-tls-cert": {
-		match: any: [{
-			resources: {
-				kinds: [
-					"Namespace",
-				]
-				names: [
-					"kuma",
-				]
-			}
-		}]
-
-		generate: {
-			apiVersion:  "v1"
-			kind:        "Secret"
-			name:        "kuma-tls-cert"
-			namespace:   "{{request.object.metadata.name}}"
-			synchronize: true
-			clone: {
-				namespace: "secrets"
-				name:      "kuma-zone-kuma-tls-cert"
-			}
-		}
-	}
-
-	sync: "sync-secret-kuma-zone-kds-ca-certs": {
+	sync: "kuma-zone-kds-ca-certs": {
 		match: any: [{
 			resources: {
 				kinds: [
@@ -70,6 +40,31 @@ env: control: #K3D & {
 			}
 		}
 	}
+
+	sync: "kuma-zone-kuma-tls-cert": {
+		match: any: [{
+			resources: {
+				kinds: [
+					"Namespace",
+				]
+				names: [
+					"kuma",
+				]
+			}
+		}]
+
+		generate: {
+			apiVersion:  "v1"
+			kind:        "Secret"
+			name:        "kuma-tls-cert"
+			namespace:   "{{request.object.metadata.name}}"
+			synchronize: true
+			clone: {
+				namespace: "secrets"
+				name:      "kuma-zone-kuma-tls-cert"
+			}
+		}
+	}
 }
 
 // Env: circus is the global control plane, used by all machines.
@@ -81,12 +76,7 @@ env: circus: #K3D & {
 		"mesh":               40
 	}
 
-	secrets: [
-		"kuma-global-kds-server-tls",
-		"kuma-global-generic-tls-cert",
-	]
-
-	sync: "sync-secret-kuma-global-generic-tls-cert": {
+	sync: "kuma-global-kds-server-tls": {
 		match: any: [{
 			resources: {
 				kinds: [
@@ -111,7 +101,7 @@ env: circus: #K3D & {
 		}
 	}
 
-	sync: "sync-secret-kuma-zone-kds-server-tls": {
+	sync: "kuma-global-generic-tls-cert": {
 		match: any: [{
 			resources: {
 				kinds: [
