@@ -52,20 +52,6 @@ resource "kubernetes_stateful_set" "dev" {
       }
     }
 
-    #    volume_claim_template {
-    #      metadata {
-    #        name = "work"
-    #      }
-    #      spec {
-    #        access_modes = ["ReadWriteOnce"]
-    #        resources {
-    #          requests = {
-    #            storage = "1G"
-    #          }
-    #        }
-    #      }
-    #    }
-
     template {
       metadata {
         labels = {
@@ -82,7 +68,6 @@ resource "kubernetes_stateful_set" "dev" {
       spec {
         dns_policy = "None"
         dns_config {
-          #nameservers = [data.kubernetes_config_map.cluster_dns.data.clusterDNS]
           nameservers = ["127.0.0.1"]
 
           searches = ["default.svc.cluster.local", "svc.cluster.local", "cluster.local"]
