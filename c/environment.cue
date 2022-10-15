@@ -1,5 +1,18 @@
 package c
 
+// Match the kuma namespce
+
+match_kuma_ns: match: any: [{
+	resources: {
+		kinds: [
+			"Namespace",
+		]
+		names: [
+			"kuma",
+		]
+	}
+}]
+
 // Env: control is the control plane, used by the operator.
 env: control: #K3D & {
 	bootstrap: {
@@ -17,16 +30,7 @@ env: control: #K3D & {
 	}
 
 	sync: "kuma-zone-kds-ca-certs": {
-		match: any: [{
-			resources: {
-				kinds: [
-					"Namespace",
-				]
-				names: [
-					"kuma",
-				]
-			}
-		}]
+		match_kuma_ns
 
 		generate: {
 			apiVersion:  "v1"
@@ -42,16 +46,7 @@ env: control: #K3D & {
 	}
 
 	sync: "kuma-zone-kuma-tls-cert": {
-		match: any: [{
-			resources: {
-				kinds: [
-					"Namespace",
-				]
-				names: [
-					"kuma",
-				]
-			}
-		}]
+		match_kuma_ns
 
 		generate: {
 			apiVersion:  "v1"
