@@ -3,4 +3,6 @@ VERSION --shell-out-anywhere --use-chmod --use-host-command --earthly-version-ar
 build:
     FROM ghcr.io/defn/dev:latest
 
+    RUN git pull
+
     SAVE IMAGE --push 169.254.32.1:5000/workspace
