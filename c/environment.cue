@@ -72,16 +72,7 @@ env: circus: #K3D & {
 	}
 
 	sync: "kuma-global-kds-server-tls": {
-		match: any: [{
-			resources: {
-				kinds: [
-					"Namespace",
-				]
-				names: [
-					"kuma",
-				]
-			}
-		}]
+		match_kuma_ns
 
 		generate: {
 			apiVersion:  "v1"
@@ -97,16 +88,7 @@ env: circus: #K3D & {
 	}
 
 	sync: "kuma-global-generic-tls-cert": {
-		match: any: [{
-			resources: {
-				kinds: [
-					"Namespace",
-				]
-				names: [
-					"kuma",
-				]
-			}
-		}]
+		match_kuma_ns
 
 		generate: {
 			apiVersion:  "v1"
@@ -125,7 +107,9 @@ env: circus: #K3D & {
 // Env: smiley is the second machine used for multi-cluster.
 env: smiley: #K3D & {
 	bootstrap: {
-		"kyverno": 10
+		"kyverno":            10
+		"k3d-smiley-secrets": 20
+		"kuma-zone":          30
 	}
 }
 

@@ -14,7 +14,7 @@ secrets:
 		--from-file=tls.crt=kuma-zone-tls.crt \
 		--from-file=tls.key=kuma-zone-tls.key \
 		--from-file=ca.crt=kuma-zone-ca.crt
-		
+
 gen:
 	rm -f kuma-zone-tls.crt kuma-zone-tls.key kuma-zone-ca.crt
 
@@ -24,5 +24,7 @@ gen:
 		--hostname=kuma-control-plane.kuma.svc \
 		--cert-file=kuma-zone-tls.crt \
 		--key-file=kuma-zone-tls.key
+
+	chmod 600 kuma-zone-tls.key
 
 	cp kuma-zone-tls.crt kuma-zone-ca.crt

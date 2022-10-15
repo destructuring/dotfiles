@@ -28,4 +28,42 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
+        k3d-smiley-secrets: |
+          apiVersion: argoproj.io/v1alpha1
+          kind: Application
+          metadata:
+            namespace: argocd
+            name: k3d-smiley-secrets
+            annotations:
+              argocd.argoproj.io/sync-wave: "20"
+          spec:
+            project: default
+            destination:
+              name: k3d-smiley
+            source:
+              repoURL: https://github.com/defn/app
+              targetRevision: master
+              path: k/k3d-smiley-secrets
+            syncPolicy:
+              automated:
+                prune: true
+        kuma-zone: |
+          apiVersion: argoproj.io/v1alpha1
+          kind: Application
+          metadata:
+            namespace: argocd
+            name: k3d-smiley-kuma-zone
+            annotations:
+              argocd.argoproj.io/sync-wave: "30"
+          spec:
+            project: default
+            destination:
+              name: k3d-smiley
+            source:
+              repoURL: https://github.com/defn/app
+              targetRevision: master
+              path: k/kuma-zone
+            syncPolicy:
+              automated:
+                prune: true
     includeCRDs: true
