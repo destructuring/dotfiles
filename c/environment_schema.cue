@@ -2,9 +2,11 @@ package c
 
 import (
 	"encoding/yaml"
+
+	core "github.com/defn/boot/k8s.io/api/core/v1"
 )
 
-// Each environment is hosted on a Kubernetes machine.  
+// Each environment is hosted on a Kubernetes machine.
 // The machine's name is set to the env key.
 env: [NAME=string]: (#K3D | #VCluster) & {
 	name: NAME
@@ -14,12 +16,16 @@ bootstrap: [NAME=string]: #BootstrapMachine & {
 	machine_name: NAME
 }
 
+// Each environment is deployed as a Kustomize bundle: any-resource helm chart
+// with all the bootstrap applications.
 for _machine_name, _machine in env {
+	// Create a bootstrap machine
 	bootstrap: "\(_machine_name)": {
 		machine_type: _machine.type
 		apps:         _machine.bootstrap
 	}
 
+	// Deploy the bootstrap machine application
 	kustomize: "\(_machine.type)-\(_machine_name)": #KustomizeHelm & {
 		helm: {
 			release: "bootstrap"
@@ -32,6 +38,50 @@ for _machine_name, _machine in env {
 						"\(_app_name)": yaml.Marshal(_app.out)
 					}
 				}
+			}
+		}
+	}
+
+	// Configure the environment secrets
+	kustomize: "k3d-\(_machine.name)-secrets": #Kustomize & {
+		namespace: "secrets"
+
+		resource: "namespace-secrets": core.#Namespace & {
+			apiVersion: "v1"
+			kind:       "Namespace"
+			metadata: {
+				name: "secrets"
+			}
+		}
+
+		resource: "pod-secrets": core.#Pod & {
+			apiVersion: "v1"
+			kind:       "Pod"
+			metadata: name: "secrets"
+			spec: {
+				containers: [{
+					name:  "sleep"
+					image: "ubuntu"
+					command: ["bash", "-c"]
+					args: ["sleep infinity"]
+
+					volumeMounts: [
+						for s in _machine.secrets {
+							name:      s
+							mountPath: "/mnt/secrets/\(s)"
+							readOnly:  true
+						},
+					]
+				}]
+				volumes: [
+					for s in _machine.secrets {
+						name: s
+						secret: {
+							secretName: s
+							optional:   false
+						}
+					},
+				]
 			}
 		}
 	}
@@ -101,11 +151,11 @@ for _machine_name, _machine in env {
 		spec: source: path: "k/\(type)-\(name)"
 
 		spec: destination: name: "in-cluster"
-
-		spec: syncPolicy: automated: prune: true
 	}
 
 	apps: [string]: [string]: {...}
+
+	secrets: [...string]
 }
 
 // K3D Machine
@@ -133,9 +183,6 @@ for _machine_name, _machine in env {
 
 		// ex: k/vcluster-vc1
 		spec: source: path: "k/\(type)-\(ctx.name)"
-
-		// ex: namespace: vc
-		spec: destination: namespace: ctx.name
 	}
 }
 

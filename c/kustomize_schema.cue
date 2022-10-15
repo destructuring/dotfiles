@@ -92,7 +92,6 @@ kustomize: [NAME=string]: _name: NAME
 	vc_machine: string | *"control"
 
 	helm: {
-		namespace: vc_name
 
 		release: "vcluster"
 		name:    "vcluster"

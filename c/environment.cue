@@ -1,9 +1,5 @@
 package c
 
-import (
-	core "github.com/defn/boot/k8s.io/api/core/v1"
-)
-
 // Env: control is the control plane, used by the operator.
 env: control: #K3D & {
 	bootstrap: {
@@ -19,30 +15,22 @@ env: control: #K3D & {
 		"hello":               100
 		"demo":                100
 	}
-}
 
-kustomize: "k3d-control-secrets": #Kustomize & {
-	namespace: "secrets"
-
-	resource: "namespace-secrets": core.#Namespace & {
-		apiVersion: "v1"
-		kind:       "Namespace"
-		metadata: {
-			name: "secrets"
-		}
-	}
-
-	_secrets: [
+	secrets: [
 		"kuma-zone-kds-ca-certs",
 		"kuma-zone-kuma-tls-cert",
 	]
+}
 
+kustomize: "k3d-control-secrets": #Kustomize & {
 	resource: "kyverno-sync-secrets": {
 		apiVersion: "kyverno.io/v1"
 		kind:       "ClusterPolicy"
-		metadata: name: "sync-secret-kuma-zone"
+		metadata: name: "kyverno-sync-secrets"
+
 		spec: rules: [{
 			name: "sync-secret-kuma-zone-kuma-tls-cert"
+
 			match: any: [{
 				resources: {
 					kinds: [
@@ -53,6 +41,7 @@ kustomize: "k3d-control-secrets": #Kustomize & {
 					]
 				}
 			}]
+
 			generate: {
 				apiVersion:  "v1"
 				kind:        "Secret"
@@ -66,6 +55,7 @@ kustomize: "k3d-control-secrets": #Kustomize & {
 			}
 		}, {
 			name: "sync-secret-kuma-zone-kds-ca-certs"
+
 			match: any: [{
 				resources: {
 					kinds: [
@@ -76,6 +66,7 @@ kustomize: "k3d-control-secrets": #Kustomize & {
 					]
 				}
 			}]
+
 			generate: {
 				apiVersion:  "v1"
 				kind:        "Secret"
@@ -89,37 +80,6 @@ kustomize: "k3d-control-secrets": #Kustomize & {
 			}
 		}]
 	}
-
-	resource: "pod-secrets": core.#Pod & {
-		apiVersion: "v1"
-		kind:       "Pod"
-		metadata: name: "secrets"
-		spec: {
-			containers: [{
-				name:  "sleep"
-				image: "ubuntu"
-				command: ["bash", "-c"]
-				args: ["sleep infinity"]
-
-				volumeMounts: [
-					for s in _secrets {
-						name:      s
-						mountPath: "/mnt/secrets/\(s)"
-						readOnly:  true
-					},
-				]
-			}]
-			volumes: [
-				for s in _secrets {
-					name: s
-					secret: {
-						secretName: s
-						optional:   false
-					}
-				},
-			]
-		}
-	}
 }
 
 // Env: circus is the global control plane, used by all machines.
@@ -130,30 +90,22 @@ env: circus: #K3D & {
 		"kuma-global":        30
 		"mesh":               40
 	}
-}
 
-kustomize: "k3d-circus-secrets": #Kustomize & {
-	namespace: "secrets"
-
-	resource: "namespace-secrets": core.#Namespace & {
-		apiVersion: "v1"
-		kind:       "Namespace"
-		metadata: {
-			name: "secrets"
-		}
-	}
-
-	_secrets: [
+	secrets: [
 		"kuma-global-kds-server-tls",
 		"kuma-global-generic-tls-cert",
 	]
+}
 
+kustomize: "k3d-circus-secrets": #Kustomize & {
 	resource: "kyverno-sync-secrets": {
 		apiVersion: "kyverno.io/v1"
 		kind:       "ClusterPolicy"
-		metadata: name: "sync-secret-kuma-global"
+		metadata: name: "kyverno-sync-secrets"
+
 		spec: rules: [{
 			name: "sync-secret-kuma-global-generic-tls-cert"
+
 			match: any: [{
 				resources: {
 					kinds: [
@@ -164,6 +116,7 @@ kustomize: "k3d-circus-secrets": #Kustomize & {
 					]
 				}
 			}]
+
 			generate: {
 				apiVersion:  "v1"
 				kind:        "Secret"
@@ -177,6 +130,7 @@ kustomize: "k3d-circus-secrets": #Kustomize & {
 			}
 		}, {
 			name: "sync-secret-kuma-zone-kds-server-tls"
+
 			match: any: [{
 				resources: {
 					kinds: [
@@ -187,6 +141,7 @@ kustomize: "k3d-circus-secrets": #Kustomize & {
 					]
 				}
 			}]
+
 			generate: {
 				apiVersion:  "v1"
 				kind:        "Secret"
@@ -199,37 +154,6 @@ kustomize: "k3d-circus-secrets": #Kustomize & {
 				}
 			}
 		}]
-	}
-
-	resource: "pod-secrets": core.#Pod & {
-		apiVersion: "v1"
-		kind:       "Pod"
-		metadata: name: "secrets"
-		spec: {
-			containers: [{
-				name:  "sleep"
-				image: "ubuntu"
-				command: ["bash", "-c"]
-				args: ["sleep infinity"]
-
-				volumeMounts: [
-					for s in _secrets {
-						name:      s
-						mountPath: "/mnt/secrets/\(s)"
-						readOnly:  true
-					},
-				]
-			}]
-			volumes: [
-				for s in _secrets {
-					name: s
-					secret: {
-						secretName: s
-						optional:   false
-					}
-				},
-			]
-		}
 	}
 }
 
