@@ -10,3 +10,8 @@ cluster: smiley: {}
 cluster: control: {
 	#DevPod
 }
+
+fly: brie: {}
+fly: the: {}
+fly: so: {}
+fly: defn: {}
