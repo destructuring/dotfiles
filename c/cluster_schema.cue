@@ -22,3 +22,17 @@ cluster: [NAME=string]: #Cluster & {cluster_name: NAME}
 		module: ctx.module
 	}
 }
+
+#DevPod: ctx=#Cluster & {
+	locals: [{
+		envs: "\(ctx.cluster_name)": {
+			domain: ctx.domain
+			host:   ctx.k3d_name
+		}
+	}]
+
+	module: devpod: [{
+		envs:   "${local.envs}"
+		source: "\(ctx.mpath)/devpod"
+	}]
+}
