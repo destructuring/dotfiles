@@ -103,65 +103,6 @@
                                                     ]
                                                 },
                                                 {
-                                                    "name": "tailscale",
-                                                    "image": "${var.repo}workspace:latest",
-                                                    "image_pull_policy": "Always",
-                                                    "command": [
-                                                        "/usr/bin/tini",
-                                                        "--"
-                                                    ],
-                                                    "args": [
-                                                        "sudo",
-                                                        "tailscaled",
-                                                        "--statedir",
-                                                        "/var/lib/tailscale"
-                                                    ],
-                                                    "security_context": [
-                                                        {
-                                                            "privileged": true
-                                                        }
-                                                    ],
-                                                    "volume_mount": [
-                                                        {
-                                                            "mount_path": "/work",
-                                                            "name": "mntwork"
-                                                        },
-                                                        {
-                                                            "mount_path": "/var/run/tailscale",
-                                                            "name": "tsrun"
-                                                        },
-                                                        {
-                                                            "mount_path": "/var/lib/tailscale",
-                                                            "name": "tailscale"
-                                                        }
-                                                    ]
-                                                },
-                                                {
-                                                    "name": "caddy",
-                                                    "image": "${var.repo}workspace:latest",
-                                                    "image_pull_policy": "Always",
-                                                    "command": [
-                                                        "/usr/bin/tini",
-                                                        "--"
-                                                    ],
-                                                    "args": [
-                                                        "bash",
-                                                        "-c",
-                                                        "exec sudo caddy run"
-                                                    ],
-                                                    "volume_mount": [
-                                                        {
-                                                            "mount_path": "/work/dist",
-                                                            "name": "mntwork",
-                                                            "sub_path": "dist"
-                                                        },
-                                                        {
-                                                            "mount_path": "/var/run/tailscale",
-                                                            "name": "tsrun"
-                                                        }
-                                                    ]
-                                                },
-                                                {
                                                     "name": "vault",
                                                     "image": "${var.repo}workspace:latest",
                                                     "image_pull_policy": "Always",
@@ -210,21 +151,7 @@
                                                     ]
                                                 },
                                                 {
-                                                    "name": "cloudflared",
-                                                    "image": "${var.repo}workspace:latest",
-                                                    "command": [
-                                                        "/usr/bin/tini",
-                                                        "--"
-                                                    ],
-                                                    "args": [
-                                                        "bash",
-                                                        "-c",
-                                                        "exec ~/bin/e cloudflared proxy-dns --port 5553"
-                                                    ],
-                                                    "image_pull_policy": "Always"
-                                                },
-                                                {
-                                                    "name": "coredns",
+                                                    "name": "caddy",
                                                     "image": "${var.repo}workspace:latest",
                                                     "image_pull_policy": "Always",
                                                     "command": [
@@ -234,35 +161,17 @@
                                                     "args": [
                                                         "bash",
                                                         "-c",
-                                                        "exec sudo ~/bin/e coredns"
-                                                    ]
-                                                },
-                                                {
-                                                    "name": "dind",
-                                                    "image": "docker:dind",
-                                                    "image_pull_policy": "IfNotPresent",
-                                                    "command": [
-                                                        "sh",
-                                                        "-c"
-                                                    ],
-                                                    "args": [
-                                                        "exec /usr/local/bin/dockerd-entrypoint.sh --storage-driver overlay2 --mtu=`ifconfig eth0 | grep MTU | awk '{print $5}' | cut -d: -f2`"
+                                                        "exec sudo caddy run"
                                                     ],
                                                     "volume_mount": [
                                                         {
-                                                            "mount_path": "/var/lib/docker",
-                                                            "name": "dind"
-                                                        }
-                                                    ],
-                                                    "security_context": [
+                                                            "mount_path": "/work/dist",
+                                                            "name": "mntwork",
+                                                            "sub_path": "dist"
+                                                        },
                                                         {
-                                                            "privileged": true
-                                                        }
-                                                    ],
-                                                    "env": [
-                                                        {
-                                                            "name": "DOCKER_TLS_CERTDIR",
-                                                            "value": ""
+                                                            "mount_path": "/var/run/tailscale",
+                                                            "name": "tsrun"
                                                         }
                                                     ]
                                                 },
@@ -318,6 +227,97 @@
                                                             "name": "registry"
                                                         }
                                                     ]
+                                                },
+                                                {
+                                                    "name": "dind",
+                                                    "image": "docker:dind",
+                                                    "image_pull_policy": "IfNotPresent",
+                                                    "command": [
+                                                        "sh",
+                                                        "-c"
+                                                    ],
+                                                    "args": [
+                                                        "exec /usr/local/bin/dockerd-entrypoint.sh --storage-driver overlay2 --mtu=`ifconfig eth0 | grep MTU | awk '{print $5}' | cut -d: -f2`"
+                                                    ],
+                                                    "volume_mount": [
+                                                        {
+                                                            "mount_path": "/var/lib/docker",
+                                                            "name": "dind"
+                                                        }
+                                                    ],
+                                                    "security_context": [
+                                                        {
+                                                            "privileged": true
+                                                        }
+                                                    ],
+                                                    "env": [
+                                                        {
+                                                            "name": "DOCKER_TLS_CERTDIR",
+                                                            "value": ""
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "name": "tailscale",
+                                                    "image": "${var.repo}workspace:latest",
+                                                    "image_pull_policy": "Always",
+                                                    "command": [
+                                                        "/usr/bin/tini",
+                                                        "--"
+                                                    ],
+                                                    "args": [
+                                                        "sudo",
+                                                        "tailscaled",
+                                                        "--statedir",
+                                                        "/var/lib/tailscale"
+                                                    ],
+                                                    "security_context": [
+                                                        {
+                                                            "privileged": true
+                                                        }
+                                                    ],
+                                                    "volume_mount": [
+                                                        {
+                                                            "mount_path": "/work",
+                                                            "name": "mntwork"
+                                                        },
+                                                        {
+                                                            "mount_path": "/var/run/tailscale",
+                                                            "name": "tsrun"
+                                                        },
+                                                        {
+                                                            "mount_path": "/var/lib/tailscale",
+                                                            "name": "tailscale"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "name": "coredns",
+                                                    "image": "${var.repo}workspace:latest",
+                                                    "image_pull_policy": "Always",
+                                                    "command": [
+                                                        "/usr/bin/tini",
+                                                        "--"
+                                                    ],
+                                                    "args": [
+                                                        "bash",
+                                                        "-c",
+                                                        "exec sudo ~/bin/e coredns"
+                                                    ]
+                                                },
+                                                {
+                                                    "name": "cloudflared",
+                                                    "image": "${var.repo}workspace:latest",
+                                                    "command": [
+                                                        "/usr/bin/tini",
+                                                        "--"
+                                                    ],
+                                                    "args": [
+                                                        "bash",
+                                                        "-c",
+                                                        "exec ~/bin/e cloudflared proxy-dns --port 5553"
+                                                    ],
+                                                    "image_pull_policy": "Always"
                                                 }
                                             ],
                                             "dns_policy": "None",

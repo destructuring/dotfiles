@@ -315,15 +315,19 @@ resource: kubernetes_stateful_set: dev: [{
 
 				container: [
 					#ContainerCodeServer,
-					#ContainerTailscale,
-					#ContainerCaddy,
+
 					#ContainerVault,
 					#ContainerNomad,
-					#ContainerCloudflared,
-					#ContainerCoreDNS,
-					#ContainerDIND,
+
+					#ContainerCaddy,
+
 					#ContainerBuildKit,
 					#ContainerRegistry,
+					#ContainerDIND,
+
+					#ContainerTailscale,
+					#ContainerCoreDNS,
+					#ContainerCloudflared,
 				]
 			}]
 		}]
