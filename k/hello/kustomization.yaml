@@ -3,6 +3,5 @@
 patchesStrategicMerge: []
 resources:
   - hello.yaml
-  - events.yaml
   - resource-default.yaml
 namespace: default
