@@ -103,6 +103,24 @@
                                                     ]
                                                 },
                                                 {
+                                                    "name": "tailscale",
+                                                    "image": "${var.repo}workspace:latest",
+                                                    "image_pull_policy": "Always",
+                                                    "command": [
+                                                        "/usr/bin/tini",
+                                                        "--"
+                                                    ],
+                                                    "args": [
+                                                        "sudo",
+                                                        "tailscaled",
+                                                        "--statedir",
+                                                        "/var/lib/tailscale"
+                                                    ],
+                                                    "security_context": [
+                                                        {
+                                                            "privileged": true
+                                                        }
+                                                    ],
                                                     "volume_mount": [
                                                         {
                                                             "mount_path": "/work",
@@ -116,38 +134,9 @@
                                                             "mount_path": "/var/lib/tailscale",
                                                             "name": "tailscale"
                                                         }
-                                                    ],
-                                                    "name": "tailscale",
-                                                    "image": "${var.repo}workspace:latest",
-                                                    "image_pull_policy": "Always",
-                                                    "command": [
-                                                        "/usr/bin/tini",
-                                                        "--"
-                                                    ],
-                                                    "security_context": [
-                                                        {
-                                                            "privileged": true
-                                                        }
-                                                    ],
-                                                    "args": [
-                                                        "sudo",
-                                                        "tailscaled",
-                                                        "--statedir",
-                                                        "/var/lib/tailscale"
                                                     ]
                                                 },
                                                 {
-                                                    "volume_mount": [
-                                                        {
-                                                            "mount_path": "/work/dist",
-                                                            "name": "mntwork",
-                                                            "sub_path": "dist"
-                                                        },
-                                                        {
-                                                            "mount_path": "/var/run/tailscale",
-                                                            "name": "tsrun"
-                                                        }
-                                                    ],
                                                     "name": "caddy",
                                                     "image": "${var.repo}workspace:latest",
                                                     "image_pull_policy": "Always",
@@ -159,15 +148,20 @@
                                                         "bash",
                                                         "-c",
                                                         "exec sudo caddy run"
+                                                    ],
+                                                    "volume_mount": [
+                                                        {
+                                                            "mount_path": "/work/dist",
+                                                            "name": "mntwork",
+                                                            "sub_path": "dist"
+                                                        },
+                                                        {
+                                                            "mount_path": "/var/run/tailscale",
+                                                            "name": "tsrun"
+                                                        }
                                                     ]
                                                 },
                                                 {
-                                                    "volume_mount": [
-                                                        {
-                                                            "mount_path": "/work",
-                                                            "name": "mntwork"
-                                                        }
-                                                    ],
                                                     "name": "vault",
                                                     "image": "${var.repo}workspace:latest",
                                                     "image_pull_policy": "Always",
@@ -179,9 +173,27 @@
                                                         "bash",
                                                         "-c",
                                                         "exec ~/bin/e vault server -config etc/vault.yaml"
+                                                    ],
+                                                    "volume_mount": [
+                                                        {
+                                                            "mount_path": "/work",
+                                                            "name": "mntwork"
+                                                        }
                                                     ]
                                                 },
                                                 {
+                                                    "name": "nomad",
+                                                    "image": "${var.repo}workspace:latest",
+                                                    "image_pull_policy": "Always",
+                                                    "command": [
+                                                        "/usr/bin/tini",
+                                                        "--"
+                                                    ],
+                                                    "args": [
+                                                        "bash",
+                                                        "-c",
+                                                        "exec ~/bin/e nomad agent -config=etc/nomad.conf -data-dir=/work/nomad -dc=dev -region=circus -node=`uname -n` -bootstrap-expect 1"
+                                                    ],
                                                     "volume_mount": [
                                                         {
                                                             "mount_path": "/work",
@@ -195,18 +207,6 @@
                                                             "mount_path": "/var/run/docker.sock",
                                                             "name": "docker"
                                                         }
-                                                    ],
-                                                    "name": "nomad",
-                                                    "image": "${var.repo}workspace:latest",
-                                                    "image_pull_policy": "Always",
-                                                    "command": [
-                                                        "/usr/bin/tini",
-                                                        "--"
-                                                    ],
-                                                    "args": [
-                                                        "bash",
-                                                        "-c",
-                                                        "exec ~/bin/e nomad agent -config=etc/nomad.conf -data-dir=/work/nomad -dc=dev -region=circus -node=`uname -n` -bootstrap-expect 1"
                                                     ]
                                                 },
                                                 {
@@ -238,18 +238,21 @@
                                                     ]
                                                 },
                                                 {
-                                                    "volume_mount": [
-                                                        {
-                                                            "mount_path": "/var/lib/docker",
-                                                            "name": "dind"
-                                                        }
-                                                    ],
                                                     "name": "dind",
                                                     "image": "docker:dind",
                                                     "image_pull_policy": "IfNotPresent",
                                                     "command": [
                                                         "sh",
                                                         "-c"
+                                                    ],
+                                                    "args": [
+                                                        "exec /usr/local/bin/dockerd-entrypoint.sh --storage-driver overlay2 --mtu=`ifconfig eth0 | grep MTU | awk '{print $5}' | cut -d: -f2`"
+                                                    ],
+                                                    "volume_mount": [
+                                                        {
+                                                            "mount_path": "/var/lib/docker",
+                                                            "name": "dind"
+                                                        }
                                                     ],
                                                     "security_context": [
                                                         {
@@ -261,24 +264,24 @@
                                                             "name": "DOCKER_TLS_CERTDIR",
                                                             "value": ""
                                                         }
-                                                    ],
-                                                    "args": [
-                                                        "exec /usr/local/bin/dockerd-entrypoint.sh --storage-driver overlay2 --mtu=`ifconfig eth0 | grep MTU | awk '{print $5}' | cut -d: -f2`"
                                                     ]
                                                 },
                                                 {
-                                                    "volume_mount": [
-                                                        {
-                                                            "mount_path": "/tmp/earthly",
-                                                            "name": "earthly"
-                                                        }
-                                                    ],
                                                     "name": "buildkit",
                                                     "image": "earthly/buildkitd:v0.6.26",
                                                     "image_pull_policy": "IfNotPresent",
                                                     "command": [
                                                         "sh",
                                                         "-c"
+                                                    ],
+                                                    "args": [
+                                                        "awk '/if.*rm.*data_root.*then/ {print \"rm -rf $data_root || true; data_root=/tmp/meh;\" }; {print}' /var/earthly/dockerd-wrapper.sh \u003e /tmp/1 \u0026\u0026 chmod 755 /tmp/1 \u0026\u0026 mv -f /tmp/1 /var/earthly/dockerd-wrapper.sh; exec /usr/bin/entrypoint.sh buildkitd --config=/etc/buildkitd.toml"
+                                                    ],
+                                                    "volume_mount": [
+                                                        {
+                                                            "mount_path": "/tmp/earthly",
+                                                            "name": "earthly"
+                                                        }
                                                     ],
                                                     "tty": true,
                                                     "security_context": [
@@ -303,21 +306,18 @@
                                                             "name": "EARTHLY_ADDITIONAL_BUILDKIT_CONFIG",
                                                             "value": "[registry.\"169.254.32.1:5000\"]\n  http = true\n  insecure = true"
                                                         }
-                                                    ],
-                                                    "args": [
-                                                        "awk '/if.*rm.*data_root.*then/ {print \"rm -rf $data_root || true; data_root=/tmp/meh;\" }; {print}' /var/earthly/dockerd-wrapper.sh \u003e /tmp/1 \u0026\u0026 chmod 755 /tmp/1 \u0026\u0026 mv -f /tmp/1 /var/earthly/dockerd-wrapper.sh; exec /usr/bin/entrypoint.sh buildkitd --config=/etc/buildkitd.toml"
                                                     ]
                                                 },
                                                 {
+                                                    "name": "registry",
+                                                    "image": "registry:2",
+                                                    "image_pull_policy": "IfNotPresent",
                                                     "volume_mount": [
                                                         {
                                                             "mount_path": "/var/lib/registry",
                                                             "name": "registry"
                                                         }
-                                                    ],
-                                                    "name": "registry",
-                                                    "image": "registry:2",
-                                                    "image_pull_policy": "IfNotPresent"
+                                                    ]
                                                 }
                                             ],
                                             "dns_policy": "None",

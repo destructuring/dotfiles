@@ -120,13 +120,20 @@ data: kubernetes_config_map: cluster_dns: [{
 	image_pull_policy: "Always"
 	command: ["/usr/bin/tini", "--"]
 	args: ["sudo", "tailscaled", "--statedir", "/var/lib/tailscale"]
+
+	#Privileged
+
+	volume_mount: [#MountWork, #MountTailscaleRun, #MountTailscaleState]
 }
+
 #ContainerCaddy: {
 	name:              "caddy"
 	image:             "${var.repo}workspace:latest"
 	image_pull_policy: "Always"
 	command: ["/usr/bin/tini", "--"]
 	args: ["bash", "-c", "exec sudo caddy run"]
+
+	volume_mount: [#MountDist, #MountTailscaleRun]
 }
 
 #ContainerVault: {
@@ -135,6 +142,8 @@ data: kubernetes_config_map: cluster_dns: [{
 	image_pull_policy: "Always"
 	command: ["/usr/bin/tini", "--"]
 	args: ["bash", "-c", "exec ~/bin/e vault server -config etc/vault.yaml"]
+
+	volume_mount: [#MountWork]
 }
 
 #ContainerNomad: {
@@ -143,6 +152,8 @@ data: kubernetes_config_map: cluster_dns: [{
 	image_pull_policy: "Always"
 	command: ["/usr/bin/tini", "--"]
 	args: ["bash", "-c", "exec ~/bin/e nomad agent -config=etc/nomad.conf -data-dir=/work/nomad -dc=dev -region=circus -node=`uname -n` -bootstrap-expect 1"]
+
+	volume_mount: [#MountWork, #MountTailscaleRun, #MountDocker]
 }
 
 #ContainerCloudflared: {
@@ -167,6 +178,15 @@ data: kubernetes_config_map: cluster_dns: [{
 	image_pull_policy: "IfNotPresent"
 	command: ["sh", "-c"]
 	args: ["exec /usr/local/bin/dockerd-entrypoint.sh --storage-driver overlay2 --mtu=`ifconfig eth0 | grep MTU | awk '{print $5}' | cut -d: -f2`"]
+
+	#Privileged
+
+	volume_mount: [#MountDIND]
+
+	env: [{
+		name:  "DOCKER_TLS_CERTDIR"
+		value: ""
+	}]
 }
 
 #ContainerBuildKit: {
@@ -175,12 +195,37 @@ data: kubernetes_config_map: cluster_dns: [{
 	image_pull_policy: "IfNotPresent"
 	command: ["sh", "-c"]
 	args: ["awk '/if.*rm.*data_root.*then/ {print \"rm -rf $data_root || true; data_root=/tmp/meh;\" }; {print}' /var/earthly/dockerd-wrapper.sh > /tmp/1 && chmod 755 /tmp/1 && mv -f /tmp/1 /var/earthly/dockerd-wrapper.sh; exec /usr/bin/entrypoint.sh buildkitd --config=/etc/buildkitd.toml"]
+
+	#TTY
+	#Privileged
+
+	volume_mount: [#MountEarthly]
+
+	env: [{
+		name:  "BUILDKIT_TCP_TRANSPORT_ENABLED"
+		value: "true"
+	}, {
+		name:  "BUILDKIT_MAX_PARALLELISM"
+		value: "4"
+	}, {
+		name:  "CACHE_SIZE_PCT"
+		value: "90"
+	}, {
+		name: "EARTHLY_ADDITIONAL_BUILDKIT_CONFIG"
+		value: """
+			[registry."169.254.32.1:5000"]
+			  http = true
+			  insecure = true
+			"""
+	}]
 }
 
 #ContainerRegistry: {
 	name:              "registry"
 	image:             "registry:2"
 	image_pull_policy: "IfNotPresent"
+
+	volume_mount: [#MountRegistry]
 }
 
 #MountDocker: {
@@ -270,74 +315,16 @@ resource: kubernetes_stateful_set: dev: [{
 
 				container: [
 					#ContainerCodeServer,
-
-					{
-						#ContainerTailscale
-						#Privileged
-
-						volume_mount: [#MountWork, #MountTailscaleRun, #MountTailscaleState]
-					},
-					{
-						#ContainerCaddy
-
-						volume_mount: [#MountDist, #MountTailscaleRun]
-					},
-					{
-						#ContainerVault
-
-						volume_mount: [#MountWork]
-					},
-					{
-						#ContainerNomad
-						volume_mount: [#MountWork, #MountTailscaleRun, #MountDocker]
-					},
-					{
-						#ContainerCloudflared
-					},
-					{
-						#ContainerCoreDNS
-					},
-					{
-						#ContainerDIND
-						#Privileged
-
-						volume_mount: [#MountDIND]
-
-						env: [{
-							name:  "DOCKER_TLS_CERTDIR"
-							value: ""
-						}]
-					},
-					{
-						#ContainerBuildKit
-						#TTY
-						#Privileged
-
-						volume_mount: [#MountEarthly]
-
-						env: [{
-							name:  "BUILDKIT_TCP_TRANSPORT_ENABLED"
-							value: "true"
-						}, {
-							name:  "BUILDKIT_MAX_PARALLELISM"
-							value: "4"
-						}, {
-							name:  "CACHE_SIZE_PCT"
-							value: "90"
-						}, {
-							name: "EARTHLY_ADDITIONAL_BUILDKIT_CONFIG"
-							value: """
-								[registry."169.254.32.1:5000"]
-								  http = true
-								  insecure = true
-								"""
-						}]
-					},
-					{
-						#ContainerRegistry
-						volume_mount: [#MountRegistry]
-					}]
-
+					#ContainerTailscale,
+					#ContainerCaddy,
+					#ContainerVault,
+					#ContainerNomad,
+					#ContainerCloudflared,
+					#ContainerCoreDNS,
+					#ContainerDIND,
+					#ContainerBuildKit,
+					#ContainerRegistry,
+				]
 			}]
 		}]
 	}]
