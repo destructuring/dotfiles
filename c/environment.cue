@@ -13,62 +13,37 @@ match_kuma_ns: match: any: [{
 	}
 }]
 
-// Env: control is the control plane, used by the operator.
-env: control: #K3D & {
-	bootstrap: {
-		"argo-cd":             1
-		"cert-manager":        10
-		"external-secrets":    10
-		"argo-events":         10
-		"kyverno":             10
-		"k3d-control-secrets": 20
-		"kuma-zone":           30
-		"knative":             50
-		"kong":                60
-		"hello":               100
-		"demo":                100
-	}
-
-	sync: "kuma-zone-kds-ca-certs": {
+sync_kuma_global_secrets: {
+	sync: "kuma-global-kds-server-tls": {
 		match_kuma_ns
 
 		generate: {
 			apiVersion:  "v1"
 			kind:        "Secret"
-			name:        "kds-ca-certs"
+			name:        "generic-tls-cert"
 			namespace:   "{{request.object.metadata.name}}"
 			synchronize: true
 			clone: {
 				namespace: "secrets"
-				name:      "kuma-zone-kds-ca-certs"
+				name:      "kuma-global-generic-tls-cert"
 			}
 		}
 	}
 
-	sync: "kuma-zone-kuma-tls-cert": {
+	sync: "kuma-global-generic-tls-cert": {
 		match_kuma_ns
 
 		generate: {
 			apiVersion:  "v1"
 			kind:        "Secret"
-			name:        "kuma-tls-cert"
+			name:        "kds-server-tls"
 			namespace:   "{{request.object.metadata.name}}"
 			synchronize: true
 			clone: {
 				namespace: "secrets"
-				name:      "kuma-zone-kuma-tls-cert"
+				name:      "kuma-global-kds-server-tls"
 			}
 		}
-	}
-}
-
-// Env: circus is the global control plane, used by all machines.
-env: circus: #K3D & {
-	bootstrap: {
-		"kyverno":            10
-		"k3d-circus-secrets": 20
-		"kuma-global":        30
-		"mesh":               40
 	}
 
 	sync: "kuma-global-kds-server-tls": {
@@ -104,6 +79,59 @@ env: circus: #K3D & {
 	}
 }
 
+sync_kuma_zone_secrets: {
+	sync: "kuma-zone-kds-ca-certs": {
+		match_kuma_ns
+
+		generate: {
+			apiVersion:  "v1"
+			kind:        "Secret"
+			name:        "kds-ca-certs"
+			namespace:   "{{request.object.metadata.name}}"
+			synchronize: true
+			clone: {
+				namespace: "secrets"
+				name:      "kuma-zone-kds-ca-certs"
+			}
+		}
+	}
+
+	sync: "kuma-zone-kuma-tls-cert": {
+		match_kuma_ns
+
+		generate: {
+			apiVersion:  "v1"
+			kind:        "Secret"
+			name:        "kuma-tls-cert"
+			namespace:   "{{request.object.metadata.name}}"
+			synchronize: true
+			clone: {
+				namespace: "secrets"
+				name:      "kuma-zone-kuma-tls-cert"
+			}
+		}
+	}
+}
+
+// Env: control is the control plane, used by the operator.
+env: control: #K3D & {
+	bootstrap: {
+		"argo-cd":             1
+		"cert-manager":        10
+		"external-secrets":    10
+		"argo-events":         10
+		"kyverno":             10
+		"k3d-control-secrets": 20
+		"kuma-zone":           30
+		"knative":             50
+		"kong":                60
+		"hello":               100
+		"demo":                100
+	}
+
+	sync_kuma_zone_secrets
+}
+
 // Env: smiley is the second machine used for multi-cluster.
 env: smiley: #K3D & {
 	bootstrap: {
@@ -111,6 +139,20 @@ env: smiley: #K3D & {
 		"k3d-smiley-secrets": 20
 		"kuma-zone":          30
 	}
+
+	sync_kuma_zone_secrets
+}
+
+// Env: circus is the global control plane, used by all machines.
+env: circus: #K3D & {
+	bootstrap: {
+		"kyverno":            10
+		"k3d-circus-secrets": 20
+		"kuma-global":        30
+		"mesh":               40
+	}
+
+	sync_kuma_global_secrets
 }
 
 kustomize: "vc1": #KustomizeVCluster & {
