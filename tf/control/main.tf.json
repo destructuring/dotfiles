@@ -11,5 +11,5 @@
       }
     }
   ],
-  "module": { "devpod": [{ "envs": "${local.envs}", "source": "../m/devpod" }] }
+  "module": { "devpod": [{ "source": "../m/devpod", "envs": "${local.envs}" }] }
 }

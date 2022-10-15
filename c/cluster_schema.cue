@@ -5,16 +5,19 @@ cluster: [NAME=string]: #Cluster & {cluster_name: NAME}
 #Cluster: ctx={
 	cluster_name: string
 	k3d_name:     string | *"k3d-\(cluster_name)"
-	domain:       string | *"tiger-mamba.ts.net"
-	mpath:        string | *"../m"
+	domain:       string
+	mpath:        string
+	kube_config:  string | *"~/.kube/config"
 
+	// Passthrough Terraform locals, module config
 	locals: [...{...}] | *[{envs: {}}]
 	module: [string]: [...{...}]
 
+	// Terraform hcl.json output
 	out: {
 		provider: kubernetes: [{
 			config_context: k3d_name
-			config_path:    "~/.kube/config"
+			config_path:    kube_config
 		}]
 
 		locals: ctx.locals
@@ -24,6 +27,7 @@ cluster: [NAME=string]: #Cluster & {cluster_name: NAME}
 }
 
 #DevPod: ctx=#Cluster & {
+	// Configure cluster
 	locals: [{
 		envs: "\(ctx.cluster_name)": {
 			domain: ctx.domain
@@ -31,8 +35,9 @@ cluster: [NAME=string]: #Cluster & {cluster_name: NAME}
 		}
 	}]
 
+	// Deploy a dev pod with the above configuration
 	module: devpod: [{
-		envs:   "${local.envs}"
 		source: "\(ctx.mpath)/devpod"
+		envs:   "${local.envs}"
 	}]
 }
