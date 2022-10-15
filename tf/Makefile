@@ -9,16 +9,17 @@ domain ?= tiger-mamba.ts.net
 
 # doctl kubernetes cluster kubeconfig save remo
 
+test:
+	$(MAKE) fmt
+	$(MAKE) gen
+	$(MAKE) validate
+
 shell:
 	env \
 		DIGITALOCEAN_ACCESS_TOKEN="$$(pass DIGITALOCEAN_ACCESS_TOKEN)" \
 		TF_TOKEN_app_terraform_io="$$(pass TF_TOKEN_app_terraform_io)" \
 		FLY_API_TOKEN="$$(pass FLY_API_TOKEN)" \
 		$(SHELL)
-
-test:
-	$(MAKE) fmt
-	$(MAKE) validate
 
 clean:
 	rm -f main.tf.json
@@ -38,7 +39,11 @@ upgrade:
 		-platform=darwin_arm64
 
 fmt:
+	cue fmt
 	terraform fmt .
+
+gen:
+	cue export --out json > main.tf.json
 
 validate:
 	terraform validate

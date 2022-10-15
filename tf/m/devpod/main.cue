@@ -1,5 +1,15 @@
 package tf
 
+variable: {
+	envs: [{
+		default: {}
+	}]
+
+	repo: [{
+		default: "169.254.32.1:5000/"
+	}]
+}
+
 data: kubernetes_config_map: cluster_dns: [{
 	metadata: [{
 		name:      "cluster-dns"
