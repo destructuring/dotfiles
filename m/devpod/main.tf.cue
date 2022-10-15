@@ -99,6 +99,19 @@ data: kubernetes_config_map: cluster_dns: [{
 	image_pull_policy: "Always"
 	command: ["/usr/bin/tini", "--"]
 	args: ["bash", "-c", "while true; do if test -S /var/run/tailscale/tailscaled.sock; then break; fi; sleep 1; done; sudo tailscale up --ssh --accept-dns=false --hostname=${each.key}-0; exec ~/bin/e code-server --bind-addr 0.0.0.0:8888 --disable-telemetry"]
+
+	#TTY
+	#Privileged
+
+	volume_mount: [#MountDocker, #MountContainerd, #MountWork, #MountTailscaleRun]
+
+	env: [{
+		name:  "DEFN_DEV_HOST"
+		value: "${each.value.host}"
+	}, {
+		name:  "PASSWORD"
+		value: "admin"
+	}]
 }
 
 #ContainerTailscale: {
@@ -256,22 +269,8 @@ resource: kubernetes_stateful_set: dev: [{
 				#Volumes
 
 				container: [
-					{
-						#ContainerCodeServer
-						#TTY
-						#Privileged
+					#ContainerCodeServer,
 
-						volume_mount: [#MountDocker, #MountContainerd, #MountWork, #MountTailscaleRun]
-
-						env: [{
-							name:  "DEFN_DEV_HOST"
-							value: "${each.value.host}"
-						}, {
-							name:  "PASSWORD"
-							value: "admin"
-						}]
-
-					},
 					{
 						#ContainerTailscale
 						#Privileged
