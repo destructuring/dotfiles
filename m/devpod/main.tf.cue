@@ -170,6 +170,50 @@ data: kubernetes_config_map: cluster_dns: [{
 	image_pull_policy: "IfNotPresent"
 }
 
+#MountDocker: {
+	mount_path: "/var/run/docker.sock"
+	name:       "docker"
+}
+#MountContainerd: {
+	mount_path: "/run/containerd"
+	name:       "containerd"
+}
+
+#MountWork: {
+	mount_path: "/work"
+	name:       "mntwork"
+}
+#MountTailscaleRun: {
+	mount_path: "/var/run/tailscale"
+	name:       "tsrun"
+}
+
+#MountTailscaleState: {
+	mount_path: "/var/lib/tailscale"
+	name:       "tailscale"
+}
+
+#MountDist: {
+	mount_path: "/work/dist"
+	name:       "mntwork"
+	sub_path:   "dist"
+}
+
+#MountDIND: {
+	mount_path: "/var/lib/docker"
+	name:       "dind"
+}
+
+#MounEarthly: {
+	mount_path: "/tmp/earthly"
+	name:       "earthly"
+}
+
+#MounRegistry: {
+	mount_path: "/var/lib/registry"
+	name:       "registry"
+}
+
 resource: kubernetes_stateful_set: dev: [{
 	for_each: "${var.envs}"
 
@@ -225,65 +269,27 @@ resource: kubernetes_stateful_set: dev: [{
 							value: "admin"
 						}]
 
-						volume_mount: [{
-							mount_path: "/var/run/docker.sock"
-							name:       "docker"
-						}, {
-							mount_path: "/run/containerd"
-							name:       "containerd"
-						}, {
-							mount_path: "/work"
-							name:       "mntwork"
-						}, {
-							mount_path: "/var/run/tailscale"
-							name:       "tsrun"
-						}]
+						volume_mount: [#MountDocker, #MountContainerd, #MountWork, #MountTailscaleRun]
 					},
 					{
 						#ContainerTailscale
 						#Privileged
 
-						volume_mount: [{
-							mount_path: "/work"
-							name:       "mntwork"
-						}, {
-							mount_path: "/var/run/tailscale"
-							name:       "tsrun"
-						}, {
-							mount_path: "/var/lib/tailscale"
-							name:       "tailscale"
-						}]
+						volume_mount: [#MountWork, #MountTailscaleRun, #MountTailscaleState]
 					},
 					{
 						#ContainerCaddy
-						volume_mount: [{
-							mount_path: "/work/dist"
-							name:       "mntwork"
-							sub_path:   "dist"
-						}, {
-							mount_path: "/var/run/tailscale"
-							name:       "tsrun"
-						}]
+
+						volume_mount: [#MountDist, #MountTailscaleRun]
 					},
 					{
 						#ContainerVault
-						volume_mount: [{
-							mount_path: "/work"
-							name:       "mntwork"
-						}]
+
+						volume_mount: [#MountWork]
 					},
 					{
 						#ContainerNomad
-						volume_mount: [{
-							mount_path: "/work"
-							name:       "mntwork"
-						}, {
-							mount_path: "/var/run/tailscale"
-							name:       "tsrun"
-						}, {
-							mount_path: "/var/run/docker.sock"
-							name:       "docker"
-						}]
+						volume_mount: [#MountWork, #MountTailscaleRun, #MountDocker]
 					},
 					{
 						#ContainerCloudflared
@@ -300,10 +306,7 @@ resource: kubernetes_stateful_set: dev: [{
 							value: ""
 						}]
 
-						volume_mount: [{
-							mount_path: "/var/lib/docker"
-							name:       "dind"
-						}]
+						volume_mount: [#MountDIND]
 					},
 					{
 						#ContainerBuildKit
@@ -328,17 +331,11 @@ resource: kubernetes_stateful_set: dev: [{
 								"""
 						}]
 
-						volume_mount: [{
-							mount_path: "/tmp/earthly"
-							name:       "earthly"
-						}]
+						volume_mount: [#MounEarthly]
 					},
 					{
 						#ContainerRegistry
-						volume_mount: [{
-							mount_path: "/var/lib/registry"
-							name:       "registry"
-						}]
+						volume_mount: [#MounRegistry]
 					}]
 
 			}]
