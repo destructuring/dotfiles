@@ -37,7 +37,7 @@ kustomize: "argo-cd": #KustomizeHelm & {
 	helm: {
 		release: "argocd"
 		name:    "argo-cd"
-		version: "5.5.11"
+		version: "5.6.0"
 		repo:    "https://argoproj.github.io/argo-helm"
 	}
 

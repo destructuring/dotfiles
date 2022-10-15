@@ -7,6 +7,7 @@ import (
 // Env: control is the control plane, used by the operator.
 env: control: #K3D & {
 	bootstrap: {
+		"argo-cd":             1
 		"cert-manager":        10
 		"external-secrets":    10
 		"argo-events":         10
