@@ -171,6 +171,8 @@ for _machine_name, _machine in env {
 	apps: [string]: [string]: {...}
 
 	secrets: [...string]
+
+	sync: [string]: {...}
 }
 
 // K3D Machine

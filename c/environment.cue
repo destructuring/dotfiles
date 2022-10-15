@@ -137,66 +137,6 @@ env: circus: #K3D & {
 	}
 }
 
-kustomize: "k3d-circus-secrets": #Kustomize & {
-	resource: "kyverno-sync-secrets": {
-		apiVersion: "kyverno.io/v1"
-		kind:       "ClusterPolicy"
-		metadata: name: "kyverno-sync-secrets"
-
-		spec: rules: [{
-			name: "sync-secret-kuma-global-generic-tls-cert"
-
-			match: any: [{
-				resources: {
-					kinds: [
-						"Namespace",
-					]
-					names: [
-						"kuma",
-					]
-				}
-			}]
-
-			generate: {
-				apiVersion:  "v1"
-				kind:        "Secret"
-				name:        "generic-tls-cert"
-				namespace:   "{{request.object.metadata.name}}"
-				synchronize: true
-				clone: {
-					namespace: "secrets"
-					name:      "kuma-global-generic-tls-cert"
-				}
-			}
-		}, {
-			name: "sync-secret-kuma-zone-kds-server-tls"
-
-			match: any: [{
-				resources: {
-					kinds: [
-						"Namespace",
-					]
-					names: [
-						"kuma",
-					]
-				}
-			}]
-
-			generate: {
-				apiVersion:  "v1"
-				kind:        "Secret"
-				name:        "kds-server-tls"
-				namespace:   "{{request.object.metadata.name}}"
-				synchronize: true
-				clone: {
-					namespace: "secrets"
-					name:      "kuma-global-kds-server-tls"
-				}
-			}
-		}]
-	}
-}
-
 // Env: smiley is the second machine used for multi-cluster.
 env: smiley: #K3D & {
 	bootstrap: {
