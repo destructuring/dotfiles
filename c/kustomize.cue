@@ -13,10 +13,6 @@ kustomize: "hello": #Kustomize & {
 		url: "hello.yaml"
 	}
 
-	resource: "events.yaml": {
-		url: "events.yaml"
-	}
-
 	resource: "default": {
 		apiVersion: "v1"
 		kind:       "Namespace"
