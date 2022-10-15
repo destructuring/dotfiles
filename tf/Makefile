@@ -11,7 +11,6 @@ domain ?= tiger-mamba.ts.net
 
 test:
 	$(MAKE) fmt
-	$(MAKE) gen
 	$(MAKE) validate
 
 shell:
@@ -39,11 +38,7 @@ upgrade:
 		-platform=darwin_arm64
 
 fmt:
-	cue fmt
 	terraform fmt .
-
-gen:
-	cue export --out json > main.tf.json
 
 validate:
 	terraform validate
