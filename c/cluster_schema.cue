@@ -79,7 +79,7 @@ flies: #Flies
 #Fly: {
 	fly_name:      string
 	fly_org:       string | *"personal"
-	fly_region:    string | *"sjc"
+	fly_region:    string
 	fly_size:      int | *1
 	fly_data_name: string | *"data"
 

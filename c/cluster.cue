@@ -10,6 +10,8 @@ cluster: control: {
 	#DevPod
 }
 
+fly: [string]: fly_region: "sjc"
+
 fly: brie: {}
 fly: the: {}
 fly: so: {}
