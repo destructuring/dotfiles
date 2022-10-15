@@ -1,6 +1,6 @@
 package c
 
-cluster: [string]: #Cluster
+cluster: [NAME=string]: #Cluster & {cluster_name: NAME}
 
 #Cluster: ctx={
 	cluster_name: string

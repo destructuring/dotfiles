@@ -3,6 +3,7 @@ package c
 import (
 	"tool/file"
 	"encoding/yaml"
+	"encoding/json"
 )
 
 // This makes the c wrapper happy.
@@ -52,6 +53,17 @@ command: gen: {
 					filename: "../e/\(e.env.metadata.name).yaml"
 					contents: "# ManagedBy: cue\n\n" + yaml.Marshal(e.env)
 				}
+			}
+		}
+	}
+
+	genTerraformCluster: {
+		for cname, c in cluster {
+			// Configuration for K3D clusters:
+			// ex: cluster.control.out > tf/control/main.tf.json
+			"\(cname)": file.Create & {
+				filename: "../tf/\(cname)/main.tf.json"
+				contents: json.Marshal(c.out)
 			}
 		}
 	}
