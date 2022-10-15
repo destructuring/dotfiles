@@ -51,6 +51,125 @@ data: kubernetes_config_map: cluster_dns: [{
 	}]
 }
 
+#Volumes: {
+	volume: [{
+		host_path: [{
+			path: "/mnt/registry"
+		}]
+		name: "registry"
+	}, {
+		host_path: [{
+			path: "/mnt/dind"
+		}]
+		name: "dind"
+	}, {
+		host_path: [{
+			path: "/mnt/earthly"
+		}]
+		name: "earthly"
+	}, {
+		host_path: [{
+			path: "/var/run/docker.sock"
+		}]
+		name: "docker"
+	}, {
+		host_path: [{
+			path: "/run/k3s/containerd"
+		}]
+		name: "containerd"
+	}, {
+		host_path: [{
+			path: "/mnt/work"
+		}]
+		name: "mntwork"
+	}, {
+		host_path: [{
+			path: "/var/lib/tailscale/pod/var/lib/tailscale"
+		}]
+		name: "tailscale"
+	}, {
+		empty_dir: [{}]
+		name: "tsrun"
+	}]
+}
+
+#ContainerCodeServer: {
+	name:              "code-server"
+	image:             "${var.repo}workspace:latest"
+	image_pull_policy: "Always"
+	command: ["/usr/bin/tini", "--"]
+	args: ["bash", "-c", "while true; do if test -S /var/run/tailscale/tailscaled.sock; then break; fi; sleep 1; done; sudo tailscale up --ssh --accept-dns=false --hostname=${each.key}-0; exec ~/bin/e code-server --bind-addr 0.0.0.0:8888 --disable-telemetry"]
+}
+
+#ContainerTailscale: {
+	name:              "tailscale"
+	image:             "${var.repo}workspace:latest"
+	image_pull_policy: "Always"
+	command: ["/usr/bin/tini", "--"]
+	args: ["sudo", "tailscaled", "--statedir", "/var/lib/tailscale"]
+}
+#ContainerCaddy: {
+	name:              "caddy"
+	image:             "${var.repo}workspace:latest"
+	image_pull_policy: "Always"
+	command: ["/usr/bin/tini", "--"]
+	args: ["bash", "-c", "exec sudo caddy run"]
+}
+
+#ContainerVault: {
+	name:              "vault"
+	image:             "${var.repo}workspace:latest"
+	image_pull_policy: "Always"
+	command: ["/usr/bin/tini", "--"]
+	args: ["bash", "-c", "exec ~/bin/e vault server -config etc/vault.yaml"]
+}
+
+#ContainerNomad: {
+	name:              "nomad"
+	image:             "${var.repo}workspace:latest"
+	image_pull_policy: "Always"
+	command: ["/usr/bin/tini", "--"]
+	args: ["bash", "-c", "exec ~/bin/e nomad agent -config=etc/nomad.conf -data-dir=/work/nomad -dc=dev -region=circus -node=`uname -n` -bootstrap-expect 1"]
+}
+
+#ContainerCloudflared: {
+	name:  "cloudflared"
+	image: "${var.repo}workspace:latest"
+	command: ["/usr/bin/tini", "--"]
+	args: ["bash", "-c", "exec ~/bin/e cloudflared proxy-dns --port 5553"]
+	image_pull_policy: "Always"
+}
+
+#ContainerCoreDNS: {
+	name:              "coredns"
+	image:             "${var.repo}workspace:latest"
+	image_pull_policy: "Always"
+	command: ["/usr/bin/tini", "--"]
+	args: ["bash", "-c", "exec sudo ~/bin/e coredns"]
+}
+
+#ContainerDIND: {
+	name:              "dind"
+	image:             "docker:dind"
+	image_pull_policy: "IfNotPresent"
+	command: ["sh", "-c"]
+	args: ["exec /usr/local/bin/dockerd-entrypoint.sh --storage-driver overlay2 --mtu=`ifconfig eth0 | grep MTU | awk '{print $5}' | cut -d: -f2`"]
+}
+
+#ContainerBuildKit: {
+	name:              "buildkit"
+	image:             "earthly/buildkitd:v0.6.26"
+	image_pull_policy: "IfNotPresent"
+	command: ["sh", "-c"]
+	args: ["awk '/if.*rm.*data_root.*then/ {print \"rm -rf $data_root || true; data_root=/tmp/meh;\" }; {print}' /var/earthly/dockerd-wrapper.sh > /tmp/1 && chmod 755 /tmp/1 && mv -f /tmp/1 /var/earthly/dockerd-wrapper.sh; exec /usr/bin/entrypoint.sh buildkitd --config=/etc/buildkitd.toml"]
+}
+
+#ContainerRegistry: {
+	name:              "registry"
+	image:             "registry:2"
+	image_pull_policy: "IfNotPresent"
+}
+
 resource: {
 	kubernetes_cluster_role_binding: dev: [{
 		metadata: [{
@@ -131,211 +250,137 @@ resource: {
 
 					#NodeAffinity
 
-					volume: [{
-						host_path: [{
-							path: "/mnt/registry"
-						}]
-						name: "registry"
-					}, {
-						host_path: [{
-							path: "/mnt/dind"
-						}]
-						name: "dind"
-					}, {
-						host_path: [{
-							path: "/mnt/earthly"
-						}]
-						name: "earthly"
-					}, {
-						host_path: [{
-							path: "/var/run/docker.sock"
-						}]
-						name: "docker"
-					}, {
-						host_path: [{
-							path: "/run/k3s/containerd"
-						}]
-						name: "containerd"
-					}, {
-						host_path: [{
-							path: "/mnt/work"
-						}]
-						name: "mntwork"
-					}, {
-						host_path: [{
-							path: "/var/lib/tailscale/pod/var/lib/tailscale"
-						}]
-						name: "tailscale"
-					}, {
-						empty_dir: [{}]
-						name: "tsrun"
-					}]
+					#Volumes
 
-					container: [{
-						name:              "code-server"
-						image:             "${var.repo}workspace:latest"
-						image_pull_policy: "Always"
-						command: ["/usr/bin/tini", "--"]
-						args: ["bash", "-c", "while true; do if test -S /var/run/tailscale/tailscaled.sock; then break; fi; sleep 1; done; sudo tailscale up --ssh --accept-dns=false --hostname=${each.key}-0; exec ~/bin/e code-server --bind-addr 0.0.0.0:8888 --disable-telemetry"]
+					container: [
+						{
+							#ContainerCodeServer
+							#TTY
+							#Privileged
 
-						#TTY
-						#Privileged
+							env: [{
+								name:  "DEFN_DEV_HOST"
+								value: "${each.value.host}"
+							}, {
+								name:  "PASSWORD"
+								value: "admin"
+							}]
 
-						env: [{
-							name:  "DEFN_DEV_HOST"
-							value: "${each.value.host}"
-						}, {
-							name:  "PASSWORD"
-							value: "admin"
-						}]
+							volume_mount: [{
+								mount_path: "/var/run/docker.sock"
+								name:       "docker"
+							}, {
+								mount_path: "/run/containerd"
+								name:       "containerd"
+							}, {
+								mount_path: "/work"
+								name:       "mntwork"
+							}, {
+								mount_path: "/var/run/tailscale"
+								name:       "tsrun"
+							}]
+						},
+						{
+							#ContainerTailscale
+							#Privileged
 
-						volume_mount: [{
-							mount_path: "/var/run/docker.sock"
-							name:       "docker"
-						}, {
-							mount_path: "/run/containerd"
-							name:       "containerd"
-						}, {
-							mount_path: "/work"
-							name:       "mntwork"
-						}, {
-							mount_path: "/var/run/tailscale"
-							name:       "tsrun"
-						}]
-					}, {
-						name:              "tailscale"
-						image:             "${var.repo}workspace:latest"
-						image_pull_policy: "Always"
-						command: ["/usr/bin/tini", "--"]
-						args: ["sudo", "tailscaled", "--statedir", "/var/lib/tailscale"]
+							volume_mount: [{
+								mount_path: "/work"
+								name:       "mntwork"
+							}, {
+								mount_path: "/var/run/tailscale"
+								name:       "tsrun"
+							}, {
+								mount_path: "/var/lib/tailscale"
+								name:       "tailscale"
+							}]
+						},
+						{
+							#ContainerCaddy
+							volume_mount: [{
+								mount_path: "/work/dist"
+								name:       "mntwork"
+								sub_path:   "dist"
+							}, {
+								mount_path: "/var/run/tailscale"
+								name:       "tsrun"
+							}]
+						},
+						{
+							#ContainerVault
+							volume_mount: [{
+								mount_path: "/work"
+								name:       "mntwork"
+							}]
+						},
+						{
+							#ContainerNomad
+							volume_mount: [{
+								mount_path: "/work"
+								name:       "mntwork"
+							}, {
+								mount_path: "/var/run/tailscale"
+								name:       "tsrun"
+							}, {
+								mount_path: "/var/run/docker.sock"
+								name:       "docker"
+							}]
+						},
+						{
+							#ContainerCloudflared
+						},
+						{
+							#ContainerCoreDNS
+						},
+						{
+							#ContainerDIND
+							#Privileged
 
-						#Privileged
+							env: [{
+								name:  "DOCKER_TLS_CERTDIR"
+								value: ""
+							}]
 
-						volume_mount: [{
-							mount_path: "/work"
-							name:       "mntwork"
-						}, {
-							mount_path: "/var/run/tailscale"
-							name:       "tsrun"
-						}, {
-							mount_path: "/var/lib/tailscale"
-							name:       "tailscale"
-						}]
-					}, {
-						name:              "caddy"
-						image:             "${var.repo}workspace:latest"
-						image_pull_policy: "Always"
-						command: ["/usr/bin/tini", "--"]
-						args: ["bash", "-c", "exec sudo caddy run"]
+							volume_mount: [{
+								mount_path: "/var/lib/docker"
+								name:       "dind"
+							}]
+						},
+						{
+							#ContainerBuildKit
+							#TTY
+							#Privileged
 
-						volume_mount: [{
-							mount_path: "/work/dist"
-							name:       "mntwork"
-							sub_path:   "dist"
-						}, {
-							mount_path: "/var/run/tailscale"
-							name:       "tsrun"
-						}]
-					}, {
-						name:              "vault"
-						image:             "${var.repo}workspace:latest"
-						image_pull_policy: "Always"
-						command: ["/usr/bin/tini", "--"]
-						args: ["bash", "-c", "exec ~/bin/e vault server -config etc/vault.yaml"]
-
-						volume_mount: [{
-							mount_path: "/work"
-							name:       "mntwork"
-						}]
-					}, {
-						name:              "nomad"
-						image:             "${var.repo}workspace:latest"
-						image_pull_policy: "Always"
-						command: ["/usr/bin/tini", "--"]
-						args: ["bash", "-c", "exec ~/bin/e nomad agent -config=etc/nomad.conf -data-dir=/work/nomad -dc=dev -region=circus -node=`uname -n` -bootstrap-expect 1"]
-
-						volume_mount: [{
-							mount_path: "/work"
-							name:       "mntwork"
-						}, {
-							mount_path: "/var/run/tailscale"
-							name:       "tsrun"
-						}, {
-							mount_path: "/var/run/docker.sock"
-							name:       "docker"
-						}]
-					}, {
-						name:  "cloudflared"
-						image: "${var.repo}workspace:latest"
-						command: ["/usr/bin/tini", "--"]
-						args: ["bash", "-c", "exec ~/bin/e cloudflared proxy-dns --port 5553"]
-						image_pull_policy: "Always"
-					}, {
-						name:              "coredns"
-						image:             "${var.repo}workspace:latest"
-						image_pull_policy: "Always"
-						command: ["/usr/bin/tini", "--"]
-						args: ["bash", "-c", "exec sudo ~/bin/e coredns"]
-					}, {
-						name:              "dind"
-						image:             "docker:dind"
-						image_pull_policy: "IfNotPresent"
-						command: ["sh", "-c"]
-						args: ["exec /usr/local/bin/dockerd-entrypoint.sh --storage-driver overlay2 --mtu=`ifconfig eth0 | grep MTU | awk '{print $5}' | cut -d: -f2`"]
-
-						#Privileged
-
-						env: [{
-							name:  "DOCKER_TLS_CERTDIR"
-							value: ""
-						}]
-
-						volume_mount: [{
-							mount_path: "/var/lib/docker"
-							name:       "dind"
-						}]
-					}, {
-						name:              "buildkit"
-						image:             "earthly/buildkitd:v0.6.26"
-						image_pull_policy: "IfNotPresent"
-						command: ["sh", "-c"]
-						args: ["awk '/if.*rm.*data_root.*then/ {print \"rm -rf $data_root || true; data_root=/tmp/meh;\" }; {print}' /var/earthly/dockerd-wrapper.sh > /tmp/1 && chmod 755 /tmp/1 && mv -f /tmp/1 /var/earthly/dockerd-wrapper.sh; exec /usr/bin/entrypoint.sh buildkitd --config=/etc/buildkitd.toml"]
-
-						#TTY
-						#Privileged
-
-						env: [{
-							name:  "BUILDKIT_TCP_TRANSPORT_ENABLED"
-							value: "true"
-						}, {
-							name:  "BUILDKIT_MAX_PARALLELISM"
-							value: "4"
-						}, {
-							name:  "CACHE_SIZE_PCT"
-							value: "90"
-						}, {
-							name: "EARTHLY_ADDITIONAL_BUILDKIT_CONFIG"
-							value: """
+							env: [{
+								name:  "BUILDKIT_TCP_TRANSPORT_ENABLED"
+								value: "true"
+							}, {
+								name:  "BUILDKIT_MAX_PARALLELISM"
+								value: "4"
+							}, {
+								name:  "CACHE_SIZE_PCT"
+								value: "90"
+							}, {
+								name: "EARTHLY_ADDITIONAL_BUILDKIT_CONFIG"
+								value: """
 								[registry."169.254.32.1:5000"]
 								  http = true
 								  insecure = true
 								"""
-						}]
+							}]
 
-						volume_mount: [{
-							mount_path: "/tmp/earthly"
-							name:       "earthly"
+							volume_mount: [{
+								mount_path: "/tmp/earthly"
+								name:       "earthly"
+							}]
+						},
+						{
+							#ContainerRegistry
+							volume_mount: [{
+								mount_path: "/var/lib/registry"
+								name:       "registry"
+							}]
 						}]
-					}, {
-						name:              "registry"
-						image:             "registry:2"
-						image_pull_policy: "IfNotPresent"
-
-						volume_mount: [{
-							mount_path: "/var/lib/registry"
-							name:       "registry"
-						}]
-					}]
 
 				}]
 			}]
