@@ -170,220 +170,218 @@ data: kubernetes_config_map: cluster_dns: [{
 	image_pull_policy: "IfNotPresent"
 }
 
-resource: {
-	kubernetes_cluster_role_binding: dev: [{
-		metadata: [{
-			name: "dev"
-		}]
+resource: kubernetes_stateful_set: dev: [{
+	for_each: "${var.envs}"
 
-		role_ref: [{
-			api_group: "rbac.authorization.k8s.io"
-			kind:      "ClusterRole"
-			name:      "cluster-admin"
-		}]
+	wait_for_rollout: false
 
-		subject: [{
-			kind:      "ServiceAccount"
-			name:      "default"
-			namespace: "default"
-		}]
+	metadata: [{
+		name:      "${each.key}"
+		namespace: "default"
 	}]
 
-	kubernetes_service: control: [{
-		metadata: [{
-			name:      "control-0"
-			namespace: "default"
+	spec: [{
+		service_name: "dev"
+		replicas:     1
+
+		selector: [{
+			match_labels: {
+				app: "dev"
+				env: "${each.key}"
+			}
 		}]
 
-		spec: [{
-			selector: env: "control"
-			type: "LoadBalancer"
+		template: [{
+			metadata: [{
+				annotations: {
+					"kuma.io/gateway":           "enabled"
+					"kuma.io/sidecar-injection": "disabled"
+				}
 
-			port: [{
-				name:        "http"
-				port:        80
-				target_port: 80
-			}, {
-				name:        "https"
-				port:        443
-				target_port: 443
-			}]
-		}]
-	}]
-
-	kubernetes_stateful_set: dev: [{
-		for_each: "${var.envs}"
-
-		wait_for_rollout: false
-
-		metadata: [{
-			name:      "${each.key}"
-			namespace: "default"
-		}]
-
-		spec: [{
-			service_name: "dev"
-			replicas:     1
-
-			selector: [{
-				match_labels: {
+				labels: {
 					app: "dev"
 					env: "${each.key}"
 				}
 			}]
 
-			template: [{
-				metadata: [{
-					annotations: {
-						"kuma.io/gateway":           "enabled"
-						"kuma.io/sidecar-injection": "disabled"
-					}
+			spec: [{
+				#LocalDNS
 
-					labels: {
-						app: "dev"
-						env: "${each.key}"
-					}
-				}]
+				#NodeAffinity
 
-				spec: [{
-					#LocalDNS
+				#Volumes
 
-					#NodeAffinity
+				container: [
+					{
+						#ContainerCodeServer
+						#TTY
+						#Privileged
 
-					#Volumes
+						env: [{
+							name:  "DEFN_DEV_HOST"
+							value: "${each.value.host}"
+						}, {
+							name:  "PASSWORD"
+							value: "admin"
+						}]
 
-					container: [
-						{
-							#ContainerCodeServer
-							#TTY
-							#Privileged
+						volume_mount: [{
+							mount_path: "/var/run/docker.sock"
+							name:       "docker"
+						}, {
+							mount_path: "/run/containerd"
+							name:       "containerd"
+						}, {
+							mount_path: "/work"
+							name:       "mntwork"
+						}, {
+							mount_path: "/var/run/tailscale"
+							name:       "tsrun"
+						}]
+					},
+					{
+						#ContainerTailscale
+						#Privileged
 
-							env: [{
-								name:  "DEFN_DEV_HOST"
-								value: "${each.value.host}"
-							}, {
-								name:  "PASSWORD"
-								value: "admin"
-							}]
+						volume_mount: [{
+							mount_path: "/work"
+							name:       "mntwork"
+						}, {
+							mount_path: "/var/run/tailscale"
+							name:       "tsrun"
+						}, {
+							mount_path: "/var/lib/tailscale"
+							name:       "tailscale"
+						}]
+					},
+					{
+						#ContainerCaddy
+						volume_mount: [{
+							mount_path: "/work/dist"
+							name:       "mntwork"
+							sub_path:   "dist"
+						}, {
+							mount_path: "/var/run/tailscale"
+							name:       "tsrun"
+						}]
+					},
+					{
+						#ContainerVault
+						volume_mount: [{
+							mount_path: "/work"
+							name:       "mntwork"
+						}]
+					},
+					{
+						#ContainerNomad
+						volume_mount: [{
+							mount_path: "/work"
+							name:       "mntwork"
+						}, {
+							mount_path: "/var/run/tailscale"
+							name:       "tsrun"
+						}, {
+							mount_path: "/var/run/docker.sock"
+							name:       "docker"
+						}]
+					},
+					{
+						#ContainerCloudflared
+					},
+					{
+						#ContainerCoreDNS
+					},
+					{
+						#ContainerDIND
+						#Privileged
 
-							volume_mount: [{
-								mount_path: "/var/run/docker.sock"
-								name:       "docker"
-							}, {
-								mount_path: "/run/containerd"
-								name:       "containerd"
-							}, {
-								mount_path: "/work"
-								name:       "mntwork"
-							}, {
-								mount_path: "/var/run/tailscale"
-								name:       "tsrun"
-							}]
-						},
-						{
-							#ContainerTailscale
-							#Privileged
+						env: [{
+							name:  "DOCKER_TLS_CERTDIR"
+							value: ""
+						}]
 
-							volume_mount: [{
-								mount_path: "/work"
-								name:       "mntwork"
-							}, {
-								mount_path: "/var/run/tailscale"
-								name:       "tsrun"
-							}, {
-								mount_path: "/var/lib/tailscale"
-								name:       "tailscale"
-							}]
-						},
-						{
-							#ContainerCaddy
-							volume_mount: [{
-								mount_path: "/work/dist"
-								name:       "mntwork"
-								sub_path:   "dist"
-							}, {
-								mount_path: "/var/run/tailscale"
-								name:       "tsrun"
-							}]
-						},
-						{
-							#ContainerVault
-							volume_mount: [{
-								mount_path: "/work"
-								name:       "mntwork"
-							}]
-						},
-						{
-							#ContainerNomad
-							volume_mount: [{
-								mount_path: "/work"
-								name:       "mntwork"
-							}, {
-								mount_path: "/var/run/tailscale"
-								name:       "tsrun"
-							}, {
-								mount_path: "/var/run/docker.sock"
-								name:       "docker"
-							}]
-						},
-						{
-							#ContainerCloudflared
-						},
-						{
-							#ContainerCoreDNS
-						},
-						{
-							#ContainerDIND
-							#Privileged
+						volume_mount: [{
+							mount_path: "/var/lib/docker"
+							name:       "dind"
+						}]
+					},
+					{
+						#ContainerBuildKit
+						#TTY
+						#Privileged
 
-							env: [{
-								name:  "DOCKER_TLS_CERTDIR"
-								value: ""
-							}]
-
-							volume_mount: [{
-								mount_path: "/var/lib/docker"
-								name:       "dind"
-							}]
-						},
-						{
-							#ContainerBuildKit
-							#TTY
-							#Privileged
-
-							env: [{
-								name:  "BUILDKIT_TCP_TRANSPORT_ENABLED"
-								value: "true"
-							}, {
-								name:  "BUILDKIT_MAX_PARALLELISM"
-								value: "4"
-							}, {
-								name:  "CACHE_SIZE_PCT"
-								value: "90"
-							}, {
-								name: "EARTHLY_ADDITIONAL_BUILDKIT_CONFIG"
-								value: """
+						env: [{
+							name:  "BUILDKIT_TCP_TRANSPORT_ENABLED"
+							value: "true"
+						}, {
+							name:  "BUILDKIT_MAX_PARALLELISM"
+							value: "4"
+						}, {
+							name:  "CACHE_SIZE_PCT"
+							value: "90"
+						}, {
+							name: "EARTHLY_ADDITIONAL_BUILDKIT_CONFIG"
+							value: """
 								[registry."169.254.32.1:5000"]
 								  http = true
 								  insecure = true
 								"""
-							}]
-
-							volume_mount: [{
-								mount_path: "/tmp/earthly"
-								name:       "earthly"
-							}]
-						},
-						{
-							#ContainerRegistry
-							volume_mount: [{
-								mount_path: "/var/lib/registry"
-								name:       "registry"
-							}]
 						}]
 
-				}]
+						volume_mount: [{
+							mount_path: "/tmp/earthly"
+							name:       "earthly"
+						}]
+					},
+					{
+						#ContainerRegistry
+						volume_mount: [{
+							mount_path: "/var/lib/registry"
+							name:       "registry"
+						}]
+					}]
+
 			}]
 		}]
 	}]
-}
+}]
+
+resource: kubernetes_cluster_role_binding: dev: [{
+	metadata: [{
+		name: "dev"
+	}]
+
+	role_ref: [{
+		api_group: "rbac.authorization.k8s.io"
+		kind:      "ClusterRole"
+		name:      "cluster-admin"
+	}]
+
+	subject: [{
+		kind:      "ServiceAccount"
+		name:      "default"
+		namespace: "default"
+	}]
+}]
+
+resource: kubernetes_service: control: [{
+	metadata: [{
+		name:      "control-0"
+		namespace: "default"
+	}]
+
+	spec: [{
+		selector: env: "control"
+		type: "LoadBalancer"
+
+		port: [{
+			name:        "http"
+			port:        80
+			target_port: 80
+		}, {
+			name:        "https"
+			port:        443
+			target_port: 443
+		}]
+	}]
+}]

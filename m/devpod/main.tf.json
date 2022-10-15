@@ -14,63 +14,6 @@
         }
     },
     "resource": {
-        "kubernetes_cluster_role_binding": {
-            "dev": [
-                {
-                    "metadata": [
-                        {
-                            "name": "dev"
-                        }
-                    ],
-                    "role_ref": [
-                        {
-                            "api_group": "rbac.authorization.k8s.io",
-                            "kind": "ClusterRole",
-                            "name": "cluster-admin"
-                        }
-                    ],
-                    "subject": [
-                        {
-                            "kind": "ServiceAccount",
-                            "name": "default",
-                            "namespace": "default"
-                        }
-                    ]
-                }
-            ]
-        },
-        "kubernetes_service": {
-            "control": [
-                {
-                    "metadata": [
-                        {
-                            "name": "control-0",
-                            "namespace": "default"
-                        }
-                    ],
-                    "spec": [
-                        {
-                            "selector": {
-                                "env": "control"
-                            },
-                            "type": "LoadBalancer",
-                            "port": [
-                                {
-                                    "name": "http",
-                                    "port": 80,
-                                    "target_port": 80
-                                },
-                                {
-                                    "name": "https",
-                                    "port": 443,
-                                    "target_port": 443
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
         "kubernetes_stateful_set": {
             "dev": [
                 {
@@ -494,6 +437,63 @@
                                             ]
                                         }
                                     ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        "kubernetes_cluster_role_binding": {
+            "dev": [
+                {
+                    "metadata": [
+                        {
+                            "name": "dev"
+                        }
+                    ],
+                    "role_ref": [
+                        {
+                            "api_group": "rbac.authorization.k8s.io",
+                            "kind": "ClusterRole",
+                            "name": "cluster-admin"
+                        }
+                    ],
+                    "subject": [
+                        {
+                            "kind": "ServiceAccount",
+                            "name": "default",
+                            "namespace": "default"
+                        }
+                    ]
+                }
+            ]
+        },
+        "kubernetes_service": {
+            "control": [
+                {
+                    "metadata": [
+                        {
+                            "name": "control-0",
+                            "namespace": "default"
+                        }
+                    ],
+                    "spec": [
+                        {
+                            "selector": {
+                                "env": "control"
+                            },
+                            "type": "LoadBalancer",
+                            "port": [
+                                {
+                                    "name": "http",
+                                    "port": 80,
+                                    "target_port": 80
+                                },
+                                {
+                                    "name": "https",
+                                    "port": 443,
+                                    "target_port": 443
                                 }
                             ]
                         }
