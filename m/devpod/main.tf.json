@@ -55,29 +55,6 @@
                                         {
                                             "container": [
                                                 {
-                                                    "env": [
-                                                        {
-                                                            "name": "DEFN_DEV_HOST",
-                                                            "value": "${each.value.host}"
-                                                        },
-                                                        {
-                                                            "name": "PASSWORD",
-                                                            "value": "admin"
-                                                        }
-                                                    ],
-                                                    "name": "code-server",
-                                                    "image": "${var.repo}workspace:latest",
-                                                    "image_pull_policy": "Always",
-                                                    "command": [
-                                                        "/usr/bin/tini",
-                                                        "--"
-                                                    ],
-                                                    "tty": true,
-                                                    "security_context": [
-                                                        {
-                                                            "privileged": true
-                                                        }
-                                                    ],
                                                     "volume_mount": [
                                                         {
                                                             "mount_path": "/var/run/docker.sock",
@@ -94,6 +71,29 @@
                                                         {
                                                             "mount_path": "/var/run/tailscale",
                                                             "name": "tsrun"
+                                                        }
+                                                    ],
+                                                    "name": "code-server",
+                                                    "image": "${var.repo}workspace:latest",
+                                                    "image_pull_policy": "Always",
+                                                    "command": [
+                                                        "/usr/bin/tini",
+                                                        "--"
+                                                    ],
+                                                    "tty": true,
+                                                    "security_context": [
+                                                        {
+                                                            "privileged": true
+                                                        }
+                                                    ],
+                                                    "env": [
+                                                        {
+                                                            "name": "DEFN_DEV_HOST",
+                                                            "value": "${each.value.host}"
+                                                        },
+                                                        {
+                                                            "name": "PASSWORD",
+                                                            "value": "admin"
                                                         }
                                                     ],
                                                     "args": [
@@ -238,10 +238,10 @@
                                                     ]
                                                 },
                                                 {
-                                                    "env": [
+                                                    "volume_mount": [
                                                         {
-                                                            "name": "DOCKER_TLS_CERTDIR",
-                                                            "value": ""
+                                                            "mount_path": "/var/lib/docker",
+                                                            "name": "dind"
                                                         }
                                                     ],
                                                     "name": "dind",
@@ -256,10 +256,10 @@
                                                             "privileged": true
                                                         }
                                                     ],
-                                                    "volume_mount": [
+                                                    "env": [
                                                         {
-                                                            "mount_path": "/var/lib/docker",
-                                                            "name": "dind"
+                                                            "name": "DOCKER_TLS_CERTDIR",
+                                                            "value": ""
                                                         }
                                                     ],
                                                     "args": [
@@ -267,6 +267,25 @@
                                                     ]
                                                 },
                                                 {
+                                                    "volume_mount": [
+                                                        {
+                                                            "mount_path": "/tmp/earthly",
+                                                            "name": "earthly"
+                                                        }
+                                                    ],
+                                                    "name": "buildkit",
+                                                    "image": "earthly/buildkitd:v0.6.26",
+                                                    "image_pull_policy": "IfNotPresent",
+                                                    "command": [
+                                                        "sh",
+                                                        "-c"
+                                                    ],
+                                                    "tty": true,
+                                                    "security_context": [
+                                                        {
+                                                            "privileged": true
+                                                        }
+                                                    ],
                                                     "env": [
                                                         {
                                                             "name": "BUILDKIT_TCP_TRANSPORT_ENABLED",
@@ -283,25 +302,6 @@
                                                         {
                                                             "name": "EARTHLY_ADDITIONAL_BUILDKIT_CONFIG",
                                                             "value": "[registry.\"169.254.32.1:5000\"]\n  http = true\n  insecure = true"
-                                                        }
-                                                    ],
-                                                    "name": "buildkit",
-                                                    "image": "earthly/buildkitd:v0.6.26",
-                                                    "image_pull_policy": "IfNotPresent",
-                                                    "command": [
-                                                        "sh",
-                                                        "-c"
-                                                    ],
-                                                    "tty": true,
-                                                    "security_context": [
-                                                        {
-                                                            "privileged": true
-                                                        }
-                                                    ],
-                                                    "volume_mount": [
-                                                        {
-                                                            "mount_path": "/tmp/earthly",
-                                                            "name": "earthly"
                                                         }
                                                     ],
                                                     "args": [

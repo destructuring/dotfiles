@@ -261,6 +261,8 @@ resource: kubernetes_stateful_set: dev: [{
 						#TTY
 						#Privileged
 
+						volume_mount: [#MountDocker, #MountContainerd, #MountWork, #MountTailscaleRun]
+
 						env: [{
 							name:  "DEFN_DEV_HOST"
 							value: "${each.value.host}"
@@ -269,7 +271,6 @@ resource: kubernetes_stateful_set: dev: [{
 							value: "admin"
 						}]
 
-						volume_mount: [#MountDocker, #MountContainerd, #MountWork, #MountTailscaleRun]
 					},
 					{
 						#ContainerTailscale
@@ -301,17 +302,19 @@ resource: kubernetes_stateful_set: dev: [{
 						#ContainerDIND
 						#Privileged
 
+						volume_mount: [#MountDIND]
+
 						env: [{
 							name:  "DOCKER_TLS_CERTDIR"
 							value: ""
 						}]
-
-						volume_mount: [#MountDIND]
 					},
 					{
 						#ContainerBuildKit
 						#TTY
 						#Privileged
+
+						volume_mount: [#MountEarthly]
 
 						env: [{
 							name:  "BUILDKIT_TCP_TRANSPORT_ENABLED"
@@ -330,8 +333,6 @@ resource: kubernetes_stateful_set: dev: [{
 								  insecure = true
 								"""
 						}]
-
-						volume_mount: [#MountEarthly]
 					},
 					{
 						#ContainerRegistry
