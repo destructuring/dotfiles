@@ -1,6 +1,6 @@
 annotations:
   artifacthub.io/changes: |
-    - "[Changed]: Updated example PrometheusRule expression for missing apps"
+    - "[Changed]: Moved Argo Extension resource to argocd-apps chart"
 apiVersion: v2
 appVersion: v2.4.14
 dependencies:
@@ -23,4 +23,4 @@ name: argo-cd
 sources:
 - https://github.com/argoproj/argo-helm/tree/main/charts/argo-cd
 - https://github.com/argoproj/argo-cd
-version: 5.5.11
+version: 5.6.0
