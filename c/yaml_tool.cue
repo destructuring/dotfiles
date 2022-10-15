@@ -63,7 +63,7 @@ command: gen: {
 			// ex: cluster.control.out > tf/control/main.tf.json
 			"\(cname)": file.Create & {
 				filename: "../tf/\(cname)/main.tf.json"
-				contents: json.Marshal(c.out)
+				contents: json.Marshal({c.out, "//": "ManagedBy: cue"})
 			}
 		}
 	}

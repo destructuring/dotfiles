@@ -1,4 +1,5 @@
 {
+  "//": "ManagedBy: cue",
   "provider": {
     "kubernetes": [
       { "config_context": "k3d-control", "config_path": "~/.kube/config" }
