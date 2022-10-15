@@ -307,8 +307,8 @@ resource: {
 							name: "EARTHLY_ADDITIONAL_BUILDKIT_CONFIG"
 							value: """
 								[registry."169.254.32.1:5000"]
-									http = true
-									insecure = true
+								  http = true
+								  insecure = true
 								"""
 						}]
 

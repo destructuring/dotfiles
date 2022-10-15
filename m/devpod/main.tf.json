@@ -470,7 +470,7 @@
                                                         },
                                                         {
                                                             "name": "EARTHLY_ADDITIONAL_BUILDKIT_CONFIG",
-                                                            "value": "[registry.\"169.254.32.1:5000\"]\n\thttp = true\n\tinsecure = true"
+                                                            "value": "[registry.\"169.254.32.1:5000\"]\n  http = true\n  insecure = true"
                                                         }
                                                     ],
                                                     "volume_mount": [
