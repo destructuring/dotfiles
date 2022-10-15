@@ -228,6 +228,30 @@ data: kubernetes_config_map: cluster_dns: [{
 	volume_mount: [#MountRegistry]
 }
 
+#ContainerKumaCP: {
+	name:              "kuma-cp"
+	image:             "${var.repo}workspace:latest"
+	image_pull_policy: "Always"
+	command: ["/usr/bin/tini", "--"]
+	args: ["bash", "-c", "~/bin/e ~/bin/kuma-cp-on"]
+}
+
+#ContainerKumaIngress: {
+	name:              "kuma-ingress"
+	image:             "${var.repo}workspace:latest"
+	image_pull_policy: "Always"
+	command: ["/usr/bin/tini", "--"]
+	args: ["bash", "-c", "~/bin/e ~/bin/kuma-ingress-on"]
+}
+
+#ContainerKumaDP: {
+	name:              "kuma-dp"
+	image:             "${var.repo}workspace:latest"
+	image_pull_policy: "Always"
+	command: ["/usr/bin/tini", "--"]
+	args: ["bash", "-c", "~/bin/e ~/bin/kuma-dp-on"]
+}
+
 #MountDocker: {
 	mount_path: "/var/run/docker.sock"
 	name:       "docker"
@@ -328,6 +352,10 @@ resource: kubernetes_stateful_set: dev: [{
 					#ContainerTailscale,
 					#ContainerCoreDNS,
 					#ContainerCloudflared,
+
+					#ContainerKumaCP,
+					#ContainerKumaIngress,
+					#ContainerKumaDP,
 				]
 			}]
 		}]

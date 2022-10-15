@@ -318,6 +318,48 @@
                                                         "exec ~/bin/e cloudflared proxy-dns --port 5553"
                                                     ],
                                                     "image_pull_policy": "Always"
+                                                },
+                                                {
+                                                    "name": "kuma-cp",
+                                                    "image": "${var.repo}workspace:latest",
+                                                    "image_pull_policy": "Always",
+                                                    "command": [
+                                                        "/usr/bin/tini",
+                                                        "--"
+                                                    ],
+                                                    "args": [
+                                                        "bash",
+                                                        "-c",
+                                                        "~/bin/e ~/bin/kuma-cp-on"
+                                                    ]
+                                                },
+                                                {
+                                                    "name": "kuma-ingress",
+                                                    "image": "${var.repo}workspace:latest",
+                                                    "image_pull_policy": "Always",
+                                                    "command": [
+                                                        "/usr/bin/tini",
+                                                        "--"
+                                                    ],
+                                                    "args": [
+                                                        "bash",
+                                                        "-c",
+                                                        "~/bin/e ~/bin/kuma-ingress-on"
+                                                    ]
+                                                },
+                                                {
+                                                    "name": "kuma-dp",
+                                                    "image": "${var.repo}workspace:latest",
+                                                    "image_pull_policy": "Always",
+                                                    "command": [
+                                                        "/usr/bin/tini",
+                                                        "--"
+                                                    ],
+                                                    "args": [
+                                                        "bash",
+                                                        "-c",
+                                                        "~/bin/e ~/bin/kuma-dp-on"
+                                                    ]
                                                 }
                                             ],
                                             "dns_policy": "None",
