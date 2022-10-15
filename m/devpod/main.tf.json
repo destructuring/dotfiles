@@ -110,57 +110,6 @@
                                     ],
                                     "spec": [
                                         {
-                                            "dns_policy": "None",
-                                            "dns_config": [
-                                                {
-                                                    "nameservers": [
-                                                        "127.0.0.1"
-                                                    ],
-                                                    "option": [
-                                                        {
-                                                            "name": "ndots",
-                                                            "value": 5
-                                                        }
-                                                    ],
-                                                    "searches": [
-                                                        "default.svc.cluster.local",
-                                                        "svc.cluster.local",
-                                                        "cluster.local"
-                                                    ]
-                                                }
-                                            ],
-                                            "affinity": [
-                                                {
-                                                    "node_affinity": [
-                                                        {
-                                                            "required_during_scheduling_ignored_during_execution": [
-                                                                {
-                                                                    "node_selector_term": [
-                                                                        {
-                                                                            "match_expressions": [
-                                                                                {
-                                                                                    "key": "env",
-                                                                                    "operator": "In",
-                                                                                    "values": [
-                                                                                        "${each.key}"
-                                                                                    ]
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        }
-                                                    ]
-                                                }
-                                            ],
-                                            "toleration": [
-                                                {
-                                                    "key": "env",
-                                                    "operator": "Equal",
-                                                    "value": "${each.key}"
-                                                }
-                                            ],
                                             "volume": [
                                                 {
                                                     "host_path": [
@@ -225,6 +174,32 @@
                                                     "name": "tsrun"
                                                 }
                                             ],
+                                            "dns_policy": "None",
+                                            "affinity": [
+                                                {
+                                                    "node_affinity": [
+                                                        {
+                                                            "required_during_scheduling_ignored_during_execution": [
+                                                                {
+                                                                    "node_selector_term": [
+                                                                        {
+                                                                            "match_expressions": [
+                                                                                {
+                                                                                    "key": "env",
+                                                                                    "operator": "In",
+                                                                                    "values": [
+                                                                                        "${each.key}"
+                                                                                    ]
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ],
                                             "container": [
                                                 {
                                                     "name": "code-server",
@@ -239,12 +214,6 @@
                                                         "-c",
                                                         "while true; do if test -S /var/run/tailscale/tailscaled.sock; then break; fi; sleep 1; done; sudo tailscale up --ssh --accept-dns=false --hostname=${each.key}-0; exec ~/bin/e code-server --bind-addr 0.0.0.0:8888 --disable-telemetry"
                                                     ],
-                                                    "tty": true,
-                                                    "security_context": [
-                                                        {
-                                                            "privileged": true
-                                                        }
-                                                    ],
                                                     "env": [
                                                         {
                                                             "name": "DEFN_DEV_HOST",
@@ -253,6 +222,12 @@
                                                         {
                                                             "name": "PASSWORD",
                                                             "value": "admin"
+                                                        }
+                                                    ],
+                                                    "tty": true,
+                                                    "security_context": [
+                                                        {
+                                                            "privileged": true
                                                         }
                                                     ],
                                                     "volume_mount": [
@@ -420,15 +395,15 @@
                                                     "args": [
                                                         "exec /usr/local/bin/dockerd-entrypoint.sh --storage-driver overlay2 --mtu=`ifconfig eth0 | grep MTU | awk '{print $5}' | cut -d: -f2`"
                                                     ],
-                                                    "security_context": [
-                                                        {
-                                                            "privileged": true
-                                                        }
-                                                    ],
                                                     "env": [
                                                         {
                                                             "name": "DOCKER_TLS_CERTDIR",
                                                             "value": ""
+                                                        }
+                                                    ],
+                                                    "security_context": [
+                                                        {
+                                                            "privileged": true
                                                         }
                                                     ],
                                                     "volume_mount": [
@@ -449,12 +424,6 @@
                                                     "args": [
                                                         "awk '/if.*rm.*data_root.*then/ {print \"rm -rf $data_root || true; data_root=/tmp/meh;\" }; {print}' /var/earthly/dockerd-wrapper.sh \u003e /tmp/1 \u0026\u0026 chmod 755 /tmp/1 \u0026\u0026 mv -f /tmp/1 /var/earthly/dockerd-wrapper.sh; exec /usr/bin/entrypoint.sh buildkitd --config=/etc/buildkitd.toml"
                                                     ],
-                                                    "tty": true,
-                                                    "security_context": [
-                                                        {
-                                                            "privileged": true
-                                                        }
-                                                    ],
                                                     "env": [
                                                         {
                                                             "name": "BUILDKIT_TCP_TRANSPORT_ENABLED",
@@ -471,6 +440,12 @@
                                                         {
                                                             "name": "EARTHLY_ADDITIONAL_BUILDKIT_CONFIG",
                                                             "value": "[registry.\"169.254.32.1:5000\"]\n  http = true\n  insecure = true"
+                                                        }
+                                                    ],
+                                                    "tty": true,
+                                                    "security_context": [
+                                                        {
+                                                            "privileged": true
                                                         }
                                                     ],
                                                     "volume_mount": [
@@ -490,6 +465,31 @@
                                                             "name": "registry"
                                                         }
                                                     ]
+                                                }
+                                            ],
+                                            "dns_config": [
+                                                {
+                                                    "nameservers": [
+                                                        "127.0.0.1"
+                                                    ],
+                                                    "option": [
+                                                        {
+                                                            "name": "ndots",
+                                                            "value": 5
+                                                        }
+                                                    ],
+                                                    "searches": [
+                                                        "default.svc.cluster.local",
+                                                        "svc.cluster.local",
+                                                        "cluster.local"
+                                                    ]
+                                                }
+                                            ],
+                                            "toleration": [
+                                                {
+                                                    "key": "env",
+                                                    "operator": "Equal",
+                                                    "value": "${each.key}"
                                                 }
                                             ]
                                         }

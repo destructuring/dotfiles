@@ -7,6 +7,50 @@ data: kubernetes_config_map: cluster_dns: [{
 	}]
 }]
 
+#TTY: {
+	tty: true
+}
+
+#Privileged: {
+	security_context: [{
+		privileged: true
+	}]
+}
+
+#LocalDNS: {
+	dns_policy: "None"
+	dns_config: [{
+		nameservers: ["127.0.0.1"]
+		option: [{
+			name:  "ndots"
+			value: 5
+		}]
+		searches: ["default.svc.cluster.local", "svc.cluster.local", "cluster.local"]
+	}]
+}
+
+#NodeAffinity: {
+	affinity: [{
+		node_affinity: [{
+			required_during_scheduling_ignored_during_execution: [{
+				node_selector_term: [{
+					match_expressions: [{
+						key:      "env"
+						operator: "In"
+						values: ["${each.key}"]
+					}]
+				}]
+			}]
+		}]
+	}]
+
+	toleration: [{
+		key:      "env"
+		operator: "Equal"
+		value:    "${each.key}"
+	}]
+}
+
 resource: {
 	kubernetes_cluster_role_binding: dev: [{
 		metadata: [{
@@ -83,35 +127,9 @@ resource: {
 				}]
 
 				spec: [{
-					dns_policy: "None"
-					dns_config: [{
-						nameservers: ["127.0.0.1"]
-						option: [{
-							name:  "ndots"
-							value: 5
-						}]
-						searches: ["default.svc.cluster.local", "svc.cluster.local", "cluster.local"]
-					}]
+					#LocalDNS
 
-					affinity: [{
-						node_affinity: [{
-							required_during_scheduling_ignored_during_execution: [{
-								node_selector_term: [{
-									match_expressions: [{
-										key:      "env"
-										operator: "In"
-										values: ["${each.key}"]
-									}]
-								}]
-							}]
-						}]
-					}]
-
-					toleration: [{
-						key:      "env"
-						operator: "Equal"
-						value:    "${each.key}"
-					}]
+					#NodeAffinity
 
 					volume: [{
 						host_path: [{
@@ -160,10 +178,8 @@ resource: {
 						command: ["/usr/bin/tini", "--"]
 						args: ["bash", "-c", "while true; do if test -S /var/run/tailscale/tailscaled.sock; then break; fi; sleep 1; done; sudo tailscale up --ssh --accept-dns=false --hostname=${each.key}-0; exec ~/bin/e code-server --bind-addr 0.0.0.0:8888 --disable-telemetry"]
 
-						tty: true
-						security_context: [{
-							privileged: true
-						}]
+						#TTY
+						#Privileged
 
 						env: [{
 							name:  "DEFN_DEV_HOST"
@@ -193,9 +209,7 @@ resource: {
 						command: ["/usr/bin/tini", "--"]
 						args: ["sudo", "tailscaled", "--statedir", "/var/lib/tailscale"]
 
-						security_context: [{
-							privileged: true
-						}]
+						#Privileged
 
 						volume_mount: [{
 							mount_path: "/work"
@@ -269,9 +283,7 @@ resource: {
 						command: ["sh", "-c"]
 						args: ["exec /usr/local/bin/dockerd-entrypoint.sh --storage-driver overlay2 --mtu=`ifconfig eth0 | grep MTU | awk '{print $5}' | cut -d: -f2`"]
 
-						security_context: [{
-							privileged: true
-						}]
+						#Privileged
 
 						env: [{
 							name:  "DOCKER_TLS_CERTDIR"
@@ -289,10 +301,8 @@ resource: {
 						command: ["sh", "-c"]
 						args: ["awk '/if.*rm.*data_root.*then/ {print \"rm -rf $data_root || true; data_root=/tmp/meh;\" }; {print}' /var/earthly/dockerd-wrapper.sh > /tmp/1 && chmod 755 /tmp/1 && mv -f /tmp/1 /var/earthly/dockerd-wrapper.sh; exec /usr/bin/entrypoint.sh buildkitd --config=/etc/buildkitd.toml"]
 
-						tty: true
-						security_context: [{
-							privileged: true
-						}]
+						#TTY
+						#Privileged
 
 						env: [{
 							name:  "BUILDKIT_TCP_TRANSPORT_ENABLED"
