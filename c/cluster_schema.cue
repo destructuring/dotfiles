@@ -26,7 +26,9 @@ flies: #Flies
 
 		locals: ctx.locals
 
-		module: ctx.module
+		if len(ctx.module) > 0 {
+			module: ctx.module
+		}
 	}
 }
 

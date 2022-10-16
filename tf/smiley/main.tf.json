@@ -5,6 +5,5 @@
       { "config_context": "k3d-smiley", "config_path": "~/.kube/config" }
     ]
   },
-  "locals": [{ "envs": {} }],
-  "module": {}
+  "locals": [{ "envs": {} }]
 }
