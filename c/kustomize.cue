@@ -25,9 +25,15 @@ kustomize: "hello": #Kustomize & {
 	}
 }
 
-kustomize: "demo": #Kustomize & {
+kustomize: "demo1": #Kustomize & {
 	resource: "demo": {
 		url: "https://bit.ly/demokuma"
+	}
+}
+
+kustomize: "demo2": #Kustomize & {
+	resource: "demo": {
+		url: "https://raw.githubusercontent.com/kumahq/kuma-counter-demo/master/demo.yaml"
 	}
 }
 
