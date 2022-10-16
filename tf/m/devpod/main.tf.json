@@ -318,6 +318,12 @@
                             "bash",
                             "-c",
                             "~/bin/e ~/bin/kuma-ingress-on"
+                          ],
+                          "volume_mount": [
+                            {
+                              "mount_path": "/var/run/tailscale",
+                              "name": "tsrun"
+                            }
                           ]
                         }
                       ],
