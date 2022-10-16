@@ -244,6 +244,8 @@ data: kubernetes_config_map: cluster_dns: [{
 	image_pull_policy: "Always"
 	command: ["/usr/bin/tini", "--"]
 	args: ["bash", "-c", "~/bin/e ~/bin/kuma-cp-on"]
+
+	volume_mount: [#MountTailscaleRun]
 }
 
 #ContainerKumaIngress: {

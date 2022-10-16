@@ -343,6 +343,12 @@
                                                         "bash",
                                                         "-c",
                                                         "~/bin/e ~/bin/kuma-cp-on"
+                                                    ],
+                                                    "volume_mount": [
+                                                        {
+                                                            "mount_path": "/var/run/tailscale",
+                                                            "name": "tsrun"
+                                                        }
                                                     ]
                                                 }
                                             ],
