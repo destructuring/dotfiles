@@ -26,6 +26,8 @@ cmd_button(
         "bash", "-c",
         """
             seq 1 30 | runmany 6 'curl -sSL whoami.mesh' | grep Hostname | sort | uniq -c
+            echo
+            for a in so the brie; do env DOCKER_HOST=tcp://docker-$a.mesh:80 docker ps; echo;  done
         """.format(a),
     ],
     location=location.NAV,
