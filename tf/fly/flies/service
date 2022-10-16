@@ -11,7 +11,9 @@ function main {
 
     while ! tailscale ip -4; do sleep 1; done
 
-    (setsid sudo -u ubuntu -H ~ubuntu/bin/e kuma-cp-on "${DEFN_DEV_HOST}") &
+    (setsid sudo -u ubuntu -H ~ubuntu/bin/e kuma-cp-on) &
+
+    (setsid sudo -u ubuntu -H ~ubuntu/bin/e kuma-ingress-on) &
 
     (setsid sudo -u ubuntu -H --preserve-env=PASSWORD ~ubuntu/bin/e code-server --bind-addr 0.0.0.0:8888 --disable-telemetry) &
 
