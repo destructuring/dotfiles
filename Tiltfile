@@ -62,12 +62,13 @@ local_resource("kuma-dp",
     serve_cmd=[
         "bash", "-c",
         """
+            set -x;
             ~/bin/e kuma-tp-off
             while true; do
                 ~/bin/e kuma-tp-on
-                ~/bin/e kuma-dp-on ~/etc/dev-tp.yaml || true
+                ~/bin/e kuma-dp-on ~/etc/dev-tp.yaml
                 ~/bin/e kuma-tp-off
-                sudo pkill -9 -f "kuma-dp run --dataplane-token-file=/tmp/dev-token"
+                sudo pkill -9 -f "kuma-dp run --dataplane-token-file=/tmp/dev-toke[n]"
                 sleep 1
             done
         """
@@ -79,9 +80,10 @@ local_resource("kuma-ingress",
     serve_cmd=[
         "bash", "-c",
         """
+            set -x
             while true; do
                 ~/bin/e kuma-ingress-on || true
-                sudo pkill -9 -f "kuma-dp run --dataplane-token-file=/tmp/ingress-token"
+                sudo pkill -9 -f "kuma-dp run --dataplane-token-file=/tmp/ingress-toke[n]" || true
                 sleep 1
             done
         """
