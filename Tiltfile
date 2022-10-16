@@ -18,6 +18,19 @@ for a in ["on", "off"]:
         location=location.NAV,
     )
 
+    cmd_button(
+        name="kuma-test",
+        text="Kuma Test",
+        icon_name="login",
+        argv=[
+            "bash", "-c",
+            """
+                seq 1 10 | runmany 6 'curl -sSL whoami.mesh' | grep Hostname | sort | uniq -c
+            """.format(a),
+        ],
+        location=location.NAV,
+    )
+
 local_resource("kuma-dp",
     deps=["/home/ubuntu/etc/dev-tp.yaml"],
     serve_cmd=[
