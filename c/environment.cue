@@ -122,7 +122,7 @@ env: control: #K3D & {
 		"argo-events":         10
 		"kyverno":             10
 		"k3d-control-secrets": 20
-		"kuma-zone":           30
+		"kuma-zone-control":   30
 		"knative":             50
 		"kong":                60
 		"hello":               100
@@ -137,7 +137,7 @@ env: smiley: #K3D & {
 	bootstrap: {
 		"kyverno":            10
 		"k3d-smiley-secrets": 20
-		"kuma-zone":          30
+		"kuma-zone-smiley":   30
 	}
 
 	sync_kuma_zone_secrets

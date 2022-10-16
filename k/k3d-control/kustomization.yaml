@@ -123,12 +123,12 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
-        kuma-zone: |
+        kuma-zone-control: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
           metadata:
             namespace: argocd
-            name: k3d-control-kuma-zone
+            name: k3d-control-kuma-zone-control
             annotations:
               argocd.argoproj.io/sync-wave: "30"
           spec:
@@ -138,7 +138,7 @@ helmCharts:
             source:
               repoURL: https://github.com/defn/app
               targetRevision: master
-              path: k/kuma-zone
+              path: k/kuma-zone-control
             syncPolicy:
               automated:
                 prune: true

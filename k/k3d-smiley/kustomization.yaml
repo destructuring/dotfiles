@@ -47,12 +47,12 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
-        kuma-zone: |
+        kuma-zone-smiley: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
           metadata:
             namespace: argocd
-            name: k3d-smiley-kuma-zone
+            name: k3d-smiley-kuma-zone-smiley
             annotations:
               argocd.argoproj.io/sync-wave: "30"
           spec:
@@ -62,7 +62,7 @@ helmCharts:
             source:
               repoURL: https://github.com/defn/app
               targetRevision: master
-              path: k/kuma-zone
+              path: k/kuma-zone-smiley
             syncPolicy:
               automated:
                 prune: true
