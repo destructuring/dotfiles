@@ -75,17 +75,17 @@ local_resource("kuma-dp",
     ]
 )
 
-local_resource("kuma-ingress",
-    deps=["/home/ubuntu/etc/ingress-dp.yaml"],
-    serve_cmd=[
-        "bash", "-c",
-        """
-            set -x
-            while true; do
-                ~/bin/e kuma-ingress-on || true
-                sudo pkill -9 -f "kuma-dp run --dataplane-token-file=/tmp/ingress-toke[n]" || true
-                sleep 1
-            done
-        """
-    ]
-)
+#local_resource("kuma-ingress",
+#    deps=["/home/ubuntu/etc/ingress-dp.yaml"],
+#    serve_cmd=[
+#        "bash", "-c",
+#        """
+#            set -x
+#            while true; do
+#                ~/bin/e kuma-ingress-on || true
+#                sudo pkill -9 -f "kuma-dp run --dataplane-token-file=/tmp/ingress-toke[n]" || true
+#                sleep 1
+#            done
+#        """
+#    ]
+#)
