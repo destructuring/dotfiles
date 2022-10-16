@@ -11,7 +11,15 @@ domain ?= tiger-mamba.ts.net
 
 test:
 	$(MAKE) fmt
+	$(MAKE) gen
+	$(MAKE) init
 	$(MAKE) validate
+
+gen:
+	cue export --out json > main.tf.json
+	git add main.tf.json
+	-pc
+	git add main.tf.json
 
 shell:
 	env \

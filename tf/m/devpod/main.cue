@@ -366,6 +366,7 @@ resource: kubernetes_stateful_set: dev: [{
 					#ContainerCloudflared,
 
 					#ContainerKumaCP,
+					#ContainerKumaIngress,
 				]
 			}]
 		}]
