@@ -85,23 +85,4 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
-        demo2: |
-          apiVersion: argoproj.io/v1alpha1
-          kind: Application
-          metadata:
-            namespace: argocd
-            name: k3d-circus-demo2
-            annotations:
-              argocd.argoproj.io/sync-wave: "100"
-          spec:
-            project: default
-            destination:
-              name: k3d-circus
-            source:
-              repoURL: https://github.com/defn/app
-              targetRevision: master
-              path: k/demo2
-            syncPolicy:
-              automated:
-                prune: true
     includeCRDs: true

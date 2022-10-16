@@ -138,6 +138,7 @@ env: smiley: #K3D & {
 		"kyverno":            10
 		"k3d-smiley-secrets": 20
 		"kuma-zone-smiley":   30
+		"demo2":              100
 	}
 
 	sync_kuma_zone_secrets
@@ -150,7 +151,6 @@ env: circus: #K3D & {
 		"k3d-circus-secrets": 20
 		"kuma-global":        30
 		"mesh":               40
-		"demo2":              100
 	}
 
 	sync_kuma_global_secrets
