@@ -13,6 +13,7 @@ function main {
 
     (setsid dockerd --mtu="$(ifconfig eth0 | grep mtu | awk '{print $NF}')") & 
 
+    export DOCKER_HOST=unix:///var/run/docker.sock
     while ! docker ps; do sleep 1; done
 
     docker run --rm -d -p 7777:80 containous/whoami    
