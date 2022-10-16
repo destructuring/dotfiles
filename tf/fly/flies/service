@@ -11,11 +11,11 @@ function main {
 
     while ! tailscale ip -4; do sleep 1; done
 
-    (setsid sudo -u ubuntu -H ~ubuntu/bin/e kuma-cp-on) &
+    (setsid bash -c "while true; do sudo -u ubuntu -H ~ubuntu/bin/e kuma-cp-on; sleep 5; done") &
 
-    (setsid sudo -u ubuntu -H ~ubuntu/bin/e kuma-ingress-on) &
+    (setsid bash -c "while true; do sudo -u ubuntu -H ~ubuntu/bin/e kuma-ingress-on; sleep 5; done") &
 
-    (setsid sudo -u ubuntu -H --preserve-env=PASSWORD ~ubuntu/bin/e code-server --bind-addr 0.0.0.0:8888 --disable-telemetry) &
+    (setsid bash -c "while true; do sudo -u ubuntu -H --preserve-env=PASSWORD ~ubuntu/bin/e code-server --bind-addr 0.0.0.0:8888 --disable-telemetry; sleep 5; done") &
 
     exec caddy run
 }
