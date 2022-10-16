@@ -6,6 +6,6 @@ RUN cd && ln -nfs /work .
 RUN cd && ln -nfs work/app .
 RUN cd && touch .home.done
 COPY service /service
-RUN git pull
+RUN cd /home/ubuntu && sudo -u ubuntu git pull
 
 USER root
