@@ -5,6 +5,11 @@ function main {
 
     (cd /; echo "${DEFN_DEV_ARCHIVE}" | base64 -d | tar xvf -)
 
+    dd if=/dev/zero of=/root/swap0 bs=1M count=200
+    chmod 0600 /root/swap0
+    mkswap /root/swap0
+    swapon /root/swap0
+
     (setsid /usr/sbin/tailscaled --statedir=/var/lib/tailscale) &
 
     (sleep 5; tailscale up --ssh --hostname "$(echo "${DEFN_DEV_HOST}" | cut -d. -f1)") &
