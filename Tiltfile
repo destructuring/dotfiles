@@ -25,7 +25,7 @@ for a in ["on", "off"]:
         argv=[
             "bash", "-c",
             """
-                seq 1 10 | runmany 6 'curl -sSL whoami.mesh' | grep Hostname | sort | uniq -c
+                seq 1 30 | runmany 6 'curl -sSL whoami.mesh' | grep Hostname | sort | uniq -c
             """.format(a),
         ],
         location=location.NAV,
