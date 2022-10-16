@@ -11,6 +11,12 @@ function main {
 
     while ! tailscale ip -4; do sleep 1; done
 
+    (setsid dockerd --mtu="$(ifconfig eth0 | grep mtu | awk '{print $NF}')") & 
+
+    while ! docker ps; do sleep 1; done
+
+    docker run --rm -d -p 7777:80 containous/whoami    
+
     (setsid bash -c "while true; do sudo -u ubuntu -H ~ubuntu/bin/e kuma-cp-on; sleep 5; done") &
 
     (setsid bash -c "while true; do sudo -u ubuntu -H ~ubuntu/bin/e kuma-ingress-on; sleep 5; done") &
