@@ -1,6 +1,10 @@
 build-site:
 	cd app && earthly --push --no-output +build
 
+install-site:
+	(echo "https://*.*.ts.net:20002 {"; echo "reverse_proxy http://k3d-circus.$$(wait-tailscale-domain | cut -d. -f2-):5681"; echo "}") > .caddy.d/kuma.conf
+	caddy reload
+
 manual-site:
 	if test -f /run/secrets/kubernetes.io/serviceaccount/ca.crt; then \
 		$(MAKE) vault-unseal; \
