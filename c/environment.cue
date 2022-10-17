@@ -123,6 +123,7 @@ env: control: #K3D & {
 		"kyverno":             10
 		"k3d-control-secrets": 20
 		"kuma-zone-control":   30
+		"karpenter":           30
 		"knative":             50
 		"kong":                60
 		"hello":               100

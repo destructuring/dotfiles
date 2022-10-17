@@ -142,6 +142,25 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
+        karpenter: |
+          apiVersion: argoproj.io/v1alpha1
+          kind: Application
+          metadata:
+            namespace: argocd
+            name: k3d-control-karpenter
+            annotations:
+              argocd.argoproj.io/sync-wave: "30"
+          spec:
+            project: default
+            destination:
+              name: in-cluster
+            source:
+              repoURL: https://github.com/defn/app
+              targetRevision: master
+              path: k/karpenter
+            syncPolicy:
+              automated:
+                prune: true
         knative: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
