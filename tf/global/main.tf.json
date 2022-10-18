@@ -1,0 +1,16 @@
+{
+  "//": "ManagedBy: cue",
+  "provider": {
+    "kubernetes": [
+      {
+        "config_context": "k3d-global",
+        "config_path": "~/.kube/config"
+      }
+    ]
+  },
+  "locals": [
+    {
+      "envs": {}
+    }
+  ]
+}

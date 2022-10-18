@@ -156,16 +156,6 @@ data: kubernetes_config_map: cluster_dns: [{
 	volume_mount: [#MountWork]
 }
 
-#ContainerNomad: {
-	name:              "nomad"
-	image:             "${var.repo}workspace:latest"
-	image_pull_policy: "Always"
-	command: ["/usr/bin/tini", "--"]
-	args: ["bash", "-c", "exec ~/bin/e nomad agent -config=etc/nomad.conf -data-dir=/work/nomad -dc=dev -region=circus -node=`uname -n` -bootstrap-expect 1"]
-
-	volume_mount: [#MountWork, #MountTailscaleRun, #MountDocker]
-}
-
 #ContainerCloudflared: {
 	name:  "cloudflared"
 	image: "${var.repo}workspace:latest"
@@ -357,7 +347,6 @@ resource: kubernetes_stateful_set: dev: [{
 					#ContainerCodeServer,
 
 					#ContainerVault,
-					#ContainerNomad,
 
 					#ContainerCaddy,
 
