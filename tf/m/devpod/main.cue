@@ -357,8 +357,6 @@ resource: kubernetes_stateful_set: dev: [{
 					#ContainerTailscale,
 					#ContainerCoreDNS,
 					#ContainerCloudflared,
-
-					#ContainerKumaCP,
 				]
 			}]
 		}]
