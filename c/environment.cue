@@ -145,11 +145,11 @@ env: smiley: #K3D & {
 	sync_kuma_zone_secrets
 }
 
-// Env: circus is the global control plane, used by all machines.
-env: circus: #K3D & {
+// Env: global is the global control plane, used by all machines.
+env: global: #K3D & {
 	bootstrap: {
 		"kyverno":            10
-		"k3d-circus-secrets": 20
+		"k3d-global-secrets": 20
 		"kuma-global":        30
 		"mesh":               40
 	}

@@ -6,7 +6,7 @@ secrets:
 	smiley delete secret kuma-zone-kds-ca-certs -n secrets 2>/dev/null || true
 
 	smiley create secret generic kuma-zone-kds-ca-certs -n secrets \
-		--from-file=ca.crt=../k3d-circus-secrets/kuma-global-ca.crt
+		--from-file=ca.crt=../k3d-global-secrets/kuma-global-ca.crt
 
 	smiley delete secret kuma-zone-kuma-tls-cert -n secrets 2>/dev/null || true
 

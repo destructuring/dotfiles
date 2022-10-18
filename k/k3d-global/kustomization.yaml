@@ -14,13 +14,13 @@ helmCharts:
           kind: Application
           metadata:
             namespace: argocd
-            name: k3d-circus-kyverno
+            name: k3d-global-kyverno
             annotations:
               argocd.argoproj.io/sync-wave: "10"
           spec:
             project: default
             destination:
-              name: k3d-circus
+              name: k3d-global
             source:
               repoURL: https://github.com/defn/app
               targetRevision: master
@@ -28,22 +28,22 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
-        k3d-circus-secrets: |
+        k3d-global-secrets: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
           metadata:
             namespace: argocd
-            name: k3d-circus-secrets
+            name: k3d-global-secrets
             annotations:
               argocd.argoproj.io/sync-wave: "20"
           spec:
             project: default
             destination:
-              name: k3d-circus
+              name: k3d-global
             source:
               repoURL: https://github.com/defn/app
               targetRevision: master
-              path: k/k3d-circus-secrets
+              path: k/k3d-global-secrets
             syncPolicy:
               automated:
                 prune: true
@@ -52,13 +52,13 @@ helmCharts:
           kind: Application
           metadata:
             namespace: argocd
-            name: k3d-circus-kuma-global
+            name: k3d-global-kuma-global
             annotations:
               argocd.argoproj.io/sync-wave: "30"
           spec:
             project: default
             destination:
-              name: k3d-circus
+              name: k3d-global
             source:
               repoURL: https://github.com/defn/app
               targetRevision: master
@@ -71,13 +71,13 @@ helmCharts:
           kind: Application
           metadata:
             namespace: argocd
-            name: k3d-circus-mesh
+            name: k3d-global-mesh
             annotations:
               argocd.argoproj.io/sync-wave: "40"
           spec:
             project: default
             destination:
-              name: k3d-circus
+              name: k3d-global
             source:
               repoURL: https://github.com/defn/app
               targetRevision: master
