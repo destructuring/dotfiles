@@ -28,6 +28,25 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
+        external-secrets: |
+          apiVersion: argoproj.io/v1alpha1
+          kind: Application
+          metadata:
+            namespace: argocd
+            name: k3d-global-external-secrets
+            annotations:
+              argocd.argoproj.io/sync-wave: "10"
+          spec:
+            project: default
+            destination:
+              name: k3d-global
+            source:
+              repoURL: https://github.com/defn/app
+              targetRevision: master
+              path: k/external-secrets
+            syncPolicy:
+              automated:
+                prune: true
         k3d-global-secrets: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application

@@ -28,12 +28,12 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
-        cert-manager: |
+        kyverno: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
           metadata:
             namespace: argocd
-            name: k3d-control-cert-manager
+            name: k3d-control-kyverno
             annotations:
               argocd.argoproj.io/sync-wave: "10"
           spec:
@@ -43,7 +43,7 @@ helmCharts:
             source:
               repoURL: https://github.com/defn/app
               targetRevision: master
-              path: k/cert-manager
+              path: k/kyverno
             syncPolicy:
               automated:
                 prune: true
@@ -66,6 +66,25 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
+        cert-manager: |
+          apiVersion: argoproj.io/v1alpha1
+          kind: Application
+          metadata:
+            namespace: argocd
+            name: k3d-control-cert-manager
+            annotations:
+              argocd.argoproj.io/sync-wave: "10"
+          spec:
+            project: default
+            destination:
+              name: in-cluster
+            source:
+              repoURL: https://github.com/defn/app
+              targetRevision: master
+              path: k/cert-manager
+            syncPolicy:
+              automated:
+                prune: true
         argo-events: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
@@ -82,25 +101,6 @@ helmCharts:
               repoURL: https://github.com/defn/app
               targetRevision: master
               path: k/argo-events
-            syncPolicy:
-              automated:
-                prune: true
-        kyverno: |
-          apiVersion: argoproj.io/v1alpha1
-          kind: Application
-          metadata:
-            namespace: argocd
-            name: k3d-control-kyverno
-            annotations:
-              argocd.argoproj.io/sync-wave: "10"
-          spec:
-            project: default
-            destination:
-              name: in-cluster
-            source:
-              repoURL: https://github.com/defn/app
-              targetRevision: master
-              path: k/kyverno
             syncPolicy:
               automated:
                 prune: true

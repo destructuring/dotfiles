@@ -149,7 +149,7 @@ kustomize: "kyverno": #KustomizeHelm & {
 	helm: {
 		release: "kyverno"
 		name:    "kyverno"
-		version: "2.5.2"
+		version: "2.6.0"
 		repo:    "https://kyverno.github.io/kyverno"
 		values: {
 			replicaCount: 1
@@ -216,7 +216,7 @@ kustomize: "external-secrets": #KustomizeHelm & {
 	helm: {
 		release: "external-secrets"
 		name:    "external-secrets"
-		version: "0.5.8"
+		version: "0.6.0"
 		repo:    "https://charts.external-secrets.io"
 		values: {
 			webhook: create:        false
@@ -867,7 +867,7 @@ kustomize: "cert-manager": #KustomizeHelm & {
 		release:   "cert-manager"
 		name:      "cert-manager"
 		namespace: "cert-manager"
-		version:   "1.9.1"
+		version:   "1.10.0"
 		repo:      "https://charts.jetstack.io"
 	}
 

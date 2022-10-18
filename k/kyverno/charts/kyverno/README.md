@@ -2,7 +2,7 @@
 
 Kubernetes Native Policy Management
 
-![Version: v2.5.2](https://img.shields.io/badge/Version-v2.5.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v1.7.2](https://img.shields.io/badge/AppVersion-v1.7.2-informational?style=flat-square)
+![Version: 2.6.0](https://img.shields.io/badge/Version-2.6.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: v1.8.0](https://img.shields.io/badge/AppVersion-v1.8.0-informational?style=flat-square)
 
 ## About
 
@@ -96,7 +96,9 @@ The command removes all the Kubernetes components associated with the chart and 
 | dnsPolicy | string | `"ClusterFirst"` | `dnsPolicy` determines the manner in which DNS resolution happens in the cluster. In case of `hostNetwork: true`, usually, the `dnsPolicy` is suitable to be `ClusterFirstWithHostNet`. For further reference: https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/#pod-s-dns-policy. |
 | envVarsInit | object | `{}` | Env variables for initContainers. |
 | envVars | object | `{}` | Env variables for containers. |
-| extraArgs | list | `["--autogenInternals=false"]` | Extra arguments to give to the binary. |
+| extraArgs | list | `["--autogenInternals=true"]` | Extra arguments to give to the binary. |
+| extraInitContainers | list | `[]` | Array of extra init containers |
+| extraContainers | list | `[]` | Array of extra containers to run alongside kyverno |
 | imagePullSecrets | object | `{}` | Image pull secrets for image verify and imageData policies. This will define the `--imagePullSecrets` Kyverno argument. |
 | resources.limits | object | `{"memory":"384Mi"}` | Pod resource limits |
 | resources.requests | object | `{"cpu":"100m","memory":"128Mi"}` | Pod resource requests |
@@ -104,8 +106,9 @@ The command removes all the Kubernetes components associated with the chart and 
 | initResources.requests | object | `{"cpu":"10m","memory":"64Mi"}` | Pod resource requests |
 | livenessProbe | object | See [values.yaml](values.yaml) | Liveness probe. The block is directly forwarded into the deployment, so you can use whatever livenessProbe configuration you want. ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/ |
 | readinessProbe | object | See [values.yaml](values.yaml) | Readiness Probe. The block is directly forwarded into the deployment, so you can use whatever readinessProbe configuration you want. ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/ |
-| generatecontrollerExtraResources | string | `nil` |  |
+| generatecontrollerExtraResources | list | `[]` | Additional resources to be added to controller RBAC permissions. |
 | excludeKyvernoNamespace | bool | `true` | Exclude Kyverno namespace Determines if default Kyverno namespace exclusion is enabled for webhooks and resourceFilters |
+| resourceFiltersExcludeNamespaces | list | `[]` | resourceFilter namespace exclude Namespaces to exclude from the default resourceFilters |
 | config.resourceFilters | list | See [values.yaml](values.yaml) | Resource types to be skipped by the Kyverno policy engine. Make sure to surround each entry in quotes so that it doesn't get parsed as a nested YAML list. These are joined together without spaces, run through `tpl`, and the result is set in the config map. |
 | config.existingConfig | string | `""` | Name of an existing config map (ignores default/provided resourceFilters) |
 | config.excludeGroupRole | string | `nil` | Exclude group role |
@@ -131,7 +134,7 @@ The command removes all the Kubernetes components associated with the chart and 
 | serviceMonitor.scrapeTimeout | string | `"25s"` | Timeout if metrics can't be retrieved in given time interval |
 | serviceMonitor.secure | bool | `false` | Is TLS required for endpoint |
 | serviceMonitor.tlsConfig | object | `{}` | TLS Configuration for endpoint |
-| createSelfSignedCert | bool | `false` | Kyverno requires a certificate key pair and corresponding certificate authority to properly register its webhooks. This can be done in one of 3 ways: 1) Use kube-controller-manager to generate a CA-signed certificate (preferred) 2) Provide your own CA and cert.    In this case, you will need to create a certificate with a specific name and data structure.    As long as you follow the naming scheme, it will be automatically picked up.    kyverno-svc.(namespace).svc.kyverno-tls-ca (with data entry named rootCA.crt)    kyverno-svc.kyverno.svc.kyverno-tls-pair (with data entries named tls.key and tls.crt) 3) Let Helm generate a self signed cert, by setting createSelfSignedCert true If letting Kyverno create its own CA or providing your own, make createSelfSignedCert is false |
+| createSelfSignedCert | bool | `false` | Kyverno requires a certificate key pair and corresponding certificate authority to properly register its webhooks. This can be done in one of 3 ways: 1) Use kube-controller-manager to generate a CA-signed certificate (preferred) 2) Provide your own CA and cert.    In this case, you will need to create a certificate with a specific name and data structure.    As long as you follow the naming scheme, it will be automatically picked up.    kyverno-svc.(namespace).svc.kyverno-tls-ca (with data entries named tls.key and tls.crt)    kyverno-svc.kyverno.svc.kyverno-tls-pair (with data entries named tls.key and tls.crt) 3) Let Helm generate a self signed cert, by setting createSelfSignedCert true If letting Kyverno create its own CA or providing your own, make createSelfSignedCert is false |
 | installCRDs | bool | `true` | Whether to have Helm install the Kyverno CRDs. If the CRDs are not installed by Helm, they must be added before policies can be created. |
 | networkPolicy.enabled | bool | `false` | When true, use a NetworkPolicy to allow ingress to the webhook This is useful on clusters using Calico and/or native k8s network policies in a default-deny setup. |
 | networkPolicy.ingressFrom | list | `[]` | A list of valid from selectors according to https://kubernetes.io/docs/concepts/services-networking/network-policies. |
@@ -160,8 +163,10 @@ This chart comes with default resource filters that apply exclusions on a couple
   - `SelfSubjectAccessReview`
   - `Binding`
   - `ReplicaSet`
-  - `ReportChangeRequest`
-  - `ClusterReportChangeRequest`
+  - `AdmissionReport`
+  - `ClusterAdmissionReport`
+  - `BackgroundScanReport`
+  - `ClusterBackgroundScanReport`
 - all resources created by this chart itself
 
 Those default exclusions are there to prevent disruptions as much as possible.
@@ -194,7 +199,7 @@ Kubernetes: `>=1.16.0-0`
 
 | Name | Email | Url |
 | ---- | ------ | --- |
-| Nirmata |  | https://kyverno.io/ |
+| Nirmata |  | <https://kyverno.io/> |
 
 ----------------------------------------------
-Autogenerated from chart metadata using [helm-docs v1.6.0](https://github.com/norwoodj/helm-docs/releases/v1.6.0)
+Autogenerated from chart metadata using [helm-docs v1.11.0](https://github.com/norwoodj/helm-docs/releases/v1.11.0)

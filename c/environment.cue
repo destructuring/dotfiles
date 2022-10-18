@@ -117,10 +117,10 @@ sync_kuma_zone_secrets: {
 env: control: #K3D & {
 	bootstrap: {
 		"argo-cd":               1
-		"cert-manager":          10
-		"external-secrets":      10
-		"argo-events":           10
 		"kyverno":               10
+		"external-secrets":      10
+		"cert-manager":          10
+		"argo-events":           10
 		"k3d-control-secrets":   20
 		"k3d-control-kuma-zone": 30
 		"karpenter":             30
@@ -137,6 +137,7 @@ env: control: #K3D & {
 env: smiley: #K3D & {
 	bootstrap: {
 		"kyverno":              10
+		"external-secrets":     10
 		"k3d-smiley-secrets":   20
 		"k3d-smiley-kuma-zone": 30
 		"demo2":                100
@@ -149,6 +150,7 @@ env: smiley: #K3D & {
 env: global: #K3D & {
 	bootstrap: {
 		"kyverno":                10
+		"external-secrets":       10
 		"k3d-global-secrets":     20
 		"k3d-global-kuma-global": 30
 		"mesh":                   40
