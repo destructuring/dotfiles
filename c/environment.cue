@@ -116,18 +116,18 @@ sync_kuma_zone_secrets: {
 // Env: control is the control plane, used by the operator.
 env: control: #K3D & {
 	bootstrap: {
-		"argo-cd":             1
-		"cert-manager":        10
-		"external-secrets":    10
-		"argo-events":         10
-		"kyverno":             10
-		"k3d-control-secrets": 20
-		"kuma-zone-control":   30
-		"karpenter":           30
-		"knative":             50
-		"kong":                60
-		"hello":               100
-		"demo1":               100
+		"argo-cd":               1
+		"cert-manager":          10
+		"external-secrets":      10
+		"argo-events":           10
+		"kyverno":               10
+		"k3d-control-secrets":   20
+		"k3d-control-kuma-zone": 30
+		"karpenter":             30
+		"knative":               50
+		"kong":                  60
+		"hello":                 100
+		"demo1":                 100
 	}
 
 	sync_kuma_zone_secrets
@@ -136,10 +136,10 @@ env: control: #K3D & {
 // Env: smiley is the second machine used for multi-cluster.
 env: smiley: #K3D & {
 	bootstrap: {
-		"kyverno":            10
-		"k3d-smiley-secrets": 20
-		"kuma-zone-smiley":   30
-		"demo2":              100
+		"kyverno":              10
+		"k3d-smiley-secrets":   20
+		"k3d-smiley-kuma-zone": 30
+		"demo2":                100
 	}
 
 	sync_kuma_zone_secrets

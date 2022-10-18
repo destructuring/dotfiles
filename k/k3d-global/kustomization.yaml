@@ -47,7 +47,7 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
-        kuma-global: |
+        k3d-global-kuma-global: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
           metadata:
@@ -62,7 +62,7 @@ helmCharts:
             source:
               repoURL: https://github.com/defn/app
               targetRevision: master
-              path: k/kuma-global
+              path: k/k3d-global-kuma-global
             syncPolicy:
               automated:
                 prune: true

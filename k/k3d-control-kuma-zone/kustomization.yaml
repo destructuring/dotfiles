@@ -13,7 +13,7 @@ helmCharts:
     valuesInline:
       controlPlane:
         mode: zone
-        zone: control
+        zone: k3d-control
         kdsGlobalAddress: grpcs://100.64.110.16:5685
         tls:
           general:

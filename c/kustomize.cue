@@ -301,8 +301,8 @@ kustomize: "kuma-global": #KustomizeHelm & {
 }
 
 kustomize: {
-	for a in ["control", "smiley"] {
-		"kuma-zone-\(a)": #KustomizeHelm & {
+	for a in ["k3d-control", "k3d-smiley"] {
+		"\(a)-kuma-zone": #KustomizeHelm & {
 			namespace: "kuma"
 
 			helm: {
