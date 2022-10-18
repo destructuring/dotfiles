@@ -148,10 +148,10 @@ env: smiley: #K3D & {
 // Env: global is the global control plane, used by all machines.
 env: global: #K3D & {
 	bootstrap: {
-		"kyverno":            10
-		"k3d-global-secrets": 20
-		"kuma-global":        30
-		"mesh":               40
+		"kyverno":                10
+		"k3d-global-secrets":     20
+		"k3d-global-kuma-global": 30
+		"mesh":                   40
 	}
 
 	sync_kuma_global_secrets
