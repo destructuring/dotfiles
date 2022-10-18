@@ -148,7 +148,7 @@
                         },
                         {
                           "name": "buildkit",
-                          "image": "earthly/buildkitd:v0.6.26",
+                          "image": "earthly/buildkitd:v0.6.27",
                           "image_pull_policy": "IfNotPresent",
                           "command": ["sh", "-c"],
                           "args": [
