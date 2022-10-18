@@ -77,6 +77,20 @@ local_resource("kuma-dp",
     ]
 )
 
+local_resource("kuma-cp",
+    serve_cmd=[
+        "bash", "-c",
+        """
+            set -x;
+            while true; do
+                ~/bin/e kuma-cp-on
+                sudo pkill -9 -f "kuma-cp ru[n]"
+                sleep 1
+            done
+        """
+    ]
+)
+
 #local_resource("kuma-ingress",
 #    deps=["/home/ubuntu/etc/ingress-dp.yaml"],
 #    serve_cmd=[
