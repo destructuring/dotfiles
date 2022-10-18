@@ -1,7 +1,7 @@
 #ManagedBy: cue
 
 metadata:
-  name: dev
+  name: dev-admin
 subjects:
   - kind: ServiceAccount
     name: default

@@ -631,14 +631,30 @@ kustomize: "dev": #Kustomize & {
 		}
 	}
 
-	resource: "cluster-role-binding-dev": rbac.#ClusterRoleBinding & {
+	resource: "cluster-role-binding-admin": rbac.#ClusterRoleBinding & {
 		apiVersion: "rbac.authorization.k8s.io/v1"
 		kind:       "ClusterRoleBinding"
-		metadata: name: "dev"
+		metadata: name: "dev-admin"
 		roleRef: {
 			apiGroup: "rbac.authorization.k8s.io"
 			kind:     "ClusterRole"
 			name:     "cluster-admin"
+		}
+		subjects: [{
+			kind:      "ServiceAccount"
+			name:      "default"
+			namespace: "default"
+		}]
+	}
+
+	resource: "cluster-role-binding-delegator": rbac.#ClusterRoleBinding & {
+		apiVersion: "rbac.authorization.k8s.io/v1"
+		kind:       "ClusterRoleBinding"
+		metadata: name: "dev-delegator"
+		roleRef: {
+			apiGroup: "rbac.authorization.k8s.io"
+			kind:     "ClusterRole"
+			name:     "system:auth-delegator"
 		}
 		subjects: [{
 			kind:      "ServiceAccount"
