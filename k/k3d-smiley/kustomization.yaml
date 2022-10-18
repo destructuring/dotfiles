@@ -104,4 +104,23 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
+        dev: |
+          apiVersion: argoproj.io/v1alpha1
+          kind: Application
+          metadata:
+            namespace: argocd
+            name: k3d-smiley-dev
+            annotations:
+              argocd.argoproj.io/sync-wave: "100"
+          spec:
+            project: default
+            destination:
+              name: k3d-smiley
+            source:
+              repoURL: https://github.com/defn/app
+              targetRevision: master
+              path: k/dev
+            syncPolicy:
+              automated:
+                prune: true
     includeCRDs: true
