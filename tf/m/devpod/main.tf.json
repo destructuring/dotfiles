@@ -270,19 +270,6 @@
                             "exec ~/bin/e cloudflared proxy-dns --port 5553"
                           ],
                           "image_pull_policy": "Always"
-                        },
-                        {
-                          "name": "kuma-cp",
-                          "image": "${var.repo}workspace:latest",
-                          "image_pull_policy": "Always",
-                          "command": ["/usr/bin/tini", "--"],
-                          "args": ["bash", "-c", "~/bin/e ~/bin/kuma-cp-on"],
-                          "volume_mount": [
-                            {
-                              "mount_path": "/var/run/tailscale",
-                              "name": "tsrun"
-                            }
-                          ]
                         }
                       ],
                       "dns_policy": "None",
