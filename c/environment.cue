@@ -123,11 +123,12 @@ env: control: #K3D & {
 		"argo-events":           10
 		"k3d-control-secrets":   20
 		"k3d-control-kuma-zone": 30
-		"karpenter":             30
 		"knative":               50
 		"kong":                  60
 		"hello":                 100
 		"demo1":                 100
+
+		//"karpenter": 30
 	}
 
 	sync_kuma_zone_secrets
