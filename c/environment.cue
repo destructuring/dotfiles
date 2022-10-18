@@ -155,6 +155,7 @@ env: global: #K3D & {
 		"k3d-global-secrets":     20
 		"k3d-global-kuma-global": 30
 		"mesh":                   40
+		"dev":                    100
 	}
 
 	sync_kuma_global_secrets
