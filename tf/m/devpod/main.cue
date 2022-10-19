@@ -113,7 +113,7 @@ data: kubernetes_config_map: cluster_dns: [{
 	#TTY
 	#Privileged
 
-	volume_mount: [#MountDocker, #MountContainerd, #MountWork, #MountConfigGcloud, #MountConfigGh, #MountTerraformCache,  #MountTailscaleRun]
+	volume_mount: [#MountDocker, #MountContainerd, #MountWork, #MountConfigGcloud, #MountConfigGh, #MountConfigFly, #MountTerraformCache,  #MountTailscaleRun]
 
 	env: [{
 		name:  "DEFN_DEV_HOST"
@@ -282,6 +282,12 @@ data: kubernetes_config_map: cluster_dns: [{
 #MountConfigGcloud: {
 	sub_path: "config-gcloud"
 	mount_path: "/home/ubuntu/.config/gcloud"
+	name:       "mntwork"
+}
+
+#MountConfigFly: {
+	sub_path: "config-fly"
+	mount_path: "/home/ubuntu/.fly"
 	name:       "mntwork"
 }
 
