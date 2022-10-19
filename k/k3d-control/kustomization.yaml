@@ -180,12 +180,12 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
-        hello: |
+        demo1: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
           metadata:
             namespace: argocd
-            name: k3d-control-hello
+            name: k3d-control-demo1
             annotations:
               argocd.argoproj.io/sync-wave: "100"
           spec:
@@ -195,7 +195,7 @@ helmCharts:
             source:
               repoURL: https://github.com/defn/app
               targetRevision: master
-              path: k/hello
+              path: k/demo1
             syncPolicy:
               automated:
                 prune: true
@@ -218,14 +218,14 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
-        demo1: |
+        blocker: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
           metadata:
             namespace: argocd
-            name: k3d-control-demo1
+            name: k3d-control-blocker
             annotations:
-              argocd.argoproj.io/sync-wave: "100"
+              argocd.argoproj.io/sync-wave: "101"
           spec:
             project: default
             destination:
@@ -233,7 +233,26 @@ helmCharts:
             source:
               repoURL: https://github.com/defn/app
               targetRevision: master
-              path: k/demo1
+              path: k/blocker
+            syncPolicy:
+              automated:
+                prune: true
+        hello: |
+          apiVersion: argoproj.io/v1alpha1
+          kind: Application
+          metadata:
+            namespace: argocd
+            name: k3d-control-hello
+            annotations:
+              argocd.argoproj.io/sync-wave: "110"
+          spec:
+            project: default
+            destination:
+              name: in-cluster
+            source:
+              repoURL: https://github.com/defn/app
+              targetRevision: master
+              path: k/hello
             syncPolicy:
               automated:
                 prune: true

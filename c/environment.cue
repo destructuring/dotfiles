@@ -125,9 +125,10 @@ env: control: #K3D & {
 		"k3d-control-kuma-zone": 30
 		"knative":               50
 		"kong":                  60
-		"hello":                 100
-		"events":                100
 		"demo1":                 100
+		"events":                100
+		"blocker":               101
+		"hello":                 110
 
 		//"karpenter": 30
 	}
