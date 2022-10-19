@@ -100,6 +100,11 @@
                               "name": "mntwork"
                             },
                             {
+                              "sub_path": "config-precommit",
+                              "mount_path": "/home/ubuntu/.cache/pre-commit",
+                              "name": "mntwork"
+                            },
+                            {
                               "sub_path": "config-fly",
                               "mount_path": "/home/ubuntu/.fly",
                               "name": "mntwork"
@@ -149,6 +154,24 @@
                           "volume_mount": [
                             {
                               "mount_path": "/work",
+                              "name": "mntwork"
+                            }
+                          ]
+                        },
+                        {
+                          "name": "vault",
+                          "image": "${var.repo}workspace:latest",
+                          "image_pull_policy": "Always",
+                          "command": ["/usr/bin/tini", "--"],
+                          "args": [
+                            "bash",
+                            "-c",
+                            "exec ~/bin/e vault agent -config etc/vault-agent.yaml"
+                          ],
+                          "volume_mount": [
+                            {
+                              "sub_path": "vault-agent",
+                              "mount_path": "/vault-agent",
                               "name": "mntwork"
                             }
                           ]

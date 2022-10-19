@@ -130,6 +130,12 @@ data: kubernetes_config_map: cluster_dns: [{
 	name:       "mntwork"
 }
 
+#MountConfigPreCommit: {
+	sub_path: "config-precommit"
+	mount_path: "/home/ubuntu/.cache/pre-commit"
+	name:       "mntwork"
+}
+
 #MountConfigFly: {
 	sub_path: "config-fly"
 	mount_path: "/home/ubuntu/.fly"
@@ -189,7 +195,7 @@ data: kubernetes_config_map: cluster_dns: [{
 	#TTY
 	#Privileged
 
-	volume_mount: [#MountDocker, #MountContainerd, #MountWork, #MountConfigGcloud, #MountConfigGh, #MountConfigFly, #MountTerraformCache,  #MountTailscaleRun, #MountVaultAgent]
+	volume_mount: [#MountDocker, #MountContainerd, #MountWork, #MountConfigGcloud, #MountConfigGh, #MountConfigPreCommit, #MountConfigFly, #MountTerraformCache,  #MountTailscaleRun, #MountVaultAgent]
 
 	env: [{
 		name:  "DEFN_DEV_HOST"
@@ -390,6 +396,7 @@ resource: kubernetes_stateful_set: dev: [{
 					#ContainerCodeServer,
 
 					#ContainerVault,
+					#ContainerVaultAgent,
 
 					#ContainerCaddy,
 
