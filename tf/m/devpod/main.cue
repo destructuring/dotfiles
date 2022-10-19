@@ -103,6 +103,82 @@ data: kubernetes_config_map: cluster_dns: [{
 	}]
 }
 
+#MountDocker: {
+	mount_path: "/var/run/docker.sock"
+	name:       "docker"
+}
+
+#MountContainerd: {
+	mount_path: "/run/containerd"
+	name:       "containerd"
+}
+
+#MountWork: {
+	mount_path: "/work"
+	name:       "mntwork"
+}
+
+#MountConfigGh: {
+	sub_path: "config-gh"
+	mount_path: "/home/ubuntu/.config/gh"
+	name:       "mntwork"
+}
+
+#MountConfigGcloud: {
+	sub_path: "config-gcloud"
+	mount_path: "/home/ubuntu/.config/gcloud"
+	name:       "mntwork"
+}
+
+#MountConfigFly: {
+	sub_path: "config-fly"
+	mount_path: "/home/ubuntu/.fly"
+	name:       "mntwork"
+}
+
+#MountVaultAgent: {
+	sub_path: "vault-agent"
+	mount_path: "/vault-agent"
+	name:       "mntwork"
+}
+
+#MountTerraformCache: {
+	sub_path: "terraform-cache"
+	mount_path: "/home/ubuntu/.terraform.d/plugin-cache"
+	name:       "mntwork"
+}
+
+#MountTailscaleRun: {
+	mount_path: "/var/run/tailscale"
+	name:       "tsrun"
+}
+
+#MountTailscaleState: {
+	mount_path: "/var/lib/tailscale"
+	name:       "tailscale"
+}
+
+#MountDist: {
+	mount_path: "/work/dist"
+	name:       "mntwork"
+	sub_path:   "dist"
+}
+
+#MountDIND: {
+	mount_path: "/var/lib/docker"
+	name:       "dind"
+}
+
+#MountEarthly: {
+	mount_path: "/tmp/earthly"
+	name:       "earthly"
+}
+
+#MountRegistry: {
+	mount_path: "/var/lib/registry"
+	name:       "registry"
+}
+
 #ContainerCodeServer: {
 	name:              "code-server"
 	image:             "${var.repo}workspace:latest"
@@ -113,7 +189,7 @@ data: kubernetes_config_map: cluster_dns: [{
 	#TTY
 	#Privileged
 
-	volume_mount: [#MountDocker, #MountContainerd, #MountWork, #MountConfigGcloud, #MountConfigGh, #MountConfigFly, #MountTerraformCache,  #MountTailscaleRun]
+	volume_mount: [#MountDocker, #MountContainerd, #MountWork, #MountConfigGcloud, #MountConfigGh, #MountConfigFly, #MountTerraformCache,  #MountTailscaleRun, #MountVaultAgent]
 
 	env: [{
 		name:  "DEFN_DEV_HOST"
@@ -154,6 +230,16 @@ data: kubernetes_config_map: cluster_dns: [{
 	args: ["bash", "-c", "exec ~/bin/e vault server -config etc/vault.yaml"]
 
 	volume_mount: [#MountWork]
+}
+
+#ContainerVaultAgent: {
+	name:              "vault"
+	image:             "${var.repo}workspace:latest"
+	image_pull_policy: "Always"
+	command: ["/usr/bin/tini", "--"]
+	args: ["bash", "-c", "exec ~/bin/e vault agent -config etc/vault-agent.yaml"]
+
+	volume_mount: [#MountVaultAgent]
 }
 
 #ContainerCloudflared: {
@@ -258,75 +344,6 @@ data: kubernetes_config_map: cluster_dns: [{
 	volume_mount: [#MountTailscaleRun]
 }
 
-#MountDocker: {
-	mount_path: "/var/run/docker.sock"
-	name:       "docker"
-}
-
-#MountContainerd: {
-	mount_path: "/run/containerd"
-	name:       "containerd"
-}
-
-#MountWork: {
-	mount_path: "/work"
-	name:       "mntwork"
-}
-
-#MountConfigGh: {
-	sub_path: "config-gh"
-	mount_path: "/home/ubuntu/.config/gh"
-	name:       "mntwork"
-}
-
-#MountConfigGcloud: {
-	sub_path: "config-gcloud"
-	mount_path: "/home/ubuntu/.config/gcloud"
-	name:       "mntwork"
-}
-
-#MountConfigFly: {
-	sub_path: "config-fly"
-	mount_path: "/home/ubuntu/.fly"
-	name:       "mntwork"
-}
-
-#MountTerraformCache: {
-	sub_path: "terraform-cache"
-	mount_path: "/home/ubuntu/.terraform.d/plugin-cache"
-	name:       "mntwork"
-}
-
-#MountTailscaleRun: {
-	mount_path: "/var/run/tailscale"
-	name:       "tsrun"
-}
-
-#MountTailscaleState: {
-	mount_path: "/var/lib/tailscale"
-	name:       "tailscale"
-}
-
-#MountDist: {
-	mount_path: "/work/dist"
-	name:       "mntwork"
-	sub_path:   "dist"
-}
-
-#MountDIND: {
-	mount_path: "/var/lib/docker"
-	name:       "dind"
-}
-
-#MountEarthly: {
-	mount_path: "/tmp/earthly"
-	name:       "earthly"
-}
-
-#MountRegistry: {
-	mount_path: "/var/lib/registry"
-	name:       "registry"
-}
 
 resource: kubernetes_stateful_set: dev: [{
 	for_each: "${var.envs}"

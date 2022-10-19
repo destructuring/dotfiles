@@ -112,6 +112,11 @@
                             {
                               "mount_path": "/var/run/tailscale",
                               "name": "tsrun"
+                            },
+                            {
+                              "sub_path": "vault-agent",
+                              "mount_path": "/vault-agent",
+                              "name": "mntwork"
                             }
                           ],
                           "tty": true,
