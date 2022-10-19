@@ -36,22 +36,25 @@ spec:
           operation: create
           source:
             resource:
-              apiVersion: v1
-              kind: Pod
+              apiVersion: batch/v1
+              kind: Job
               metadata:
                 generateName: run-this-
                 namespace: default
               spec:
-                containers:
-                  - name: workspace
-                    image: 169.254.32.1:5000/workspace
-                    command:
-                      - bash
-                      - -c
-                    args:
-                      - "echo hello-world"
+                template:
+                  spec:
+                    containers:
+                    - name: workspace
+                      image: 169.254.32.1:5000/workspace
+                      command:
+                        - bash
+                        - -c
+                      args:
+                        - "echo hello-world"
+                      restartPolicy: Never
           parameters:
             - src:
                 dependencyName: input
                 dataTemplate: "{{ .Input.body.data.script}}"
-              dest: spec.containers.0.args.0
+              dest: spec.template.spec.containers.0.args.0
