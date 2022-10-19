@@ -33,13 +33,13 @@ spec:
     - template:
         name: run-this
         k8s:
-          operation: create
+          operation: update
           source:
             resource:
               apiVersion: batch/v1
               kind: Job
               metadata:
-                generateName: run-this
+                name: run-thistdwsn
                 namespace: default
               spec:
                 template:
