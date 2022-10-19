@@ -6,4 +6,3 @@
 set -exfu
 
 ~/bin/e kubectl get pods
-exec sleep 60
