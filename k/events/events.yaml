@@ -33,7 +33,7 @@ spec:
     - template:
         name: run-this
         k8s:
-          operation: create
+          operation: update
           source:
             resource:
               apiVersion: batch/v1
