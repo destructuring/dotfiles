@@ -275,13 +275,13 @@ data: kubernetes_config_map: cluster_dns: [{
 
 #MountConfigGh: {
 	sub_path: "config-gh"
-	mount_path: "/home/ubuntu/config/gh"
+	mount_path: "/home/ubuntu/.config/gh"
 	name:       "mntwork"
 }
 
 #MountConfigGcloud: {
 	sub_path: "config-gcloud"
-	mount_path: "/home/ubuntu/config/gcloud"
+	mount_path: "/home/ubuntu/.config/gcloud"
 	name:       "mntwork"
 }
 
