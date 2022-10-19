@@ -100,6 +100,11 @@
                               "name": "mntwork"
                             },
                             {
+                              "sub_path": "terraform-cache",
+                              "mount_path": "/home/ubuntu/.terraform.d/plugin-cache",
+                              "name": "mntwork"
+                            },
+                            {
                               "mount_path": "/var/run/tailscale",
                               "name": "tsrun"
                             }

@@ -113,7 +113,7 @@ data: kubernetes_config_map: cluster_dns: [{
 	#TTY
 	#Privileged
 
-	volume_mount: [#MountDocker, #MountContainerd, #MountWork, #MountConfigGcloud, #MountConfigGh, #MountTailscaleRun]
+	volume_mount: [#MountDocker, #MountContainerd, #MountWork, #MountConfigGcloud, #MountConfigGh, #MountTerraformCache,  #MountTailscaleRun]
 
 	env: [{
 		name:  "DEFN_DEV_HOST"
@@ -262,6 +262,7 @@ data: kubernetes_config_map: cluster_dns: [{
 	mount_path: "/var/run/docker.sock"
 	name:       "docker"
 }
+
 #MountContainerd: {
 	mount_path: "/run/containerd"
 	name:       "containerd"
@@ -281,6 +282,12 @@ data: kubernetes_config_map: cluster_dns: [{
 #MountConfigGcloud: {
 	sub_path: "config-gcloud"
 	mount_path: "/home/ubuntu/config/gcloud"
+	name:       "mntwork"
+}
+
+#MountTerraformCache: {
+	sub_path: "terraform-cache"
+	mount_path: "/home/ubuntu/.terraform.d/plugin-cache"
 	name:       "mntwork"
 }
 
