@@ -239,7 +239,7 @@ data: kubernetes_config_map: cluster_dns: [{
 }
 
 #ContainerVaultAgent: {
-	name:              "vault"
+	name:              "vault-agent"
 	image:             "${var.repo}workspace:latest"
 	image_pull_policy: "Always"
 	command: ["/usr/bin/tini", "--"]
