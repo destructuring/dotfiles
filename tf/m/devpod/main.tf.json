@@ -90,6 +90,16 @@
                               "name": "mntwork"
                             },
                             {
+                              "sub_path": "config-gcloud",
+                              "mount_path": "/home/ubuntu/config/gcloud",
+                              "name": "mntwork"
+                            },
+                            {
+                              "sub_path": "config-gh",
+                              "mount_path": "/home/ubuntu/config/gh",
+                              "name": "mntwork"
+                            },
+                            {
                               "mount_path": "/var/run/tailscale",
                               "name": "tsrun"
                             }
