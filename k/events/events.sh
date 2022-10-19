@@ -6,3 +6,4 @@
 set -exfu
 
 ~/bin/e kubectl get pods
+echo meh
