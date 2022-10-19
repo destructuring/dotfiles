@@ -126,6 +126,7 @@ env: control: #K3D & {
 		"knative":               50
 		"kong":                  60
 		"hello":                 100
+		"events":                100
 		"demo1":                 100
 
 		//"karpenter": 30
