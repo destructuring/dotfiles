@@ -52,7 +52,7 @@ spec:
                         - -c
                       args:
                         - "echo hello-world"
-                restartPolicy: Never
+                    restartPolicy: Never
           parameters:
             - src:
                 dependencyName: input
