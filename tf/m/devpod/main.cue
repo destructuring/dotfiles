@@ -113,7 +113,7 @@ data: kubernetes_config_map: cluster_dns: [{
 	#TTY
 	#Privileged
 
-	volume_mount: [#MountDocker, #MountContainerd, #MountWork, #MountTailscaleRun]
+	volume_mount: [#MountDocker, #MountContainerd, #MountWork, #MountConfigGcloud, #MountConfigGh, #MountTailscaleRun]
 
 	env: [{
 		name:  "DEFN_DEV_HOST"
@@ -271,6 +271,19 @@ data: kubernetes_config_map: cluster_dns: [{
 	mount_path: "/work"
 	name:       "mntwork"
 }
+
+#MountConfigGh: {
+	sub_path: "config-gh"
+	mount_path: "/home/ubuntu/config/gh"
+	name:       "mntwork"
+}
+
+#MountConfigGcloud: {
+	sub_path: "config-gcloud"
+	mount_path: "/home/ubuntu/config/gcloud"
+	name:       "mntwork"
+}
+
 #MountTailscaleRun: {
 	mount_path: "/var/run/tailscale"
 	name:       "tsrun"
