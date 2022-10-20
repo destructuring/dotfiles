@@ -2,6 +2,7 @@ build-site:
 	cd app && earthly --push --no-output +build
 
 install-site:
+	for a in betterthantomorrow.calva betterthantomorrow.joyride golang.Go vscodevim.vim hashicorp.terraform runem.lit-plugin; do /home/ubuntu/.local/bin/code-server --install-extension "$a"; done;
 	$(MAKE) vault-unseal
 	mkdir -p .caddy.d
 	(echo "https://*.*.ts.net:20002 {"; echo "reverse_proxy http://k3d-global.$$(wait-tailscale-domain | cut -d. -f2-):5681"; echo "}") > .caddy.d/kuma.conf
