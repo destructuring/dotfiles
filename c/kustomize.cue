@@ -772,7 +772,7 @@ kustomize: "karpenter": #Kustomize & {
 
 kustomize: "knative": #Kustomize & {
 	resource: "knative-serving": {
-		url: "https://github.com/knative/serving/releases/download/knative-v1.7.2/serving-core.yaml"
+		url: "https://github.com/knative/serving/releases/download/knative-v1.8.1/serving-core.yaml"
 	}
 
 	psm: "namespace-knative-serving": core.#Namespace & {
@@ -880,7 +880,7 @@ kustomize: "knative": #Kustomize & {
 			name:      "config-domain"
 			namespace: "knative-serving"
 		}
-		data: "svc.cluster.local": ""
+		data: {}
 	}
 
 	psm: "config-map-config-features": core.#ConfigMap & {

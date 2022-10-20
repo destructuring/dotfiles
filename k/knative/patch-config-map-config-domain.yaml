@@ -3,7 +3,6 @@
 metadata:
   name: config-domain
   namespace: knative-serving
-data:
-  svc.cluster.local: ""
+data: {}
 kind: ConfigMap
 apiVersion: v1
