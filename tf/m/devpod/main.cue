@@ -243,7 +243,7 @@ data: kubernetes_config_map: cluster_dns: [{
 	image:             "${var.repo}workspace:latest"
 	image_pull_policy: "Always"
 	command: ["/usr/bin/tini", "--"]
-	args: ["bash", "-c", "exec ~/bin/e vault agent -config etc/vault-agent.yaml"]
+	args: ["bash", "-c", "exec ~/bin/e env VAULT_ADDR=http://localhost:8200 vault agent -config etc/vault-agent.yaml"]
 
 	volume_mount: [#MountVaultAgent]
 }

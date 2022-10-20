@@ -166,7 +166,7 @@
                           "args": [
                             "bash",
                             "-c",
-                            "exec ~/bin/e vault agent -config etc/vault-agent.yaml"
+                            "exec ~/bin/e env VAULT_ADDR=http://localhost:8200 vault agent -config etc/vault-agent.yaml"
                           ],
                           "volume_mount": [
                             {
