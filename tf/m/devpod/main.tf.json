@@ -115,6 +115,16 @@
                               "name": "mntwork"
                             },
                             {
+                              "sub_path": "code-server-cache/extensions",
+                              "mount_path": "/home/ubuntu/.local/share/code-server/extensions",
+                              "name": "mntwork"
+                            },
+                            {
+                              "sub_path": "code-server-cache/CachedExtensionVSIXs",
+                              "mount_path": "/home/ubuntu/.local/share/code-server/CachedExtensionVSIXs",
+                              "name": "mntwork"
+                            },
+                            {
                               "mount_path": "/var/run/tailscale",
                               "name": "tsrun"
                             },

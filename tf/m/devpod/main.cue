@@ -154,6 +154,18 @@ data: kubernetes_config_map: cluster_dns: [{
 	name:       "mntwork"
 }
 
+#MountCodeServerCacheExtensions: {
+	sub_path: "code-server-cache/extensions"
+	mount_path: "/home/ubuntu/.local/share/code-server/extensions"
+	name:       "mntwork"
+}
+
+#MountCodeServerCacheVSIXs: {
+	sub_path: "code-server-cache/CachedExtensionVSIXs"
+	mount_path: "/home/ubuntu/.local/share/code-server/CachedExtensionVSIXs"
+	name:       "mntwork"
+}
+
 #MountTailscaleRun: {
 	mount_path: "/var/run/tailscale"
 	name:       "tsrun"
@@ -195,7 +207,7 @@ data: kubernetes_config_map: cluster_dns: [{
 	#TTY
 	#Privileged
 
-	volume_mount: [#MountDocker, #MountContainerd, #MountWork, #MountConfigGcloud, #MountConfigGh, #MountConfigPreCommit, #MountConfigFly, #MountTerraformCache,  #MountTailscaleRun, #MountVaultAgent]
+	volume_mount: [#MountDocker, #MountContainerd, #MountWork, #MountConfigGcloud, #MountConfigGh, #MountConfigPreCommit, #MountConfigFly, #MountTerraformCache, #MountCodeServerCacheExtensions, #MountCodeServerCacheVSIXs, #MountTailscaleRun, #MountVaultAgent]
 
 	env: [{
 		name:  "DEFN_DEV_HOST"
