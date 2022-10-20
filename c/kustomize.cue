@@ -772,7 +772,7 @@ kustomize: "karpenter": #Kustomize & {
 
 kustomize: "knative": #Kustomize & {
 	resource: "knative-serving": {
-		url: "https://github.com/knative/serving/releases/download/knative-v1.8.1/serving-core.yaml"
+		url: "https://github.com/knative/serving/releases/download/knative-v1.8.0/serving-core.yaml"
 	}
 
 	psm: "namespace-knative-serving": core.#Namespace & {
