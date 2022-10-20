@@ -30,68 +30,68 @@ metadata:
   name: net-kourier
   namespace: knative-serving
 rules:
-- apiGroups:
-  - ""
-  resources:
-  - events
-  verbs:
-  - create
-  - update
-  - patch
-- apiGroups:
-  - ""
-  resources:
-  - pods
-  - endpoints
-  - services
-  - secrets
-  verbs:
-  - get
-  - list
-  - watch
-- apiGroups:
-  - ""
-  resources:
-  - configmaps
-  verbs:
-  - get
-  - list
-  - watch
-- apiGroups:
-  - ""
-  resources:
-  - namespaces
-  verbs:
-  - get
-  - list
-  - watch
-- apiGroups:
-  - coordination.k8s.io
-  resources:
-  - leases
-  verbs:
-  - get
-  - list
-  - create
-  - update
-  - delete
-  - patch
-  - watch
-- apiGroups:
-  - networking.internal.knative.dev
-  resources:
-  - ingresses
-  verbs:
-  - get
-  - list
-  - watch
-  - patch
-- apiGroups:
-  - networking.internal.knative.dev
-  resources:
-  - ingresses/status
-  verbs:
-  - update
+  - apiGroups:
+      - ""
+    resources:
+      - events
+    verbs:
+      - create
+      - update
+      - patch
+  - apiGroups:
+      - ""
+    resources:
+      - pods
+      - endpoints
+      - services
+      - secrets
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - namespaces
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - coordination.k8s.io
+    resources:
+      - leases
+    verbs:
+      - get
+      - list
+      - create
+      - update
+      - delete
+      - patch
+      - watch
+  - apiGroups:
+      - networking.internal.knative.dev
+    resources:
+      - ingresses
+    verbs:
+      - get
+      - list
+      - watch
+      - patch
+  - apiGroups:
+      - networking.internal.knative.dev
+    resources:
+      - ingresses/status
+    verbs:
+      - update
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -107,9 +107,9 @@ roleRef:
   kind: ClusterRole
   name: net-kourier
 subjects:
-- kind: ServiceAccount
-  name: net-kourier
-  namespace: kourier-system
+  - kind: ServiceAccount
+    name: net-kourier
+    namespace: kourier-system
 ---
 apiVersion: v1
 data:
@@ -275,14 +275,14 @@ metadata:
   namespace: kourier-system
 spec:
   ports:
-  - name: http2
-    port: 80
-    protocol: TCP
-    targetPort: 8080
-  - name: https
-    port: 443
-    protocol: TCP
-    targetPort: 8443
+    - name: http2
+      port: 80
+      protocol: TCP
+      targetPort: 8080
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: 8443
   selector:
     app: 3scale-kourier-gateway
   type: ClusterIP
@@ -299,14 +299,14 @@ metadata:
   namespace: kourier-system
 spec:
   ports:
-  - name: http2
-    port: 80
-    protocol: TCP
-    targetPort: 8081
-  - name: https
-    port: 443
-    protocol: TCP
-    targetPort: 8444
+    - name: http2
+      port: 80
+      protocol: TCP
+      targetPort: 8081
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: 8444
   selector:
     app: 3scale-kourier-gateway
   type: ClusterIP
@@ -323,10 +323,10 @@ metadata:
   namespace: kourier-system
 spec:
   ports:
-  - name: grpc-xds
-    port: 18000
-    protocol: TCP
-    targetPort: 18000
+    - name: grpc-xds
+      port: 18000
+      protocol: TCP
+      targetPort: 18000
   selector:
     app: net-kourier-controller
   type: ClusterIP
@@ -358,63 +358,63 @@ spec:
         app: 3scale-kourier-gateway
     spec:
       containers:
-      - args:
-        - --base-id 1
-        - -c /tmp/config/envoy-bootstrap.yaml
-        - --log-level info
-        command:
-        - /usr/local/bin/envoy
-        image: docker.io/envoyproxy/envoy:v1.20-latest
-        lifecycle:
-          preStop:
-            exec:
-              command:
-              - /bin/sh
-              - -c
-              - curl -X POST --unix /tmp/envoy.admin http://localhost/healthcheck/fail;
-                sleep 15
-        name: kourier-gateway
-        ports:
-        - containerPort: 8080
-          name: http2-external
-          protocol: TCP
-        - containerPort: 8081
-          name: http2-internal
-          protocol: TCP
-        - containerPort: 8443
-          name: https-external
-          protocol: TCP
-        - containerPort: 8090
-          name: http-probe
-          protocol: TCP
-        - containerPort: 9443
-          name: https-probe
-          protocol: TCP
-        readinessProbe:
-          httpGet:
-            httpHeaders:
-            - name: Host
-              value: internalkourier
-            path: /ready
-            port: 8081
-            scheme: HTTP
-          initialDelaySeconds: 10
-          periodSeconds: 5
-        securityContext:
-          allowPrivilegeEscalation: false
-          capabilities:
-            drop:
-            - all
-          readOnlyRootFilesystem: false
-          runAsNonRoot: false
-        volumeMounts:
-        - mountPath: /tmp/config
-          name: config-volume
+        - args:
+            - --base-id 1
+            - -c /tmp/config/envoy-bootstrap.yaml
+            - --log-level info
+          command:
+            - /usr/local/bin/envoy
+          image: docker.io/envoyproxy/envoy:v1.20-latest
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  - /bin/sh
+                  - -c
+                  - curl -X POST --unix /tmp/envoy.admin http://localhost/healthcheck/fail;
+                    sleep 15
+          name: kourier-gateway
+          ports:
+            - containerPort: 8080
+              name: http2-external
+              protocol: TCP
+            - containerPort: 8081
+              name: http2-internal
+              protocol: TCP
+            - containerPort: 8443
+              name: https-external
+              protocol: TCP
+            - containerPort: 8090
+              name: http-probe
+              protocol: TCP
+            - containerPort: 9443
+              name: https-probe
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              httpHeaders:
+                - name: Host
+                  value: internalkourier
+              path: /ready
+              port: 8081
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - all
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          volumeMounts:
+            - mountPath: /tmp/config
+              name: config-volume
       restartPolicy: Always
       volumes:
-      - configMap:
-          name: kourier-bootstrap
-        name: config-volume
+        - configMap:
+            name: kourier-bootstrap
+          name: config-volume
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -437,38 +437,38 @@ spec:
         app: net-kourier-controller
     spec:
       containers:
-      - env:
-        - name: CERTS_SECRET_NAMESPACE
-          value: ""
-        - name: CERTS_SECRET_NAME
-          value: ""
-        - name: SYSTEM_NAMESPACE
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.namespace
-        - name: METRICS_DOMAIN
-          value: knative.dev/samples
-        - name: KOURIER_GATEWAY_NAMESPACE
-          value: kourier-system
-        - name: ENABLE_SECRET_INFORMER_FILTERING_BY_CERT_UID
-          value: "false"
-        image: gcr.io/knative-releases/knative.dev/net-kourier/cmd/kourier@sha256:74e4a5479718d2ba44e3b13903643ce0e6d82b812ea76b75025e511618145ad7
-        name: controller
-        ports:
-        - containerPort: 18000
-          name: http2-xds
-          protocol: TCP
-        readinessProbe:
-          exec:
-            command:
-            - /ko-app/kourier
-            - -probe-addr=:18000
-        securityContext:
-          allowPrivilegeEscalation: false
-          capabilities:
-            drop:
-            - all
-          readOnlyRootFilesystem: true
-          runAsNonRoot: true
+        - env:
+            - name: CERTS_SECRET_NAMESPACE
+              value: ""
+            - name: CERTS_SECRET_NAME
+              value: ""
+            - name: SYSTEM_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: METRICS_DOMAIN
+              value: knative.dev/samples
+            - name: KOURIER_GATEWAY_NAMESPACE
+              value: kourier-system
+            - name: ENABLE_SECRET_INFORMER_FILTERING_BY_CERT_UID
+              value: "false"
+          image: gcr.io/knative-releases/knative.dev/net-kourier/cmd/kourier@sha256:74e4a5479718d2ba44e3b13903643ce0e6d82b812ea76b75025e511618145ad7
+          name: controller
+          ports:
+            - containerPort: 18000
+              name: http2-xds
+              protocol: TCP
+          readinessProbe:
+            exec:
+              command:
+                - /ko-app/kourier
+                - -probe-addr=:18000
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - all
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
       restartPolicy: Always
       serviceAccountName: net-kourier

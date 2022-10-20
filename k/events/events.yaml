@@ -46,13 +46,13 @@ spec:
                 template:
                   spec:
                     containers:
-                    - name: workspace
-                      image: 169.254.32.1:5000/workspace
-                      command:
-                        - bash
-                        - -c
-                      args:
-                        - "echo hello-world"
+                      - name: workspace
+                        image: 169.254.32.1:5000/workspace
+                        command:
+                          - bash
+                          - -c
+                        args:
+                          - "echo hello-world"
                     restartPolicy: Never
           parameters:
             - src:

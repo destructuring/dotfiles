@@ -16,12 +16,12 @@ function main {
 
     while ! tailscale ip -4; do sleep 1; done
 
-    (setsid dockerd -H unix:///var/run/docker.sock -H tcp://127.0.0.1 --mtu="$(ifconfig eth0 | grep mtu | awk '{print $NF}')") & 
+    (setsid dockerd -H unix:///var/run/docker.sock -H tcp://127.0.0.1 --mtu="$(ifconfig eth0 | grep mtu | awk '{print $NF}')") &
 
     export DOCKER_HOST=unix:///var/run/docker.sock
     while ! docker ps; do sleep 1; done
 
-    docker run --rm -d -p 7777:80 containous/whoami    
+    docker run --rm -d -p 7777:80 containous/whoami
 
     (setsid bash -c "while true; do sudo -u ubuntu -H ~ubuntu/bin/e kuma-cp-on; sleep 5; done") &
 

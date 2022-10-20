@@ -11,21 +11,21 @@ metadata:
 spec:
   template:
     metadata:
-      annotations: 
+      annotations:
         kuma.io/mesh: dev
         kuma.io/sidecar-injection: "enabled"
         kuma.io/virtual-probes: "disabled"
-        traffic.kuma.io/exclude-inbound-ports:  "8012"
+        traffic.kuma.io/exclude-inbound-ports: "8012"
     spec:
       containerConcurrency: 0
       containers:
-      - name: whoami
-        image: containous/whoami:latest
-        ports:
-        - containerPort: 80
+        - name: whoami
+          image: containous/whoami:latest
+          ports:
+            - containerPort: 80
   traffic:
-  - latestRevision: true
-    percent: 100
+    - latestRevision: true
+      percent: 100
 ---
 apiVersion: serving.knative.dev/v1
 kind: Service
@@ -39,21 +39,21 @@ metadata:
 spec:
   template:
     metadata:
-      annotations: 
+      annotations:
         kuma.io/mesh: dev
         kuma.io/sidecar-injection: "enabled"
         kuma.io/virtual-probes: "disabled"
-        traffic.kuma.io/exclude-inbound-ports:  "8012"
+        traffic.kuma.io/exclude-inbound-ports: "8012"
     spec:
       containerConcurrency: 0
       containers:
-      - name: whoami
-        image: containous/whoami:latest
-        ports:
-        - containerPort: 80
+        - name: whoami
+          image: containous/whoami:latest
+          ports:
+            - containerPort: 80
   traffic:
-  - latestRevision: true
-    percent: 100
+    - latestRevision: true
+      percent: 100
 ---
 apiVersion: serving.knative.dev/v1
 kind: Service
@@ -65,18 +65,18 @@ metadata:
 spec:
   template:
     metadata:
-      annotations: 
+      annotations:
         kuma.io/mesh: dev
         kuma.io/sidecar-injection: "enabled"
         kuma.io/virtual-probes: "disabled"
-        traffic.kuma.io/exclude-inbound-ports:  "8012"
+        traffic.kuma.io/exclude-inbound-ports: "8012"
     spec:
       containerConcurrency: 0
       containers:
-      - name: whoami
-        image: containous/whoami:latest
-        ports:
-        - containerPort: 80
+        - name: whoami
+          image: containous/whoami:latest
+          ports:
+            - containerPort: 80
       tolerations:
         - key: env
           value: vc2
@@ -85,11 +85,11 @@ spec:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
-            - matchExpressions:
-              - key: env
-                operator: In
-                values:
-                - vc2
+              - matchExpressions:
+                  - key: env
+                    operator: In
+                    values:
+                      - vc2
   traffic:
-  - latestRevision: true
-    percent: 100
+    - latestRevision: true
+      percent: 100

@@ -5,7 +5,7 @@ sync:
     nodeSelector: "env=defn"
 syncer:
   extraArgs:
-  - --enforce-toleration=env=defn:NoSchedule
+    - --enforce-toleration=env=defn:NoSchedule
 tolerations:
   - key: env
     operator: Equal
