@@ -449,11 +449,11 @@
       ]
     },
     "kubernetes_cluster_role_binding": {
-      "dev": [
+      "dev_admin": [
         {
           "metadata": [
             {
-              "name": "dev"
+              "name": "dev-admin"
             }
           ],
           "role_ref": [
@@ -461,6 +461,29 @@
               "api_group": "rbac.authorization.k8s.io",
               "kind": "ClusterRole",
               "name": "cluster-admin"
+            }
+          ],
+          "subject": [
+            {
+              "kind": "ServiceAccount",
+              "name": "default",
+              "namespace": "default"
+            }
+          ]
+        }
+      ],
+      "dev_delegator": [
+        {
+          "metadata": [
+            {
+              "name": "dev-delegator"
+            }
+          ],
+          "role_ref": [
+            {
+              "api_group": "rbac.authorization.k8s.io",
+              "kind": "ClusterRole",
+              "name": "system:auth-delegator"
             }
           ],
           "subject": [
