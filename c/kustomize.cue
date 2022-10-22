@@ -245,8 +245,8 @@ kustomize: "external-secrets": #KustomizeHelm & {
 		version: "0.6.0"
 		repo:    "https://charts.external-secrets.io"
 		values: {
-			webhook: create:        false
-			certController: create: false
+			webhook: create:        true
+			certController: create: true
 		}
 	}
 
