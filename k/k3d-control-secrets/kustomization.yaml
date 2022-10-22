@@ -6,4 +6,3 @@ resources:
   - resource-kyverno-sync-secrets.yaml
   - resource-pod-secrets.yaml
   - resource-hello.yaml
-namespace: secrets

@@ -136,8 +136,9 @@ env: control: #K3D & {
 	sync_kuma_zone_secrets
 
 	external: "hello": {
-		secret_name: "hello"
-		secret_key:  "/dev/meh"
+		secret_name:      "hello"
+		secret_namespace: "default"
+		secret_key:       "/dev/meh"
 		secret_template: "config.yml": """
 			- https://{{ .user }}:{{ .password }}@api.exmaple.com
 

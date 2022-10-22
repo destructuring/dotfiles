@@ -44,8 +44,6 @@ for _machine_name, _machine in env {
 
 	// Configure the environment secrets
 	kustomize: "\(_machine.type)-\(_machine.name)-secrets": #Kustomize & {
-		namespace: "secrets"
-
 		resource: "namespace-secrets": core.#Namespace & {
 			apiVersion: "v1"
 			kind:       "Namespace"
@@ -76,7 +74,8 @@ for _machine_name, _machine in env {
 		resource: "pod-secrets": core.#Pod & {
 			apiVersion: "v1"
 			kind:       "Pod"
-			metadata: name: "secrets"
+			metadata: name:      "secrets"
+			metadata: namespace: "secrets"
 
 			spec: {
 				containers: [{

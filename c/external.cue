@@ -1,18 +1,19 @@
 package c
 
 #VaultSecret: {
-	secret_name:     string
-	secret_key:      string
-	secret_template: {...} | *null
-	secret_refresh:  string
-	secret_store:    string
+	secret_name:      string
+	secret_namespace: string
+	secret_key:       string
+	secret_template:  {...} | *null
+	secret_refresh:   string
+	secret_store:     string
 
 	out: {
 		apiVersion: "external-secrets.io/v1beta1"
 		kind:       "ExternalSecret"
 		metadata: {
 			name:      secret_name
-			namespace: "default"
+			namespace: secret_namespace
 		}
 		spec: {
 			target: {
