@@ -165,7 +165,7 @@ env: smiley: #K3D & {
 		secret_namespace: "default"
 		secret_key:       "/dev/meh"
 		secret_template: "config.yml": """
-			- https://{{ .user }}:{{ .password }}@api.exmaple.com/global
+			- https://{{ .user }}:{{ .password }}@api.exmaple.com/smiley
 
 			"""
 		secret_refresh: "15s"
