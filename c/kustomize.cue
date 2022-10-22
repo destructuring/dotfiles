@@ -268,7 +268,7 @@ kustomize: "external-secrets": #KustomizeHelm & {
 			version: "v2"
 			auth: kubernetes: {
 				mountPath: "pod"
-				role:      "dev"
+				role:      "external-secrets"
 			}
 		}
 	}
