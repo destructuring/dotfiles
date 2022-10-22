@@ -160,6 +160,18 @@ env: smiley: #K3D & {
 	}
 
 	sync_kuma_zone_secrets
+
+	external: "hello": {
+		secret_name:      "hello"
+		secret_namespace: "default"
+		secret_key:       "/dev/meh"
+		secret_template: "config.yml": """
+			- https://{{ .user }}:{{ .password }}@api.exmaple.com/global
+
+			"""
+		secret_refresh: "15s"
+		secret_store:   "dev"
+	}
 }
 
 // Env: global is the global control plane, used by all machines.
@@ -174,6 +186,18 @@ env: global: #K3D & {
 	}
 
 	sync_kuma_global_secrets
+
+	external: "hello": {
+		secret_name:      "hello"
+		secret_namespace: "default"
+		secret_key:       "/dev/meh"
+		secret_template: "config.yml": """
+			- https://{{ .user }}:{{ .password }}@api.exmaple.com/global
+
+			"""
+		secret_refresh: "15s"
+		secret_store:   "dev"
+	}
 }
 
 kustomize: "vc1": #KustomizeVCluster & {
