@@ -263,7 +263,7 @@ kustomize: "external-secrets": #KustomizeHelm & {
 		kind:       "ClusterSecretStore"
 		metadata: name: "dev"
 		spec: provider: vault: {
-			server:  "http://control-0.tiger-mamba.ts.net:8200"
+			server:  "http://100.103.25.109:8200"
 			path:    "secret"
 			version: "v2"
 			auth: kubernetes: {
