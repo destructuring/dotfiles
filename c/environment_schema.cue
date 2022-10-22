@@ -4,6 +4,7 @@ import (
 	"encoding/yaml"
 
 	core "github.com/defn/boot/k8s.io/api/core/v1"
+	rbac "github.com/defn/boot/k8s.io/api/rbac/v1"
 )
 
 // Each environment is hosted on a Kubernetes machine.
@@ -39,6 +40,69 @@ for _machine_name, _machine in env {
 					}
 				}
 			}
+		}
+	}
+
+	// Configure the environment secrets
+	kustomize: "\(_machine.type)-\(_machine.name)-external-secrets-operator": #KustomizeHelm & {
+		_vault_mount_path: string
+		if _machine.name == "control" {
+			_vault_mount_path: "pod"
+		}
+		if _machine.name != "control" {
+			_vault_mount_path: "\(_machine.type)-\(_machine.name)"
+		}
+
+		namespace: "external-secrets"
+
+		helm: {
+			release: "external-secrets"
+			name:    "external-secrets"
+			version: "0.6.0"
+			repo:    "https://charts.external-secrets.io"
+			values: {
+				webhook: create:        false
+				certController: create: false
+			}
+		}
+
+		resource: "namespace-external-secrets": core.#Namespace & {
+			apiVersion: "v1"
+			kind:       "Namespace"
+			metadata: {
+				name: "external-secrets"
+			}
+		}
+
+		resource: "cluster-secret-store-dev": {
+			apiVersion: "external-secrets.io/v1beta1"
+			kind:       "ClusterSecretStore"
+			metadata: name: "dev"
+			spec: provider: vault: {
+				server:  "http://100.103.25.109:8200"
+				path:    "kv"
+				version: "v2"
+				auth: kubernetes: {
+					mountPath: _vault_mount_path
+					role:      "external-secrets"
+				}
+			}
+		}
+
+		resource: "cluster-role-binding-delegator": rbac.#ClusterRoleBinding & {
+			apiVersion: "rbac.authorization.k8s.io/v1"
+			kind:       "ClusterRoleBinding"
+			metadata: name: "external-secrets-delegator"
+			roleRef: {
+				apiGroup: "rbac.authorization.k8s.io"
+				kind:     "ClusterRole"
+				name:     "system:auth-delegator"
+			}
+			subjects: [{
+				kind:      "ServiceAccount"
+				name:      "external-secrets"
+				namespace: "external-secrets"
+			}]
 		}
 	}
 

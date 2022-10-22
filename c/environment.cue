@@ -1,7 +1,6 @@
 package c
 
 // Match the kuma namespce
-
 match_kuma_ns: match: any: [{
 	resources: {
 		kinds: [
@@ -116,19 +115,19 @@ sync_kuma_zone_secrets: {
 // Env: control is the control plane, used by the operator.
 env: control: #K3D & {
 	bootstrap: {
-		"argo-cd":               1
-		"kyverno":               10
-		"external-secrets":      10
-		"cert-manager":          10
-		"argo-events":           10
-		"k3d-control-secrets":   20
-		"k3d-control-kuma-zone": 30
-		"knative":               50
-		"kong":                  60
-		"demo1":                 100
-		"events":                100
-		"blocker":               101
-		"hello":                 110
+		"argo-cd":                               1
+		"kyverno":                               10
+		"k3d-control-external-secrets-operator": 10
+		"cert-manager":                          10
+		"argo-events":                           10
+		"k3d-control-secrets":                   20
+		"k3d-control-kuma-zone":                 30
+		"knative":                               50
+		"kong":                                  60
+		"demo1":                                 100
+		"events":                                100
+		"blocker":                               101
+		"hello":                                 110
 
 		//"karpenter": 30
 	}
@@ -151,12 +150,12 @@ env: control: #K3D & {
 // Env: smiley is the second machine used for multi-cluster.
 env: smiley: #K3D & {
 	bootstrap: {
-		"kyverno":              10
-		"external-secrets":     10
-		"k3d-smiley-secrets":   20
-		"k3d-smiley-kuma-zone": 30
-		"demo2":                100
-		"dev":                  100
+		"kyverno":                              10
+		"k3d-smiley-external-secrets-operator": 10
+		"k3d-smiley-secrets":                   20
+		"k3d-smiley-kuma-zone":                 30
+		"demo2":                                100
+		"dev":                                  100
 	}
 
 	sync_kuma_zone_secrets
@@ -177,12 +176,12 @@ env: smiley: #K3D & {
 // Env: global is the global control plane, used by all machines.
 env: global: #K3D & {
 	bootstrap: {
-		"kyverno":                10
-		"external-secrets":       10
-		"k3d-global-secrets":     20
-		"k3d-global-kuma-global": 30
-		"mesh":                   40
-		"dev":                    100
+		"kyverno":                               10
+		"k3d-global-external-secrets-operator-": 10
+		"k3d-global-secrets":                    20
+		"k3d-global-kuma-global":                30
+		"mesh":                                  40
+		"dev":                                   100
 	}
 
 	sync_kuma_global_secrets

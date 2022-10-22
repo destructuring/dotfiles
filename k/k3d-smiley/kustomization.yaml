@@ -28,12 +28,12 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
-        external-secrets: |
+        k3d-smiley-external-secrets-operator: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
           metadata:
             namespace: argocd
-            name: k3d-smiley-external-secrets
+            name: k3d-smiley-external-secrets-operator
             annotations:
               argocd.argoproj.io/sync-wave: "10"
           spec:
@@ -43,7 +43,7 @@ helmCharts:
             source:
               repoURL: https://github.com/defn/app
               targetRevision: master
-              path: k/external-secrets
+              path: k/k3d-smiley-external-secrets-operator
             syncPolicy:
               automated:
                 prune: true

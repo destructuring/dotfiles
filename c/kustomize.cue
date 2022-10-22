@@ -236,60 +236,6 @@ kustomize: "external-dns": #KustomizeHelm & {
 	}
 }
 
-kustomize: "external-secrets": #KustomizeHelm & {
-	namespace: "external-secrets"
-
-	helm: {
-		release: "external-secrets"
-		name:    "external-secrets"
-		version: "0.6.0"
-		repo:    "https://charts.external-secrets.io"
-		values: {
-			webhook: create:        false
-			certController: create: false
-		}
-	}
-
-	resource: "namespace-external-secrets": core.#Namespace & {
-		apiVersion: "v1"
-		kind:       "Namespace"
-		metadata: {
-			name: "external-secrets"
-		}
-	}
-
-	resource: "cluster-secret-store-dev": {
-		apiVersion: "external-secrets.io/v1beta1"
-		kind:       "ClusterSecretStore"
-		metadata: name: "dev"
-		spec: provider: vault: {
-			server:  "http://100.103.25.109:8200"
-			path:    "kv"
-			version: "v2"
-			auth: kubernetes: {
-				mountPath: "pod"
-				role:      "external-secrets"
-			}
-		}
-	}
-
-	resource: "cluster-role-binding-delegator": rbac.#ClusterRoleBinding & {
-		apiVersion: "rbac.authorization.k8s.io/v1"
-		kind:       "ClusterRoleBinding"
-		metadata: name: "external-secrets-delegator"
-		roleRef: {
-			apiGroup: "rbac.authorization.k8s.io"
-			kind:     "ClusterRole"
-			name:     "system:auth-delegator"
-		}
-		subjects: [{
-			kind:      "ServiceAccount"
-			name:      "external-secrets"
-			namespace: "external-secrets"
-		}]
-	}
-}
-
 kustomize: "datadog": #KustomizeHelm & {
 	namespace: "datadog"
 
