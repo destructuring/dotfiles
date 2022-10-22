@@ -67,6 +67,12 @@ for _machine_name, _machine in env {
 			]
 		}
 
+		resource: {
+			for ename, e in _machine.external {
+				"\(ename)": e.out
+			}
+		}
+
 		resource: "pod-secrets": core.#Pod & {
 			apiVersion: "v1"
 			kind:       "Pod"
@@ -171,6 +177,8 @@ for _machine_name, _machine in env {
 	apps: [string]: [string]: {...}
 
 	sync: [string]: {...}
+
+	external: [string]: #VaultSecret
 }
 
 // K3D Machine

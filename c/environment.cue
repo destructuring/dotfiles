@@ -134,6 +134,17 @@ env: control: #K3D & {
 	}
 
 	sync_kuma_zone_secrets
+
+	external: "hello": {
+		secret_name: "hello"
+		secret_key:  "/dev/meh"
+		secret_template: "config.yml": """
+			- https://{{ .user }}:{{ .password }}@api.exmaple.com
+
+			"""
+		secret_refresh: "15s"
+		secret_store:   "dev"
+	}
 }
 
 // Env: smiley is the second machine used for multi-cluster.
