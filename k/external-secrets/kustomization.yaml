@@ -3,6 +3,7 @@
 patchesStrategicMerge: []
 resources:
   - resource-namespace-external-secrets.yaml
+  - resource-cluster-secret-store-dev.yaml
 namespace: external-secrets
 helmCharts:
   - releaseName: external-secrets

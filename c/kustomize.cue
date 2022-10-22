@@ -257,6 +257,21 @@ kustomize: "external-secrets": #KustomizeHelm & {
 			name: "external-secrets"
 		}
 	}
+
+	resource: "cluster-secret-store-dev": {
+		apiVersion: "external-secrets.io/v1alpha1"
+		kind:       "ClusterSecretStore"
+		metadata: name: "dev"
+		spec: provider: vault: {
+			server:  "http://control-0.tiger-mamba.ts.net:8200"
+			path:    "secret"
+			version: "v2"
+			auth: kubernetes: {
+				mountPath: "pod"
+				role:      "dev"
+			}
+		}
+	}
 }
 
 kustomize: "datadog": #KustomizeHelm & {
