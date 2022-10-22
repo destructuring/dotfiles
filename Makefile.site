@@ -11,6 +11,6 @@ check:
 	kv
 	aws sts get-caller-identity
 	kumactl inspect services
-	curl so.mesh/dev/
-	curl the.mesh/dev/
-	curl brie.mesh/dev/
+	curl so.mesh/dev/; echo
+	curl the.mesh/dev/; echo
+	curl brie.mesh/dev/; echo
