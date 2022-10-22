@@ -66,14 +66,11 @@ kustomize: "demo2": #Kustomize & {
 	}
 }
 
-kustomize: "argo-cd": #KustomizeHelm & {
+kustomize: "argo-cd": #Kustomize & {
 	namespace: "argocd"
 
-	helm: {
-		release: "argocd"
-		name:    "argo-cd"
-		version: "5.6.0"
-		repo:    "https://argoproj.github.io/argo-helm"
+	resource: "argo-cd": {
+		url: "https://raw.githubusercontent.com/argoproj/argo-cd/v2.5.0-rc3/manifests/install.yaml"
 	}
 
 	psm: "configmap-argocd-cm": core.#ConfigMap & {
