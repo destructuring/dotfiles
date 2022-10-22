@@ -259,7 +259,7 @@ kustomize: "external-secrets": #KustomizeHelm & {
 	}
 
 	resource: "cluster-secret-store-dev": {
-		apiVersion: "apiVersion: external-secrets.io/v1beta1"
+		apiVersion: "external-secrets.io/v1beta1"
 		kind:       "ClusterSecretStore"
 		metadata: name: "dev"
 		spec: provider: vault: {
