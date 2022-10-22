@@ -2,13 +2,6 @@
 
 patchesStrategicMerge:
   - patch-configmap-argocd-cm.yaml
-resources: []
+resources:
+  - https://raw.githubusercontent.com/argoproj/argo-cd/v2.5.0-rc3/manifests/install.yaml
 namespace: argocd
-helmCharts:
-  - releaseName: argocd
-    name: argo-cd
-    version: 5.6.0
-    repo: https://argoproj.github.io/argo-helm
-    namespace: argocd
-    valuesInline: {}
-    includeCRDs: true
