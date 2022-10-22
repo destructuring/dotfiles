@@ -6,3 +6,11 @@ install-site:
 	(echo "https://*.*.ts.net:20002 {"; echo "reverse_proxy http://k3d-global.$$(wait-tailscale-domain | cut -d. -f2-):5681"; echo "}") > .caddy.d/kuma.conf
 	caddy reload
 	if ! is-fly; then if ! nc -z -v localhost 8000 2>/dev/null; then cd app && make up; fi; fi
+
+check:
+	kv
+	aws sts get-caller-identity
+	kumactl inspect services
+	curl so.mesh/dev/
+	curl the.mesh/dev/
+	curl brie.mesh/dev/
