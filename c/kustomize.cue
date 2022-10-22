@@ -264,7 +264,7 @@ kustomize: "external-secrets": #KustomizeHelm & {
 		metadata: name: "dev"
 		spec: provider: vault: {
 			server:  "http://100.103.25.109:8200"
-			path:    "secret"
+			path:    "kv"
 			version: "v2"
 			auth: kubernetes: {
 				mountPath: "pod"
