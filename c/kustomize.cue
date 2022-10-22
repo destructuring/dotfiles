@@ -245,8 +245,8 @@ kustomize: "external-secrets": #KustomizeHelm & {
 		version: "0.6.0"
 		repo:    "https://charts.external-secrets.io"
 		values: {
-			webhook: create:        true
-			certController: create: true
+			webhook: create:        false
+			certController: create: false
 		}
 	}
 
@@ -259,7 +259,7 @@ kustomize: "external-secrets": #KustomizeHelm & {
 	}
 
 	resource: "cluster-secret-store-dev": {
-		apiVersion: "external-secrets.io/v1alpha1"
+		apiVersion: "apiVersion: external-secrets.io/v1beta1"
 		kind:       "ClusterSecretStore"
 		metadata: name: "dev"
 		spec: provider: vault: {

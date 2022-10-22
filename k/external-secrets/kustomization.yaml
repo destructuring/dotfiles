@@ -14,7 +14,7 @@ helmCharts:
     namespace: external-secrets
     valuesInline:
       webhook:
-        create: true
+        create: false
       certController:
-        create: true
+        create: false
     includeCRDs: true
