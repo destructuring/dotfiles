@@ -284,7 +284,7 @@ kustomize: "external-secrets": #KustomizeHelm & {
 		}
 		subjects: [{
 			kind:      "ServiceAccount"
-			name:      "default"
+			name:      "external-secrets"
 			namespace: "external-secrets"
 		}]
 	}
