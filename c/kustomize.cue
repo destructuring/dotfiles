@@ -728,6 +728,8 @@ kustomize: "external-secrets-operator": #KustomizeHelm & {
 }
 
 kustomize: "pod-identity-webhook": #KustomizeHelm & {
+	namespace: "default"
+
 	helm: {
 		release: "pod-identity-webhook"
 		name:    "amazon-eks-pod-identity-webhook"
