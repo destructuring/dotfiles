@@ -1,5 +1,3 @@
-Pulled: public.ecr.aws/karpenter/karpenter:v0.18.1
-Digest: sha256:4cc3d0c307d571f4c87e7f271e8719a8cd2f02e444cd724eec1cdb772b52fbac
 ---
 # Source: crds/karpenter.k8s.aws_awsnodetemplates.yaml
 ---

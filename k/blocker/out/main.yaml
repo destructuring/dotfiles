@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: blocker
+  namespace: default
+spec:
+  template:
+    spec:
+      containers:
+      - command:
+        - sleep
+        - "10"
+        image: ubuntu
+        name: sleeping
+      restartPolicy: Never

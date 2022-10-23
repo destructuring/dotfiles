@@ -1,15 +1,28 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: dev
+  name: dev-admin
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: cluster-admin
 subjects:
-  - kind: ServiceAccount
-    name: default
-    namespace: default
+- kind: ServiceAccount
+  name: default
+  namespace: default
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: dev-delegator
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: system:auth-delegator
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: default
 ---
 apiVersion: v1
 kind: Service
@@ -18,9 +31,9 @@ metadata:
   namespace: default
 spec:
   ports:
-    - port: 80
-      protocol: TCP
-      targetPort: 8888
+  - port: 80
+    protocol: TCP
+    targetPort: 8888
   selector:
     app: dev
   type: ClusterIP
@@ -42,56 +55,56 @@ spec:
         app: dev
     spec:
       containers:
-        - args:
-            - awk '/if.*rm.*data_root.*then/ {print "rm -rf $data_root || true; data_root=/tmp/meh;"
-              }; {print}' /var/earthly/dockerd-wrapper.sh > /tmp/1 && chmod 755 /tmp/1
-              && mv -f /tmp/1 /var/earthly/dockerd-wrapper.sh; exec /usr/bin/entrypoint.sh
-              buildkitd --config=/etc/buildkitd.toml
-          command:
-            - sh
-            - -c
-          env:
-            - name: BUILDKIT_TCP_TRANSPORT_ENABLED
-              value: "true"
-            - name: BUILDKIT_MAX_PARALLELISM
-              value: "4"
-            - name: CACHE_SIZE_PCT
-              value: "90"
-            - name: EARTHLY_ADDITIONAL_BUILDKIT_CONFIG
-              value: |-
-                [registry."169.254.32.1:5000"]
-                http = true
-                insecure = true
-          image: earthly/buildkitd:v0.6.25
-          imagePullPolicy: IfNotPresent
-          name: buildkit
-          securityContext:
-            privileged: true
-          tty: true
-          volumeMounts:
-            - mountPath: /tmp/earthly
-              name: earthly
-        - args:
-            - bash
-            - -c
-            - exec ~/bin/e code-server --bind-addr 0.0.0.0:8888 --disable-telemetry
-          command:
-            - /usr/bin/tini
-            - --
-          env:
-            - name: PASSWORD
-              value: admin
-          image: 169.254.32.1:5000/workspace
-          imagePullPolicy: Always
-          name: code-server
-          securityContext:
-            privileged: true
-          tty: true
-          volumeMounts:
-            - mountPath: /work
-              name: work
-      volumes:
-        - emptyDir: {}
+      - args:
+        - awk '/if.*rm.*data_root.*then/ {print "rm -rf $data_root || true; data_root=/tmp/meh;"
+          }; {print}' /var/earthly/dockerd-wrapper.sh > /tmp/1 && chmod 755 /tmp/1
+          && mv -f /tmp/1 /var/earthly/dockerd-wrapper.sh; exec /usr/bin/entrypoint.sh
+          buildkitd --config=/etc/buildkitd.toml
+        command:
+        - sh
+        - -c
+        env:
+        - name: BUILDKIT_TCP_TRANSPORT_ENABLED
+          value: "true"
+        - name: BUILDKIT_MAX_PARALLELISM
+          value: "4"
+        - name: CACHE_SIZE_PCT
+          value: "90"
+        - name: EARTHLY_ADDITIONAL_BUILDKIT_CONFIG
+          value: |-
+            [registry."169.254.32.1:5000"]
+            http = true
+            insecure = true
+        image: earthly/buildkitd:v0.6.25
+        imagePullPolicy: IfNotPresent
+        name: buildkit
+        securityContext:
+          privileged: true
+        tty: true
+        volumeMounts:
+        - mountPath: /tmp/earthly
           name: earthly
-        - emptyDir: {}
+      - args:
+        - bash
+        - -c
+        - exec ~/bin/e code-server --bind-addr 0.0.0.0:8888 --disable-telemetry
+        command:
+        - /usr/bin/tini
+        - --
+        env:
+        - name: PASSWORD
+          value: admin
+        image: 169.254.32.1:5000/workspace
+        imagePullPolicy: Always
+        name: code-server
+        securityContext:
+          privileged: true
+        tty: true
+        volumeMounts:
+        - mountPath: /work
           name: work
+      volumes:
+      - emptyDir: {}
+        name: earthly
+      - emptyDir: {}
+        name: work
