@@ -325,10 +325,9 @@ kustomize: {
 			resource: "external-secret-kds-ca-certs": (#VaultSecret & {
 				secret_name:      "kds-ca-certs"
 				secret_namespace: "kuma"
-				secret_key:       "/dev/\(a)/kuma-zone"
+				secret_key:       "/dev/k3d-global/kuma-global"
 				secret_type:      "kubernetes.io/tls"
-				secret_template: "tls.crt": "{{ .cert }}"
-				secret_template: "tls.key": "{{ .key }}"
+				secret_template: "ca.crt": '{{ index . "ca.crt" }}'
 				secret_refresh: "60s"
 				secret_store:   "dev"
 			}).out
