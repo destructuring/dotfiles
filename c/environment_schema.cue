@@ -153,7 +153,10 @@ for _machine_name, _machine in env {
 			path:           string
 		}
 
-		syncPolicy: automated: prune: bool | *true
+		syncPolicy: automated: {
+			prune:    bool | *true
+			selfHeal: bool | *true
+		}
 	}
 }
 
@@ -274,7 +277,10 @@ for _machine_name, _machine in env {
 				path:           "k/\(app_name)"
 			}
 
-			syncPolicy: automated: prune: true
+			syncPolicy: automated: {
+				prune:    true
+				selfHeal: true
+			}
 		}
 	}
 }

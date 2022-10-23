@@ -28,6 +28,7 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
+                selfHeal: true
         external-secrets-operator: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
@@ -47,6 +48,7 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
+                selfHeal: true
         k3d-global-secrets-store: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
@@ -66,6 +68,7 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
+                selfHeal: true
         k3d-global-secrets: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
@@ -85,6 +88,7 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
+                selfHeal: true
         k3d-global-kuma-global: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
@@ -104,6 +108,7 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
+                selfHeal: true
         mesh: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
@@ -123,6 +128,7 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
+                selfHeal: true
         dev: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
@@ -142,4 +148,5 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
+                selfHeal: true
     includeCRDs: true

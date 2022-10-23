@@ -28,6 +28,7 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
+                selfHeal: true
         kyverno: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
@@ -47,6 +48,7 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
+                selfHeal: true
         external-secrets-operator: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
@@ -66,6 +68,7 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
+                selfHeal: true
         cert-manager: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
@@ -85,6 +88,7 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
+                selfHeal: true
         argo-events: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
@@ -104,6 +108,7 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
+                selfHeal: true
         k3d-control-secrets-store: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
@@ -123,6 +128,7 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
+                selfHeal: true
         k3d-control-secrets: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
@@ -142,6 +148,7 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
+                selfHeal: true
         k3d-control-kuma-zone: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
@@ -161,6 +168,7 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
+                selfHeal: true
         knative: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
@@ -180,6 +188,7 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
+                selfHeal: true
         kong: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
@@ -199,6 +208,7 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
+                selfHeal: true
         demo1: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
@@ -218,6 +228,7 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
+                selfHeal: true
         events: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
@@ -237,6 +248,7 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
+                selfHeal: true
         blocker: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
@@ -256,6 +268,7 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
+                selfHeal: true
         hello: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
@@ -275,4 +288,5 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
+                selfHeal: true
     includeCRDs: true
