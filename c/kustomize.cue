@@ -275,6 +275,28 @@ kustomize: {
 				}
 			}
 
+			resource: "external-secret-kds-server-tls": (#VaultSecret & {
+				secret_name:      "kds-server-tls"
+				secret_namespace: "kuma"
+				secret_key:       "/dev/\(a)/kuma-global"
+				secret_type:      "kubernetes.io/tls"
+				secret_template: "tls.crt": '{{ index . "cert" }}'
+				secret_template: "tls.key": '{{ index . "key" }}'
+				secret_refresh: "60s"
+				secret_store:   "dev"
+			}).out
+
+			resource: "external-secret-generic-tls-cert": (#VaultSecret & {
+				secret_name:      "generic-tls-cert"
+				secret_namespace: "kuma"
+				secret_key:       "/dev/\(a)/kuma-global"
+				secret_template: "tls.crt": '{{ index . "tls.crt" }}'
+				secret_template: "tls.key": '{{ index . "tls.key" }}'
+				secret_template: "ca.crt":  '{{ index . "ca.crt" }}'
+				secret_refresh: "60s"
+				secret_store:   "dev"
+			}).out
+
 			resource: "namespace-kuma": core.#Namespace & {
 				apiVersion: "v1"
 				kind:       "Namespace"

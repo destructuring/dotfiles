@@ -2,6 +2,8 @@
 
 patchesStrategicMerge: []
 resources:
+  - resource-external-secret-kds-server-tls.yaml
+  - resource-external-secret-generic-tls-cert.yaml
   - resource-namespace-kuma.yaml
 namespace: kuma
 helmCharts:
