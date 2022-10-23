@@ -15,6 +15,7 @@ package c
 		metadata: {
 			name:      secret_name
 			namespace: secret_namespace
+			annotations: "argocd.argoproj.io/sync-wave": "-1"
 		}
 		spec: {
 			target: {
