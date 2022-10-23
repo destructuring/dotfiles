@@ -11,6 +11,5 @@ check:
 	kv
 	aws sts get-caller-identity
 	kumactl inspect services
-	curl so.mesh/dev/; echo
-	curl the.mesh/dev/; echo
-	curl brie.mesh/dev/; echo
+	for a in so the brie; do curl $$a.mesh/dev/; echo; done
+	for a in global smiley pod; do $$a get -n default secret hello -o json | jq -r '.data["config.yml"] | @base64d'; done
