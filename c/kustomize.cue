@@ -326,7 +326,6 @@ kustomize: {
 				secret_name:      "kds-ca-certs"
 				secret_namespace: "kuma"
 				secret_key:       "/dev/k3d-global/kuma-global"
-				secret_type:      "kubernetes.io/tls"
 				secret_template: "ca.crt": '{{ index . "ca.crt" }}'
 				secret_refresh: "60s"
 				secret_store:   "dev"
