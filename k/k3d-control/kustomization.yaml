@@ -229,26 +229,6 @@ helmCharts:
               automated:
                 prune: true
                 selfHeal: true
-        blocker: |
-          apiVersion: argoproj.io/v1alpha1
-          kind: Application
-          metadata:
-            namespace: argocd
-            name: k3d-control-blocker
-            annotations:
-              argocd.argoproj.io/sync-wave: "101"
-          spec:
-            project: default
-            destination:
-              name: k3d-control
-            source:
-              repoURL: https://github.com/defn/app
-              targetRevision: master
-              path: k/blocker
-            syncPolicy:
-              automated:
-                prune: true
-                selfHeal: true
         hello: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application

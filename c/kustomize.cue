@@ -33,27 +33,6 @@ kustomize: "events": #Kustomize & {
 	}
 }
 
-kustomize: "blocker": #Kustomize & {
-	namespace: "default"
-
-	resource: "blocker": {
-		apiVersion: "batch/v1"
-		kind:       "Job"
-		metadata: {
-			name: "blocker"
-		}
-
-		spec: template: spec: {
-			restartPolicy: "Never"
-			containers: [{
-				name:  "sleeping"
-				image: "ubuntu"
-				command: ["sleep", "10"]
-			}]
-		}
-	}
-}
-
 kustomize: "demo1": #Kustomize & {
 	resource: "demo": {
 		url: "https://bit.ly/demokuma"

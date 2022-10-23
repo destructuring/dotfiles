@@ -26,7 +26,6 @@ env: control: #K3D & {
 		"kong":                      60
 		"demo1":                     100
 		"events":                    100
-		"blocker":                   101
 		"hello":                     110
 	}
 }
