@@ -284,7 +284,9 @@ kustomize: {
 				secret_template: "tls.key": '{{ index . "key" }}'
 				secret_refresh: "60s"
 				secret_store:   "dev"
-			}).out
+			}).out & {
+				metadata: annotations: "argocd.argoproj.io/sync-wave": "-1"
+			}
 
 			resource: "external-secret-generic-tls-cert": (#VaultSecret & {
 				secret_name:      "generic-tls-cert"
@@ -295,7 +297,9 @@ kustomize: {
 				secret_template: "ca.crt":  '{{ index . "ca.crt" }}'
 				secret_refresh: "60s"
 				secret_store:   "dev"
-			}).out
+			}).out & {
+				metadata: annotations: "argocd.argoproj.io/sync-wave": "-1"
+			}
 
 			resource: "namespace-kuma": core.#Namespace & {
 				apiVersion: "v1"
@@ -351,7 +355,9 @@ kustomize: {
 				secret_template: "ca.crt": '{{ index . "ca.crt" }}'
 				secret_refresh: "60s"
 				secret_store:   "dev"
-			}).out
+			}).out & {
+				metadata: annotations: "argocd.argoproj.io/sync-wave": "-1"
+			}
 
 			resource: "external-secret-kuma-tls-cert": (#VaultSecret & {
 				secret_name:      "kuma-tls-cert"
@@ -362,7 +368,9 @@ kustomize: {
 				secret_template: "ca.crt":  '{{ index . "ca.crt" }}'
 				secret_refresh: "60s"
 				secret_store:   "dev"
-			}).out
+			}).out & {
+				metadata: annotations: "argocd.argoproj.io/sync-wave": "-1"
+			}
 		}
 	}
 }
