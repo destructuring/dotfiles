@@ -19,7 +19,7 @@ package c
 		spec: {
 			target: {
 				name: secret_name
-				type: secret_type
+				template: type: secret_type
 				if secret_template != null {
 					template: data: secret_template
 				}
