@@ -321,6 +321,27 @@ kustomize: {
 					name: "kuma"
 				}
 			}
+
+			resource: "external-secret-kds-ca-certs": (#VaultSecret & {
+				secret_name:      "kds-ca-certs"
+				secret_namespace: "kuma"
+				secret_key:       "/dev/\(a)/kuma-zone"
+				secret_template: "tls.crt": "{{ .cert }}"
+				secret_template: "tls.key": "{{ .key }}"
+				secret_refresh: "60s"
+				secret_store:   "dev"
+			}).out
+
+			resource: "external-secret-kuma-tls-cert": (#VaultSecret & {
+				secret_name:      "kuma-tls-cert"
+				secret_namespace: "kuma"
+				secret_key:       "/dev/\(a)/kuma-zone"
+				secret_template: "tls.crt": '{{ index . "tls.crt" }}'
+				secret_template: "tls.key": '{{ index . "tls.key" }}'
+				secret_template: "ca.crt":  '{{ index . "ca.crt" }}'
+				secret_refresh: "60s"
+				secret_store:   "dev"
+			}).out
 		}
 	}
 }
