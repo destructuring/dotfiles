@@ -7,6 +7,7 @@ package c
 	secret_template:  {...} | *null
 	secret_refresh:   string
 	secret_store:     string
+	secret_type:      string | *"Opaque"
 
 	out: {
 		apiVersion: "external-secrets.io/v1beta1"
@@ -18,6 +19,7 @@ package c
 		spec: {
 			target: {
 				name: secret_name
+				type: secret_type
 				if secret_template != null {
 					template: data: secret_template
 				}
