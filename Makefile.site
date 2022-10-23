@@ -12,4 +12,4 @@ check:
 	aws sts get-caller-identity
 	kumactl inspect services
 	for a in so the brie; do curl $$a.mesh/dev/; echo; done
-	for a in global smiley pod; do $$a get -n default secret hello -o json | jq -r '.data["config.yml"] | @base64d'; done
+	for a in control global smiley; do $$a get -n default secret hello -o json | jq -r '.data["config.yml"] | @base64d'; done

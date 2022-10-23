@@ -1,5 +1,5 @@
 analytics_settings(False)
-allow_k8s_contexts("pod")
+allow_k8s_contexts("k3d-control")
 
 load("ext://uibutton", "cmd_button", "location")
 load("ext://restart_process", "custom_build_with_restart")
