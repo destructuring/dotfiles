@@ -3,15 +3,13 @@
 The purpose of this chart is to become able to manage every installed resources in a Kubernetes cluster via HELM.
 
 For example:
-
-- Global secrets (e.g. TLS certs or `imagePullSecrets`)
-- ConfigMaps (e.g. grafana-dashboards, see https://github.com/helm/charts/tree/master/stable/grafana#sidecar-for-dashboards)
-- Custom Resources (e.g. `GcpNamespaceRestriction`, see https://github.com/kiwigrid/gcp-serviceaccount-controller)
+  * Global secrets (e.g. TLS certs or `imagePullSecrets`)
+  * ConfigMaps (e.g. grafana-dashboards, see https://github.com/helm/charts/tree/master/stable/grafana#sidecar-for-dashboards)
+  * Custom Resources (e.g. `GcpNamespaceRestriction`, see https://github.com/kiwigrid/gcp-serviceaccount-controller)
 
 ## Example
 
 Create a file called `custom-values.yaml` with following content:
-
 ```yaml
 anyResources:
   myPullSecret: |-
@@ -25,11 +23,10 @@ anyResources:
 ```
 
 Install
-
 ```console
 helm upgrade --install my-pull-secret --values custom-values.yaml kiwigrid/any-resource
 ```
 
 ## Open Issue
 
-- HELM standard label support
+* HELM standard label support
