@@ -28,7 +28,7 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
-        k3d-smiley-external-secrets-operator: |
+        external-secrets-operator: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
           metadata:
@@ -43,7 +43,26 @@ helmCharts:
             source:
               repoURL: https://github.com/defn/app
               targetRevision: master
-              path: k/k3d-smiley-external-secrets-operator
+              path: k/external-secrets-operator
+            syncPolicy:
+              automated:
+                prune: true
+        k3d-smiley-secrets-store: |
+          apiVersion: argoproj.io/v1alpha1
+          kind: Application
+          metadata:
+            namespace: argocd
+            name: k3d-smiley-secrets-store
+            annotations:
+              argocd.argoproj.io/sync-wave: "19"
+          spec:
+            project: default
+            destination:
+              name: k3d-smiley
+            source:
+              repoURL: https://github.com/defn/app
+              targetRevision: master
+              path: k/k3d-smiley-secrets-store
             syncPolicy:
               automated:
                 prune: true

@@ -47,7 +47,7 @@ helmCharts:
             syncPolicy:
               automated:
                 prune: true
-        k3d-control-external-secrets-operator: |
+        external-secrets-operator: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
           metadata:
@@ -62,7 +62,7 @@ helmCharts:
             source:
               repoURL: https://github.com/defn/app
               targetRevision: master
-              path: k/k3d-control-external-secrets-operator
+              path: k/external-secrets-operator
             syncPolicy:
               automated:
                 prune: true
@@ -101,6 +101,25 @@ helmCharts:
               repoURL: https://github.com/defn/app
               targetRevision: master
               path: k/argo-events
+            syncPolicy:
+              automated:
+                prune: true
+        k3d-control-secrets-store: |
+          apiVersion: argoproj.io/v1alpha1
+          kind: Application
+          metadata:
+            namespace: argocd
+            name: k3d-control-secrets-store
+            annotations:
+              argocd.argoproj.io/sync-wave: "19"
+          spec:
+            project: default
+            destination:
+              name: in-cluster
+            source:
+              repoURL: https://github.com/defn/app
+              targetRevision: master
+              path: k/k3d-control-secrets-store
             syncPolicy:
               automated:
                 prune: true

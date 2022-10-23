@@ -3,7 +3,6 @@
 patchesStrategicMerge: []
 resources:
   - resource-namespace-external-secrets.yaml
-  - resource-cluster-secret-store-dev.yaml
   - resource-cluster-role-binding-delegator.yaml
 namespace: external-secrets
 helmCharts:

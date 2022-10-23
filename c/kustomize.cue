@@ -667,6 +667,45 @@ kustomize: "dev": #Kustomize & {
 	}
 }
 
+kustomize: "external-secrets-operator": #KustomizeHelm & {
+	namespace: "external-secrets"
+
+	helm: {
+		release: "external-secrets"
+		name:    "external-secrets"
+		version: "0.6.0"
+		repo:    "https://charts.external-secrets.io"
+		values: {
+			webhook: create:        false
+			certController: create: false
+		}
+	}
+
+	resource: "namespace-external-secrets": core.#Namespace & {
+		apiVersion: "v1"
+		kind:       "Namespace"
+		metadata: {
+			name: "external-secrets"
+		}
+	}
+
+	resource: "cluster-role-binding-delegator": rbac.#ClusterRoleBinding & {
+		apiVersion: "rbac.authorization.k8s.io/v1"
+		kind:       "ClusterRoleBinding"
+		metadata: name: "external-secrets-delegator"
+		roleRef: {
+			apiGroup: "rbac.authorization.k8s.io"
+			kind:     "ClusterRole"
+			name:     "system:auth-delegator"
+		}
+		subjects: [{
+			kind:      "ServiceAccount"
+			name:      "external-secrets"
+			namespace: "external-secrets"
+		}]
+	}
+}
+
 // helm template karpenter --include-crds --version v0.18.0 -f values.yaml oci://public.ecr.aws/karpenter/karpenter > karpenter.yaml
 kustomize: "karpenter": #Kustomize & {
 	namespace: "karpenter"
