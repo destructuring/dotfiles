@@ -256,13 +256,7 @@ for _machine_name, _machine in env {
 			project: "default"
 
 			destination: {
-				name: string
-				if machine_name == "control" {
-					name: "in-cluster"
-				}
-				if machine_name != "control" {
-					name: "\(machine_type)-\(machine_name)"
-				}
+				name: "\(machine_type)-\(machine_name)"
 			}
 
 			source: {
