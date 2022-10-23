@@ -6,6 +6,7 @@ RUN cd && ln -nfs /work .
 RUN cd && ln -nfs work/app .
 RUN cd && touch .home.done
 COPY service /service
-RUN --no-cache cd /home/ubuntu && sudo -u ubuntu git pull
+ADD http://worldclockapi.com/api/json/utc/now /tmp/builddate
+RUN cd /home/ubuntu && sudo -u ubuntu git pull
 
 USER root
