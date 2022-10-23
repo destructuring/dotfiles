@@ -735,6 +735,10 @@ kustomize: "pod-identity-webhook": #KustomizeHelm & {
 		name:    "amazon-eks-pod-identity-webhook"
 		version: "1.0.3"
 		repo:    "https://jkroepke.github.io/helm-charts"
+		values: {
+			pki: certManager: certificate: duration:    "2160h0m0s"
+			pki: certManager: certificate: renewBefore: "360h0m0s"
+		}
 	}
 }
 
