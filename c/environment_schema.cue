@@ -44,13 +44,7 @@ for _machine_name, _machine in env {
 
 	// Configure the environment secrets
 	kustomize: "\(_machine.type)-\(_machine.name)-secrets-store": #Kustomize & {
-		_vault_mount_path: string
-		if _machine.name == "control" {
-			_vault_mount_path: "pod"
-		}
-		if _machine.name != "control" {
-			_vault_mount_path: "\(_machine.type)-\(_machine.name)"
-		}
+		_vault_mount_path: "\(_machine.type)-\(_machine.name)"
 
 		resource: "cluster-secret-store-dev": {
 			apiVersion: "external-secrets.io/v1beta1"
