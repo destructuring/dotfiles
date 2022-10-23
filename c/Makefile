@@ -15,3 +15,10 @@ gen:
 	git add ../e ../k ../tf
 	pc || true
 	git add ../e ../k ../tf
+
+regen:
+	$(MAKE) gen
+	cd ../k && for a in */; do echo $$a; (cd $$a && rm -rf charts && mkdir -p out && kustomize build --enable-helm > out/main.yaml); done
+	pc
+	git add ../k/
+	git add -u ../k/

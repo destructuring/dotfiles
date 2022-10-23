@@ -135,7 +135,7 @@ kustomize: "argo-workflows": #KustomizeHelm & {
 		release:   "argo-workflows"
 		name:      "argo-workflows"
 		namespace: "argo-workflows"
-		version:   "0.20.1"
+		version:   "0.20.2"
 		repo:      "https://argoproj.github.io/argo-helm"
 	}
 
@@ -742,7 +742,7 @@ kustomize: "pod-identity-webhook": #KustomizeHelm & {
 	}
 }
 
-// helm template karpenter --include-crds --version v0.18.1 -f ../k/karpenter/values.yaml  oci://public.ecr.aws/karpenter/karpenter | tail -n +3 > ../k/karpenter/karpenter.yaml 
+// helm template karpenter --include-crds --version v0.18.1 -f ../k/karpenter/values.yaml  oci://public.ecr.aws/karpenter/karpenter | tail -n +3 > ../k/karpenter/karpenter.yaml
 kustomize: "karpenter": #Kustomize & {
 	namespace: "karpenter"
 

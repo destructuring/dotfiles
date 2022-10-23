@@ -6,7 +6,7 @@ resources:
 helmCharts:
   - releaseName: argo-workflows
     name: argo-workflows
-    version: 0.20.1
+    version: 0.20.2
     repo: https://argoproj.github.io/argo-helm
     valuesInline: {}
     namespace: argo-workflows

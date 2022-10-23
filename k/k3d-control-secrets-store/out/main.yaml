@@ -7,7 +7,7 @@ spec:
     vault:
       auth:
         kubernetes:
-          mountPath: pod
+          mountPath: k3d-control
           role: external-secrets
       path: kv
       server: http://100.103.25.109:8200

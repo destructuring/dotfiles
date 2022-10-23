@@ -1,6 +1,6 @@
 annotations:
   artifacthub.io/changes: |
-    - "[Changed]: Upgrade ArgoWorkflows to v3.4.1"
+    - "[Added]: Add support for topologySpreadConstraints"
 apiVersion: v2
 appVersion: v3.4.1
 description: A Helm chart for Argo Workflows
@@ -13,4 +13,4 @@ name: argo-workflows
 sources:
 - https://github.com/argoproj/argo-workflows
 type: application
-version: 0.20.1
+version: 0.20.2

@@ -7,7 +7,7 @@ metadata:
   namespace: argocd
 spec:
   destination:
-    name: in-cluster
+    name: k3d-control
   project: default
   source:
     path: k/argo-cd
@@ -27,7 +27,7 @@ metadata:
   namespace: argocd
 spec:
   destination:
-    name: in-cluster
+    name: k3d-control
   project: default
   source:
     path: k/argo-events
@@ -42,32 +42,12 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "101"
-  name: k3d-control-blocker
-  namespace: argocd
-spec:
-  destination:
-    name: in-cluster
-  project: default
-  source:
-    path: k/blocker
-    repoURL: https://github.com/defn/app
-    targetRevision: master
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  annotations:
-    argocd.argoproj.io/sync-wave: "10"
+    argocd.argoproj.io/sync-wave: "1"
   name: k3d-control-cert-manager
   namespace: argocd
 spec:
   destination:
-    name: in-cluster
+    name: k3d-control
   project: default
   source:
     path: k/cert-manager
@@ -87,7 +67,7 @@ metadata:
   namespace: argocd
 spec:
   destination:
-    name: in-cluster
+    name: k3d-control
   project: default
   source:
     path: k/demo1
@@ -107,7 +87,7 @@ metadata:
   namespace: argocd
 spec:
   destination:
-    name: in-cluster
+    name: k3d-control
   project: default
   source:
     path: k/events
@@ -127,7 +107,7 @@ metadata:
   namespace: argocd
 spec:
   destination:
-    name: in-cluster
+    name: k3d-control
   project: default
   source:
     path: k/external-secrets-operator
@@ -147,7 +127,7 @@ metadata:
   namespace: argocd
 spec:
   destination:
-    name: in-cluster
+    name: k3d-control
   project: default
   source:
     path: k/hello
@@ -167,7 +147,7 @@ metadata:
   namespace: argocd
 spec:
   destination:
-    name: in-cluster
+    name: k3d-control
   project: default
   source:
     path: k/knative
@@ -187,7 +167,7 @@ metadata:
   namespace: argocd
 spec:
   destination:
-    name: in-cluster
+    name: k3d-control
   project: default
   source:
     path: k/kong
@@ -207,7 +187,7 @@ metadata:
   namespace: argocd
 spec:
   destination:
-    name: in-cluster
+    name: k3d-control
   project: default
   source:
     path: k/k3d-control-kuma-zone
@@ -222,12 +202,12 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "10"
+    argocd.argoproj.io/sync-wave: "1"
   name: k3d-control-kyverno
   namespace: argocd
 spec:
   destination:
-    name: in-cluster
+    name: k3d-control
   project: default
   source:
     path: k/kyverno
@@ -242,15 +222,15 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "20"
-  name: k3d-control-secrets
+    argocd.argoproj.io/sync-wave: "10"
+  name: k3d-control-pod-identity-webhook
   namespace: argocd
 spec:
   destination:
-    name: in-cluster
+    name: k3d-control
   project: default
   source:
-    path: k/k3d-control-secrets
+    path: k/pod-identity-webhook
     repoURL: https://github.com/defn/app
     targetRevision: master
   syncPolicy:
@@ -262,12 +242,12 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "19"
+    argocd.argoproj.io/sync-wave: "20"
   name: k3d-control-secrets-store
   namespace: argocd
 spec:
   destination:
-    name: in-cluster
+    name: k3d-control
   project: default
   source:
     path: k/k3d-control-secrets-store

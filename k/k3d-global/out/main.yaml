@@ -2,15 +2,15 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "100"
-  name: k3d-global-dev
+    argocd.argoproj.io/sync-wave: "1"
+  name: k3d-global-cert-manager
   namespace: argocd
 spec:
   destination:
     name: k3d-global
   project: default
   source:
-    path: k/dev
+    path: k/cert-manager
     repoURL: https://github.com/defn/app
     targetRevision: master
   syncPolicy:
@@ -62,7 +62,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "10"
+    argocd.argoproj.io/sync-wave: "1"
   name: k3d-global-kyverno
   namespace: argocd
 spec:
@@ -103,26 +103,6 @@ kind: Application
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "20"
-  name: k3d-global-secrets
-  namespace: argocd
-spec:
-  destination:
-    name: k3d-global
-  project: default
-  source:
-    path: k/k3d-global-secrets
-    repoURL: https://github.com/defn/app
-    targetRevision: master
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  annotations:
-    argocd.argoproj.io/sync-wave: "19"
   name: k3d-global-secrets-store
   namespace: argocd
 spec:
