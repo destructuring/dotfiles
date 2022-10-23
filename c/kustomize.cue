@@ -727,7 +727,16 @@ kustomize: "external-secrets-operator": #KustomizeHelm & {
 	}
 }
 
-// helm template karpenter --include-crds --version v0.18.0 -f values.yaml oci://public.ecr.aws/karpenter/karpenter > karpenter.yaml
+kustomize: "pod-identity-webhook": #KustomizeHelm & {
+	helm: {
+		release: "pod-identity-webhook"
+		name:    "amazon-eks-pod-identity-webhook"
+		version: "1.0.3"
+		repo:    "https://jkroepke.github.io/helm-charts"
+	}
+}
+
+// helm template karpenter --include-crds --version v0.18.1 -f ../k/karpenter/values.yaml  oci://public.ecr.aws/karpenter/karpenter | tail -n +3 > ../k/karpenter/karpenter.yaml 
 kustomize: "karpenter": #Kustomize & {
 	namespace: "karpenter"
 
