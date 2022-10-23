@@ -2,8 +2,6 @@ package c
 
 import (
 	"encoding/yaml"
-
-	core "github.com/defn/boot/k8s.io/api/core/v1"
 )
 
 // Each environment is hosted on a Kubernetes machine.
@@ -58,70 +56,6 @@ for _machine_name, _machine in env {
 					mountPath: _vault_mount_path
 					role:      "external-secrets"
 				}
-			}
-		}
-	}
-
-	// Configure the environment secrets
-	kustomize: "\(_machine.type)-\(_machine.name)-secrets": #Kustomize & {
-		resource: "namespace-secrets": core.#Namespace & {
-			apiVersion: "v1"
-			kind:       "Namespace"
-			metadata: {
-				name: "secrets"
-			}
-		}
-
-		resource: "kyverno-sync-secrets": {
-			apiVersion: "kyverno.io/v1"
-			kind:       "ClusterPolicy"
-			metadata: name: "kyverno-sync-secrets"
-
-			spec: rules: [...{...}]
-			spec: rules: [
-				for sname, s in _machine.sync {
-					s & {name: sname}
-				},
-			]
-		}
-
-		resource: {
-			for ename, e in _machine.external {
-				"\(ename)": e.out
-			}
-		}
-
-		resource: "pod-secrets": core.#Pod & {
-			apiVersion: "v1"
-			kind:       "Pod"
-			metadata: name:      "secrets"
-			metadata: namespace: "secrets"
-
-			spec: {
-				containers: [{
-					name:  "sleep"
-					image: "ubuntu"
-					command: ["bash", "-c"]
-					args: ["sleep infinity"]
-
-					volumeMounts: [
-						for sname, s in _machine.sync {
-							name:      sname
-							mountPath: "/mnt/secrets/\(sname)"
-							readOnly:  true
-						},
-					]
-				}]
-
-				volumes: [
-					for sname, s in _machine.sync {
-						name: sname
-						secret: {
-							secretName: sname
-							optional:   false
-						}
-					},
-				]
 			}
 		}
 	}
@@ -197,10 +131,6 @@ for _machine_name, _machine in env {
 	}
 
 	apps: [string]: [string]: {...}
-
-	sync: [string]: {...}
-
-	external: [string]: #VaultSecret
 }
 
 // K3D Machine

@@ -116,26 +116,6 @@ helmCharts:
             namespace: argocd
             name: k3d-control-secrets-store
             annotations:
-              argocd.argoproj.io/sync-wave: "19"
-          spec:
-            project: default
-            destination:
-              name: k3d-control
-            source:
-              repoURL: https://github.com/defn/app
-              targetRevision: master
-              path: k/k3d-control-secrets-store
-            syncPolicy:
-              automated:
-                prune: true
-                selfHeal: true
-        k3d-control-secrets: |
-          apiVersion: argoproj.io/v1alpha1
-          kind: Application
-          metadata:
-            namespace: argocd
-            name: k3d-control-secrets
-            annotations:
               argocd.argoproj.io/sync-wave: "20"
           spec:
             project: default
@@ -144,7 +124,7 @@ helmCharts:
             source:
               repoURL: https://github.com/defn/app
               targetRevision: master
-              path: k/k3d-control-secrets
+              path: k/k3d-control-secrets-store
             syncPolicy:
               automated:
                 prune: true

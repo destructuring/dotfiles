@@ -56,26 +56,6 @@ helmCharts:
             namespace: argocd
             name: k3d-global-secrets-store
             annotations:
-              argocd.argoproj.io/sync-wave: "19"
-          spec:
-            project: default
-            destination:
-              name: k3d-global
-            source:
-              repoURL: https://github.com/defn/app
-              targetRevision: master
-              path: k/k3d-global-secrets-store
-            syncPolicy:
-              automated:
-                prune: true
-                selfHeal: true
-        k3d-global-secrets: |
-          apiVersion: argoproj.io/v1alpha1
-          kind: Application
-          metadata:
-            namespace: argocd
-            name: k3d-global-secrets
-            annotations:
               argocd.argoproj.io/sync-wave: "20"
           spec:
             project: default
@@ -84,7 +64,7 @@ helmCharts:
             source:
               repoURL: https://github.com/defn/app
               targetRevision: master
-              path: k/k3d-global-secrets
+              path: k/k3d-global-secrets-store
             syncPolicy:
               automated:
                 prune: true
