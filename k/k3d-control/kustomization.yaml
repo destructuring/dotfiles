@@ -29,12 +29,52 @@ helmCharts:
               automated:
                 prune: true
                 selfHeal: true
+        cert-manager: |
+          apiVersion: argoproj.io/v1alpha1
+          kind: Application
+          metadata:
+            namespace: argocd
+            name: k3d-control-cert-manager
+            annotations:
+              argocd.argoproj.io/sync-wave: "1"
+          spec:
+            project: default
+            destination:
+              name: k3d-control
+            source:
+              repoURL: https://github.com/defn/app
+              targetRevision: master
+              path: k/cert-manager
+            syncPolicy:
+              automated:
+                prune: true
+                selfHeal: true
         kyverno: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
           metadata:
             namespace: argocd
             name: k3d-control-kyverno
+            annotations:
+              argocd.argoproj.io/sync-wave: "1"
+          spec:
+            project: default
+            destination:
+              name: k3d-control
+            source:
+              repoURL: https://github.com/defn/app
+              targetRevision: master
+              path: k/kyverno
+            syncPolicy:
+              automated:
+                prune: true
+                selfHeal: true
+        pod-identity-webhook: |
+          apiVersion: argoproj.io/v1alpha1
+          kind: Application
+          metadata:
+            namespace: argocd
+            name: k3d-control-pod-identity-webhook
             annotations:
               argocd.argoproj.io/sync-wave: "10"
           spec:
@@ -44,7 +84,7 @@ helmCharts:
             source:
               repoURL: https://github.com/defn/app
               targetRevision: master
-              path: k/kyverno
+              path: k/pod-identity-webhook
             syncPolicy:
               automated:
                 prune: true
@@ -65,26 +105,6 @@ helmCharts:
               repoURL: https://github.com/defn/app
               targetRevision: master
               path: k/external-secrets-operator
-            syncPolicy:
-              automated:
-                prune: true
-                selfHeal: true
-        cert-manager: |
-          apiVersion: argoproj.io/v1alpha1
-          kind: Application
-          metadata:
-            namespace: argocd
-            name: k3d-control-cert-manager
-            annotations:
-              argocd.argoproj.io/sync-wave: "10"
-          spec:
-            project: default
-            destination:
-              name: k3d-control
-            source:
-              repoURL: https://github.com/defn/app
-              targetRevision: master
-              path: k/cert-manager
             syncPolicy:
               automated:
                 prune: true
