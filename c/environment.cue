@@ -157,7 +157,6 @@ env: smiley: #K3D & {
 		"k3d-smiley-secrets":        20
 		"k3d-smiley-kuma-zone":      30
 		"demo2":                     100
-		"dev":                       100
 	}
 
 	sync_kuma_zone_secrets
@@ -184,7 +183,6 @@ env: global: #K3D & {
 		"k3d-global-secrets":        20
 		"k3d-global-kuma-global":    30
 		"mesh":                      40
-		"dev":                       100
 	}
 
 	sync_kuma_global_secrets
