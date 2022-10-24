@@ -24,6 +24,7 @@ json-inner:
 	$(MAKE) discovery.json keys.json
 
 # --service-account-key-file=/var/lib/rancher/k3s/server/tls/service.key + $PKCS_KEY
+# --service-account-private-key-file not needed
 # --service-account-signing-key-file $PRIV_KEY
 # --api-audiences sts.amazonaws.com
 # --service-account-issuer "https://$ISSUER_HOSTPATH"
