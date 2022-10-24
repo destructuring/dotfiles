@@ -71,7 +71,7 @@ local_resource("kuma-dp",
                 ~/bin/e kuma-dp-on ~/etc/dev-tp.yaml
                 ~/bin/e kuma-tp-off
                 sudo pkill -9 -f "kuma-dp run --dataplane-token-file=/tmp/dev-toke[n]"
-                sleep 1
+                sleep 30
             done
         """
     ]
@@ -85,7 +85,7 @@ local_resource("kuma-cp",
             while true; do
                 ~/bin/e kuma-cp-on
                 sudo pkill -9 -f "kuma-cp ru[n]"
-                sleep 1
+                sleep 30
             done
         """
     ]
