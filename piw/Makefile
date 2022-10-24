@@ -26,7 +26,7 @@ json-inner:
 # --service-account-key-file=/var/lib/rancher/k3s/server/tls/service.key + $PKCS_KEY
 # --service-account-private-key-file not needed
 # --service-account-signing-key-file $PRIV_KEY
-# --api-audiences sts.amazonaws.com
+# --api-audiences https://kubernetes.default.svc.cluster.local,sts.amazonaws.com
 # --service-account-issuer "https://$ISSUER_HOSTPATH"
 
 # webhook's --token-audience must match idp
