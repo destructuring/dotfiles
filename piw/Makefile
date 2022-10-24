@@ -23,11 +23,11 @@ json:
 json-inner:
 	$(MAKE) discovery.json keys.json
 
-# --service-account-key-file=/var/lib/rancher/k3s/server/tls/service.key
-# --service-account-key-file=$PKCS_KEY
-# --service-account-signing-key-file $PRIV_KEY
-# --api-audiences https://kubernetes.default.svc.cluster.local,sts.amazonaws.com
-# --service-account-issuer "raw.githubusercontent.com/amanibhavam/amanibhavam.github.io/master/v8/"
+# --kube-apiserver-arg --service-account-key-file=/var/lib/rancher/k3s/server/tls/service.key
+# --kube-apiserver-arg --service-account-key-file=/var/lib/rancher/k3s/server/tls/sa-signer-pkcs8.pub
+# --kube-apiserver-arg --service-account-signing-key-file /var/lib/rancher/k3s/server/tls/sa-signer.key
+# --kube-apiserver-arg --service-account-issuer raw.githubusercontent.com/amanibhavam/amanibhavam.github.io/master/v8
+# --kube-apiserver-arg --api-audiences https://kubernetes.default.svc.cluster.local,sts.amazonaws.com
 
 # webhook's --token-audience must match idp
 
