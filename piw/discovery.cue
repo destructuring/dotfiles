@@ -1,8 +1,8 @@
 package piw
 
 
-issuer:                 "https://$ISSUER_HOSTPATH"
-jwks_uri:               "https://$ISSUER_HOSTPATH/keys.json"
+issuer:                 "https://raw.githubusercontent.com/amanibhavam/amanibhavam.github.io/master/v8"
+jwks_uri:               "https://raw.githubusercontent.com/amanibhavam/amanibhavam.github.io/master/v8/.well-known/keys.json"
 authorization_endpoint: "urn:kubernetes:programmatic_authorization"
 response_types_supported: [
 	"id_token",
