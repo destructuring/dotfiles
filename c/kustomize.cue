@@ -772,10 +772,6 @@ kustomize: "karpenter": #Kustomize & {
 		}
 	}
 
-	resource: "awsnodetemplate-default": {
-		url: "awsnodetemplate-default.yaml"
-	}
-
 	for v in ["vc1", "vc2", "vc3", "vc4"] {
 		resource: "provisioner-\(v)": {
 			apiVersion: "karpenter.sh/v1alpha5"

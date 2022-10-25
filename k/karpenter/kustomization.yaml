@@ -5,7 +5,6 @@ patchesStrategicMerge:
 resources:
   - karpenter.yaml
   - resource-namespace-karpenter.yaml
-  - awsnodetemplate-default.yaml
   - resource-provisioner-vc1.yaml
   - resource-provisioner-vc2.yaml
   - resource-provisioner-vc3.yaml
