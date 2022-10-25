@@ -201,7 +201,7 @@ for _machine_name, _machine in env {
 			}
 
 			ignoreDifferences: [{
-				group: "core"
+				group: ""
 				kind:  "Secret"
 				jsonPointers: ["/data"]
 				name:      "karpenter-cert"
