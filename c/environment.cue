@@ -29,6 +29,7 @@ env: control: #K3D & {
 		"demo1":                     100
 		"events":                    100
 		"hello":                     110
+		"vc1":                       200
 	}
 }
 

@@ -289,4 +289,24 @@ helmCharts:
               automated:
                 prune: true
                 selfHeal: true
+        vc1: |
+          apiVersion: argoproj.io/v1alpha1
+          kind: Application
+          metadata:
+            namespace: argocd
+            name: k3d-control-vc1
+            annotations:
+              argocd.argoproj.io/sync-wave: "200"
+          spec:
+            project: default
+            destination:
+              name: k3d-control
+            source:
+              repoURL: https://github.com/defn/app
+              targetRevision: master
+              path: k/vc1
+            syncPolicy:
+              automated:
+                prune: true
+                selfHeal: true
     includeCRDs: true
