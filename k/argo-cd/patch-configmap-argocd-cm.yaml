@@ -4,23 +4,10 @@ metadata:
   name: argocd-cm
 data:
   kustomize.buildOptions: --enable-helm
-  resource.customizations.health.networking.k8s.io_Ingress: |
+  resource.customizations.health.networking.k8s.io_Ingress: |-
     hs = {}
     hs.status = "Healthy"
     return hs
-  resource.customizations.ignoreDifferences.admissionregistration.k8s.io_MutatingWebhookConfiguration: |
-    jsonPointers:
-      - /webhooks/0/clientConfig/caBundle
-      - /webhooks/0/rules
-  resource.customizations.ignoreDifferences.admissionregistration.k8s.io_ValidatingWebhookConfiguration: |
-    jsonPointers:
-      - /webhooks/0/rules
-  resource.customizations.ignoreDifferences.apps_Deployment: |
-    jsonPointers:
-      - /spec/template/spec/tolerations
-  resource.customizations.ignoreDifferences.kyverno.io_ClusterPolicy: |
-    jqPathExpressions:
-      - .spec.rules[] | select(.name|test("autogen-."))
   resource.customizations: |-
     argoproj.io/Application:
       health.lua: |
@@ -36,5 +23,23 @@ data:
           end
         end
         return hs
+  resource.customizations.ignoreDifferences.core_Secret: |
+    jsonPointers:
+      - /data
+  resource.customizations.ignoreDifferences.admissionregistration.k8s.io_MutatingWebhookConfiguration:
+    |
+    jsonPointers:
+      - /webhooks/0/clientConfig/caBundle
+      - /webhooks/0/rules
+  resource.customizations.ignoreDifferences.admissionregistration.k8s.io_ValidatingWebhookConfiguration:
+    |
+    jsonPointers:
+      - /webhooks/0/rules
+  resource.customizations.ignoreDifferences.apps_Deployment: |
+    jsonPointers:
+      - /spec/template/spec/tolerations
+  resource.customizations.ignoreDifferences.kyverno.io_ClusterPolicy: |
+    jqPathExpressions:
+      - .spec.rules[] | select(.name|test("autogen-."))
 kind: ConfigMap
 apiVersion: v1
