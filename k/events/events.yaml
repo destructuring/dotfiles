@@ -6,6 +6,16 @@ spec:
   jetstream:
     version: latest
 ---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: my-events
+  annotations:
+    eks.amazonaws.com/role-arn: "arn:aws:iam::319951235442:role/meh"
+    eks.amazonaws.com/audience: "sts.amazonaws.com"
+    eks.amazonaws.com/sts-regional-endpoints: "true"
+    eks.amazonaws.com/token-expiration: "86400"
+---
 apiVersion: argoproj.io/v1alpha1
 kind: EventSource
 metadata:
@@ -45,6 +55,7 @@ spec:
               spec:
                 template:
                   spec:
+                    serviceAccountName: my-events
                     containers:
                       - name: workspace
                         image: 169.254.32.1:5000/workspace
@@ -52,7 +63,7 @@ spec:
                           - bash
                           - -c
                         args:
-                          - "echo hello-world"
+                          - "echo hello"
                     restartPolicy: Never
           parameters:
             - src:
