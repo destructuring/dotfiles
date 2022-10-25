@@ -2,13 +2,13 @@
 
 patchesStrategicMerge: []
 resources: []
-namespace: vc1
+namespace: vc2
 helmCharts:
   - releaseName: vcluster
     name: vcluster
     version: 0.12.2
     repo: https://charts.loft.sh
-    namespace: vc1
+    namespace: vc2
     valuesInline:
       service:
         type: ClusterIP
@@ -21,10 +21,10 @@ helmCharts:
       sync:
         nodes:
           enabled: true
-          nodeSelector: env=control
+          nodeSelector: env=vc2
       tolerations:
         - key: env
-          value: control
+          value: vc2
           operator: Equal
       affinity:
         nodeAffinity:
@@ -34,5 +34,5 @@ helmCharts:
                   - key: env
                     operator: In
                     values:
-                      - control
+                      - vc2
     includeCRDs: true

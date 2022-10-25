@@ -8,4 +8,6 @@ resources:
   - awsnodetemplate-default.yaml
   - resource-provisioner-vc1.yaml
   - resource-provisioner-vc2.yaml
+  - resource-provisioner-vc3.yaml
+  - resource-provisioner-vc4.yaml
 namespace: karpenter

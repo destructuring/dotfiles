@@ -3,7 +3,7 @@
 apiVersion: karpenter.sh/v1alpha5
 kind: Provisioner
 metadata:
-  name: vc2
+  name: vc4
 spec:
   requirements:
     - key: karpenter.sh/capacity-type
@@ -23,10 +23,10 @@ spec:
     resources:
       cpu: "2"
   labels:
-    env: vc2
+    env: vc4
   taints:
     - key: env
-      value: vc2
+      value: vc4
       effect: NoSchedule
   providerRef:
     name: default

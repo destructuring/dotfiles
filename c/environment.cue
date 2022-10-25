@@ -56,22 +56,17 @@ env: global: #K3D & {
 	}
 }
 
-kustomize: "vc1": #KustomizeVCluster & {
-	namespace: "vc1"
-	vc_name:   "vc1"
+kustomize: [NAME=string]: {
+	if NAME =~ "^vc" {
+		#KustomizeVCluster & {
+			namespace:  NAME
+			vc_name:    NAME
+			vc_machine: NAME
+		}
+	}
 }
 
-kustomize: "vc2": #KustomizeVCluster & {
-	namespace: "vc1"
-	vc_name:   "vc2"
-}
-
-kustomize: "vc3": #KustomizeVCluster & {
-	namespace: "vc1"
-	vc_name:   "vc3"
-}
-
-kustomize: "vc4": #KustomizeVCluster & {
-	namespace: "vc1"
-	vc_name:   "vc4"
-}
+kustomize: "vc1": {}
+kustomize: "vc2": {}
+kustomize: "vc3": {}
+kustomize: "vc4": {}

@@ -776,63 +776,35 @@ kustomize: "karpenter": #Kustomize & {
 		url: "awsnodetemplate-default.yaml"
 	}
 
-	resource: "provisioner-vc1": {
-		apiVersion: "karpenter.sh/v1alpha5"
-		kind:       "Provisioner"
-		metadata: name: "vc1"
-		spec: {
-			requirements: [{
-				key:      "karpenter.sh/capacity-type"
-				operator: "In"
-				values: ["spot"]
-			}, {
-				key:      "kubernetes.io/arch"
-				operator: "In"
-				values: ["amd64"]
-			}, {
-				key:      "node.kubernetes.io/instance-type"
-				operator: "In"
-				values: ["t3.medium", "t3a.medium"]
-			}]
-			limits: resources: cpu: "2"
-			labels: env: "vc1"
-			taints: [{
-				key:    "env"
-				value:  "vc1"
-				effect: "NoSchedule"
-			}]
-			providerRef: name: "default"
-			ttlSecondsAfterEmpty: 600
-		}
-	}
-
-	resource: "provisioner-vc2": {
-		apiVersion: "karpenter.sh/v1alpha5"
-		kind:       "Provisioner"
-		metadata: name: "vc2"
-		spec: {
-			requirements: [{
-				key:      "karpenter.sh/capacity-type"
-				operator: "In"
-				values: ["spot"]
-			}, {
-				key:      "kubernetes.io/arch"
-				operator: "In"
-				values: ["amd64"]
-			}, {
-				key:      "node.kubernetes.io/instance-type"
-				operator: "In"
-				values: ["m3.medium", "m1.medium", "t3.medium", "t3a.medium"]
-			}]
-			limits: resources: cpu: "2"
-			labels: env: "vc2"
-			taints: [{
-				key:    "env"
-				value:  "vc2"
-				effect: "NoSchedule"
-			}]
-			providerRef: name: "default"
-			ttlSecondsAfterEmpty: 1800
+	for v in ["vc1", "vc2", "vc3", "vc4"] {
+		resource: "provisioner-\(v)": {
+			apiVersion: "karpenter.sh/v1alpha5"
+			kind:       "Provisioner"
+			metadata: name: v
+			spec: {
+				requirements: [{
+					key:      "karpenter.sh/capacity-type"
+					operator: "In"
+					values: ["spot"]
+				}, {
+					key:      "kubernetes.io/arch"
+					operator: "In"
+					values: ["amd64"]
+				}, {
+					key:      "node.kubernetes.io/instance-type"
+					operator: "In"
+					values: ["t3.medium", "t3a.medium"]
+				}]
+				limits: resources: cpu: "2"
+				labels: env: v
+				taints: [{
+					key:    "env"
+					value:  v
+					effect: "NoSchedule"
+				}]
+				providerRef: name: "default"
+				ttlSecondsAfterEmpty: 600
+			}
 		}
 	}
 }
