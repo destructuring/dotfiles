@@ -751,17 +751,16 @@ kustomize: "karpenter": #Kustomize & {
 	}
 
 	psm: "deployment-karpenter-irsa": apps.#Deployment & {
-		apiVersion: "apps/v1"
-		kind:       "Deployment"
+		apiVersion: "v1"
+		kind:       "ServiceAccount"
 		metadata: {
 			name: "karpenter"
-		}
-
-		spec: template: metadata: annotations: {
-			"eks.amazonaws.com/role-arn":               "arn:aws:iam::319951235442:role/karpenter"
-			"eks.amazonaws.com/audience":               "sts.amazonaws.com"
-			"eks.amazonaws.com/sts-regional-endpoints": "true"
-			"eks.amazonaws.com/token-expiration":       "86400"
+			annotations: {
+				"eks.amazonaws.com/role-arn":               "arn:aws:iam::319951235442:role/karpenter"
+				"eks.amazonaws.com/audience":               "sts.amazonaws.com"
+				"eks.amazonaws.com/sts-regional-endpoints": "true"
+				"eks.amazonaws.com/token-expiration":       "86400"
+			}
 		}
 	}
 

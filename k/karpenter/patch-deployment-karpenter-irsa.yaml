@@ -2,13 +2,10 @@
 
 metadata:
   name: karpenter
-spec:
-  template:
-    metadata:
-      annotations:
-        eks.amazonaws.com/role-arn: arn:aws:iam::319951235442:role/karpenter
-        eks.amazonaws.com/audience: sts.amazonaws.com
-        eks.amazonaws.com/sts-regional-endpoints: "true"
-        eks.amazonaws.com/token-expiration: "86400"
-kind: Deployment
-apiVersion: apps/v1
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::319951235442:role/karpenter
+    eks.amazonaws.com/audience: sts.amazonaws.com
+    eks.amazonaws.com/sts-regional-endpoints: "true"
+    eks.amazonaws.com/token-expiration: "86400"
+kind: ServiceAccount
+apiVersion: v1
