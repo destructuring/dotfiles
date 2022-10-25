@@ -23,13 +23,16 @@ env: control: #K3D & {
 		"argo-events":               10
 		"karpenter":                 20
 		"k3d-control-secrets-store": 20
-		"k3d-control-kuma-zone":     30
-		"vc1":                       30
-		"knative":                   50
-		"kong":                      60
-		"demo1":                     100
-		"events":                    100
-		"hello":                     110
+		//"k3d-control-kuma-zone":     30
+		"vc1": 30
+		"vc2": 30
+		"vc3": 30
+		"vc4": 30
+		//"knative":                   50
+		//"kong":                      60
+		//"demo1":                     100
+		"events": 100
+		//"hello":                     110
 	}
 }
 
