@@ -21,6 +21,7 @@ env: control: #K3D & {
 		"pod-identity-webhook":      10
 		"external-secrets-operator": 10
 		"argo-events":               10
+		"karpenter":                 20
 		"k3d-control-secrets-store": 20
 		"k3d-control-kuma-zone":     30
 		"knative":                   50

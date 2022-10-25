@@ -750,6 +750,22 @@ kustomize: "karpenter": #Kustomize & {
 		url: "karpenter.yaml"
 	}
 
+	psm: "deployment-karpenter-irsa": apps.#Deployment & {
+		apiVersion: "apps/v1"
+		kind:       "Deployment"
+		metadata: {
+			name:      "karpenter"
+			namespace: "karpenter"
+		}
+
+		spec: template: metadata: annotations: {
+			"eks.amazonaws.com/role-arn":               "arn:aws:iam::319951235442:role/karpenter"
+			"eks.amazonaws.com/audience":               "sts.amazonaws.com"
+			"eks.amazonaws.com/sts-regional-endpoints": "true"
+			"eks.amazonaws.com/token-expiration":       "86400"
+		}
+	}
+
 	resource: "namespace-karpenter": core.#Namespace & {
 		apiVersion: "v1"
 		kind:       "Namespace"

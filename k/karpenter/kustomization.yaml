@@ -1,6 +1,7 @@
 #ManagedBy: cue
 
-patchesStrategicMerge: []
+patchesStrategicMerge:
+  - patch-deployment-karpenter-irsa.yaml
 resources:
   - karpenter.yaml
   - resource-namespace-karpenter.yaml
