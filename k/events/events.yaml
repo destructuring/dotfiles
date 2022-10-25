@@ -53,6 +53,7 @@ spec:
                 generateName: run-this
                 namespace: default
               spec:
+                ttlSecondsAfterFinished: 60
                 template:
                   spec:
                     serviceAccountName: my-events
