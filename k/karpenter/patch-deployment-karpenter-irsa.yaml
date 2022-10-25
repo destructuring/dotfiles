@@ -2,7 +2,6 @@
 
 metadata:
   name: karpenter
-  namespace: karpenter
 spec:
   template:
     metadata:

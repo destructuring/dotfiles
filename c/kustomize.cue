@@ -754,8 +754,7 @@ kustomize: "karpenter": #Kustomize & {
 		apiVersion: "apps/v1"
 		kind:       "Deployment"
 		metadata: {
-			name:      "karpenter"
-			namespace: "karpenter"
+			name: "karpenter"
 		}
 
 		spec: template: metadata: annotations: {
