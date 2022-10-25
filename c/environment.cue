@@ -24,12 +24,12 @@ env: control: #K3D & {
 		"karpenter":                 20
 		"k3d-control-secrets-store": 20
 		"k3d-control-kuma-zone":     30
+		"vc1":                       30
 		"knative":                   50
 		"kong":                      60
 		"demo1":                     100
 		"events":                    100
 		"hello":                     110
-		"vc1":                       200
 	}
 }
 
