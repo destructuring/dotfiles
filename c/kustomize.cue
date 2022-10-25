@@ -772,6 +772,10 @@ kustomize: "karpenter": #Kustomize & {
 		}
 	}
 
+	resource: "awsnodetemplate-default": {
+		url: "awsnodetemplate-default.yaml"
+	}
+
 	resource: "provisioner-vc1": {
 		apiVersion: "karpenter.sh/v1alpha5"
 		kind:       "Provisioner"
