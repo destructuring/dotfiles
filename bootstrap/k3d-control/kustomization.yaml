@@ -1,7 +1,6 @@
-namespace: argocd
-
 bases:
   - ../../k/argo-cd
+  - ../../k/pod-identity-webhook
 
 resources:
   - ns.yaml
