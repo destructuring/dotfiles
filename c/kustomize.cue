@@ -82,12 +82,6 @@ kustomize: "argo-cd": #Kustomize & {
 				    return hs
 				"""
 
-			"resource.customizations.ignoreDifferences.core_Secret": """
-				jsonPointers:
-				  - /data
-
-				"""
-
 			"resource.customizations.ignoreDifferences.admissionregistration.k8s.io_MutatingWebhookConfiguration": """
 				jsonPointers:
 				  - /webhooks/0/clientConfig/caBundle

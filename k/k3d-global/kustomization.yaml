@@ -29,6 +29,13 @@ helmCharts:
               automated:
                 prune: true
                 selfHeal: true
+            ignoreDifferences:
+              - group: core
+                kind: Secret
+                jsonPointers:
+                  - /data
+                name: karpenter-cert
+                namespace: karpenter
         kyverno: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
@@ -49,6 +56,13 @@ helmCharts:
               automated:
                 prune: true
                 selfHeal: true
+            ignoreDifferences:
+              - group: core
+                kind: Secret
+                jsonPointers:
+                  - /data
+                name: karpenter-cert
+                namespace: karpenter
         external-secrets-operator: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
@@ -69,6 +83,13 @@ helmCharts:
               automated:
                 prune: true
                 selfHeal: true
+            ignoreDifferences:
+              - group: core
+                kind: Secret
+                jsonPointers:
+                  - /data
+                name: karpenter-cert
+                namespace: karpenter
         k3d-global-secrets-store: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
@@ -89,6 +110,13 @@ helmCharts:
               automated:
                 prune: true
                 selfHeal: true
+            ignoreDifferences:
+              - group: core
+                kind: Secret
+                jsonPointers:
+                  - /data
+                name: karpenter-cert
+                namespace: karpenter
         k3d-global-kuma-global: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
@@ -109,6 +137,13 @@ helmCharts:
               automated:
                 prune: true
                 selfHeal: true
+            ignoreDifferences:
+              - group: core
+                kind: Secret
+                jsonPointers:
+                  - /data
+                name: karpenter-cert
+                namespace: karpenter
         mesh: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
@@ -129,4 +164,11 @@ helmCharts:
               automated:
                 prune: true
                 selfHeal: true
+            ignoreDifferences:
+              - group: core
+                kind: Secret
+                jsonPointers:
+                  - /data
+                name: karpenter-cert
+                namespace: karpenter
     includeCRDs: true

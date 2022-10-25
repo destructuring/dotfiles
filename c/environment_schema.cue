@@ -199,6 +199,14 @@ for _machine_name, _machine in env {
 				prune:    true
 				selfHeal: true
 			}
+
+			ignoreDifferences: [{
+				group: "core"
+				kind:  "Secret"
+				jsonPointers: ["/data"]
+				name:      "karpenter-cert"
+				namespace: "karpenter"
+			}]
 		}
 	}
 }

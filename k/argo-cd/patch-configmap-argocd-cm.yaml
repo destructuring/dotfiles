@@ -23,9 +23,6 @@ data:
           end
         end
         return hs
-  resource.customizations.ignoreDifferences.core_Secret: |
-    jsonPointers:
-      - /data
   resource.customizations.ignoreDifferences.admissionregistration.k8s.io_MutatingWebhookConfiguration:
     |
     jsonPointers:
