@@ -1,5 +1,9 @@
 package c
 
+import (
+	core "github.com/defn/boot/k8s.io/api/core/v1"
+)
+
 kustomize: [string]: #KustomizeHelm | #KustomizeVCluster | #Kustomize
 kustomize: [NAME=string]: _name: NAME
 
@@ -89,10 +93,9 @@ kustomize: [NAME=string]: _name: NAME
 	#KustomizeHelm
 
 	vc_name:    string
-	vc_machine: string | *"control"
+	vc_machine: string
 
 	helm: {
-
 		release: "vcluster"
 		name:    "vcluster"
 		version: "0.12.2"
@@ -125,6 +128,14 @@ kustomize: [NAME=string]: _name: NAME
 					values: [vc_machine]
 				}]
 			}]
+		}
+	}
+
+	resource: "namespace-vcluster": core.#Namespace & {
+		apiVersion: "v1"
+		kind:       "Namespace"
+		metadata: {
+			name: vc_name
 		}
 	}
 }

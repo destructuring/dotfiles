@@ -1,7 +1,8 @@
 #ManagedBy: cue
 
 patchesStrategicMerge: []
-resources: []
+resources:
+  - resource-namespace-vcluster.yaml
 namespace: vc1
 helmCharts:
   - releaseName: vcluster
