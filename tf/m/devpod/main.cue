@@ -479,6 +479,10 @@ resource: kubernetes_service: control: [{
 			name:        "https"
 			port:        443
 			target_port: 443
+		}, {
+			name:        "gcloud"
+			port:        18085
+			target_port: 18085
 		}]
 	}]
 }]
