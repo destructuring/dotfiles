@@ -15,11 +15,11 @@ fly: brie: {
 }
 
 fly: the: {
-	fly_region: "den"
+	fly_region: "sjc"
 }
 
 fly: so: {
-	fly_region: "dfw"
+	fly_region: "sjc"
 }
 
 fly: defn: {

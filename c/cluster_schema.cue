@@ -19,15 +19,15 @@ flies: #Flies
 
 	// Terraform hcl.json output
 	out: {
-		provider: kubernetes: [{
-			config_context: k3d_name
-			config_path:    kube_config
-		}]
-
-		backend: kubernetes: [{
+		terraform: backend: kubernetes: [{
 			secret_suffix:  "state-\(k3d_name)"
 			config_path:    "~/.kube/config"
 			config_context: k3d_name
+		}]
+
+		provider: kubernetes: [{
+			config_context: k3d_name
+			config_path:    kube_config
 		}]
 
 		locals: ctx.locals
