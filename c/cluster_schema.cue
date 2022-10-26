@@ -24,6 +24,12 @@ flies: #Flies
 			config_path:    kube_config
 		}]
 
+		backend: kubernetes: [{
+			secret_suffix:  "state-\(k3d_name)"
+			config_path:    "~/.kube/config"
+			config_context: k3d_name
+		}]
+
 		locals: ctx.locals
 
 		if len(ctx.module) > 0 {

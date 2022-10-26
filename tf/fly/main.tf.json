@@ -21,7 +21,7 @@
         {
           "app": "${fly_app.the.name}",
           "name": "data",
-          "region": "sjc",
+          "region": "den",
           "size": 1
         }
       ],
@@ -29,7 +29,7 @@
         {
           "app": "${fly_app.so.name}",
           "name": "data",
-          "region": "sjc",
+          "region": "dfw",
           "size": 1
         }
       ],

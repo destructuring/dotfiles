@@ -10,9 +10,18 @@ cluster: control: {
 	#DevPod
 }
 
-fly: [string]: fly_region: "sjc"
+fly: brie: {
+	fly_region: "sjc"
+}
 
-fly: brie: {}
-fly: the: {}
-fly: so: {}
-fly: defn: {}
+fly: the: {
+	fly_region: "den"
+}
+
+fly: so: {
+	fly_region: "dfw"
+}
+
+fly: defn: {
+	fly_region: "sjc"
+}
