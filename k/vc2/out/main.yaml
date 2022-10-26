@@ -1,4 +1,9 @@
 apiVersion: v1
+kind: Namespace
+metadata:
+  name: vc2
+---
+apiVersion: v1
 kind: ServiceAccount
 metadata:
   labels:
@@ -7,7 +12,7 @@ metadata:
     heritage: Helm
     release: vcluster
   name: vc-vcluster
-  namespace: vc1
+  namespace: vc2
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -18,7 +23,7 @@ metadata:
     heritage: Helm
     release: vcluster
   name: vc-workload-vcluster
-  namespace: vc1
+  namespace: vc2
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
@@ -29,7 +34,7 @@ metadata:
     heritage: Helm
     release: vcluster
   name: vcluster
-  namespace: vc1
+  namespace: vc2
 rules:
 - apiGroups:
   - ""
@@ -100,7 +105,7 @@ metadata:
     chart: vcluster-0.12.2
     heritage: Helm
     release: vcluster
-  name: vc-vcluster-v-vc1
+  name: vc-vcluster-v-vc2
 rules:
 - apiGroups:
   - ""
@@ -132,7 +137,7 @@ metadata:
     heritage: Helm
     release: vcluster
   name: vcluster
-  namespace: vc1
+  namespace: vc2
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -140,7 +145,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: vc-vcluster
-  namespace: vc1
+  namespace: vc2
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
@@ -150,15 +155,15 @@ metadata:
     chart: vcluster-0.12.2
     heritage: Helm
     release: vcluster
-  name: vc-vcluster-v-vc1
+  name: vc-vcluster-v-vc2
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: vc-vcluster-v-vc1
+  name: vc-vcluster-v-vc2
 subjects:
 - kind: ServiceAccount
   name: vc-vcluster
-  namespace: vc1
+  namespace: vc2
 ---
 apiVersion: v1
 data:
@@ -379,7 +384,7 @@ data:
 kind: ConfigMap
 metadata:
   name: vcluster-coredns
-  namespace: vc1
+  namespace: vc2
 ---
 apiVersion: v1
 data:
@@ -392,7 +397,7 @@ metadata:
     heritage: Helm
     release: vcluster
   name: vcluster-init-manifests
-  namespace: vc1
+  namespace: vc2
 ---
 apiVersion: v1
 kind: Service
@@ -403,7 +408,7 @@ metadata:
     heritage: Helm
     release: vcluster
   name: vcluster
-  namespace: vc1
+  namespace: vc2
 spec:
   ports:
   - name: https
@@ -424,7 +429,7 @@ metadata:
     heritage: Helm
     release: vcluster
   name: vcluster-headless
-  namespace: vc1
+  namespace: vc2
 spec:
   clusterIP: None
   ports:
@@ -445,7 +450,7 @@ metadata:
     heritage: Helm
     release: vcluster
   name: vcluster
-  namespace: vc1
+  namespace: vc2
 spec:
   replicas: 1
   selector:
@@ -467,7 +472,7 @@ spec:
               - key: env
                 operator: In
                 values:
-                - control
+                - vc2
       containers:
       - args:
         - -c
@@ -505,7 +510,7 @@ spec:
         - --service-account=vc-workload-vcluster
         - --kube-config-context-name=my-vcluster
         - --sync=nodes
-        - --node-selector=env=control
+        - --node-selector=env=vc2
         - --tls-san=vcluster.vc2.svc.cluster.local
         - --enforce-toleration=env=vc2:NoSchedule
         env:
@@ -556,7 +561,7 @@ spec:
       tolerations:
       - key: env
         operator: Equal
-        value: control
+        value: vc2
       volumes:
       - emptyDir: {}
         name: config

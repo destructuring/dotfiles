@@ -49,7 +49,7 @@ kustomize: "argo-cd": #Kustomize & {
 	namespace: "argocd"
 
 	resource: "argo-cd": {
-		url: "https://raw.githubusercontent.com/argoproj/argo-cd/v2.5.0-rc3/manifests/install.yaml"
+		url: "https://raw.githubusercontent.com/argoproj/argo-cd/v2.5.0/manifests/install.yaml"
 	}
 
 	psm: "configmap-argocd-cm": core.#ConfigMap & {

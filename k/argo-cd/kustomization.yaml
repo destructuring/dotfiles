@@ -3,5 +3,5 @@
 patchesStrategicMerge:
   - patch-configmap-argocd-cm.yaml
 resources:
-  - https://raw.githubusercontent.com/argoproj/argo-cd/v2.5.0-rc3/manifests/install.yaml
+  - https://raw.githubusercontent.com/argoproj/argo-cd/v2.5.0/manifests/install.yaml
 namespace: argocd

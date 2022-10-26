@@ -1,4 +1,9 @@
 apiVersion: v1
+kind: Namespace
+metadata:
+  name: vc1
+---
+apiVersion: v1
 kind: ServiceAccount
 metadata:
   labels:
@@ -467,7 +472,7 @@ spec:
               - key: env
                 operator: In
                 values:
-                - control
+                - vc1
       containers:
       - args:
         - -c
@@ -505,7 +510,7 @@ spec:
         - --service-account=vc-workload-vcluster
         - --kube-config-context-name=my-vcluster
         - --sync=nodes
-        - --node-selector=env=control
+        - --node-selector=env=vc1
         - --tls-san=vcluster.vc1.svc.cluster.local
         - --enforce-toleration=env=vc1:NoSchedule
         env:
@@ -556,7 +561,7 @@ spec:
       tolerations:
       - key: env
         operator: Equal
-        value: control
+        value: vc1
       volumes:
       - emptyDir: {}
         name: config
