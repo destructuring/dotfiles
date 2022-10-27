@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-wave: "300"
   name: k3d-control-argo-cd
   namespace: argocd
 spec:
@@ -164,7 +164,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-wave: "10"
   name: k3d-control-kyverno
   namespace: argocd
 spec:
@@ -234,6 +234,33 @@ spec:
   project: default
   source:
     path: k/k3d-control-secrets-store
+    repoURL: https://github.com/defn/app
+    targetRevision: master
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "200"
+  name: k3d-control-tfo
+  namespace: argocd
+spec:
+  destination:
+    name: k3d-control
+  ignoreDifferences:
+  - group: ""
+    jsonPointers:
+    - /data
+    kind: Secret
+    name: karpenter-cert
+    namespace: karpenter
+  project: default
+  source:
+    path: k/tfo
     repoURL: https://github.com/defn/app
     targetRevision: master
   syncPolicy:

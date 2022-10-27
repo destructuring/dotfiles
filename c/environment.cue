@@ -32,7 +32,8 @@ env: control: #K3D & {
 		//"demo1":                     100
 		"events": 100
 		//"hello":                     110
-		"argo-cd": 200
+		"tfo":     200
+		"argo-cd": 300
 	}
 }
 
