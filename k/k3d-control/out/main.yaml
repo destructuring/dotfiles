@@ -84,7 +84,7 @@ kind: Application
 metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "400"
-  name: k3d-control-egg
+  name: k3d-control-chicken
   namespace: argocd
 spec:
   destination:
@@ -98,7 +98,7 @@ spec:
     namespace: karpenter
   project: default
   source:
-    path: k/egg
+    path: k/chicken
     repoURL: https://github.com/defn/app
     targetRevision: master
   syncPolicy:

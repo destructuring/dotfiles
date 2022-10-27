@@ -34,7 +34,7 @@ env: control: #K3D & {
 		//"hello":                     110
 		"tfo":     200
 		"argo-cd": 300
-		"egg":     400
+		"chicken": 400
 	}
 }
 

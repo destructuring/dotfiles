@@ -621,7 +621,7 @@ metadata:
 ---
 apiVersion: v1
 data:
-  token: aUI5cEZpazdoenhtbEI5OTlvSHpPSFBPeXBEVk5hWm8=
+  token: Z2M0djV0ZGVzck1mQm9BVGV4Y1dkekxQczdabDMyeHg=
 kind: Secret
 metadata:
   labels:
@@ -751,7 +751,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/clusteragent_token: 33757b10876092523c5d36ea4028855fffbb0f3a32ca85c04d61cd2a21dd37d9
+        checksum/clusteragent_token: b7da163c51a2e37dd7860dd50686851476d39cd6a81e5870ec265139712772b4
         checksum/install_info: 590f160a32dbc348fa033f93e637e9a3b60fc97bfa71a3140352f4e34431726a
       labels:
         app: datadog-cluster-agent
@@ -931,7 +931,7 @@ spec:
       annotations:
         checksum/autoconf-config: 74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b
         checksum/checksd-config: 44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a
-        checksum/clusteragent_token: e28f17f2741f4da7734ee693ff663158ca6149792b2e94ce04bc0bcb990a7937
+        checksum/clusteragent_token: e7e97effb9906d9690dc6b520918c87494f6024509783812abb629c477953dd3
         checksum/confd-config: 44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a
         checksum/install_info: 590f160a32dbc348fa033f93e637e9a3b60fc97bfa71a3140352f4e34431726a
       labels:

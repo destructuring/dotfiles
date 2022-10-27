@@ -279,12 +279,12 @@ helmCharts:
                   - /data
                 name: karpenter-cert
                 namespace: karpenter
-        egg: |
+        chicken: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
           metadata:
             namespace: argocd
-            name: k3d-control-egg
+            name: k3d-control-chicken
             annotations:
               argocd.argoproj.io/sync-wave: "400"
           spec:
@@ -294,7 +294,7 @@ helmCharts:
             source:
               repoURL: https://github.com/defn/app
               targetRevision: master
-              path: k/egg
+              path: k/chicken
             syncPolicy:
               automated:
                 prune: true

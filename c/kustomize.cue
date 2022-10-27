@@ -971,12 +971,12 @@ kustomize: "tfo": #Kustomize & {
 	}
 }
 
-kustomize: "egg": #Kustomize & {
+kustomize: "chicken": #Kustomize & {
 	resource: "tfo-demo-egg": {
 		apiVersion: "tf.isaaguilar.com/v1alpha2"
 		kind:       "Terraform"
 		metadata: {
-			name:      "demo"
+			name:      "chicken"
 			namespace: "default"
 		}
 		spec: {
@@ -992,7 +992,7 @@ kustomize: "egg": #Kustomize & {
 			backend: """
 				terraform {
 					backend "kubernetes" {
-						secret_suffix     = "demo"
+						secret_suffix     = "chicken"
 						in_cluster_config = true
 						namespace         = "default"
 					}
