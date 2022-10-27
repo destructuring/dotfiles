@@ -1,0 +1,21 @@
+apiVersion: tf.isaaguilar.com/v1alpha1
+kind: Terraform
+metadata:
+  name: demo
+  namespace: default
+spec:
+  terraformVersion: 1.3.3
+  terraformModule:
+    source: https://github.com/defn/app.git//tfo/demo?ref=master
+
+  backend: |-
+    terraform {
+      backend "kubernetes" {
+        secret_suffix     = "demo"
+        in_cluster_config = true
+        namespace         = "default"
+      }
+    }
+  ignoreDelete: false
+
+  scmAuthMethods: []
