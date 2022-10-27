@@ -1,0 +1,15 @@
+apiVersion: tf.isaaguilar.com/v1alpha2
+kind: Terraform
+metadata:
+  name: demo
+  namespace: default
+spec:
+  backend: "terraform {\n\tbackend \"kubernetes\" {\n\t\tsecret_suffix     = \"demo\"\n\t\tin_cluster_config
+    = true\n\t\tnamespace         = \"default\"\n\t}\n}"
+  ignoreDelete: false
+  keepLatestPodsOnly: true
+  scmAuthMethods: []
+  serviceAccount: default
+  terraformModule:
+    source: https://github.com/defn/app.git//tf/m/chicken?ref=master
+  terraformVersion: 1.0.0

@@ -279,4 +279,31 @@ helmCharts:
                   - /data
                 name: karpenter-cert
                 namespace: karpenter
+        egg: |
+          apiVersion: argoproj.io/v1alpha1
+          kind: Application
+          metadata:
+            namespace: argocd
+            name: k3d-control-egg
+            annotations:
+              argocd.argoproj.io/sync-wave: "400"
+          spec:
+            project: default
+            destination:
+              name: k3d-control
+            source:
+              repoURL: https://github.com/defn/app
+              targetRevision: master
+              path: k/egg
+            syncPolicy:
+              automated:
+                prune: true
+                selfHeal: true
+            ignoreDifferences:
+              - group: ""
+                kind: Secret
+                jsonPointers:
+                  - /data
+                name: karpenter-cert
+                namespace: karpenter
     includeCRDs: true

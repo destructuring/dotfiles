@@ -1,0 +1,5 @@
+#ManagedBy: cue
+
+patchesStrategicMerge: []
+resources:
+  - resource-tfo-demo-egg.yaml

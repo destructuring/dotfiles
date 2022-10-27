@@ -970,3 +970,34 @@ kustomize: "tfo": #Kustomize & {
 		url: "https://raw.githubusercontent.com/isaaguilar/terraform-operator/master/deploy/bundles/v0.9.0-alpha1/v0.9.0-alpha1.yaml"
 	}
 }
+
+kustomize: "egg": #Kustomize & {
+	resource: "tfo-demo-egg": {
+		apiVersion: "tf.isaaguilar.com/v1alpha2"
+		kind:       "Terraform"
+		metadata: {
+			name:      "demo"
+			namespace: "default"
+		}
+		spec: {
+			terraformVersion: "1.0.0"
+			terraformModule: source: "https://github.com/defn/app.git//tf/m/chicken?ref=master"
+
+			serviceAccount: "default"
+			scmAuthMethods: []
+
+			ignoreDelete:       false
+			keepLatestPodsOnly: true
+
+			backend: """
+				terraform {
+					backend "kubernetes" {
+						secret_suffix     = "demo"
+						in_cluster_config = true
+						namespace         = "default"
+					}
+				}
+				"""
+		}
+	}
+}
