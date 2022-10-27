@@ -8,6 +8,11 @@ spec:
   terraformModule:
     source: https://github.com/defn/app.git//tfo/chicken?ref=master
 
+  serviceAccount: default
+  scmAuthMethods: []
+
+  ignoreDelete: true
+
   backend: |-
     terraform {
       backend "kubernetes" {
@@ -16,6 +21,3 @@ spec:
         namespace         = "default"
       }
     }
-  ignoreDelete: false
-
-  scmAuthMethods: []
