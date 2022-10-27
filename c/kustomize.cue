@@ -574,7 +574,7 @@ kustomize: "dev": #Kustomize & {
 					}]
 					containers: [{
 						name:            "buildkit"
-						image:           "earthly/buildkitd:v0.6.25"
+						image:           "earthly/buildkitd:v0.6.28"
 						imagePullPolicy: "IfNotPresent"
 						command: [
 							"sh",
