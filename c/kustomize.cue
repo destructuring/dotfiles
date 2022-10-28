@@ -87,6 +87,7 @@ kustomize: "argo-cd": #Kustomize & {
 					  	end
 					end
 				end
+				hs.status = "Progressing"
 				return hs
 				"""
 

@@ -28,6 +28,7 @@ data:
     	  	end
     	end
     end
+    hs.status = "Progressing"
     return hs
   resource.customizations.health.argoproj.io_Application: |-
     hs = {}
