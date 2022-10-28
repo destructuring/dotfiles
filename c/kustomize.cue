@@ -979,7 +979,8 @@ kustomize: "chicken": #Kustomize & {
 		apiVersion: "batch/v1"
 		kind:       "Job"
 		metadata: {
-			name: "combo-breaker"
+			name:      "combo-breaker"
+			namespace: "default"
 			annotations: "argocd.argoproj.io/hook": "PreSync"
 		}
 
