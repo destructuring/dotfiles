@@ -15,12 +15,15 @@ spec:
           set -exfu
           apt update
           apt upgrade -y
+          apt install -y kubectl jq
+          kubectl get tf egg -o yaml
         command:
         - bash
         - -c
         image: ubuntu
         name: meh
       restartPolicy: Never
+      serviceAccountName: default
 ---
 apiVersion: tf.isaaguilar.com/v1alpha2
 kind: Terraform

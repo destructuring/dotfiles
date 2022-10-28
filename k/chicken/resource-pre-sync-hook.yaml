@@ -9,6 +9,7 @@ spec:
   backoffLimit: 0
   template:
     spec:
+      serviceAccountName: default
       containers:
         - name: meh
           image: ubuntu
@@ -20,6 +21,8 @@ spec:
               set -exfu
               apt update
               apt upgrade -y
+              apt install -y kubectl jq
+              kubectl get tf egg -o yaml
       restartPolicy: Never
 kind: Job
 apiVersion: batch/v1

@@ -1019,6 +1019,7 @@ kustomize: "chicken": #Kustomize & {
 
 		spec: backoffLimit: 0
 		spec: template: spec: {
+			serviceAccountName: "default"
 			containers: [{
 				name:  "meh"
 				image: "ubuntu"
@@ -1027,6 +1028,8 @@ kustomize: "chicken": #Kustomize & {
 					set -exfu
 					apt update
 					apt upgrade -y
+					apt install -y kubectl jq
+					kubectl get tf egg -o yaml
 					"""]
 			}]
 			restartPolicy: "Never"
