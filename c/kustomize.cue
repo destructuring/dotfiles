@@ -75,9 +75,7 @@ kustomize: "argo-cd": #Kustomize & {
 				if obj.status ~= nil then
 					if obj.status.phase ~= nil then
 					  	if obj.status.phase == "completed" then
-							hs.status = "Healthy"
-					  	else
-							hs.message = obj.status.phase
+				   			hs.status = "Healthy"
 					 	end
 
 					  	if obj.status.stage ~= nil then
@@ -87,7 +85,6 @@ kustomize: "argo-cd": #Kustomize & {
 					  	end
 					end
 				end
-				hs.status = "Progressing"
 				return hs
 				"""
 

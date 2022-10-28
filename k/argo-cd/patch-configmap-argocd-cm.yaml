@@ -16,9 +16,7 @@ data:
     if obj.status ~= nil then
     	if obj.status.phase ~= nil then
     	  	if obj.status.phase == "completed" then
-    			hs.status = "Healthy"
-    	  	else
-    			hs.message = obj.status.phase
+       			hs.status = "Healthy"
     	 	end
 
     	  	if obj.status.stage ~= nil then
@@ -28,8 +26,6 @@ data:
     	  	end
     	end
     end
-    hs.message = hs.status
-    hs.status = "Progressing"
     return hs
   resource.customizations.health.argoproj.io_Application: |-
     hs = {}

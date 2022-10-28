@@ -9734,11 +9734,10 @@ data:
     return hs
   resource.customizations.health.tf.isaaguilar.com_Terraform: "hs = {}\nhs.status
     = \"Progressing\"\nhs.message = \"\"\nif obj.status ~= nil then\n\tif obj.status.phase
-    ~= nil then\n\t  \tif obj.status.phase == \"completed\" then\n\t\t\ths.status
-    = \"Healthy\"\n\t  \telse\n\t\t\ths.message = obj.status.phase\n\t \tend\n\n\t
-    \ \tif obj.status.stage ~= nil then\n\t\t\tif obj.status.stage.reason ~= nil then\n\t\t
-    \ \t\ths.message = obj.status.stage.reason\n\t\t\tend\n\t  \tend\n\tend\nend\nhs.message
-    = hs.status\nhs.status = \"Progressing\"\nreturn hs"
+    ~= nil then\n\t  \tif obj.status.phase == \"completed\" then\n   \t\t\ths.status
+    = \"Healthy\"\n\t \tend\n\n\t  \tif obj.status.stage ~= nil then\n\t\t\tif obj.status.stage.reason
+    ~= nil then\n\t\t  \t\ths.message = obj.status.stage.reason\n\t\t\tend\n\t  \tend\n\tend\nend\nreturn
+    hs"
   resource.customizations.ignoreDifferences.admissionregistration.k8s.io_MutatingWebhookConfiguration: |
     jsonPointers:
       - /webhooks/0/clientConfig/caBundle
