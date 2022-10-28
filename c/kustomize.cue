@@ -984,6 +984,7 @@ kustomize: "chicken": #Kustomize & {
 			annotations: "argocd.argoproj.io/hook": "PreSync"
 		}
 
+		spec: backoffLimit: 1
 		spec: template: spec: {
 			containers: [{
 				name:  "meh"
