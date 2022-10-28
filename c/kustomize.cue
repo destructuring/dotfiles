@@ -994,10 +994,7 @@ kustomize: "egg": #Kustomize & {
 			ignoreDelete:       false
 			keepLatestPodsOnly: true
 
-			env: [{
-				name:  "meh"
-				value: "10"
-			}]
+			outputsToOmit: ["0"]
 
 			backend: """
 				terraform {
@@ -1065,10 +1062,7 @@ kustomize: "chicken": #Kustomize & {
 			ignoreDelete:       false
 			keepLatestPodsOnly: true
 
-			env: [{
-				name:  "meh"
-				value: "10"
-			}]
+			outputsToOmit: ["0"]
 
 			backend: """
 				terraform {

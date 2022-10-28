@@ -6,11 +6,10 @@ metadata:
 spec:
   backend: "terraform {\n\tbackend \"kubernetes\" {\n\t\tin_cluster_config = true\n\t\tsecret_suffix
     \    = \"egg\"\n\t\tnamespace         = \"default\"\n\t}\n}"
-  env:
-  - name: meh
-    value: "10"
   ignoreDelete: false
   keepLatestPodsOnly: true
+  outputsToOmit:
+  - "0"
   scmAuthMethods: []
   serviceAccount: default
   terraformModule:

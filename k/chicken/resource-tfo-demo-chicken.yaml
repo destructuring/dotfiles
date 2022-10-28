@@ -13,9 +13,8 @@ spec:
   scmAuthMethods: []
   ignoreDelete: false
   keepLatestPodsOnly: true
-  env:
-    - name: meh
-      value: "10"
+  outputsToOmit:
+    - "0"
   backend: |-
     terraform {
     	backend "kubernetes" {
