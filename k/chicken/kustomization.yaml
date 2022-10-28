@@ -2,4 +2,5 @@
 
 patchesStrategicMerge: []
 resources:
+  - resource-pre-sync-hook.yaml
   - resource-tfo-demo-egg.yaml

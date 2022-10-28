@@ -1,0 +1,17 @@
+#ManagedBy: cue
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: combo-breaker
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+spec:
+  template:
+    spec:
+      containers:
+        - name: meh
+          image: ubuntu
+          command:
+            - "false"
+          restartPolicy: Never
