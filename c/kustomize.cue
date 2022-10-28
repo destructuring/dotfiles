@@ -2,6 +2,7 @@ package c
 
 import (
 	core "github.com/defn/boot/k8s.io/api/core/v1"
+	batch "github.com/defn/boot/k8s.io/api/batch/v1"
 	apps "github.com/defn/boot/k8s.io/api/apps/v1"
 	rbac "github.com/defn/boot/k8s.io/api/rbac/v1"
 )
@@ -974,7 +975,7 @@ kustomize: "tfo": #Kustomize & {
 }
 
 kustomize: "chicken": #Kustomize & {
-	resource: "pre-sync-hook": {
+	resource: "pre-sync-hook": batch.#Job & {
 		apiVersion: "batch/v1"
 		kind:       "Job"
 		metadata: {

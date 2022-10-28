@@ -1,7 +1,5 @@
 #ManagedBy: cue
 
-apiVersion: batch/v1
-kind: Job
 metadata:
   name: combo-breaker
   annotations:
@@ -15,3 +13,5 @@ spec:
           command:
             - "false"
       restartPolicy: Never
+kind: Job
+apiVersion: batch/v1
