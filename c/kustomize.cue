@@ -974,6 +974,39 @@ kustomize: "tfo": #Kustomize & {
 	}
 }
 
+kustomize: "egg": #Kustomize & {
+	resource: "tfo-demo-egg": {
+		apiVersion: "tf.isaaguilar.com/v1alpha2"
+		kind:       "Terraform"
+
+		metadata: {
+			name:      "egg"
+			namespace: "default"
+		}
+
+		spec: {
+			terraformVersion: "1.0.0"
+			terraformModule: source: "https://github.com/defn/app.git//tf/m/egg?ref=master"
+
+			serviceAccount: "default"
+			scmAuthMethods: []
+
+			ignoreDelete:       false
+			keepLatestPodsOnly: true
+
+			backend: """
+				terraform {
+					backend "kubernetes" {
+						in_cluster_config = true
+						secret_suffix     = "egg"
+						namespace         = "default"
+					}
+				}
+				"""
+		}
+	}
+}
+
 kustomize: "chicken": #Kustomize & {
 	resource: "pre-sync-hook": batch.#Job & {
 		apiVersion: "batch/v1"
@@ -1000,7 +1033,7 @@ kustomize: "chicken": #Kustomize & {
 		}
 	}
 
-	resource: "tfo-demo-egg": {
+	resource: "tfo-demo-chicken": {
 		apiVersion: "tf.isaaguilar.com/v1alpha2"
 		kind:       "Terraform"
 
