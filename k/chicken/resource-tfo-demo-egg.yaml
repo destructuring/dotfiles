@@ -16,8 +16,8 @@ spec:
   backend: |-
     terraform {
     	backend "kubernetes" {
-    		secret_suffix     = "chicken"
     		in_cluster_config = true
+    		secret_suffix     = "chicken"
     		namespace         = "default"
     	}
     }

@@ -4,6 +4,7 @@ metadata:
   name: argocd-cm
 data:
   kustomize.buildOptions: --enable-helm
+  application.resourceTrackingMethod: annotation
   resource.customizations.health.networking.k8s.io_Ingress: |-
     hs = {}
     hs.status = "Healthy"

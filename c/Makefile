@@ -19,6 +19,8 @@ gen:
 regen:
 	$(MAKE) gen
 	cd ../k && for a in */; do echo $$a; done | runmany 8 'cd ../k/$$1 && rm -rf charts && mkdir -p out && kustomize build --enable-helm > out/main.yaml'
+	git reset ../k/datadog
+	git checkout ../k/datadog
 	pc
 	git add ../k/
 	git add -u ../k/

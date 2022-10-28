@@ -59,6 +59,8 @@ kustomize: "argo-cd": #Kustomize & {
 		data: {
 			"kustomize.buildOptions": "--enable-helm"
 
+			"application.resourceTrackingMethod": "annotation"
+
 			"resource.customizations.health.networking.k8s.io_Ingress": """
 				hs = {}
 				hs.status = "Healthy"
@@ -992,8 +994,8 @@ kustomize: "chicken": #Kustomize & {
 			backend: """
 				terraform {
 					backend "kubernetes" {
-						secret_suffix     = "chicken"
 						in_cluster_config = true
+						secret_suffix     = "chicken"
 						namespace         = "default"
 					}
 				}
