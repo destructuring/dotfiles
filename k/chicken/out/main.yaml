@@ -38,6 +38,9 @@ metadata:
 spec:
   backend: "terraform {\n\tbackend \"kubernetes\" {\n\t\tin_cluster_config = true\n\t\tsecret_suffix
     \    = \"chicken\"\n\t\tnamespace         = \"default\"\n\t}\n}"
+  env:
+  - name: meh
+    value: "10"
   ignoreDelete: false
   keepLatestPodsOnly: true
   scmAuthMethods: []
