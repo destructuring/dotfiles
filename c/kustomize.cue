@@ -1054,7 +1054,7 @@ kustomize: "chicken": #Kustomize & {
 					echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list
 					apt-get update
 					apt-get install -y kubectl jq
-					test "complete" == "$(kubectl get tf egg -o json | jq -r '.status.stage | "\\(.state)"')"
+					test "completed" == "$(kubectl get tf egg -o json | jq -r '.status.phase')"
 					"""]
 			}]
 			restartPolicy: "Never"
