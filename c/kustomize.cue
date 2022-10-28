@@ -74,16 +74,17 @@ kustomize: "argo-cd": #Kustomize & {
 				hs.message = ""
 				if obj.status ~= nil then
 					if obj.status.phase ~= nil then
-					if obj.status.phase == "complete" then
-						hs.status = "Healthy"
-					else
-						hs.status = obj.status.phase
-					end
-					if obj.status.stage ~= nil then
-						if obj.status.stage.reason ~= nil then
-						hs.message = obj.status.stage.reason
-						end
-					end
+					  	if obj.status.phase == "completed" then
+							hs.status = "Healthy"
+					  	else
+							hs.message = obj.status.phase
+					 	end
+
+					  	if obj.status.stage ~= nil then
+							if obj.status.stage.reason ~= nil then
+						  		hs.message = obj.status.stage.reason
+							end
+					  	end
 					end
 				end
 				return hs
