@@ -198,33 +198,6 @@ helmCharts:
                   - /data
                 name: karpenter-cert
                 namespace: karpenter
-        events: |
-          apiVersion: argoproj.io/v1alpha1
-          kind: Application
-          metadata:
-            namespace: argocd
-            name: k3d-control-events
-            annotations:
-              argocd.argoproj.io/sync-wave: "100"
-          spec:
-            project: default
-            destination:
-              name: k3d-control
-            source:
-              repoURL: https://github.com/defn/app
-              targetRevision: master
-              path: k/events
-            syncPolicy:
-              automated:
-                prune: true
-                selfHeal: true
-            ignoreDifferences:
-              - group: ""
-                kind: Secret
-                jsonPointers:
-                  - /data
-                name: karpenter-cert
-                namespace: karpenter
         tfo: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
@@ -322,6 +295,33 @@ helmCharts:
               repoURL: https://github.com/defn/app
               targetRevision: master
               path: k/chicken
+            syncPolicy:
+              automated:
+                prune: true
+                selfHeal: true
+            ignoreDifferences:
+              - group: ""
+                kind: Secret
+                jsonPointers:
+                  - /data
+                name: karpenter-cert
+                namespace: karpenter
+        events: |
+          apiVersion: argoproj.io/v1alpha1
+          kind: Application
+          metadata:
+            namespace: argocd
+            name: k3d-control-events
+            annotations:
+              argocd.argoproj.io/sync-wave: "500"
+          spec:
+            project: default
+            destination:
+              name: k3d-control
+            source:
+              repoURL: https://github.com/defn/app
+              targetRevision: master
+              path: k/events
             syncPolicy:
               automated:
                 prune: true

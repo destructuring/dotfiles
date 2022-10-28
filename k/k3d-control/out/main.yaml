@@ -137,7 +137,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "100"
+    argocd.argoproj.io/sync-wave: "500"
   name: k3d-control-events
   namespace: argocd
 spec:

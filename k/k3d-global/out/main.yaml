@@ -29,6 +29,60 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
+    argocd.argoproj.io/sync-wave: "400"
+  name: k3d-global-chicken
+  namespace: argocd
+spec:
+  destination:
+    name: k3d-global
+  ignoreDifferences:
+  - group: ""
+    jsonPointers:
+    - /data
+    kind: Secret
+    name: karpenter-cert
+    namespace: karpenter
+  project: default
+  source:
+    path: k/chicken
+    repoURL: https://github.com/defn/app
+    targetRevision: master
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "400"
+  name: k3d-global-egg
+  namespace: argocd
+spec:
+  destination:
+    name: k3d-global
+  ignoreDifferences:
+  - group: ""
+    jsonPointers:
+    - /data
+    kind: Secret
+    name: karpenter-cert
+    namespace: karpenter
+  project: default
+  source:
+    path: k/egg
+    repoURL: https://github.com/defn/app
+    targetRevision: master
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
     argocd.argoproj.io/sync-wave: "10"
   name: k3d-global-external-secrets-operator
   namespace: argocd
@@ -180,6 +234,33 @@ spec:
   project: default
   source:
     path: k/k3d-global-secrets-store
+    repoURL: https://github.com/defn/app
+    targetRevision: master
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "200"
+  name: k3d-global-tfo
+  namespace: argocd
+spec:
+  destination:
+    name: k3d-global
+  ignoreDifferences:
+  - group: ""
+    jsonPointers:
+    - /data
+    kind: Secret
+    name: karpenter-cert
+    namespace: karpenter
+  project: default
+  source:
+    path: k/tfo
     repoURL: https://github.com/defn/app
     targetRevision: master
   syncPolicy:

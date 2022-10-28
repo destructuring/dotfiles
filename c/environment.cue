@@ -29,13 +29,13 @@ env: control: #K3D & {
 		//"vc4": 30
 		//"knative":                   50
 		//"kong":                      60
-		//"demo1":                     100
-		"events": 100
-		//"hello":                     110
 		"tfo":     200
 		"argo-cd": 300
 		"egg":     400
 		"chicken": 401
+		//"demo1":                     500
+		"events": 500
+		//"hello":                     500
 	}
 }
 
@@ -48,7 +48,11 @@ env: smiley: #K3D & {
 		"external-secrets-operator": 10
 		"k3d-smiley-secrets-store":  20
 		"k3d-smiley-kuma-zone":      30
-		"demo2":                     100
+		"tfo":                       200
+		"argo-cd":                   300
+		"egg":                       400
+		"chicken":                   400
+		"demo2":                     500
 	}
 }
 
@@ -62,6 +66,9 @@ env: global: #K3D & {
 		"k3d-global-secrets-store":  20
 		"k3d-global-kuma-global":    30
 		"mesh":                      40
+		"tfo":                       200
+		"egg":                       400
+		"chicken":                   400
 	}
 }
 

@@ -2,6 +2,33 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
+    argocd.argoproj.io/sync-wave: "300"
+  name: k3d-smiley-argo-cd
+  namespace: argocd
+spec:
+  destination:
+    name: k3d-smiley
+  ignoreDifferences:
+  - group: ""
+    jsonPointers:
+    - /data
+    kind: Secret
+    name: karpenter-cert
+    namespace: karpenter
+  project: default
+  source:
+    path: k/argo-cd
+    repoURL: https://github.com/defn/app
+    targetRevision: master
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
     argocd.argoproj.io/sync-wave: "1"
   name: k3d-smiley-cert-manager
   namespace: argocd
@@ -29,7 +56,34 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "100"
+    argocd.argoproj.io/sync-wave: "400"
+  name: k3d-smiley-chicken
+  namespace: argocd
+spec:
+  destination:
+    name: k3d-smiley
+  ignoreDifferences:
+  - group: ""
+    jsonPointers:
+    - /data
+    kind: Secret
+    name: karpenter-cert
+    namespace: karpenter
+  project: default
+  source:
+    path: k/chicken
+    repoURL: https://github.com/defn/app
+    targetRevision: master
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "500"
   name: k3d-smiley-demo2
   namespace: argocd
 spec:
@@ -45,6 +99,33 @@ spec:
   project: default
   source:
     path: k/demo2
+    repoURL: https://github.com/defn/app
+    targetRevision: master
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "400"
+  name: k3d-smiley-egg
+  namespace: argocd
+spec:
+  destination:
+    name: k3d-smiley
+  ignoreDifferences:
+  - group: ""
+    jsonPointers:
+    - /data
+    kind: Secret
+    name: karpenter-cert
+    namespace: karpenter
+  project: default
+  source:
+    path: k/egg
     repoURL: https://github.com/defn/app
     targetRevision: master
   syncPolicy:
@@ -180,6 +261,33 @@ spec:
   project: default
   source:
     path: k/k3d-smiley-secrets-store
+    repoURL: https://github.com/defn/app
+    targetRevision: master
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "200"
+  name: k3d-smiley-tfo
+  namespace: argocd
+spec:
+  destination:
+    name: k3d-smiley
+  ignoreDifferences:
+  - group: ""
+    jsonPointers:
+    - /data
+    kind: Secret
+    name: karpenter-cert
+    namespace: karpenter
+  project: default
+  source:
+    path: k/tfo
     repoURL: https://github.com/defn/app
     targetRevision: master
   syncPolicy:
