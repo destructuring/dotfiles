@@ -974,13 +974,33 @@ kustomize: "tfo": #Kustomize & {
 }
 
 kustomize: "chicken": #Kustomize & {
+	resource: "pre-sync-hook": {
+		apiVersion: "batch/v1"
+		kind:       "Job"
+		metadata: {
+			name: "combo-breaker"
+			annotations: "argocd.argoproj.io/hook": "PreSync"
+		}
+
+		spec: template: spec: {
+			containers: [{
+				name:  "meh"
+				image: "ubuntu"
+				command: ["false"]
+				restartPolicy: "Never"
+			}]
+		}
+	}
+
 	resource: "tfo-demo-egg": {
 		apiVersion: "tf.isaaguilar.com/v1alpha2"
 		kind:       "Terraform"
+
 		metadata: {
 			name:      "chicken"
 			namespace: "default"
 		}
+
 		spec: {
 			terraformVersion: "1.0.0"
 			terraformModule: source: "https://github.com/defn/app.git//tf/m/chicken?ref=master"
