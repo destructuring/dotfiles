@@ -24,3 +24,9 @@ regen:
 	pc
 	git add ../k/
 	git add -u ../k/
+
+ping-egg:
+	kubectl patch terraform egg --type json -p '[ { "op": "replace", "path": "/spec/env/0", "value": {"name":"meh","value":"'$$RANDOM'"} } ]'
+
+ping-chicken:
+	kubectl patch terraform chicken --type json -p '[ { "op": "replace", "path": "/spec/env/0", "value": {"name":"meh","value":"'$$RANDOM'"} } ]'
