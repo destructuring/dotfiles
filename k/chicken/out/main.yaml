@@ -12,7 +12,7 @@ spec:
         - "false"
         image: ubuntu
         name: meh
-        restartPolicy: Never
+      restartPolicy: Never
 ---
 apiVersion: tf.isaaguilar.com/v1alpha2
 kind: Terraform

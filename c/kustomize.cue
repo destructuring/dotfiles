@@ -987,8 +987,8 @@ kustomize: "chicken": #Kustomize & {
 				name:  "meh"
 				image: "ubuntu"
 				command: ["false"]
-				restartPolicy: "Never"
 			}]
+			restartPolicy: "Never"
 		}
 	}
 

@@ -14,4 +14,4 @@ spec:
           image: ubuntu
           command:
             - "false"
-          restartPolicy: Never
+      restartPolicy: Never
