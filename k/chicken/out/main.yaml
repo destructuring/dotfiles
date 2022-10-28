@@ -10,8 +10,14 @@ spec:
   template:
     spec:
       containers:
-      - command:
-        - "false"
+      - args:
+        - |-
+          set -exfu
+          apt update
+          apt upgrade -y
+        command:
+        - bash
+        - -c
         image: ubuntu
         name: meh
       restartPolicy: Never

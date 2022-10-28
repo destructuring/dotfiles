@@ -13,7 +13,13 @@ spec:
         - name: meh
           image: ubuntu
           command:
-            - "false"
+            - bash
+            - -c
+          args:
+            - |-
+              set -exfu
+              apt update
+              apt upgrade -y
       restartPolicy: Never
 kind: Job
 apiVersion: batch/v1

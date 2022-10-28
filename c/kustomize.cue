@@ -989,7 +989,12 @@ kustomize: "chicken": #Kustomize & {
 			containers: [{
 				name:  "meh"
 				image: "ubuntu"
-				command: ["false"]
+				command: ["bash", "-c"]
+				args: ["""
+					set -exfu
+					apt update
+					apt upgrade -y
+					"""]
 			}]
 			restartPolicy: "Never"
 		}
