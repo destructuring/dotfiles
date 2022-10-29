@@ -7,6 +7,33 @@ import (
 	rbac "github.com/defn/boot/k8s.io/api/rbac/v1"
 )
 
+#Input: {
+	name:  string
+	label: string
+	...
+}
+
+#Transform: {
+	transformer: {
+		in:  #Input
+		out: _
+		...
+	}
+
+	inputs: [N=string]: {
+		name: N
+		...
+	}
+
+	outputs: {
+		for _in in inputs {
+			"\(_in.label)": (transformer & {
+				in: _in
+			}).out
+		}
+	}
+}
+
 kustomize: "hello": #Kustomize & {
 	namespace: "default"
 
@@ -793,9 +820,7 @@ kustomize: "karpenter": #Kustomize & {
 	}
 
 	#KarpenterProvisioner: {
-		in: {
-			name:  string
-			label: string
+		in: #Input & {
 			instance_types: [...string]
 		}
 
@@ -830,7 +855,7 @@ kustomize: "karpenter": #Kustomize & {
 		}
 	}
 
-	_VclusterKarpenterProvisioners: {
+	_VclusterKarpenterProvisioners: #Transform & {
 		transformer: #KarpenterProvisioner
 
 		inputs: {
@@ -840,16 +865,7 @@ kustomize: "karpenter": #Kustomize & {
 			vc4: instance_types: ["t3.medium", "t3a.medium"]
 
 			[N=string]: {
-				name:  N
 				label: "provisioner-\(N)"
-			}
-		}
-
-		outputs: {
-			for _in in inputs {
-				"\(_in.label)": (transformer & {
-					in: _in
-				}).out
 			}
 		}
 	}
