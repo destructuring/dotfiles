@@ -198,6 +198,33 @@ helmCharts:
                   - /data
                 name: karpenter-cert
                 namespace: karpenter
+        demo1: |
+          apiVersion: argoproj.io/v1alpha1
+          kind: Application
+          metadata:
+            namespace: argocd
+            name: k3d-smiley-demo1
+            annotations:
+              argocd.argoproj.io/sync-wave: "40"
+          spec:
+            project: default
+            destination:
+              name: k3d-smiley
+            source:
+              repoURL: https://github.com/defn/app
+              targetRevision: master
+              path: k/demo1
+            syncPolicy:
+              automated:
+                prune: true
+                selfHeal: true
+            ignoreDifferences:
+              - group: ""
+                kind: Secret
+                jsonPointers:
+                  - /data
+                name: karpenter-cert
+                namespace: karpenter
         demo2: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application

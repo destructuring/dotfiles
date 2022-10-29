@@ -1,17 +1,5 @@
 package c
 
-// Match the kuma namespce
-match_kuma_ns: match: any: [{
-	resources: {
-		kinds: [
-			"Namespace",
-		]
-		names: [
-			"kuma",
-		]
-	}
-}]
-
 // Env: control is the control plane, used by the operator.
 env: control: #K3D & {
 	bootstrap: {
@@ -31,8 +19,6 @@ env: control: #K3D & {
 		"kong":                      50
 		"hello":                     60
 		"vc0":                       100
-		//"events": 30
-		//"demo1":  500
 	}
 }
 
@@ -46,6 +32,7 @@ env: smiley: #K3D & {
 		"k3d-smiley-secrets-store":  20
 		"k3d-smiley-kuma-zone":      30
 		"tfo":                       30
+		"demo1":                     40
 		"demo2":                     40
 	}
 }
