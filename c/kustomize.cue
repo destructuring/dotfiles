@@ -1070,13 +1070,13 @@ kustomize: "tfo": #Kustomize & {
 	}
 }
 
-kustomize: "chicken": #Kustomize & {
+kustomize: "rocky": #Kustomize & {
 	resource: "pre-sync-hook-egg": {
 		apiVersion: "tf.isaaguilar.com/v1alpha2"
 		kind:       "Terraform"
 
 		metadata: {
-			name:      "egg"
+			name:      "rocky-egg"
 			namespace: "default"
 			annotations: "argocd.argoproj.io/hook":      "PreSync"
 			annotations: "argocd.argoproj.io/sync-wave": "0"
@@ -1096,7 +1096,7 @@ kustomize: "chicken": #Kustomize & {
 				terraform {
 					backend "kubernetes" {
 						in_cluster_config = true
-						secret_suffix     = "egg"
+						secret_suffix     = "rocky-egg"
 						namespace         = "default"
 					}
 				}
@@ -1131,19 +1131,19 @@ kustomize: "chicken": #Kustomize & {
 					echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list
 					apt-get update
 					apt-get install -y kubectl jq
-					test "completed" == "$(kubectl get tf egg -o json | jq -r '.status.phase')"
+					test "completed" == "$(kubectl get tf rocky-egg -o json | jq -r '.status.phase')"
 					"""]
 			}]
 			restartPolicy: "Never"
 		}
 	}
 
-	resource: "tfo-demo-chicken": {
+	resource: "tfo-demo-rocky": {
 		apiVersion: "tf.isaaguilar.com/v1alpha2"
 		kind:       "Terraform"
 
 		metadata: {
-			name:      "chicken"
+			name:      "rocky"
 			namespace: "default"
 		}
 
@@ -1163,7 +1163,7 @@ kustomize: "chicken": #Kustomize & {
 				terraform {
 					backend "kubernetes" {
 						in_cluster_config = true
-						secret_suffix     = "chicken"
+						secret_suffix     = "rocky"
 						namespace         = "default"
 					}
 				}
@@ -1199,7 +1199,7 @@ kustomize: "bonchon": #Kustomize & {
 					echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list
 					apt-get update
 					apt-get install -y kubectl jq
-					test "completed" == "$(kubectl get tf chicken -o json | jq -r '.status.phase')"
+					test "completed" == "$(kubectl get tf rocky -o json | jq -r '.status.phase')"
 					"""]
 			}]
 			restartPolicy: "Never"
@@ -1217,7 +1217,7 @@ kustomize: "bonchon": #Kustomize & {
 
 		spec: {
 			terraformVersion: "1.0.0"
-			terraformModule: source: "https://github.com/defn/app.git//tf/m/bonchon?ref=master"
+			terraformModule: source: "https://github.com/defn/app.git//tf/m/fried-chicken?ref=master"
 
 			serviceAccount: "default"
 			scmAuthMethods: []

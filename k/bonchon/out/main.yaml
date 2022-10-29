@@ -21,7 +21,7 @@ spec:
           echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list
           apt-get update
           apt-get install -y kubectl jq
-          test "completed" == "$(kubectl get tf chicken -o json | jq -r '.status.phase')"
+          test "completed" == "$(kubectl get tf rocky -o json | jq -r '.status.phase')"
         command:
         - bash
         - -c
@@ -45,5 +45,5 @@ spec:
   scmAuthMethods: []
   serviceAccount: default
   terraformModule:
-    source: https://github.com/defn/app.git//tf/m/bonchon?ref=master
+    source: https://github.com/defn/app.git//tf/m/fried-chicken?ref=master
   terraformVersion: 1.0.0
