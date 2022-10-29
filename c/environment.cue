@@ -30,6 +30,7 @@ env: control: #K3D & {
 		"bonchon":                   41
 		"kong":                      50
 		"hello":                     60
+		"vc0":                       100
 		//"events": 30
 		//"demo1":  500
 	}

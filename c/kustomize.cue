@@ -20,8 +20,9 @@ import (
 		...
 	}
 
-	inputs: [N=string]: {
-		name: N
+	inputs: [N=string]: #Input & {
+		name:  N
+		label: string | *name
 		...
 	}
 
@@ -72,9 +73,9 @@ import (
 
 #TransformKustomizeVCluster: {
 	in: #Input & {
-		namespace:  string
-		vc_name:    string
-		vc_machine: string
+		namespace:  string | *in.name
+		vc_name:    string | *in.name
+		vc_machine: string | *in.name
 	}
 
 	out: #KustomizeVCluster & {
@@ -91,9 +92,6 @@ kustomize: (#Transform & {
 		vc0: {}
 
 		[N=string]: {
-			label:      N
-			namespace:  N
-			vc_name:    N
 			vc_machine: "control"
 		}
 	}
@@ -107,13 +105,6 @@ kustomize: (#Transform & {
 		vc2: {}
 		vc3: {}
 		vc4: {}
-
-		[N=string]: {
-			label:      N
-			namespace:  N
-			vc_name:    N
-			vc_machine: N
-		}
 	}
 }).outputs
 
