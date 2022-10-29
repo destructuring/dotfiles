@@ -139,3 +139,53 @@ kustomize: [NAME=string]: _name: NAME
 		}
 	}
 }
+
+#TransformKarpenterProvisioner: {
+	in: #Input & {
+		instance_types: [...string]
+	}
+
+	out: {
+		apiVersion: "karpenter.sh/v1alpha5"
+		kind:       "Provisioner"
+		metadata: name: in.name
+		spec: {
+			requirements: [{
+				key:      "karpenter.sh/capacity-type"
+				operator: "In"
+				values: ["spot"]
+			}, {
+				key:      "kubernetes.io/arch"
+				operator: "In"
+				values: ["amd64"]
+			}, {
+				key:      "node.kubernetes.io/instance-type"
+				operator: "In"
+				values:   in.instance_types
+			}]
+			limits: resources: cpu: "2"
+			labels: env: in.name
+			taints: [{
+				key:    "env"
+				value:  in.name
+				effect: "NoSchedule"
+			}]
+			providerRef: name: "default"
+			ttlSecondsAfterEmpty: 600
+		}
+	}
+}
+
+#TransformKustomizeVCluster: {
+	in: #Input & {
+		namespace:  string | *in.name
+		vc_name:    string | *in.name
+		vc_machine: string | *in.name
+	}
+
+	out: #KustomizeVCluster & {
+		namespace:  in.name
+		vc_name:    in.vc_name
+		vc_machine: in.vc_machine
+	}
+}
