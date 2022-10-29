@@ -15,7 +15,6 @@ match_kuma_ns: match: any: [{
 // Env: control is the control plane, used by the operator.
 env: control: #K3D & {
 	bootstrap: {
-		"sysbox":                    1
 		"cert-manager":              1
 		"pod-identity-webhook":      10
 		"kyverno":                   10

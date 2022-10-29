@@ -9,33 +9,6 @@ helmCharts:
     repo: https://kiwigrid.github.io
     valuesInline:
       anyResources:
-        sysbox: |
-          apiVersion: argoproj.io/v1alpha1
-          kind: Application
-          metadata:
-            namespace: argocd
-            name: k3d-control-sysbox
-            annotations:
-              argocd.argoproj.io/sync-wave: "1"
-          spec:
-            project: default
-            destination:
-              name: k3d-control
-            source:
-              repoURL: https://github.com/defn/app
-              targetRevision: master
-              path: k/sysbox
-            syncPolicy:
-              automated:
-                prune: true
-                selfHeal: true
-            ignoreDifferences:
-              - group: ""
-                kind: Secret
-                jsonPointers:
-                  - /data
-                name: karpenter-cert
-                namespace: karpenter
         cert-manager: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
