@@ -27,8 +27,8 @@ env: control: #K3D & {
 		"tfo":                       30
 		"knative":                   50
 		"kong":                      60
-		"egg":                       400
-		"chicken":                   401
+		"rocky":                     400
+		"bonchon":                   400
 		//"demo1":  500
 		//"events": 500
 		//"hello":  500

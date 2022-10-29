@@ -56,6 +56,33 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
+    argocd.argoproj.io/sync-wave: "400"
+  name: k3d-control-bonchon
+  namespace: argocd
+spec:
+  destination:
+    name: k3d-control
+  ignoreDifferences:
+  - group: ""
+    jsonPointers:
+    - /data
+    kind: Secret
+    name: karpenter-cert
+    namespace: karpenter
+  project: default
+  source:
+    path: k/bonchon
+    repoURL: https://github.com/defn/app
+    targetRevision: master
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
     argocd.argoproj.io/sync-wave: "1"
   name: k3d-control-cert-manager
   namespace: argocd
@@ -72,60 +99,6 @@ spec:
   project: default
   source:
     path: k/cert-manager
-    repoURL: https://github.com/defn/app
-    targetRevision: master
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  annotations:
-    argocd.argoproj.io/sync-wave: "401"
-  name: k3d-control-chicken
-  namespace: argocd
-spec:
-  destination:
-    name: k3d-control
-  ignoreDifferences:
-  - group: ""
-    jsonPointers:
-    - /data
-    kind: Secret
-    name: karpenter-cert
-    namespace: karpenter
-  project: default
-  source:
-    path: k/chicken
-    repoURL: https://github.com/defn/app
-    targetRevision: master
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  annotations:
-    argocd.argoproj.io/sync-wave: "400"
-  name: k3d-control-egg
-  namespace: argocd
-spec:
-  destination:
-    name: k3d-control
-  ignoreDifferences:
-  - group: ""
-    jsonPointers:
-    - /data
-    kind: Secret
-    name: karpenter-cert
-    namespace: karpenter
-  project: default
-  source:
-    path: k/egg
     repoURL: https://github.com/defn/app
     targetRevision: master
   syncPolicy:
@@ -315,6 +288,33 @@ spec:
   project: default
   source:
     path: k/pod-identity-webhook
+    repoURL: https://github.com/defn/app
+    targetRevision: master
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "400"
+  name: k3d-control-rocky
+  namespace: argocd
+spec:
+  destination:
+    name: k3d-control
+  ignoreDifferences:
+  - group: ""
+    jsonPointers:
+    - /data
+    kind: Secret
+    name: karpenter-cert
+    namespace: karpenter
+  project: default
+  source:
+    path: k/rocky
     repoURL: https://github.com/defn/app
     targetRevision: master
   syncPolicy:

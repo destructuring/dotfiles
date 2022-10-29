@@ -333,12 +333,12 @@ helmCharts:
                   - /data
                 name: karpenter-cert
                 namespace: karpenter
-        egg: |
+        rocky: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
           metadata:
             namespace: argocd
-            name: k3d-control-egg
+            name: k3d-control-rocky
             annotations:
               argocd.argoproj.io/sync-wave: "400"
           spec:
@@ -348,7 +348,7 @@ helmCharts:
             source:
               repoURL: https://github.com/defn/app
               targetRevision: master
-              path: k/egg
+              path: k/rocky
             syncPolicy:
               automated:
                 prune: true
@@ -360,14 +360,14 @@ helmCharts:
                   - /data
                 name: karpenter-cert
                 namespace: karpenter
-        chicken: |
+        bonchon: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
           metadata:
             namespace: argocd
-            name: k3d-control-chicken
+            name: k3d-control-bonchon
             annotations:
-              argocd.argoproj.io/sync-wave: "401"
+              argocd.argoproj.io/sync-wave: "400"
           spec:
             project: default
             destination:
@@ -375,7 +375,7 @@ helmCharts:
             source:
               repoURL: https://github.com/defn/app
               targetRevision: master
-              path: k/chicken
+              path: k/bonchon
             syncPolicy:
               automated:
                 prune: true
