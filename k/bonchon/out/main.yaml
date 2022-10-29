@@ -3,7 +3,7 @@ kind: Job
 metadata:
   annotations:
     argocd.argoproj.io/hook: PreSync
-  name: dry-brine
+  name: dry-brine-chicken
   namespace: default
 spec:
   backoffLimit: 0

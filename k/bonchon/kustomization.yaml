@@ -2,5 +2,5 @@
 
 patchesStrategicMerge: []
 resources:
-  - resource-pre-sync-hook-dry-brine.yaml
+  - resource-pre-sync-hook-dry-brine-chicken.yaml
   - resource-tfo-demo-bonchon.yaml

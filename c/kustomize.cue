@@ -1104,11 +1104,11 @@ kustomize: "rocky": #Kustomize & {
 		}
 	}
 
-	resource: "pre-sync-hook-hatch": batch.#Job & {
+	resource: "pre-sync-hook-hatch-egg": batch.#Job & {
 		apiVersion: "batch/v1"
 		kind:       "Job"
 		metadata: {
-			name:      "hatch"
+			name:      "hatch-egg"
 			namespace: "default"
 			annotations: "argocd.argoproj.io/hook":      "PreSync"
 			annotations: "argocd.argoproj.io/sync-wave": "1"
@@ -1173,11 +1173,11 @@ kustomize: "rocky": #Kustomize & {
 }
 
 kustomize: "bonchon": #Kustomize & {
-	resource: "pre-sync-hook-dry-brine": batch.#Job & {
+	resource: "pre-sync-hook-dry-brine-chicken": batch.#Job & {
 		apiVersion: "batch/v1"
 		kind:       "Job"
 		metadata: {
-			name:      "dry-brine"
+			name:      "dry-brine-chicken"
 			namespace: "default"
 			annotations: "argocd.argoproj.io/hook": "PreSync"
 		}

@@ -4,7 +4,7 @@ metadata:
   annotations:
     argocd.argoproj.io/hook: PreSync
     argocd.argoproj.io/sync-wave: "1"
-  name: hatch
+  name: hatch-egg
   namespace: default
 spec:
   backoffLimit: 0
