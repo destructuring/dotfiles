@@ -1071,13 +1071,15 @@ kustomize: "tfo": #Kustomize & {
 }
 
 kustomize: "egg": #Kustomize & {
-	resource: "pre-sync-hook": {
+	resource: "pre-sync-hook-embryo": {
 		apiVersion: "tf.isaaguilar.com/v1alpha2"
 		kind:       "Terraform"
 
 		metadata: {
 			name:      "embryo"
 			namespace: "default"
+			annotations: "argocd.argoproj.io/hook":      "PreSync"
+			annotations: "argocd.argoproj.io/sync-wave": "0"
 		}
 
 		spec: {
@@ -1099,6 +1101,40 @@ kustomize: "egg": #Kustomize & {
 					}
 				}
 				"""
+		}
+	}
+
+	resource: "pre-sync-hook-combo-breaker": batch.#Job & {
+		apiVersion: "batch/v1"
+		kind:       "Job"
+		metadata: {
+			name:      "combo-breaker"
+			namespace: "default"
+			annotations: "argocd.argoproj.io/hook":      "PreSync"
+			annotations: "argocd.argoproj.io/sync-wave": "1"
+		}
+
+		spec: backoffLimit: 0
+		spec: template: spec: {
+			serviceAccountName: "default"
+			containers: [{
+				name:  "meh"
+				image: "ubuntu"
+				command: ["bash", "-c"]
+				args: ["""
+					set -exfu
+					apt-get update
+					apt-get upgrade -y
+					apt-get install -y ca-certificates curl
+					apt-get install -y apt-transport-https
+					curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+					echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list
+					apt-get update
+					apt-get install -y kubectl jq
+					test "completed" == "$(kubectl get tf embryo -o json | jq -r '.status.phase')"
+					"""]
+			}]
+			restartPolicy: "Never"
 		}
 	}
 

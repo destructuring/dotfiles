@@ -5,6 +5,9 @@ kind: Terraform
 metadata:
   name: embryo
   namespace: default
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/sync-wave: "0"
 spec:
   terraformVersion: 1.0.0
   terraformModule:
