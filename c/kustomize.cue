@@ -1099,4 +1099,19 @@ kustomize: "sysbox": #Kustomize & {
 	resource: "sysbox": {
 		url: "https://raw.githubusercontent.com/nestybox/sysbox/master/sysbox-k8s-manifests/sysbox-install.yaml"
 	}
+
+	psm: "daemonset-vault-set-vault-token": {
+		apiVersion: "apps/v1"
+		kind:       "DaemonSet"
+
+		metadata: {
+			name:      "sysbox-deploy-k8s"
+			namespace: "kube-system"
+		}
+
+		spec: template: spec: tolerations: [{
+			key:      "env"
+			operator: "Exists"
+		}]
+	}
 }

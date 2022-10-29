@@ -95,6 +95,9 @@ spec:
       nodeSelector:
         sysbox-install: "yes"
       serviceAccountName: sysbox-label-node
+      tolerations:
+      - key: env
+        operator: Exists
       volumes:
       - hostPath:
           path: /etc
