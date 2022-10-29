@@ -3,7 +3,8 @@ kind: Job
 metadata:
   annotations:
     argocd.argoproj.io/hook: PreSync
-  name: combo-breaker
+    argocd.argoproj.io/sync-wave: "1"
+  name: hatch
   namespace: default
 spec:
   backoffLimit: 0
@@ -46,4 +47,23 @@ spec:
   serviceAccount: default
   terraformModule:
     source: https://github.com/defn/app.git//tf/m/chicken?ref=master
+  terraformVersion: 1.0.0
+---
+apiVersion: tf.isaaguilar.com/v1alpha2
+kind: Terraform
+metadata:
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/sync-wave: "0"
+  name: egg
+  namespace: default
+spec:
+  backend: "terraform {\n\tbackend \"kubernetes\" {\n\t\tin_cluster_config = true\n\t\tsecret_suffix
+    \    = \"egg\"\n\t\tnamespace         = \"default\"\n\t}\n}"
+  ignoreDelete: true
+  keepLatestPodsOnly: true
+  scmAuthMethods: []
+  serviceAccount: default
+  terraformModule:
+    source: https://github.com/defn/app.git//tf/m/egg?ref=master
   terraformVersion: 1.0.0

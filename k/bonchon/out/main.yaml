@@ -3,8 +3,7 @@ kind: Job
 metadata:
   annotations:
     argocd.argoproj.io/hook: PreSync
-    argocd.argoproj.io/sync-wave: "1"
-  name: combo-breaker
+  name: dry-brine
   namespace: default
 spec:
   backoffLimit: 0
@@ -22,7 +21,7 @@ spec:
           echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list
           apt-get update
           apt-get install -y kubectl jq
-          test "completed" == "$(kubectl get tf embryo -o json | jq -r '.status.phase')"
+          test "completed" == "$(kubectl get tf chicken -o json | jq -r '.status.phase')"
         command:
         - bash
         - -c
@@ -34,11 +33,11 @@ spec:
 apiVersion: tf.isaaguilar.com/v1alpha2
 kind: Terraform
 metadata:
-  name: egg
+  name: bonchon
   namespace: default
 spec:
   backend: "terraform {\n\tbackend \"kubernetes\" {\n\t\tin_cluster_config = true\n\t\tsecret_suffix
-    \    = \"egg\"\n\t\tnamespace         = \"default\"\n\t}\n}"
+    \    = \"bonchon\"\n\t\tnamespace         = \"default\"\n\t}\n}"
   ignoreDelete: true
   keepLatestPodsOnly: true
   outputsToOmit:
@@ -46,24 +45,5 @@ spec:
   scmAuthMethods: []
   serviceAccount: default
   terraformModule:
-    source: https://github.com/defn/app.git//tf/m/egg?ref=master
-  terraformVersion: 1.0.0
----
-apiVersion: tf.isaaguilar.com/v1alpha2
-kind: Terraform
-metadata:
-  annotations:
-    argocd.argoproj.io/hook: PreSync
-    argocd.argoproj.io/sync-wave: "0"
-  name: embryo
-  namespace: default
-spec:
-  backend: "terraform {\n\tbackend \"kubernetes\" {\n\t\tin_cluster_config = true\n\t\tsecret_suffix
-    \    = \"embryo\"\n\t\tnamespace         = \"default\"\n\t}\n}"
-  ignoreDelete: true
-  keepLatestPodsOnly: true
-  scmAuthMethods: []
-  serviceAccount: default
-  terraformModule:
-    source: https://github.com/defn/app.git//tf/m/embryo?ref=master
+    source: https://github.com/defn/app.git//tf/m/bonchon?ref=master
   terraformVersion: 1.0.0

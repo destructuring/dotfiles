@@ -1070,81 +1070,16 @@ kustomize: "tfo": #Kustomize & {
 	}
 }
 
-kustomize: "egg": #Kustomize & {
-	resource: "pre-sync-hook-embryo": {
-		apiVersion: "tf.isaaguilar.com/v1alpha2"
-		kind:       "Terraform"
-
-		metadata: {
-			name:      "embryo"
-			namespace: "default"
-			annotations: "argocd.argoproj.io/hook":      "PreSync"
-			annotations: "argocd.argoproj.io/sync-wave": "0"
-		}
-
-		spec: {
-			terraformVersion: "1.0.0"
-			terraformModule: source: "https://github.com/defn/app.git//tf/m/embryo?ref=master"
-
-			serviceAccount: "default"
-			scmAuthMethods: []
-
-			ignoreDelete:       true
-			keepLatestPodsOnly: true
-
-			backend: """
-				terraform {
-					backend "kubernetes" {
-						in_cluster_config = true
-						secret_suffix     = "embryo"
-						namespace         = "default"
-					}
-				}
-				"""
-		}
-	}
-
-	resource: "pre-sync-hook-combo-breaker": batch.#Job & {
-		apiVersion: "batch/v1"
-		kind:       "Job"
-		metadata: {
-			name:      "combo-breaker"
-			namespace: "default"
-			annotations: "argocd.argoproj.io/hook":      "PreSync"
-			annotations: "argocd.argoproj.io/sync-wave": "1"
-		}
-
-		spec: backoffLimit: 0
-		spec: template: spec: {
-			serviceAccountName: "default"
-			containers: [{
-				name:  "meh"
-				image: "ubuntu"
-				command: ["bash", "-c"]
-				args: ["""
-					set -exfu
-					apt-get update
-					apt-get upgrade -y
-					apt-get install -y ca-certificates curl
-					apt-get install -y apt-transport-https
-					curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
-					echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list
-					apt-get update
-					apt-get install -y kubectl jq
-					test "completed" == "$(kubectl get tf embryo -o json | jq -r '.status.phase')"
-					"""]
-			}]
-			restartPolicy: "Never"
-		}
-	}
-
-	resource: "tfo-demo-egg": {
+kustomize: "chicken": #Kustomize & {
+	resource: "pre-sync-hook-egg": {
 		apiVersion: "tf.isaaguilar.com/v1alpha2"
 		kind:       "Terraform"
 
 		metadata: {
 			name:      "egg"
 			namespace: "default"
+			annotations: "argocd.argoproj.io/hook":      "PreSync"
+			annotations: "argocd.argoproj.io/sync-wave": "0"
 		}
 
 		spec: {
@@ -1157,8 +1092,6 @@ kustomize: "egg": #Kustomize & {
 			ignoreDelete:       true
 			keepLatestPodsOnly: true
 
-			outputsToOmit: ["0"]
-
 			backend: """
 				terraform {
 					backend "kubernetes" {
@@ -1170,16 +1103,15 @@ kustomize: "egg": #Kustomize & {
 				"""
 		}
 	}
-}
 
-kustomize: "chicken": #Kustomize & {
-	resource: "pre-sync-hook": batch.#Job & {
+	resource: "pre-sync-hook-hatch": batch.#Job & {
 		apiVersion: "batch/v1"
 		kind:       "Job"
 		metadata: {
-			name:      "combo-breaker"
+			name:      "hatch"
 			namespace: "default"
-			annotations: "argocd.argoproj.io/hook": "PreSync"
+			annotations: "argocd.argoproj.io/hook":      "PreSync"
+			annotations: "argocd.argoproj.io/sync-wave": "1"
 		}
 
 		spec: backoffLimit: 0
@@ -1232,6 +1164,74 @@ kustomize: "chicken": #Kustomize & {
 					backend "kubernetes" {
 						in_cluster_config = true
 						secret_suffix     = "chicken"
+						namespace         = "default"
+					}
+				}
+				"""
+		}
+	}
+}
+
+kustomize: "bonchon": #Kustomize & {
+	resource: "pre-sync-hook-dry-brine": batch.#Job & {
+		apiVersion: "batch/v1"
+		kind:       "Job"
+		metadata: {
+			name:      "dry-brine"
+			namespace: "default"
+			annotations: "argocd.argoproj.io/hook": "PreSync"
+		}
+
+		spec: backoffLimit: 0
+		spec: template: spec: {
+			serviceAccountName: "default"
+			containers: [{
+				name:  "meh"
+				image: "ubuntu"
+				command: ["bash", "-c"]
+				args: ["""
+					set -exfu
+					apt-get update
+					apt-get upgrade -y
+					apt-get install -y ca-certificates curl
+					apt-get install -y apt-transport-https
+					curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+					echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list
+					apt-get update
+					apt-get install -y kubectl jq
+					test "completed" == "$(kubectl get tf chicken -o json | jq -r '.status.phase')"
+					"""]
+			}]
+			restartPolicy: "Never"
+		}
+	}
+
+	resource: "tfo-demo-bonchon": {
+		apiVersion: "tf.isaaguilar.com/v1alpha2"
+		kind:       "Terraform"
+
+		metadata: {
+			name:      "bonchon"
+			namespace: "default"
+		}
+
+		spec: {
+			terraformVersion: "1.0.0"
+			terraformModule: source: "https://github.com/defn/app.git//tf/m/bonchon?ref=master"
+
+			serviceAccount: "default"
+			scmAuthMethods: []
+
+			ignoreDelete:       true
+			keepLatestPodsOnly: true
+
+			outputsToOmit: ["0"]
+
+			backend: """
+				terraform {
+					backend "kubernetes" {
+						in_cluster_config = true
+						secret_suffix     = "bonchon"
 						namespace         = "default"
 					}
 				}

@@ -1,7 +1,0 @@
-#ManagedBy: cue
-
-patchesStrategicMerge: []
-resources:
-  - resource-pre-sync-hook-embryo.yaml
-  - resource-pre-sync-hook-combo-breaker.yaml
-  - resource-tfo-demo-egg.yaml

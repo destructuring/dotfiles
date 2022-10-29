@@ -1,10 +1,11 @@
 #ManagedBy: cue
 
 metadata:
-  name: combo-breaker
+  name: hatch
   namespace: default
   annotations:
     argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   backoffLimit: 0
   template:
