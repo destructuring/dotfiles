@@ -1,7 +1,7 @@
 #ManagedBy: cue
 
 metadata:
-  name: hatch-egg
+  name: hatch-rocky-egg
   namespace: default
   annotations:
     argocd.argoproj.io/hook: PreSync

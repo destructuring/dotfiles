@@ -232,7 +232,7 @@ kustomize: [NAME=string]: _name: NAME
 			apiVersion: "batch/v1"
 			kind:       "Job"
 			metadata: {
-				name:      "hatch-egg"
+				name:      "hatch-\(in.name)-egg"
 				namespace: "default"
 				annotations: "argocd.argoproj.io/hook":      "PreSync"
 				annotations: "argocd.argoproj.io/sync-wave": "1"
