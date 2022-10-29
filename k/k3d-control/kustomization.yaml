@@ -9,6 +9,33 @@ helmCharts:
     repo: https://kiwigrid.github.io
     valuesInline:
       anyResources:
+        argo-cd: |
+          apiVersion: argoproj.io/v1alpha1
+          kind: Application
+          metadata:
+            namespace: argocd
+            name: k3d-control-argo-cd
+            annotations:
+              argocd.argoproj.io/sync-wave: "0"
+          spec:
+            project: default
+            destination:
+              name: k3d-control
+            source:
+              repoURL: https://github.com/defn/app
+              targetRevision: master
+              path: k/argo-cd
+            syncPolicy:
+              automated:
+                prune: true
+                selfHeal: true
+            ignoreDifferences:
+              - group: ""
+                kind: Secret
+                jsonPointers:
+                  - /data
+                name: karpenter-cert
+                namespace: karpenter
         cert-manager: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
@@ -198,6 +225,33 @@ helmCharts:
                   - /data
                 name: karpenter-cert
                 namespace: karpenter
+        k3d-control-kuma-zone: |
+          apiVersion: argoproj.io/v1alpha1
+          kind: Application
+          metadata:
+            namespace: argocd
+            name: k3d-control-kuma-zone
+            annotations:
+              argocd.argoproj.io/sync-wave: "30"
+          spec:
+            project: default
+            destination:
+              name: k3d-control
+            source:
+              repoURL: https://github.com/defn/app
+              targetRevision: master
+              path: k/k3d-control-kuma-zone
+            syncPolicy:
+              automated:
+                prune: true
+                selfHeal: true
+            ignoreDifferences:
+              - group: ""
+                kind: Secret
+                jsonPointers:
+                  - /data
+                name: karpenter-cert
+                namespace: karpenter
         tfo: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
@@ -205,7 +259,7 @@ helmCharts:
             namespace: argocd
             name: k3d-control-tfo
             annotations:
-              argocd.argoproj.io/sync-wave: "200"
+              argocd.argoproj.io/sync-wave: "30"
           spec:
             project: default
             destination:
@@ -225,14 +279,14 @@ helmCharts:
                   - /data
                 name: karpenter-cert
                 namespace: karpenter
-        argo-cd: |
+        knative: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
           metadata:
             namespace: argocd
-            name: k3d-control-argo-cd
+            name: k3d-control-knative
             annotations:
-              argocd.argoproj.io/sync-wave: "300"
+              argocd.argoproj.io/sync-wave: "50"
           spec:
             project: default
             destination:
@@ -240,7 +294,34 @@ helmCharts:
             source:
               repoURL: https://github.com/defn/app
               targetRevision: master
-              path: k/argo-cd
+              path: k/knative
+            syncPolicy:
+              automated:
+                prune: true
+                selfHeal: true
+            ignoreDifferences:
+              - group: ""
+                kind: Secret
+                jsonPointers:
+                  - /data
+                name: karpenter-cert
+                namespace: karpenter
+        kong: |
+          apiVersion: argoproj.io/v1alpha1
+          kind: Application
+          metadata:
+            namespace: argocd
+            name: k3d-control-kong
+            annotations:
+              argocd.argoproj.io/sync-wave: "60"
+          spec:
+            project: default
+            destination:
+              name: k3d-control
+            source:
+              repoURL: https://github.com/defn/app
+              targetRevision: master
+              path: k/kong
             syncPolicy:
               automated:
                 prune: true
@@ -295,33 +376,6 @@ helmCharts:
               repoURL: https://github.com/defn/app
               targetRevision: master
               path: k/chicken
-            syncPolicy:
-              automated:
-                prune: true
-                selfHeal: true
-            ignoreDifferences:
-              - group: ""
-                kind: Secret
-                jsonPointers:
-                  - /data
-                name: karpenter-cert
-                namespace: karpenter
-        events: |
-          apiVersion: argoproj.io/v1alpha1
-          kind: Application
-          metadata:
-            namespace: argocd
-            name: k3d-control-events
-            annotations:
-              argocd.argoproj.io/sync-wave: "500"
-          spec:
-            project: default
-            destination:
-              name: k3d-control
-            source:
-              repoURL: https://github.com/defn/app
-              targetRevision: master
-              path: k/events
             syncPolicy:
               automated:
                 prune: true

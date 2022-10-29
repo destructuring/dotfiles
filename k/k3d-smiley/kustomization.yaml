@@ -178,7 +178,7 @@ helmCharts:
             namespace: argocd
             name: k3d-smiley-tfo
             annotations:
-              argocd.argoproj.io/sync-wave: "200"
+              argocd.argoproj.io/sync-wave: "30"
           spec:
             project: default
             destination:
@@ -187,33 +187,6 @@ helmCharts:
               repoURL: https://github.com/defn/app
               targetRevision: master
               path: k/tfo
-            syncPolicy:
-              automated:
-                prune: true
-                selfHeal: true
-            ignoreDifferences:
-              - group: ""
-                kind: Secret
-                jsonPointers:
-                  - /data
-                name: karpenter-cert
-                namespace: karpenter
-        argo-cd: |
-          apiVersion: argoproj.io/v1alpha1
-          kind: Application
-          metadata:
-            namespace: argocd
-            name: k3d-smiley-argo-cd
-            annotations:
-              argocd.argoproj.io/sync-wave: "300"
-          spec:
-            project: default
-            destination:
-              name: k3d-smiley
-            source:
-              repoURL: https://github.com/defn/app
-              targetRevision: master
-              path: k/argo-cd
             syncPolicy:
               automated:
                 prune: true
