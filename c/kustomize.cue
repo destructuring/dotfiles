@@ -794,7 +794,8 @@ kustomize: "karpenter": #Kustomize & {
 
 	#KarpenterProvisioner: {
 		in: {
-			name: string
+			name:  string
+			label: string
 			instance_types: [...string]
 		}
 
@@ -829,19 +830,31 @@ kustomize: "karpenter": #Kustomize & {
 		}
 	}
 
-	_vclusters: {
-		vc1: instance_types: ["t3.medium", "t3a.medium"]
-		vc2: instance_types: ["t3.medium", "t3a.medium"]
-		vc3: instance_types: ["t3.medium", "t3a.medium"]
-		vc4: instance_types: ["t3.medium", "t3a.medium"]
+	_VclusterKarpenterProvisioners: {
+		transformer: #KarpenterProvisioner
+
+		inputs: {
+			vc1: instance_types: ["t3.medium", "t3a.medium"]
+			vc2: instance_types: ["t3.medium", "t3a.medium"]
+			vc3: instance_types: ["t3.medium", "t3a.medium"]
+			vc4: instance_types: ["t3.medium", "t3a.medium"]
+
+			[N=string]: {
+				name:  N
+				label: "provisioner-\(N)"
+			}
+		}
+
+		outputs: {
+			for _in in inputs {
+				"\(_in.label)": (transformer & {
+					in: _in
+				}).out
+			}
+		}
 	}
 
-	for _name, _in in _vclusters {
-		resource: "provisioner-\(_name)": (#KarpenterProvisioner & {
-			in: name: _name
-			in: _in
-		}).out
-	}
+	resource: _VclusterKarpenterProvisioners.outputs
 }
 
 kustomize: "knative": #Kustomize & {
