@@ -792,11 +792,16 @@ kustomize: "karpenter": #Kustomize & {
 		}
 	}
 
-	for v in ["vc1", "vc2", "vc3", "vc4"] {
-		resource: "provisioner-\(v)": {
+	#KarpenterProvisioner: {
+		in: {
+			name: string
+			instance_types: [...string]
+		}
+
+		out: {
 			apiVersion: "karpenter.sh/v1alpha5"
 			kind:       "Provisioner"
-			metadata: name: v
+			metadata: name: in.name
 			spec: {
 				requirements: [{
 					key:      "karpenter.sh/capacity-type"
@@ -809,19 +814,33 @@ kustomize: "karpenter": #Kustomize & {
 				}, {
 					key:      "node.kubernetes.io/instance-type"
 					operator: "In"
-					values: ["t3.medium", "t3a.medium"]
+					values:   in.instance_types
 				}]
 				limits: resources: cpu: "2"
-				labels: env: v
+				labels: env: in.name
 				taints: [{
 					key:    "env"
-					value:  v
+					value:  in.name
 					effect: "NoSchedule"
 				}]
 				providerRef: name: "default"
 				ttlSecondsAfterEmpty: 600
 			}
 		}
+	}
+
+	_vclusters: {
+		vc1: instance_types: ["t3.medium", "t3a.medium"]
+		vc2: instance_types: ["t3.medium", "t3a.medium"]
+		vc3: instance_types: ["t3.medium", "t3a.medium"]
+		vc4: instance_types: ["t3.medium", "t3a.medium"]
+	}
+
+	for _name, _in in _vclusters {
+		resource: "provisioner-\(_name)": (#KarpenterProvisioner & {
+			in: name: _name
+			in: _in
+		}).out
 	}
 }
 
