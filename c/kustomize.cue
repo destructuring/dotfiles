@@ -998,107 +998,14 @@ kustomize: "tfo": #Kustomize & {
 	}
 }
 
-kustomize: "rocky": #Kustomize & {
-	resource: "pre-sync-hook-egg": {
-		apiVersion: "tf.isaaguilar.com/v1alpha2"
-		kind:       "Terraform"
+kustomize: (#Transform & {
+	transformer: #TransformChicken
 
-		metadata: {
-			name:      "rocky-egg"
-			namespace: "default"
-			annotations: "argocd.argoproj.io/hook":      "PreSync"
-			annotations: "argocd.argoproj.io/sync-wave": "0"
-		}
-
-		spec: {
-			terraformVersion: "1.0.0"
-			terraformModule: source: "https://github.com/defn/app.git//tf/m/egg?ref=master"
-
-			serviceAccount: "default"
-			scmAuthMethods: []
-
-			ignoreDelete:       true
-			keepLatestPodsOnly: true
-
-			backend: """
-				terraform {
-					backend "kubernetes" {
-						in_cluster_config = true
-						secret_suffix     = "rocky-egg"
-						namespace         = "default"
-					}
-				}
-				"""
-		}
+	inputs: {
+		rocky: {}
+		rosie: {}
 	}
-
-	resource: "pre-sync-hook-hatch-egg": batch.#Job & {
-		apiVersion: "batch/v1"
-		kind:       "Job"
-		metadata: {
-			name:      "hatch-egg"
-			namespace: "default"
-			annotations: "argocd.argoproj.io/hook":      "PreSync"
-			annotations: "argocd.argoproj.io/sync-wave": "1"
-		}
-
-		spec: backoffLimit: 0
-		spec: template: spec: {
-			serviceAccountName: "default"
-			containers: [{
-				name:  "meh"
-				image: "ubuntu"
-				command: ["bash", "-c"]
-				args: ["""
-					set -exfu
-					apt-get update
-					apt-get upgrade -y
-					apt-get install -y ca-certificates curl
-					apt-get install -y apt-transport-https
-					curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
-					echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list
-					apt-get update
-					apt-get install -y kubectl jq
-					test "completed" == "$(kubectl get tf rocky-egg -o json | jq -r '.status.phase')"
-					"""]
-			}]
-			restartPolicy: "Never"
-		}
-	}
-
-	resource: "tfo-demo-rocky": {
-		apiVersion: "tf.isaaguilar.com/v1alpha2"
-		kind:       "Terraform"
-
-		metadata: {
-			name:      "rocky"
-			namespace: "default"
-		}
-
-		spec: {
-			terraformVersion: "1.0.0"
-			terraformModule: source: "https://github.com/defn/app.git//tf/m/chicken?ref=master"
-
-			serviceAccount: "default"
-			scmAuthMethods: []
-
-			ignoreDelete:       true
-			keepLatestPodsOnly: true
-
-			outputsToOmit: ["0"]
-
-			backend: """
-				terraform {
-					backend "kubernetes" {
-						in_cluster_config = true
-						secret_suffix     = "rocky"
-						namespace         = "default"
-					}
-				}
-				"""
-		}
-	}
-}
+}).outputs
 
 kustomize: "bonchon": #Kustomize & {
 	resource: "pre-sync-hook-dry-brine-chicken": batch.#Job & {
@@ -1127,7 +1034,9 @@ kustomize: "bonchon": #Kustomize & {
 					echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list
 					apt-get update
 					apt-get install -y kubectl jq
-					test "completed" == "$(kubectl get tf rocky -o json | jq -r '.status.phase')"
+					for a in rocky rosie; do
+						test "completed" == "$(kubectl get tf "$a" -o json | jq -r '.status.phase')"
+					done
 					"""]
 			}]
 			restartPolicy: "Never"

@@ -29,6 +29,7 @@ env: (#Transform & {
 				"tfo":                       30
 				"knative":                   40
 				"rocky":                     40
+				"rosie":                     40
 				"bonchon":                   41
 				"kong":                      50
 				"hello":                     60

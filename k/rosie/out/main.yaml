@@ -1,0 +1,69 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/sync-wave: "1"
+  name: hatch-egg
+  namespace: default
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      containers:
+      - args:
+        - |-
+          set -exfu
+          apt-get update
+          apt-get upgrade -y
+          apt-get install -y ca-certificates curl
+          apt-get install -y apt-transport-https
+          curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+          echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list
+          apt-get update
+          apt-get install -y kubectl jq
+          test "completed" == "$(kubectl get tf rosie-egg -o json | jq -r '.status.phase')"
+        command:
+        - bash
+        - -c
+        image: ubuntu
+        name: meh
+      restartPolicy: Never
+      serviceAccountName: default
+---
+apiVersion: tf.isaaguilar.com/v1alpha2
+kind: Terraform
+metadata:
+  name: rosie
+  namespace: default
+spec:
+  backend: "terraform {\n\tbackend \"kubernetes\" {\n\t\tin_cluster_config = true\n\t\tsecret_suffix
+    \    = \"rosie\"\n\t\tnamespace         = \"default\"\n\t}\n}"
+  ignoreDelete: true
+  keepLatestPodsOnly: true
+  outputsToOmit:
+  - "0"
+  scmAuthMethods: []
+  serviceAccount: default
+  terraformModule:
+    source: https://github.com/defn/app.git//tf/m/chicken?ref=master
+  terraformVersion: 1.0.0
+---
+apiVersion: tf.isaaguilar.com/v1alpha2
+kind: Terraform
+metadata:
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/sync-wave: "0"
+  name: rosie-egg
+  namespace: default
+spec:
+  backend: "terraform {\n\tbackend \"kubernetes\" {\n\t\tin_cluster_config = true\n\t\tsecret_suffix
+    \    = \"rosie-egg\"\n\t\tnamespace         = \"default\"\n\t}\n}"
+  ignoreDelete: true
+  keepLatestPodsOnly: true
+  scmAuthMethods: []
+  serviceAccount: default
+  terraformModule:
+    source: https://github.com/defn/app.git//tf/m/egg?ref=master
+  terraformVersion: 1.0.0

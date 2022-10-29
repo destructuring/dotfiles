@@ -1,10 +1,11 @@
 #ManagedBy: cue
 
 metadata:
-  name: dry-brine-chicken
+  name: hatch-egg
   namespace: default
   annotations:
     argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   backoffLimit: 0
   template:
@@ -27,9 +28,7 @@ spec:
               echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list
               apt-get update
               apt-get install -y kubectl jq
-              for a in rocky rosie; do
-              	test "completed" == "$(kubectl get tf "$a" -o json | jq -r '.status.phase')"
-              done
+              test "completed" == "$(kubectl get tf rosie-egg -o json | jq -r '.status.phase')"
       restartPolicy: Never
 kind: Job
 apiVersion: batch/v1

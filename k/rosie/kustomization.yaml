@@ -1,0 +1,7 @@
+#ManagedBy: cue
+
+patchesStrategicMerge: []
+resources:
+  - resource-pre-sync-hook-egg.yaml
+  - resource-pre-sync-hook-hatch-egg.yaml
+  - resource-tfo-demo-rosie.yaml
