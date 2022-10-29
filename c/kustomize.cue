@@ -1071,6 +1071,37 @@ kustomize: "tfo": #Kustomize & {
 }
 
 kustomize: "egg": #Kustomize & {
+	resource: "pre-sync-hook": {
+		apiVersion: "tf.isaaguilar.com/v1alpha2"
+		kind:       "Terraform"
+
+		metadata: {
+			name:      "embryo"
+			namespace: "default"
+		}
+
+		spec: {
+			terraformVersion: "1.0.0"
+			terraformModule: source: "https://github.com/defn/app.git//tf/m/embryo?ref=master"
+
+			serviceAccount: "default"
+			scmAuthMethods: []
+
+			ignoreDelete:       true
+			keepLatestPodsOnly: true
+
+			backend: """
+				terraform {
+					backend "kubernetes" {
+						in_cluster_config = true
+						secret_suffix     = "embryo"
+						namespace         = "default"
+					}
+				}
+				"""
+		}
+	}
+
 	resource: "tfo-demo-egg": {
 		apiVersion: "tf.isaaguilar.com/v1alpha2"
 		kind:       "Terraform"
@@ -1087,7 +1118,7 @@ kustomize: "egg": #Kustomize & {
 			serviceAccount: "default"
 			scmAuthMethods: []
 
-			ignoreDelete:       false
+			ignoreDelete:       true
 			keepLatestPodsOnly: true
 
 			outputsToOmit: ["0"]
@@ -1155,7 +1186,7 @@ kustomize: "chicken": #Kustomize & {
 			serviceAccount: "default"
 			scmAuthMethods: []
 
-			ignoreDelete:       false
+			ignoreDelete:       true
 			keepLatestPodsOnly: true
 
 			outputsToOmit: ["0"]

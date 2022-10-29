@@ -45,8 +45,6 @@ env: smiley: #K3D & {
 		"k3d-smiley-secrets-store":  20
 		"k3d-smiley-kuma-zone":      30
 		"tfo":                       30
-		"egg":                       400
-		"chicken":                   400
 		"demo2":                     500
 	}
 }
@@ -62,7 +60,5 @@ env: global: #K3D & {
 		"k3d-global-kuma-global":    30
 		"tfo":                       30
 		"mesh":                      40
-		"egg":                       400
-		"chicken":                   400
 	}
 }
