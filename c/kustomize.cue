@@ -34,6 +34,74 @@ import (
 	}
 }
 
+#TransformKarpenterProvisioner: {
+	in: #Input & {
+		instance_types: [...string]
+	}
+
+	out: {
+		apiVersion: "karpenter.sh/v1alpha5"
+		kind:       "Provisioner"
+		metadata: name: in.name
+		spec: {
+			requirements: [{
+				key:      "karpenter.sh/capacity-type"
+				operator: "In"
+				values: ["spot"]
+			}, {
+				key:      "kubernetes.io/arch"
+				operator: "In"
+				values: ["amd64"]
+			}, {
+				key:      "node.kubernetes.io/instance-type"
+				operator: "In"
+				values:   in.instance_types
+			}]
+			limits: resources: cpu: "2"
+			labels: env: in.name
+			taints: [{
+				key:    "env"
+				value:  in.name
+				effect: "NoSchedule"
+			}]
+			providerRef: name: "default"
+			ttlSecondsAfterEmpty: 600
+		}
+	}
+}
+
+#TransformKustomizeVCluster: {
+	in: #Input & {
+		namespace:  string
+		vc_name:    string
+		vc_machine: string
+	}
+
+	out: #KustomizeVCluster & {
+		namespace:  in.name
+		vc_name:    in.name
+		vc_machine: in.name
+	}
+}
+
+kustomize: (#Transform & {
+	transformer: #TransformKustomizeVCluster
+
+	inputs: {
+		vc1: {}
+		vc2: {}
+		vc3: {}
+		vc4: {}
+
+		[N=string]: {
+			label:      N
+			namespace:  N
+			vc_name:    N
+			vc_machine: N
+		}
+	}
+}).outputs
+
 kustomize: "hello": #Kustomize & {
 	namespace: "default"
 
@@ -819,44 +887,8 @@ kustomize: "karpenter": #Kustomize & {
 		}
 	}
 
-	#KarpenterProvisioner: {
-		in: #Input & {
-			instance_types: [...string]
-		}
-
-		out: {
-			apiVersion: "karpenter.sh/v1alpha5"
-			kind:       "Provisioner"
-			metadata: name: in.name
-			spec: {
-				requirements: [{
-					key:      "karpenter.sh/capacity-type"
-					operator: "In"
-					values: ["spot"]
-				}, {
-					key:      "kubernetes.io/arch"
-					operator: "In"
-					values: ["amd64"]
-				}, {
-					key:      "node.kubernetes.io/instance-type"
-					operator: "In"
-					values:   in.instance_types
-				}]
-				limits: resources: cpu: "2"
-				labels: env: in.name
-				taints: [{
-					key:    "env"
-					value:  in.name
-					effect: "NoSchedule"
-				}]
-				providerRef: name: "default"
-				ttlSecondsAfterEmpty: 600
-			}
-		}
-	}
-
-	_VclusterKarpenterProvisioners: #Transform & {
-		transformer: #KarpenterProvisioner
+	resource: (#Transform & {
+		transformer: #TransformKarpenterProvisioner
 
 		inputs: {
 			vc1: instance_types: ["t3.medium", "t3a.medium"]
@@ -868,9 +900,7 @@ kustomize: "karpenter": #Kustomize & {
 				label: "provisioner-\(N)"
 			}
 		}
-	}
-
-	resource: _VclusterKarpenterProvisioners.outputs
+	}).outputs
 }
 
 kustomize: "knative": #Kustomize & {

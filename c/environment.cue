@@ -71,18 +71,3 @@ env: global: #K3D & {
 		"chicken":                   400
 	}
 }
-
-kustomize: [NAME=string]: {
-	if NAME =~ "^vc" {
-		#KustomizeVCluster & {
-			namespace:  NAME
-			vc_name:    NAME
-			vc_machine: NAME
-		}
-	}
-}
-
-kustomize: "vc1": {}
-kustomize: "vc2": {}
-kustomize: "vc3": {}
-kustomize: "vc4": {}
