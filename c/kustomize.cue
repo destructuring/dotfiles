@@ -88,6 +88,21 @@ kustomize: (#Transform & {
 	transformer: #TransformKustomizeVCluster
 
 	inputs: {
+		vc0: {}
+
+		[N=string]: {
+			label:      N
+			namespace:  N
+			vc_name:    N
+			vc_machine: "control"
+		}
+	}
+}).outputs
+
+kustomize: (#Transform & {
+	transformer: #TransformKustomizeVCluster
+
+	inputs: {
 		vc1: {}
 		vc2: {}
 		vc3: {}
