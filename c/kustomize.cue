@@ -1094,3 +1094,9 @@ kustomize: "chicken": #Kustomize & {
 		}
 	}
 }
+
+kustomize: "sysbox": #Kustomize & {
+	resource: "sysbox": {
+		url: "https://raw.githubusercontent.com/nestybox/sysbox/master/sysbox-k8s-manifests/sysbox-install.yaml"
+	}
+}
