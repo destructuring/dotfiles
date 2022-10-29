@@ -56,7 +56,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "400"
+    argocd.argoproj.io/sync-wave: "41"
   name: k3d-control-bonchon
   namespace: argocd
 spec:
@@ -137,6 +137,33 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
+    argocd.argoproj.io/sync-wave: "60"
+  name: k3d-control-hello
+  namespace: argocd
+spec:
+  destination:
+    name: k3d-control
+  ignoreDifferences:
+  - group: ""
+    jsonPointers:
+    - /data
+    kind: Secret
+    name: karpenter-cert
+    namespace: karpenter
+  project: default
+  source:
+    path: k/hello
+    repoURL: https://github.com/defn/app
+    targetRevision: master
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
     argocd.argoproj.io/sync-wave: "20"
   name: k3d-control-karpenter
   namespace: argocd
@@ -164,7 +191,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "50"
+    argocd.argoproj.io/sync-wave: "40"
   name: k3d-control-knative
   namespace: argocd
 spec:
@@ -191,7 +218,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "60"
+    argocd.argoproj.io/sync-wave: "50"
   name: k3d-control-kong
   namespace: argocd
 spec:
@@ -299,7 +326,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "400"
+    argocd.argoproj.io/sync-wave: "40"
   name: k3d-control-rocky
   namespace: argocd
 spec:

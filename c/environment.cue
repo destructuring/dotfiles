@@ -25,13 +25,13 @@ env: control: #K3D & {
 		"k3d-control-secrets-store": 20
 		"k3d-control-kuma-zone":     30
 		"tfo":                       30
-		"knative":                   50
-		"kong":                      60
-		"rocky":                     400
-		"bonchon":                   400
+		"knative":                   40
+		"rocky":                     40
+		"bonchon":                   41
+		"kong":                      50
+		"hello":                     60
+		//"events": 30
 		//"demo1":  500
-		//"events": 500
-		//"hello":  500
 	}
 }
 
@@ -45,7 +45,7 @@ env: smiley: #K3D & {
 		"k3d-smiley-secrets-store":  20
 		"k3d-smiley-kuma-zone":      30
 		"tfo":                       30
-		"demo2":                     500
+		"demo2":                     40
 	}
 }
 
