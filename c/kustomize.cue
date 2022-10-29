@@ -79,8 +79,8 @@ import (
 
 	out: #KustomizeVCluster & {
 		namespace:  in.name
-		vc_name:    in.name
-		vc_machine: in.name
+		vc_name:    in.vc_name
+		vc_machine: in.vc_machine
 	}
 }
 

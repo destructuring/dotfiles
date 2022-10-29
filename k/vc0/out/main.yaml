@@ -472,7 +472,7 @@ spec:
               - key: env
                 operator: In
                 values:
-                - vc0
+                - control
       containers:
       - args:
         - -c
@@ -510,7 +510,7 @@ spec:
         - --service-account=vc-workload-vcluster
         - --kube-config-context-name=my-vcluster
         - --sync=nodes
-        - --node-selector=env=vc0
+        - --node-selector=env=control
         - --tls-san=vcluster.vc0.svc.cluster.local
         - --enforce-toleration=env=vc0:NoSchedule
         env:
@@ -561,7 +561,7 @@ spec:
       tolerations:
       - key: env
         operator: Equal
-        value: vc0
+        value: control
       volumes:
       - emptyDir: {}
         name: config

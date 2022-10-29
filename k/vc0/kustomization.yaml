@@ -22,10 +22,10 @@ helmCharts:
       sync:
         nodes:
           enabled: true
-          nodeSelector: env=vc0
+          nodeSelector: env=control
       tolerations:
         - key: env
-          value: vc0
+          value: control
           operator: Equal
       affinity:
         nodeAffinity:
@@ -35,5 +35,5 @@ helmCharts:
                   - key: env
                     operator: In
                     values:
-                      - vc0
+                      - control
     includeCRDs: true
