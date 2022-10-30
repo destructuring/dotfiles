@@ -1008,23 +1008,24 @@ kustomize: (#Transform & {
 }).outputs
 
 kustomize: "bonchon": #Kustomize & {
-	resource: "pre-sync-hook-dry-brine-chicken": batch.#Job & {
-		apiVersion: "batch/v1"
-		kind:       "Job"
-		metadata: {
-			name:      "dry-brine-chicken"
-			namespace: "default"
-			annotations: "argocd.argoproj.io/hook": "PreSync"
-		}
+	for chicken in ["rocky", "rosie"] {
+		resource: "pre-sync-hook-dry-brine-\(chicken)-chicken": batch.#Job & {
+			apiVersion: "batch/v1"
+			kind:       "Job"
+			metadata: {
+				name:      "dry-brine-\(chicken)-chicken"
+				namespace: "default"
+				annotations: "argocd.argoproj.io/hook": "PreSync"
+			}
 
-		spec: backoffLimit: 0
-		spec: template: spec: {
-			serviceAccountName: "default"
-			containers: [{
-				name:  "meh"
-				image: "ubuntu"
-				command: ["bash", "-c"]
-				args: ["""
+			spec: backoffLimit: 0
+			spec: template: spec: {
+				serviceAccountName: "default"
+				containers: [{
+					name:  "meh"
+					image: "ubuntu"
+					command: ["bash", "-c"]
+					args: ["""
 					set -exfu
 					apt-get update
 					apt-get upgrade -y
@@ -1034,12 +1035,11 @@ kustomize: "bonchon": #Kustomize & {
 					echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list
 					apt-get update
 					apt-get install -y kubectl jq
-					for a in rocky rosie; do
-						test "completed" == "$(kubectl get tf "$a" -o json | jq -r '.status.phase')"
-					done
+					test "completed" == "$(kubectl get tf "\(chicken)" -o json | jq -r '.status.phase')"
 					"""]
-			}]
-			restartPolicy: "Never"
+				}]
+				restartPolicy: "Never"
+			}
 		}
 	}
 
