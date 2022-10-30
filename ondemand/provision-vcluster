@@ -2,12 +2,5 @@
 
 vc="$1"; shift
 
-app sync k3d-control-${vc}
-app wait k3d-control-${vc}
 (cd && make ${vc})
-app sync ${vc}
-app wait ${vc}
-app sync ${vc}-dev
-app wait ${vc}-dev
-sleep 5
 rm -f .doing.${vc}
