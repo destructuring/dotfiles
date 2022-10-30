@@ -10,9 +10,7 @@ spec:
   terraformModule:
     source: https://github.com/defn/app.git//tf/m/chicken?ref=master
   taskOptions:
-    - for:
-        - "*"
-      env:
+    - env:
         - name: TF_VAR_chicken
           value: rocky
   serviceAccount: default

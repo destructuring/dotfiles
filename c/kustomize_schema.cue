@@ -211,7 +211,6 @@ kustomize: [NAME=string]: _name: NAME
 				terraformModule: source: "https://github.com/defn/app.git//tf/m/egg?ref=master"
 
 				taskOptions: [{
-					for: [ "*"]
 					env: [{
 						name:  "TF_VAR_egg"
 						value: in.name
@@ -284,7 +283,6 @@ kustomize: [NAME=string]: _name: NAME
 				terraformModule: source: "https://github.com/defn/app.git//tf/m/chicken?ref=master"
 
 				taskOptions: [{
-					for: [ "*"]
 					env: [{
 						name:  "TF_VAR_chicken"
 						value: in.name

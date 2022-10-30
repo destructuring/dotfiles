@@ -55,8 +55,6 @@ spec:
   - env:
     - name: TF_VAR_chicken
       value: rosie
-    for:
-    - '*'
   terraformModule:
     source: https://github.com/defn/app.git//tf/m/chicken?ref=master
   terraformVersion: 1.0.0
@@ -80,8 +78,6 @@ spec:
   - env:
     - name: TF_VAR_egg
       value: rosie
-    for:
-    - '*'
   terraformModule:
     source: https://github.com/defn/app.git//tf/m/egg?ref=master
   terraformVersion: 1.0.0

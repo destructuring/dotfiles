@@ -13,9 +13,7 @@ spec:
   terraformModule:
     source: https://github.com/defn/app.git//tf/m/egg?ref=master
   taskOptions:
-    - for:
-        - "*"
-      env:
+    - env:
         - name: TF_VAR_egg
           value: rosie
   serviceAccount: default
