@@ -291,6 +291,11 @@ kustomize: [NAME=string]: _name: NAME
 					}]
 				}]
 
+				//resourceDownloads: [{
+				// address: ""
+				// useAsVar: false
+				//}]
+
 				serviceAccount: "default"
 				scmAuthMethods: []
 
