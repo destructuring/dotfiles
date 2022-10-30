@@ -110,6 +110,11 @@
                               "name": "mntwork"
                             },
                             {
+                              "sub_path": "config-temporalite",
+                              "mount_path": "/home/ubuntu/.config/temporalite",
+                              "name": "mntwork"
+                            },
+                            {
                               "sub_path": "terraform-cache",
                               "mount_path": "/home/ubuntu/.terraform.d/plugin-cache",
                               "name": "mntwork"

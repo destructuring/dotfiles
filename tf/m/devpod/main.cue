@@ -142,6 +142,12 @@ data: kubernetes_config_map: cluster_dns: [{
 	name:       "mntwork"
 }
 
+#MountConfigTemporal: {
+	sub_path: "config-temporalite"
+	mount_path: "/home/ubuntu/.config/temporalite"
+	name:       "mntwork"
+}
+
 #MountVaultAgent: {
 	sub_path: "vault-agent"
 	mount_path: "/vault-agent"
@@ -213,7 +219,7 @@ data: kubernetes_config_map: cluster_dns: [{
 	#TTY
 	#Privileged
 
-	volume_mount: [#MountDocker, #MountContainerd, #MountWork, #MountConfigGcloud, #MountConfigGh, #MountConfigPreCommit, #MountConfigFly, #MountTerraformCache, #MountGoCache, #MountCodeServerCacheExtensions, #MountCodeServerCacheVSIXs, #MountTailscaleRun, #MountVaultAgent]
+	volume_mount: [#MountDocker, #MountContainerd, #MountWork, #MountConfigGcloud, #MountConfigGh, #MountConfigPreCommit, #MountConfigFly, #MountConfigTemporal, #MountTerraformCache, #MountGoCache, #MountCodeServerCacheExtensions, #MountCodeServerCacheVSIXs, #MountTailscaleRun, #MountVaultAgent]
 
 	env: [{
 		name:  "DEFN_DEV_HOST"
