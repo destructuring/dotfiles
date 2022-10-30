@@ -17,19 +17,6 @@ cmd_button(
     location=location.NAV,
 )
 
-cmd_button(
-    name="client",
-    text="Client",
-    icon_name="login",
-    argv=[
-        "bash", "-c",
-        """
-            dist/cmd.client/bin
-        """,
-    ],
-    location=location.NAV,
-)
-
 local_resource("kuma-dp",
     deps=["/home/ubuntu/etc/dev-tp.yaml"],
     serve_cmd=[
