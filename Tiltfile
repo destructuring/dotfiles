@@ -64,14 +64,15 @@ local_resource("kuma-cp",
 #    ]
 #)
 
+# to reset, remove /home/ubuntu/.config/temporalite/db/default.db
 local_resource("temporal",
     serve_cmd=[
         "bash", "-c",
         """
             set -x;
             while true; do
-                pkill -9 temporalite
-                temporalite start --namespace default
+                pkill -9 temporalit[e]
+                temporalite start --namespace default --ip 0.0.0.0
             done
         """
     ]
