@@ -8,6 +8,15 @@ import (
 )
 
 kustomize: (#Transform & {
+	transformer: #TransformChicken
+
+	inputs: {
+		rocky: {}
+		rosie: {}
+	}
+}).outputs
+
+kustomize: (#Transform & {
 	transformer: #TransformKustomizeVCluster
 
 	inputs: {
@@ -997,15 +1006,6 @@ kustomize: "tfo": #Kustomize & {
 		url: "https://raw.githubusercontent.com/isaaguilar/terraform-operator/master/deploy/bundles/v0.9.0-alpha1/v0.9.0-alpha1.yaml"
 	}
 }
-
-kustomize: (#Transform & {
-	transformer: #TransformChicken
-
-	inputs: {
-		rocky: {}
-		rosie: {}
-	}
-}).outputs
 
 kustomize: "bonchon": #Kustomize & {
 	for chicken in ["rocky", "rosie"] {

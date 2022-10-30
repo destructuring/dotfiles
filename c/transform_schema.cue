@@ -12,8 +12,9 @@ package c
 	// A transformer takes an (in)put and (out)put.  The input is extended with
 	// additional fields, the output is the template.
 	transformer: {
-		in:  #Input
-		out: _
+		in: #Input
+		out: _in: in
+		out: {...}
 		...
 	}
 
@@ -29,6 +30,7 @@ package c
 	outputs: {
 		// Outputs are meant to be assigned to top level fields, like
 		// "resource:" or "kustomizes"
+
 		for _in in inputs {
 			"\(_in.label)": (transformer & {
 				in: _in
