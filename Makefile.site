@@ -10,5 +10,4 @@ install-site:
 check:
 	kv
 	aws sts get-caller-identity
-	kumactl inspect services
 	for a in so the brie; do curl $$a.mesh/dev/; echo; done
