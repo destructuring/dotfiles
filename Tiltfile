@@ -4,57 +4,28 @@ allow_k8s_contexts("k3d-control")
 load("ext://uibutton", "cmd_button", "location")
 load("ext://restart_process", "custom_build_with_restart")
 
-for a in ["on", "off"]:
-    cmd_button(
-        name="kuma-tp-{}".format(a),
-        text="Kuma Transparency: {}".format(a),
-        icon_name="login",
-        argv=[
-            "bash", "-c",
-            """
-                ~/bin/e kuma-tp-{}
-            """.format(a),
-        ],
-        location=location.NAV,
-    )
-
 cmd_button(
-    name="kuma-test",
-    text="Kuma Test",
+    name="check",
+    text="Check",
     icon_name="login",
     argv=[
         "bash", "-c",
         """
-            seq 1 30 | runmany 6 'curl -sSL whoami.mesh' | grep Hostname | sort | uniq -c
-            echo
-            for a in so the brie; do env DOCKER_HOST=tcp://docker-$a.mesh:80 docker ps; echo;  done
-        """.format(a),
+            make check
+        """,
     ],
     location=location.NAV,
 )
 
 cmd_button(
-    name="kuma-dp-restart",
-    text="Kuma Restart DP",
+    name="client",
+    text="Client",
     icon_name="login",
     argv=[
         "bash", "-c",
         """
-            touch /home/ubuntu/etc/dev-tp.yaml
-        """.format(a),
-    ],
-    location=location.NAV,
-)
-
-cmd_button(
-    name="kuma-ingress-restart",
-    text="Kuma Restart Ingress",
-    icon_name="login",
-    argv=[
-        "bash", "-c",
-        """
-            touch /home/ubuntu/etc/ingress-dp.yaml
-        """.format(a),
+            dist/cmd.client/bin
+        """,
     ],
     location=location.NAV,
 )
