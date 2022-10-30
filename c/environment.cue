@@ -1,17 +1,7 @@
 package c
 
-#TransformEnv: {
-	in: #Input & {
-		bootstrap: [string]: number
-	}
-
-	out: #K3D & {
-		bootstrap: in.bootstrap
-	}
-}
-
 env: (#Transform & {
-	transformer: #TransformEnv
+	transformer: #TransformK3D
 
 	inputs: {
 		// control is the control plane, used by the operator.

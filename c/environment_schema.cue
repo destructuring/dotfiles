@@ -133,10 +133,23 @@ for _machine_name, _machine in env {
 	apps: [string]: [string]: {...}
 }
 
+#TransformK3D: {
+	from: {
+		#Input
+		bootstrap: [string]: number
+	}
+
+	to: #K3D
+}
+
 // K3D Machine
 #K3D: ctx={
+	_in: #TransformK3D.from
+
 	#Machine
-	type: "k3d"
+
+	type:      "k3d"
+	bootstrap: _in.bootstrap
 
 	// ex: k3d-control
 	env: metadata: name: "\(type)-\(ctx.name)"

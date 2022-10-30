@@ -91,18 +91,19 @@ kustomize: [NAME=string]: _name: NAME
 }
 
 #TransformKustomizeVCluster: {
-	in: #Input & {
-		vc_name:    string | *in.name
-		vc_machine: string | *in.name
+	from: {
+		#Input
+		vc_name:    string | *from.name
+		vc_machine: string | *from.name
 	}
 
-	out: #KustomizeVCluster
+	to: #KustomizeVCluster
 }
 
 #KustomizeVCluster: {
-	#KustomizeHelm
+	_in: #TransformKustomizeVCluster.from
 
-	_in: #Input
+	#KustomizeHelm
 
 	namespace: _in.name
 
@@ -151,8 +152,17 @@ kustomize: [NAME=string]: _name: NAME
 	}
 }
 
+#TransformKarpenterProvisioner: {
+	from: {
+		#Input
+		instance_types: [...string]
+	}
+
+	to: #KarpenterProvisioner
+}
+
 #KarpenterProvisioner: {
-	_in: #Input
+	_in: #TransformKarpenterProvisioner.from
 
 	apiVersion: "karpenter.sh/v1alpha5"
 	kind:       "Provisioner"
@@ -183,22 +193,14 @@ kustomize: [NAME=string]: _name: NAME
 	}
 }
 
-#TransformKarpenterProvisioner: {
-	in: #Input & {
-		instance_types: [...string]
-	}
-
-	out: #KarpenterProvisioner
-}
-
 #TransformChicken: {
-	in: #Input
+	from: #Input
 
-	out: #Chicken
+	to: #Chicken
 }
 
 #Chicken: #Kustomize & {
-	_in: #Input
+	_in: #TransformChicken.from
 
 	resource: "pre-sync-hook-egg": {
 		apiVersion: "tf.isaaguilar.com/v1alpha2"
