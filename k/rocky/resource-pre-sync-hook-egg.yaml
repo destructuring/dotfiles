@@ -13,7 +13,9 @@ spec:
   terraformModule:
     source: https://github.com/defn/app.git//tf/m/egg?ref=master
   taskOptions:
-    - env:
+    - for:
+        - "*"
+      env:
         - name: TF_VAR_egg
           value: rocky
   serviceAccount: default

@@ -10,7 +10,9 @@ spec:
   terraformModule:
     source: https://github.com/defn/app.git//tf/m/chicken?ref=master
   taskOptions:
-    - env:
+    - for:
+        - "*"
+      env:
         - name: TF_VAR_chicken
           value: rosie
   serviceAccount: default
