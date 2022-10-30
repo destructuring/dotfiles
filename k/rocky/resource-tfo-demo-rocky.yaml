@@ -9,6 +9,12 @@ spec:
   terraformVersion: 1.0.0
   terraformModule:
     source: https://github.com/defn/app.git//tf/m/chicken?ref=master
+  taskOptions:
+    - for:
+        - "*"
+      env:
+        - name: TF_VAR_chicken
+          value: rocky
   serviceAccount: default
   scmAuthMethods: []
   ignoreDelete: true
@@ -17,9 +23,9 @@ spec:
     - "0"
   backend: |-
     terraform {
-    	backend "kubernetes" {
-    		in_cluster_config = true
-    		secret_suffix     = "rocky"
-    		namespace         = "default"
-    	}
+      backend "kubernetes" {
+        in_cluster_config = true
+        secret_suffix     = "rocky"
+        namespace         = "default"
+      }
     }

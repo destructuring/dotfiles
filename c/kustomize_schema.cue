@@ -210,6 +210,14 @@ kustomize: [NAME=string]: _name: NAME
 				terraformVersion: "1.0.0"
 				terraformModule: source: "https://github.com/defn/app.git//tf/m/egg?ref=master"
 
+				taskOptions: [{
+					for: [ "*"]
+					env: [{
+						name:  "TF_VAR_egg"
+						value: in.name
+					}]
+				}]
+
 				serviceAccount: "default"
 				scmAuthMethods: []
 
@@ -217,14 +225,14 @@ kustomize: [NAME=string]: _name: NAME
 				keepLatestPodsOnly: true
 
 				backend: """
-				terraform {
-					backend "kubernetes" {
-						in_cluster_config = true
-						secret_suffix     = "\(in.name)-egg"
-						namespace         = "default"
+					terraform {
+						backend "kubernetes" {
+							in_cluster_config = true
+							secret_suffix     = "\(in.name)-egg"
+							namespace         = "default"
+						}
 					}
-				}
-				"""
+					"""
 			}
 		}
 
@@ -246,17 +254,17 @@ kustomize: [NAME=string]: _name: NAME
 					image: "ubuntu"
 					command: ["bash", "-c"]
 					args: ["""
-					set -exfu
-					apt-get update
-					apt-get upgrade -y
-					apt-get install -y ca-certificates curl
-					apt-get install -y apt-transport-https
-					curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
-					echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list
-					apt-get update
-					apt-get install -y kubectl jq
-					test "completed" == "$(kubectl get tf \(in.name)-egg -o json | jq -r '.status.phase')"
-					"""]
+						set -exfu
+						apt-get update
+						apt-get upgrade -y
+						apt-get install -y ca-certificates curl
+						apt-get install -y apt-transport-https
+						curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+						echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list
+						apt-get update
+						apt-get install -y kubectl jq
+						test "completed" == "$(kubectl get tf \(in.name)-egg -o json | jq -r '.status.phase')"
+						"""]
 				}]
 				restartPolicy: "Never"
 			}
@@ -275,6 +283,14 @@ kustomize: [NAME=string]: _name: NAME
 				terraformVersion: "1.0.0"
 				terraformModule: source: "https://github.com/defn/app.git//tf/m/chicken?ref=master"
 
+				taskOptions: [{
+					for: [ "*"]
+					env: [{
+						name:  "TF_VAR_chicken"
+						value: in.name
+					}]
+				}]
+
 				serviceAccount: "default"
 				scmAuthMethods: []
 
@@ -284,14 +300,14 @@ kustomize: [NAME=string]: _name: NAME
 				outputsToOmit: ["0"]
 
 				backend: """
-				terraform {
-					backend "kubernetes" {
-						in_cluster_config = true
-						secret_suffix     = "\(in.name)"
-						namespace         = "default"
+					terraform {
+					  backend "kubernetes" {
+					    in_cluster_config = true
+					    secret_suffix     = "\(in.name)"
+					    namespace         = "default"
+					  }
 					}
-				}
-				"""
+					"""
 			}
 		}
 	}

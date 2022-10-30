@@ -37,14 +37,26 @@ metadata:
   name: rosie
   namespace: default
 spec:
-  backend: "terraform {\n\tbackend \"kubernetes\" {\n\t\tin_cluster_config = true\n\t\tsecret_suffix
-    \    = \"rosie\"\n\t\tnamespace         = \"default\"\n\t}\n}"
+  backend: |-
+    terraform {
+      backend "kubernetes" {
+        in_cluster_config = true
+        secret_suffix     = "rosie"
+        namespace         = "default"
+      }
+    }
   ignoreDelete: true
   keepLatestPodsOnly: true
   outputsToOmit:
   - "0"
   scmAuthMethods: []
   serviceAccount: default
+  taskOptions:
+  - env:
+    - name: TF_VAR_chicken
+      value: rosie
+    for:
+    - '*'
   terraformModule:
     source: https://github.com/defn/app.git//tf/m/chicken?ref=master
   terraformVersion: 1.0.0
@@ -64,6 +76,12 @@ spec:
   keepLatestPodsOnly: true
   scmAuthMethods: []
   serviceAccount: default
+  taskOptions:
+  - env:
+    - name: TF_VAR_egg
+      value: rosie
+    for:
+    - '*'
   terraformModule:
     source: https://github.com/defn/app.git//tf/m/egg?ref=master
   terraformVersion: 1.0.0

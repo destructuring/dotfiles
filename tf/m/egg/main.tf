@@ -2,6 +2,6 @@ provider "kubernetes" {}
 
 resource "kubernetes_namespace" "egg" {
   metadata {
-    name = "egg"
+    name = "egg-${var.egg}"
   }
 }

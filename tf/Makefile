@@ -11,7 +11,6 @@ domain ?= tiger-mamba.ts.net
 
 test:
 	$(MAKE) fmt
-	$(MAKE) gen
 	$(MAKE) init
 	$(MAKE) validate
 

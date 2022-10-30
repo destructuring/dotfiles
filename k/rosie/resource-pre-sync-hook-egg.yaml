@@ -12,6 +12,12 @@ spec:
   terraformVersion: 1.0.0
   terraformModule:
     source: https://github.com/defn/app.git//tf/m/egg?ref=master
+  taskOptions:
+    - for:
+        - "*"
+      env:
+        - name: TF_VAR_egg
+          value: rosie
   serviceAccount: default
   scmAuthMethods: []
   ignoreDelete: true
