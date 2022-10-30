@@ -105,3 +105,16 @@ local_resource("kuma-cp",
 #        """
 #    ]
 #)
+
+local_resource("temporal",
+    serve_cmd=[
+        "bash", "-c",
+        """
+            set -x;
+            while true; do
+                pkill -9 temporalite
+                temporalite start --namespace default
+            done
+        """
+    ]
+)
