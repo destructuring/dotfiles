@@ -14,7 +14,7 @@ helmCharts:
       service:
         type: ClusterIP
       vcluster:
-        image: rancher/k3s:v1.23.12-k3s1
+        image: rancher/k3s:v1.23.13-k3s1
       syncer:
         extraArgs:
           - --tls-san=vcluster.vc0.svc.cluster.local
