@@ -8,6 +8,7 @@ install-site:
 	if ! is-fly; then if ! nc -z -v localhost 8000 2>/dev/null; then cd app && make up; fi; fi
 
 check:
-	kv
+	kv dev/
 	aws sts get-caller-identity
 	for a in so the brie; do curl $$a.mesh/dev/; echo; done
+	for a in hello bye; do http $$a.default; done
