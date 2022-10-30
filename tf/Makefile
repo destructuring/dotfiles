@@ -2,12 +2,7 @@ SHELL := /bin/bash
 
 podname ?= $(shell basename $(shell pwd))-0
 context ?= k3d-$(shell basename $(shell pwd))
-domain ?= tiger-mamba.ts.net
-
-# export DIGITALOCEAN_ACCESS_TOKEN="$(pass DIGITALOCEAN_ACCESS_TOKEN)"
-# export TF_TOKEN_app_terraform_io="$(pass TF_TOKEN_app_terraform_io)"
-
-# doctl kubernetes cluster kubeconfig save remo
+domain ?= $(shell wait-tailscale-domain | cut -d. -f2-)
 
 test:
 	$(MAKE) fmt
@@ -22,7 +17,6 @@ gen:
 
 shell:
 	env \
-		DIGITALOCEAN_ACCESS_TOKEN="$$(pass DIGITALOCEAN_ACCESS_TOKEN)" \
 		TF_TOKEN_app_terraform_io="$$(pass TF_TOKEN_app_terraform_io)" \
 		FLY_API_TOKEN="$$(pass FLY_API_TOKEN)" \
 		$(SHELL)
@@ -51,7 +45,7 @@ validate:
 	terraform validate
 
 plan:
-	env TF_VAR_home=$(HOME) terraform plan -out=.plan
+	env terraform plan -out=.plan
 
 planned:
 	terraform show .plan
@@ -65,24 +59,6 @@ refresh:
 
 console:
 	terraform console
-
-one:
-	$(MAKE) plan-one apply
-
-zero:
-	$(MAKE) plan-zero apply
-
-plan-one:
-	env TF_VAR_want=1 $(MAKE) plan
-
-plan-zero:
-	env TF_VAR_want=0 $(MAKE) plan
-
-kubeconfig:
-	doctl kubernetes cluster kubeconfig save remo
-
-attach:
-	code --folder-uri vscode-remote://k8s-container+context=$(context)+namespace=default+podname=$(podname)+name=dev+/home/ubuntu
 
 archive:
 	pass hello
