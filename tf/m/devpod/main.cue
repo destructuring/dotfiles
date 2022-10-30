@@ -489,6 +489,10 @@ resource: kubernetes_service: control: [{
 			name:        "gcloud"
 			port:        18085
 			target_port: 18085
+		}, {
+			name:        "temporal"
+			port:        7233
+			target_port: 7233
 		}]
 	}]
 }]
