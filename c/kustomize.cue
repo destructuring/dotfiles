@@ -16,29 +16,6 @@ kustomize: (#Transform & {
 	}
 }).outputs
 
-kustomize: (#Transform & {
-	transformer: #TransformKustomizeVCluster
-
-	inputs: {
-		vc0: {}
-
-		[N=string]: {
-			vc_machine: "control"
-		}
-	}
-}).outputs
-
-kustomize: (#Transform & {
-	transformer: #TransformKustomizeVCluster
-
-	inputs: {
-		vc1: {}
-		vc2: {}
-		vc3: {}
-		vc4: {}
-	}
-}).outputs
-
 kustomize: "hello": #Kustomize & {
 	namespace: "default"
 
@@ -828,13 +805,14 @@ kustomize: "karpenter": #Kustomize & {
 		transformer: #TransformKarpenterProvisioner
 
 		inputs: {
-			vc1: instance_types: ["t3.medium", "t3a.medium"]
-			vc2: instance_types: ["t3.medium", "t3a.medium"]
-			vc3: instance_types: ["t3.medium", "t3a.medium"]
-			vc4: instance_types: ["t3.medium", "t3a.medium"]
+			vc1: {}
+			vc2: {}
+			vc3: {}
+			vc4: {}
 
 			[N=string]: {
-				label: "provisioner-\(N)"
+				label:          "provisioner-\(N)"
+				instance_types: env[N].instance_types
 			}
 		}
 	}).outputs

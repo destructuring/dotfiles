@@ -5,6 +5,14 @@ env: (#Transform & {
 
 	inputs: {
 		vc0: {
+			instance_types: []
+		}
+		vc1: {}
+		vc2: {}
+		vc3: {}
+		vc4: {}
+
+		[N=string]: {
 			parent: env.control
 			bootstrap: {
 				"cert-manager": 1
@@ -82,6 +90,29 @@ bootstrap: (#Transform & {
 				bootstrap: _env.bootstrap
 			}
 		}
+	}
+}).outputs
+
+kustomize: (#Transform & {
+	transformer: #TransformKustomizeVCluster
+
+	inputs: {
+		vc0: {}
+
+		[N=string]: {
+			vc_machine: "control"
+		}
+	}
+}).outputs
+
+kustomize: (#Transform & {
+	transformer: #TransformKustomizeVCluster
+
+	inputs: {
+		vc1: {}
+		vc2: {}
+		vc3: {}
+		vc4: {}
 	}
 }).outputs
 

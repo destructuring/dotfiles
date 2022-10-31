@@ -160,8 +160,8 @@ import (
 
 	#Machine
 
-	name:      _in.name
 	type:      "k3d"
+	name:      _in.name
 	bootstrap: _in.bootstrap
 
 	// ex: k3d-control
@@ -173,6 +173,7 @@ import (
 	from: {
 		#Input
 		bootstrap: [string]: number
+		instance_types: [...string]
 		parent: #K3D
 	}
 
@@ -184,12 +185,14 @@ import (
 
 	#Machine
 
-	name:      _in.name
 	type:      "vcluster"
+	name:      _in.name
 	bootstrap: _in.bootstrap
 
 	parent: #K3D
 	parent: _in.parent
+
+	instance_types: [...string] | *["t3.medium", "t3a.medium"]
 
 	// ex: k3d-control-vc1
 	env: metadata: name: "\(parent.env.metadata.name)-\(ctx.name)"
