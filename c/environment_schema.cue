@@ -244,10 +244,10 @@ kustomize: (#Transform & {
 	type:      "vcluster"
 	bootstrap: _in.bootstrap
 
-	machine: #K3D
-
 	// ex: k3d-control-vc1
 	env: metadata: name: "\(machine.env.metadata.name)-\(ctx.name)"
+
+	machine: #K3D
 
 	vcluster: #VClusterApp & {
 		// ex: vc1-vcluster
