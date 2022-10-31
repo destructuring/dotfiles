@@ -10,19 +10,55 @@ env: [NAME=string]: (#K3D | #VCluster) & {
 	name: NAME
 }
 
-bootstrap: [NAME=string]: #BootstrapMachine & {
-	machine_name: NAME
+bootstrap: {
+	for _machine_name, _machine in env {
+		// Create a bootstrap machine
+		"\(_machine_name)": #BootstrapMachine & {
+			machine_name: _machine.name
+			machine_type: _machine.type
+			apps:         _machine.bootstrap
+		}
+	}
+}
+
+#TransformEnvToBootstrapMachine: {
+	from: {
+		#Input
+
+		type: string
+		bootstrap: [string]: int
+
+		...
+	}
+
+	to: #BootstrapMachine
+}
+
+#BootstrapMachine: ctx={
+	_in: #TransformEnvToBootstrapMachine.from
+
+	machine_name: string | *_in.name
+	machine_type: string | *_in.type
+
+	apps: [string]: int
+	apps: {...} | *_in.bootstrap
+
+	out: [string]: #BootstrapApp
+	out: {
+		for _app_name, _app_weight in apps {
+			"\(_app_name)": #BootstrapApp & {
+				machine_type: ctx.machine_type
+				machine_name: ctx.machine_name
+				app_name:     _app_name
+				app_wave:     _app_weight
+			}
+		}
+	}
 }
 
 // Each environment is deployed as a Kustomize bundle: any-resource helm chart
 // with all the bootstrap applications.
 for _machine_name, _machine in env {
-	// Create a bootstrap machine
-	bootstrap: "\(_machine_name)": {
-		machine_type: _machine.type
-		apps:         _machine.bootstrap
-	}
-
 	// Deploy the bootstrap machine application
 	kustomize: "\(_machine.type)-\(_machine_name)": #KustomizeHelm & {
 		helm: {
@@ -233,25 +269,6 @@ for _machine_name, _machine in env {
 				name:      "karpenter-cert"
 				namespace: "karpenter"
 			}]
-		}
-	}
-}
-
-#BootstrapMachine: ctx={
-	machine_type: string
-	machine_name: string
-
-	apps: [string]: int
-
-	out: [string]: #BootstrapApp
-	out: {
-		for _app_name, _app_weight in apps {
-			"\(_app_name)": #BootstrapApp & {
-				machine_type: ctx.machine_type
-				machine_name: ctx.machine_name
-				app_name:     _app_name
-				app_wave:     _app_weight
-			}
 		}
 	}
 }
