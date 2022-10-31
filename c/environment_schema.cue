@@ -69,8 +69,8 @@ kustomize: (#Transform & {
 			repo:    "https://kiwigrid.github.io"
 			values: {
 				anyResources: {
-					for _app_name, _app in bootstrap[_in.name].out {
-						"\(_app_name)": yaml.Marshal(_app.out)
+					for _app_name, _app in bootstrap[_in.name].apps {
+						"\(_app_name)": yaml.Marshal(_app.application)
 					}
 				}
 			}
@@ -88,8 +88,6 @@ kustomize: (#Transform & {
 	to: #Kustomize & {
 		_in: from
 
-		_vault_mount_path: "\(_in.type)-\(_in.name)"
-
 		resource: "cluster-secret-store-dev": {
 			apiVersion: "external-secrets.io/v1beta1"
 			kind:       "ClusterSecretStore"
@@ -99,7 +97,7 @@ kustomize: (#Transform & {
 				path:    "kv"
 				version: "v2"
 				auth: kubernetes: {
-					mountPath: _vault_mount_path
+					mountPath: "\(_in.type)-\(_in.name)"
 					role:      "external-secrets"
 				}
 			}
@@ -124,12 +122,9 @@ kustomize: (#Transform & {
 	machine_name: string | *_in.name
 	machine_type: string | *_in.type
 
-	apps: [string]: int
-	apps: {...} | *_in.bootstrap
-
-	out: [string]: #BootstrapApp
-	out: {
-		for _app_name, _app_weight in apps {
+	apps: [string]: #BootstrapApp
+	apps: {
+		for _app_name, _app_weight in _in.bootstrap {
 			"\(_app_name)": #BootstrapApp & {
 				machine_type: ctx.machine_type
 				machine_name: ctx.machine_name
@@ -200,7 +195,6 @@ kustomize: (#Transform & {
 	bootstrap: [string]: int
 
 	env: #EnvApp
-
 	env: {
 		// ex: k/k3d-control
 		// ex: k/vcluster-vc1
@@ -270,7 +264,7 @@ kustomize: (#Transform & {
 	app_name:     string
 	app_wave:     int
 
-	out: {
+	application: {
 		apiVersion: "argoproj.io/v1alpha1"
 		kind:       "Application"
 
