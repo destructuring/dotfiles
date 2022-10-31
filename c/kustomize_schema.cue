@@ -258,18 +258,9 @@ kustomize: [NAME=string]: _name: NAME
 			serviceAccountName: "default"
 			containers: [{
 				name:  "meh"
-				image: "ubuntu"
+				image: "defn/dev:kubectl"
 				command: ["bash", "-c"]
 				args: ["""
-						set -exfu
-						apt-get update
-						apt-get upgrade -y
-						apt-get install -y ca-certificates curl
-						apt-get install -y apt-transport-https
-						curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
-						echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list
-						apt-get update
-						apt-get install -y kubectl jq
 						test "completed" == "$(kubectl get tf \(_in.name)-egg -o json | jq -r '.status.phase')"
 						"""]
 			}]
