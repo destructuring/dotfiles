@@ -166,8 +166,6 @@ for _machine_name, _machine in env {
 
 		spec: destination: name: "in-cluster"
 	}
-
-	apps: [string]: [string]: {...}
 }
 
 // K3D Machine
