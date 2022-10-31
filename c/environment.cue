@@ -1,5 +1,17 @@
 package c
 
+envx: (#Transform & {
+	transformer: #TransformVCluster
+
+	inputs: {
+		vc0: {
+			bootstrap: {
+				"cert-manager": 1
+			}
+		}
+	}
+}).outputs
+
 env: (#Transform & {
 	transformer: #TransformK3D
 

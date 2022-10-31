@@ -133,6 +133,7 @@ for _machine_name, _machine in env {
 	apps: [string]: [string]: {...}
 }
 
+// K3D Machine
 #TransformK3D: {
 	from: {
 		#Input
@@ -142,7 +143,6 @@ for _machine_name, _machine in env {
 	to: #K3D
 }
 
-// K3D Machine
 #K3D: ctx={
 	_in: #TransformK3D.from
 
@@ -156,9 +156,22 @@ for _machine_name, _machine in env {
 }
 
 // VCluster Machine
+#TransformVCluster: {
+	from: {
+		#Input
+		bootstrap: [string]: number
+	}
+
+	to: from
+}
+
 #VCluster: ctx={
+	_in: #TransformVCluster.from
+
 	#Machine
-	type: "vcluster"
+
+	type:      "vcluster"
+	bootstrap: _in.bootstrap
 
 	machine: #K3D
 
