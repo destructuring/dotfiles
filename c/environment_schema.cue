@@ -10,16 +10,19 @@ env: [NAME=string]: (#K3D | #VCluster) & {
 	name: NAME
 }
 
-bootstrap: {
-	for _machine_name, _machine in env {
-		// Create a bootstrap machine
-		"\(_machine_name)": #BootstrapMachine & {
-			machine_name: _machine.name
-			machine_type: _machine.type
-			apps:         _machine.bootstrap
+bootstrap: (#Transform & {
+	transformer: #TransformEnvToBootstrapMachine
+
+	inputs: {
+		for _env_name, _env in env {
+			"\(_env_name)": {
+				name:      _env_name
+				type:      _env.type
+				bootstrap: _env.bootstrap
+			}
 		}
 	}
-}
+}).outputs
 
 #TransformEnvToBootstrapMachine: {
 	from: {
@@ -27,8 +30,6 @@ bootstrap: {
 
 		type: string
 		bootstrap: [string]: int
-
-		...
 	}
 
 	to: #BootstrapMachine
