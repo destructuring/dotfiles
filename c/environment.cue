@@ -1,10 +1,11 @@
 package c
 
-envx: (#Transform & {
+env: (#Transform & {
 	transformer: #TransformVCluster
 
 	inputs: {
 		vc0: {
+			parent: env.control
 			bootstrap: {
 				"cert-manager": 1
 			}

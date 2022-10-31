@@ -135,129 +135,6 @@ kustomize: (#Transform & {
 	}
 }
 
-// Env Application to deploy ApplicationSets, VCluster Applications
-#EnvApp: {
-	apiVersion: "argoproj.io/v1alpha1"
-	kind:       "Application"
-
-	metadata: {
-		namespace: "argocd"
-		name:      string
-	}
-
-	spec: {
-		project: "default"
-
-		destination: name: string
-		source: {
-			repoURL:        "https://github.com/defn/app"
-			targetRevision: "master"
-			path:           string
-		}
-
-		syncPolicy: automated: {
-			prune:    bool | *true
-			selfHeal: bool | *true
-		}
-	}
-}
-
-// VCluster Application to deploy vcluster
-#VClusterApp: {
-	apiVersion: "argoproj.io/v1alpha1"
-	kind:       "Application"
-
-	metadata: {
-		name:      string
-		namespace: "argocd"
-	}
-
-	spec: {
-		project: "default"
-		source: {
-			repoURL:        "https://github.com/defn/app"
-			path:           string
-			targetRevision: "master"
-		}
-		destination: {
-			namespace: string
-			name:      string
-		}
-		syncPolicy: syncOptions: ["CreateNamespace=true"]
-	}
-}
-
-// Machines run ApplicationSets
-#Machine: {
-	type: string
-	name: string
-
-	bootstrap: [string]: int
-
-	env: #EnvApp
-	env: {
-		// ex: k/k3d-control
-		// ex: k/vcluster-vc1
-		spec: source: path: "k/\(type)-\(name)"
-
-		spec: destination: name: "in-cluster"
-	}
-}
-
-// K3D Machine
-#TransformK3D: {
-	from: {
-		#Input
-		bootstrap: [string]: number
-	}
-
-	to: #K3D
-}
-
-#K3D: ctx={
-	_in: #TransformK3D.from
-
-	#Machine
-
-	type:      "k3d"
-	bootstrap: _in.bootstrap
-
-	// ex: k3d-control
-	env: metadata: name: "\(type)-\(ctx.name)"
-}
-
-// VCluster Machine
-#TransformVCluster: {
-	from: {
-		#Input
-		bootstrap: [string]: number
-	}
-
-	to: from
-}
-
-#VCluster: ctx={
-	_in: #TransformVCluster.from
-
-	#Machine
-
-	type:      "vcluster"
-	bootstrap: _in.bootstrap
-
-	// ex: k3d-control-vc1
-	env: metadata: name: "\(machine.env.metadata.name)-\(ctx.name)"
-
-	machine: #K3D
-
-	vcluster: #VClusterApp & {
-		// ex: vc1-vcluster
-		metadata: name: "\(ctx.name)-vcluster"
-
-		// ex: k/vcluster-vc1
-		spec: source: path: "k/\(type)-\(ctx.name)"
-	}
-}
-
 #BootstrapApp: {
 	machine_type: string
 	machine_name: string
@@ -306,4 +183,60 @@ kustomize: (#Transform & {
 			}]
 		}
 	}
+}
+
+// Machine
+#Machine: {
+	type: string
+	name: string
+
+	bootstrap: [string]: int
+}
+
+// K3D Machine
+#TransformK3D: {
+	from: {
+		#Input
+		bootstrap: [string]: number
+	}
+
+	to: #K3D
+}
+
+#K3D: {
+	_in: #TransformK3D.from
+
+	#Machine
+
+	type:      "k3d"
+	bootstrap: _in.bootstrap
+
+	// ex: k3d-control
+	env: metadata: name: "\(type)-\(_in.name)"
+}
+
+// VCluster Machine
+#TransformVCluster: {
+	from: {
+		#Input
+		bootstrap: [string]: number
+		parent: #K3D
+	}
+
+	to: #VCluster
+}
+
+#VCluster: ctx={
+	_in: #TransformVCluster.from
+
+	#Machine
+
+	type:      "vcluster"
+	bootstrap: _in.bootstrap
+
+	parent: #K3D
+	parent: _in.parent
+
+	// ex: k3d-control-vc1
+	env: metadata: name: "\(parent.env.metadata.name)-\(ctx.name)"
 }
