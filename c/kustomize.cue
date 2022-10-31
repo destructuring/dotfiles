@@ -805,10 +805,13 @@ kustomize: "karpenter": #Kustomize & {
 		transformer: #TransformKarpenterProvisioner
 
 		inputs: {
-			vc1: {}
-			vc2: {}
-			vc3: {}
-			vc4: {}
+			for _env_name, _env in env {
+				if (_env & #VCluster) != _|_ {
+					if len(_env.instance_types) > 0 {
+						"\(_env_name)": {}
+					}
+				}
+			}
 
 			[N=string]: {
 				label:          "provisioner-\(N)"

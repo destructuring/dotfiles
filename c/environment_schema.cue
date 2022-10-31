@@ -185,12 +185,11 @@ import (
 
 	#Machine
 
-	type:      "vcluster"
-	name:      _in.name
-	bootstrap: _in.bootstrap
-
-	parent: #K3D
-	parent: _in.parent
+	type:           "vcluster"
+	name:           _in.name
+	bootstrap:      _in.bootstrap
+	instance_types: _in.instance_types
+	parent:         #K3D & _in.parent
 
 	instance_types: [...string] | *["t3.medium", "t3a.medium"]
 
