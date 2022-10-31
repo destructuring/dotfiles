@@ -22,14 +22,13 @@ package c
 	}
 
 	inputs: [N=string]: {
-		#Input
+		transformer.from
 
 		// The label is usually a custom value like "resource-\(label)",
 		// defaults to the name.  Additional fields can be defined in terms of
 		// name.
 		name:  N
 		label: string | *name
-		...
 	}
 
 	outputs: {
