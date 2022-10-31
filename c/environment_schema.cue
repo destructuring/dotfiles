@@ -24,6 +24,89 @@ bootstrap: (#Transform & {
 	}
 }).outputs
 
+kustomize: (#Transform & {
+	transformer: #TransformEnvToAnyResource
+
+	inputs: {
+		for _env_name, _env in env {
+			"\(_env_name)": {
+				name:  _env_name
+				type:  _env.type
+				label: "\(type)-\(name)"
+			}
+		}
+	}
+}).outputs
+
+kustomize: (#Transform & {
+	transformer: #TransformEnvToSecretStore
+
+	inputs: {
+		for _env_name, _env in env {
+			"\(_env_name)": {
+				name:  _env_name
+				type:  _env.type
+				label: "\(type)-\(name)-secrets-store"
+			}
+		}
+	}
+}).outputs
+
+#TransformEnvToAnyResource: {
+	from: {
+		#Input
+
+		type: string
+	}
+
+	to: #KustomizeHelm & {
+		_in: from
+
+		helm: {
+			release: "bootstrap"
+			name:    "any-resource"
+			version: "0.1.0"
+			repo:    "https://kiwigrid.github.io"
+			values: {
+				anyResources: {
+					for _app_name, _app in bootstrap[_in.name].out {
+						"\(_app_name)": yaml.Marshal(_app.out)
+					}
+				}
+			}
+		}
+	}
+}
+
+#TransformEnvToSecretStore: {
+	from: {
+		#Input
+
+		type: string
+	}
+
+	to: #Kustomize & {
+		_in: from
+
+		_vault_mount_path: "\(_in.type)-\(_in.name)"
+
+		resource: "cluster-secret-store-dev": {
+			apiVersion: "external-secrets.io/v1beta1"
+			kind:       "ClusterSecretStore"
+			metadata: name: "dev"
+			spec: provider: vault: {
+				server:  "http://100.103.25.109:8200"
+				path:    "kv"
+				version: "v2"
+				auth: kubernetes: {
+					mountPath: _vault_mount_path
+					role:      "external-secrets"
+				}
+			}
+		}
+	}
+}
+
 #TransformEnvToBootstrapMachine: {
 	from: {
 		#Input
@@ -52,47 +135,6 @@ bootstrap: (#Transform & {
 				machine_name: ctx.machine_name
 				app_name:     _app_name
 				app_wave:     _app_weight
-			}
-		}
-	}
-}
-
-// Each environment is deployed as a Kustomize bundle: any-resource helm chart
-// with all the bootstrap applications.
-for _machine_name, _machine in env {
-	// Deploy the bootstrap machine application
-	kustomize: "\(_machine.type)-\(_machine_name)": #KustomizeHelm & {
-		helm: {
-			release: "bootstrap"
-			name:    "any-resource"
-			version: "0.1.0"
-			repo:    "https://kiwigrid.github.io"
-			values: {
-				anyResources: {
-					for _app_name, _app in bootstrap[_machine_name].out {
-						"\(_app_name)": yaml.Marshal(_app.out)
-					}
-				}
-			}
-		}
-	}
-
-	// Configure the environment secrets
-	kustomize: "\(_machine.type)-\(_machine.name)-secrets-store": #Kustomize & {
-		_vault_mount_path: "\(_machine.type)-\(_machine.name)"
-
-		resource: "cluster-secret-store-dev": {
-			apiVersion: "external-secrets.io/v1beta1"
-			kind:       "ClusterSecretStore"
-			metadata: name: "dev"
-			spec: provider: vault: {
-				server:  "http://100.103.25.109:8200"
-				path:    "kv"
-				version: "v2"
-				auth: kubernetes: {
-					mountPath: _vault_mount_path
-					role:      "external-secrets"
-				}
 			}
 		}
 	}
