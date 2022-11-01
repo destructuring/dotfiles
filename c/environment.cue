@@ -4,16 +4,29 @@ env: (#Transform & {
 	transformer: #TransformVCluster
 
 	inputs: {
+		"global-vc0": {
+			instance_types: []
+			parent: env.global
+		}
+
 		"control-vc0": {
 			instance_types: []
+			parent: env.control
 		}
-		"control-vc1": {}
-		"control-vc2": {}
-		"control-vc3": {}
-		"control-vc4": {}
+		"control-vc1": {
+			parent: env.control
+		}
+		"control-vc2": {
+			parent: env.control
+		}
+		"control-vc3": {
+			parent: env.control
+		}
+		"control-vc4": {
+			parent: env.control
+		}
 
 		[N=string]: {
-			parent: env.control
 			bootstrap: {
 				"cert-manager": 1
 			}
@@ -96,10 +109,12 @@ kustomize: (#Transform & {
 	transformer: #TransformKustomizeVCluster
 
 	inputs: {
-		"control-vc0": {}
-
-		[N=string]: {
+		"control-vc0": {
 			vc_machine: "control"
+		}
+
+		"global-vc0": {
+			vc_machine: "global"
 		}
 	}
 }).outputs
