@@ -25,7 +25,7 @@ local_resource("kuma-dp",
             set -x;
             ~/bin/e kuma-tp-off
             while true; do
-                ~/bin/e kuma-tp-on
+                #~/bin/e kuma-tp-on
                 ~/bin/e kuma-dp-on ~/etc/dev-tp.yaml
                 ~/bin/e kuma-tp-off
                 sudo pkill -9 -f "kuma-dp run --dataplane-token-file=/tmp/dev-toke[n]"
