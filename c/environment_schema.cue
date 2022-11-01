@@ -143,6 +143,14 @@ import (
 	name: string
 
 	bootstrap: [string]: int
+       env: #EnvApp
+       env: {
+               // ex: k/k3d-control
+               // ex: k/vcluster-vc1
+               spec: source: path: "k/\(type)-\(name)"
+
+               spec: destination: name: "in-cluster"
+       }
 }
 
 // K3D Machine
