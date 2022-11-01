@@ -47,12 +47,11 @@ command: gen: {
 		for ename, e in env {
 			// Configuration for K3D:
 			// env application -> bootstrap
-			if e.type == "k3d" {
-				// ex: e/k3d-control.yaml
-				"\(ename)-env": file.Create & {
-					filename: "../e/\(e.env.metadata.name).yaml"
-					contents: "# ManagedBy: cue\n\n" + yaml.Marshal(e.env)
-				}
+			// ex: e/k3d-control.yaml
+			// ex: e/k3d-control-vc0.yaml
+			"\(ename)-env": file.Create & {
+				filename: "../e/\(e.env.metadata.name).yaml"
+				contents: "# ManagedBy: cue\n\n" + yaml.Marshal(e.env)
 			}
 		}
 	}

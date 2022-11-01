@@ -5,8 +5,9 @@ patchesStrategicMerge:
 resources:
   - karpenter.yaml
   - resource-namespace-karpenter.yaml
-  - resource-provisioner-vc1.yaml
-  - resource-provisioner-vc2.yaml
-  - resource-provisioner-vc3.yaml
-  - resource-provisioner-vc4.yaml
+  - resource-provisioner-control-vc0.yaml
+  - resource-provisioner-control-vc1.yaml
+  - resource-provisioner-control-vc2.yaml
+  - resource-provisioner-control-vc3.yaml
+  - resource-provisioner-control-vc4.yaml
 namespace: karpenter

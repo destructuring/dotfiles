@@ -1119,11 +1119,11 @@ spec:
 apiVersion: karpenter.sh/v1alpha5
 kind: Provisioner
 metadata:
-  name: vc1
+  name: control-vc0
   namespace: karpenter
 spec:
   labels:
-    env: vc1
+    env: control-vc0
   limits:
     resources:
       cpu: "2"
@@ -1140,23 +1140,21 @@ spec:
     - amd64
   - key: node.kubernetes.io/instance-type
     operator: In
-    values:
-    - t3.medium
-    - t3a.medium
+    values: []
   taints:
   - effect: NoSchedule
     key: env
-    value: vc1
+    value: control-vc0
   ttlSecondsAfterEmpty: 600
 ---
 apiVersion: karpenter.sh/v1alpha5
 kind: Provisioner
 metadata:
-  name: vc2
+  name: control-vc1
   namespace: karpenter
 spec:
   labels:
-    env: vc2
+    env: control-vc1
   limits:
     resources:
       cpu: "2"
@@ -1179,17 +1177,17 @@ spec:
   taints:
   - effect: NoSchedule
     key: env
-    value: vc2
+    value: control-vc1
   ttlSecondsAfterEmpty: 600
 ---
 apiVersion: karpenter.sh/v1alpha5
 kind: Provisioner
 metadata:
-  name: vc3
+  name: control-vc2
   namespace: karpenter
 spec:
   labels:
-    env: vc3
+    env: control-vc2
   limits:
     resources:
       cpu: "2"
@@ -1212,17 +1210,17 @@ spec:
   taints:
   - effect: NoSchedule
     key: env
-    value: vc3
+    value: control-vc2
   ttlSecondsAfterEmpty: 600
 ---
 apiVersion: karpenter.sh/v1alpha5
 kind: Provisioner
 metadata:
-  name: vc4
+  name: control-vc3
   namespace: karpenter
 spec:
   labels:
-    env: vc4
+    env: control-vc3
   limits:
     resources:
       cpu: "2"
@@ -1245,7 +1243,40 @@ spec:
   taints:
   - effect: NoSchedule
     key: env
-    value: vc4
+    value: control-vc3
+  ttlSecondsAfterEmpty: 600
+---
+apiVersion: karpenter.sh/v1alpha5
+kind: Provisioner
+metadata:
+  name: control-vc4
+  namespace: karpenter
+spec:
+  labels:
+    env: control-vc4
+  limits:
+    resources:
+      cpu: "2"
+  providerRef:
+    name: default
+  requirements:
+  - key: karpenter.sh/capacity-type
+    operator: In
+    values:
+    - spot
+  - key: kubernetes.io/arch
+    operator: In
+    values:
+    - amd64
+  - key: node.kubernetes.io/instance-type
+    operator: In
+    values:
+    - t3.medium
+    - t3a.medium
+  taints:
+  - effect: NoSchedule
+    key: env
+    value: control-vc4
   ttlSecondsAfterEmpty: 600
 ---
 apiVersion: admissionregistration.k8s.io/v1

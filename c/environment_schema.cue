@@ -143,14 +143,40 @@ import (
 	name: string
 
 	bootstrap: [string]: int
-       env: #EnvApp
-       env: {
-               // ex: k/k3d-control
-               // ex: k/vcluster-vc1
-               spec: source: path: "k/\(type)-\(name)"
+	env: #EnvApp
+	env: {
+		// ex: k/k3d-control
+		// ex: k/vcluster-vc1
+		spec: source: path: "k/\(type)-\(name)"
 
-               spec: destination: name: "in-cluster"
-       }
+		spec: destination: name: "in-cluster"
+	}
+}
+
+#EnvApp: {
+	apiVersion: "argoproj.io/v1alpha1"
+	kind:       "Application"
+
+	metadata: {
+		namespace: "argocd"
+		name:      string
+	}
+
+	spec: {
+		project: "default"
+
+		destination: name: string
+		source: {
+			repoURL:        "https://github.com/defn/app"
+			targetRevision: "master"
+			path:           string
+		}
+
+		syncPolicy: automated: {
+			prune:    bool | *true
+			selfHeal: bool | *true
+		}
+	}
 }
 
 // K3D Machine
@@ -163,7 +189,7 @@ import (
 	to: #K3D
 }
 
-#K3D: {
+#K3D: ctx={
 	_in: #TransformK3D.from
 
 	#Machine
@@ -173,7 +199,7 @@ import (
 	bootstrap: _in.bootstrap
 
 	// ex: k3d-control
-	env: metadata: name: "\(type)-\(_in.name)"
+	env: metadata: name: "\(type)-\(ctx.name)"
 }
 
 // VCluster Machine
@@ -202,5 +228,5 @@ import (
 	instance_types: [...string] | *["t3.medium", "t3a.medium"]
 
 	// ex: k3d-control-vc1
-	env: metadata: name: "\(parent.env.metadata.name)-\(ctx.name)"
+	env: metadata: name: "\(type)-\(ctx.name)"
 }

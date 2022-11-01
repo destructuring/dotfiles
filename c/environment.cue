@@ -4,13 +4,13 @@ env: (#Transform & {
 	transformer: #TransformVCluster
 
 	inputs: {
-		vc0: {
+		"control-vc0": {
 			instance_types: []
 		}
-		vc1: {}
-		vc2: {}
-		vc3: {}
-		vc4: {}
+		"control-vc1": {}
+		"control-vc2": {}
+		"control-vc3": {}
+		"control-vc4": {}
 
 		[N=string]: {
 			parent: env.control
@@ -44,7 +44,6 @@ env: (#Transform & {
 				"bonchon":                   41
 				"kong":                      50
 				"hello":                     60
-				"vc0":                       100
 			}
 		}
 
@@ -97,7 +96,7 @@ kustomize: (#Transform & {
 	transformer: #TransformKustomizeVCluster
 
 	inputs: {
-		vc0: {}
+		"control-vc0": {}
 
 		[N=string]: {
 			vc_machine: "control"
@@ -109,10 +108,10 @@ kustomize: (#Transform & {
 	transformer: #TransformKustomizeVCluster
 
 	inputs: {
-		vc1: {}
-		vc2: {}
-		vc3: {}
-		vc4: {}
+		"control-vc1": {}
+		"control-vc2": {}
+		"control-vc3": {}
+		"control-vc4": {}
 	}
 }).outputs
 
