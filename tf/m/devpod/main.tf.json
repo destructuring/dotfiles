@@ -90,11 +90,6 @@
                               "name": "mntwork"
                             },
                             {
-                              "sub_path": "nix",
-                              "mount_path": "/nix",
-                              "name": "mntwork"
-                            },
-                            {
                               "sub_path": "config-gcloud",
                               "mount_path": "/home/ubuntu/.config/gcloud",
                               "name": "mntwork"
@@ -180,6 +175,11 @@
                             {
                               "mount_path": "/work",
                               "name": "mntwork"
+                            },
+                            {
+                              "sub_path": "nix",
+                              "mount_path": "/nix",
+                              "name": "mntwork"
                             }
                           ]
                         },
@@ -197,6 +197,11 @@
                             {
                               "sub_path": "vault-agent",
                               "mount_path": "/vault-agent",
+                              "name": "mntwork"
+                            },
+                            {
+                              "sub_path": "nix",
+                              "mount_path": "/nix",
                               "name": "mntwork"
                             }
                           ]

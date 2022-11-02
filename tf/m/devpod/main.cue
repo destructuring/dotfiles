@@ -225,7 +225,7 @@ data: kubernetes_config_map: cluster_dns: [{
 	#TTY
 	#Privileged
 
-	volume_mount: [#MountDocker, #MountContainerd, #MountWork, #MountNix, #MountConfigGcloud, #MountConfigGh, #MountConfigPreCommit, #MountConfigFly, #MountConfigTemporal, #MountTerraformCache, #MountGoCache, #MountCodeServerCacheExtensions, #MountCodeServerCacheVSIXs, #MountTailscaleRun, #MountVaultAgent]
+	volume_mount: [#MountDocker, #MountContainerd, #MountWork, #MountConfigGcloud, #MountConfigGh, #MountConfigPreCommit, #MountConfigFly, #MountConfigTemporal, #MountTerraformCache, #MountGoCache, #MountCodeServerCacheExtensions, #MountCodeServerCacheVSIXs, #MountTailscaleRun, #MountVaultAgent]
 
 	env: [{
 		name:  "DEFN_DEV_HOST"
@@ -265,7 +265,7 @@ data: kubernetes_config_map: cluster_dns: [{
 	command: ["/usr/bin/tini", "--"]
 	args: ["bash", "-c", "exec ~/bin/e vault server -config etc/vault.yaml"]
 
-	volume_mount: [#MountWork]
+	volume_mount: [#MountWork, #MountNix]
 }
 
 #ContainerVaultAgent: {
@@ -275,7 +275,7 @@ data: kubernetes_config_map: cluster_dns: [{
 	command: ["/usr/bin/tini", "--"]
 	args: ["bash", "-c", "exec ~/bin/e env VAULT_ADDR=http://localhost:8200 vault agent -config etc/vault-agent.yaml"]
 
-	volume_mount: [#MountVaultAgent]
+	volume_mount: [#MountVaultAgent, #MountNix]
 }
 
 #ContainerCloudflared: {
