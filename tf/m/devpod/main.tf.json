@@ -90,6 +90,11 @@
                               "name": "mntwork"
                             },
                             {
+                              "sub_path": "nix",
+                              "mount_path": "/nix",
+                              "name": "mntwork"
+                            },
+                            {
                               "sub_path": "config-gcloud",
                               "mount_path": "/home/ubuntu/.config/gcloud",
                               "name": "mntwork"
