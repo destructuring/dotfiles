@@ -95,6 +95,11 @@
                               "name": "mntwork"
                             },
                             {
+                              "sub_path": "node_modules",
+                              "mount_path": "/home/ubuntu/node_modules",
+                              "name": "mntwork"
+                            },
+                            {
                               "sub_path": "config-gcloud",
                               "mount_path": "/home/ubuntu/.config/gcloud",
                               "name": "mntwork"

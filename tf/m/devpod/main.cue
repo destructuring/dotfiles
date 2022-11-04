@@ -124,6 +124,12 @@ data: kubernetes_config_map: cluster_dns: [{
 	name:       "mntwork"
 }
 
+#MountNodeModules: {
+	sub_path: "node_modules"
+	mount_path: "/home/ubuntu/node_modules"
+	name:       "mntwork"
+}
+
 #MountConfigGh: {
 	sub_path: "config-gh"
 	mount_path: "/home/ubuntu/.config/gh"
@@ -225,7 +231,7 @@ data: kubernetes_config_map: cluster_dns: [{
 	#TTY
 	#Privileged
 
-	volume_mount: [#MountDocker, #MountContainerd, #MountWork, #MountNix, #MountConfigGcloud, #MountConfigGh, #MountConfigPreCommit, #MountConfigFly, #MountConfigTemporal, #MountTerraformCache, #MountGoCache, #MountCodeServerCacheExtensions, #MountCodeServerCacheVSIXs, #MountTailscaleRun, #MountVaultAgent]
+	volume_mount: [#MountDocker, #MountContainerd, #MountWork, #MountNix, #MountNodeModules, #MountConfigGcloud, #MountConfigGh, #MountConfigPreCommit, #MountConfigFly, #MountConfigTemporal, #MountTerraformCache, #MountGoCache, #MountCodeServerCacheExtensions, #MountCodeServerCacheVSIXs, #MountTailscaleRun, #MountVaultAgent]
 
 	env: [{
 		name:  "DEFN_DEV_HOST"
