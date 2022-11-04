@@ -110,7 +110,7 @@ kustomize: [NAME=string]: _name: NAME
 	helm: {
 		release: "vcluster"
 		name:    "vcluster"
-		version: "0.12.2"
+		version: "0.12.3"
 		repo:    "https://charts.loft.sh"
 
 		values: {

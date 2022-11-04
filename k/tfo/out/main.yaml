@@ -1774,7 +1774,7 @@ spec:
               fieldPath: metadata.namespace
         - name: SECRET
           value: terraform-operator-selfsigned
-        image: ghcr.io/galleybytes/terraform-operator-gencert:1.0.0
+        image: ghcr.io/galleybytes/terraform-operator-gencert:1.0.2
         imagePullPolicy: IfNotPresent
         name: gencert
       securityContext:

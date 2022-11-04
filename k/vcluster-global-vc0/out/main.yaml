@@ -9,12 +9,12 @@ spec:
   destination:
     name: vcluster-global-vc0
   ignoreDifferences:
-    - group: ""
-      jsonPointers:
-        - /data
-      kind: Secret
-      name: karpenter-cert
-      namespace: karpenter
+  - group: ""
+    jsonPointers:
+    - /data
+    kind: Secret
+    name: karpenter-cert
+    namespace: karpenter
   project: default
   source:
     path: k/cert-manager
