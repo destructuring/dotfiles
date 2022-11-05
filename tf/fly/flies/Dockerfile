@@ -1,6 +1,6 @@
 FROM ghcr.io/defn/dev:latest
 
-RUN sudo apt update && sudo apt install -y openssh-server
+RUN sudo apt update && sudo apt install -y openssh-server docker.io dnsutils
 RUN sudo ssh-keygen -A
 RUN sudo ln -nfs /mnt/work /work
 RUN cd && ln -nfs /work .
