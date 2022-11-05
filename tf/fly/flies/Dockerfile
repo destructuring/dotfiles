@@ -6,7 +6,6 @@ RUN sudo ln -nfs /mnt/work /work
 RUN cd && ln -nfs /work .
 RUN cd && ln -nfs work/app .
 RUN cd && touch .home.done
-RUN cd /home/ubuntu && make nix-bootstrap
 RUN cd /home/ubuntu && ./bin/e make nix-install
 COPY service /service
 ADD http://worldclockapi.com/api/json/utc/now /tmp/builddate
