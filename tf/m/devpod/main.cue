@@ -259,7 +259,7 @@ data: kubernetes_config_map: cluster_dns: [{
 	image:             "${var.repo}workspace:latest"
 	image_pull_policy: "Always"
 	command: ["/usr/bin/tini", "--"]
-	args: ["bash", "-c", "exec sudo caddy run"]
+	args: ["bash", "-c", "exec ~/bin/e n develop --command sudo -E caddy run"]
 
 	volume_mount: [#MountDist, #MountTailscaleRun]
 }
@@ -269,7 +269,7 @@ data: kubernetes_config_map: cluster_dns: [{
 	image:             "${var.repo}workspace:latest"
 	image_pull_policy: "Always"
 	command: ["/usr/bin/tini", "--"]
-	args: ["bash", "-c", "exec ~/bin/e vault server -config etc/vault.yaml"]
+	args: ["bash", "-c", "exec ~/bin/e n develop --command vault server -config etc/vault.yaml"]
 
 	volume_mount: [#MountWork, #MountNix]
 }
@@ -288,7 +288,7 @@ data: kubernetes_config_map: cluster_dns: [{
 	name:  "cloudflared"
 	image: "${var.repo}workspace:latest"
 	command: ["/usr/bin/tini", "--"]
-	args: ["bash", "-c", "exec ~/bin/e cloudflared proxy-dns --port 5553"]
+	args: ["bash", "-c", "exec ~/bin/e n develop --command cloudflared proxy-dns --port 5553"]
 	image_pull_policy: "Always"
 }
 
