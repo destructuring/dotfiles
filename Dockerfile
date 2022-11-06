@@ -1,3 +1,4 @@
 FROM ghcr.io/defn/dev:latest
 
-RUN --no-cache git pull
+ADD http://worldclockapi.com/api/json/utc/now /tmp/builddate
+RUN git pull
