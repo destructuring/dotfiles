@@ -10,4 +10,4 @@ check:
 	kv dev/
 	aws sts get-caller-identity
 	for a in hello bye; do http $$a.default; done
-	for a in so the brie; do curl -sS $$a.mesh/dev/; echo; done
+	#for a in so the brie; do curl -sS $$a.mesh/dev/; echo; done
