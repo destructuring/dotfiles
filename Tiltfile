@@ -17,37 +17,51 @@ cmd_button(
     location=location.NAV,
 )
 
-local_resource("kuma-dp",
-    deps=["/home/ubuntu/etc/dev-tp.yaml"],
+# to reset, remove /home/ubuntu/.config/temporalite/db/default.db
+local_resource("temporal",
     serve_cmd=[
         "bash", "-c",
         """
             set -x;
-            ~/bin/e kuma-tp-off
             while true; do
-                #~/bin/e kuma-tp-on
-                ~/bin/e kuma-dp-on ~/etc/dev-tp.yaml
-                ~/bin/e kuma-tp-off
-                sudo pkill -9 -f "kuma-dp run --dataplane-token-file=/tmp/dev-toke[n]"
-                sleep 10
+                pkill -9 temporalit[e]
+                temporalite start --namespace default --ip 0.0.0.0
             done
         """
     ]
 )
 
-local_resource("kuma-cp",
-    serve_cmd=[
-        "bash", "-c",
-        """
-            set -x;
-            while true; do
-                ~/bin/e kuma-cp-on
-                sudo pkill -9 -f "kuma-cp ru[n]"
-                sleep 10
-            done
-        """
-    ]
-)
+#local_resource("kuma-dp",
+#    deps=["/home/ubuntu/etc/dev-tp.yaml"],
+#    serve_cmd=[
+#        "bash", "-c",
+#        """
+#            set -x;
+#            ~/bin/e kuma-tp-off
+#            while true; do
+#                #~/bin/e kuma-tp-on
+#                ~/bin/e kuma-dp-on ~/etc/dev-tp.yaml
+#                ~/bin/e kuma-tp-off
+#                sudo pkill -9 -f "kuma-dp run --dataplane-token-file=/tmp/dev-toke[n]"
+#                sleep 10
+#            done
+#        """
+#    ]
+#)
+
+#local_resource("kuma-cp",
+#    serve_cmd=[
+#        "bash", "-c",
+#        """
+#            set -x;
+#            while true; do
+#                ~/bin/e kuma-cp-on
+#                sudo pkill -9 -f "kuma-cp ru[n]"
+#                sleep 10
+#            done
+#        """
+#    ]
+#)
 
 #local_resource("kuma-ingress",
 #    deps=["/home/ubuntu/etc/ingress-dp.yaml"],
@@ -63,17 +77,3 @@ local_resource("kuma-cp",
 #        """
 #    ]
 #)
-
-# to reset, remove /home/ubuntu/.config/temporalite/db/default.db
-local_resource("temporal",
-    serve_cmd=[
-        "bash", "-c",
-        """
-            set -x;
-            while true; do
-                pkill -9 temporalit[e]
-                temporalite start --namespace default --ip 0.0.0.0
-            done
-        """
-    ]
-)
