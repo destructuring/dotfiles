@@ -235,43 +235,6 @@
                           ]
                         },
                         {
-                          "name": "registry",
-                          "image": "registry:2",
-                          "image_pull_policy": "IfNotPresent",
-                          "volume_mount": [
-                            {
-                              "mount_path": "/var/lib/registry",
-                              "name": "registry"
-                            }
-                          ]
-                        },
-                        {
-                          "name": "dind",
-                          "image": "docker:dind",
-                          "image_pull_policy": "IfNotPresent",
-                          "command": ["sh", "-c"],
-                          "args": [
-                            "exec /usr/local/bin/dockerd-entrypoint.sh --storage-driver overlay2 --mtu=`ifconfig eth0 | grep MTU | awk '{print $5}' | cut -d: -f2`"
-                          ],
-                          "volume_mount": [
-                            {
-                              "mount_path": "/var/lib/docker",
-                              "name": "dind"
-                            }
-                          ],
-                          "security_context": [
-                            {
-                              "privileged": true
-                            }
-                          ],
-                          "env": [
-                            {
-                              "name": "DOCKER_TLS_CERTDIR",
-                              "value": ""
-                            }
-                          ]
-                        },
-                        {
                           "name": "tailscale",
                           "image": "${var.repo}workspace:latest",
                           "image_pull_policy": "Always",

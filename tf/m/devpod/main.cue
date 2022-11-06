@@ -436,9 +436,6 @@ resource: kubernetes_stateful_set: dev: [{
 
 					#ContainerCaddy,
 
-					#ContainerRegistry,
-					#ContainerDIND,
-
 					#ContainerTailscale,
 					#ContainerCoreDNS,
 					#ContainerCloudflared,
