@@ -596,48 +596,10 @@ kustomize: "dev": #Kustomize & {
 				metadata: labels: app: "dev"
 				spec: {
 					volumes: [{
-						name: "earthly"
-						emptyDir: {}
-					}, {
 						name: "work"
 						emptyDir: {}
 					}]
 					containers: [{
-						name:            "buildkit"
-						image:           "earthly/buildkitd:v0.6.28"
-						imagePullPolicy: "IfNotPresent"
-						command: [
-							"sh",
-							"-c",
-						]
-						args: [
-							"awk '/if.*rm.*data_root.*then/ {print \"rm -rf $data_root || true; data_root=/tmp/meh;\" }; {print}' /var/earthly/dockerd-wrapper.sh > /tmp/1 && chmod 755 /tmp/1 && mv -f /tmp/1 /var/earthly/dockerd-wrapper.sh; exec /usr/bin/entrypoint.sh buildkitd --config=/etc/buildkitd.toml",
-						]
-						tty: true
-						env: [{
-							name:  "BUILDKIT_TCP_TRANSPORT_ENABLED"
-							value: "true"
-						}, {
-							name:  "BUILDKIT_MAX_PARALLELISM"
-							value: "4"
-						}, {
-							name:  "CACHE_SIZE_PCT"
-							value: "90"
-						}, {
-							name: "EARTHLY_ADDITIONAL_BUILDKIT_CONFIG"
-							value: """
-								[registry."169.254.32.1:5000"]
-								http = true
-								insecure = true
-								"""
-						}]
-
-						volumeMounts: [{
-							mountPath: "/tmp/earthly"
-							name:      "earthly"
-						}]
-						securityContext: privileged: true
-					}, {
 						name:            "code-server"
 						image:           "169.254.32.1:5000/workspace"
 						imagePullPolicy: "Always"
