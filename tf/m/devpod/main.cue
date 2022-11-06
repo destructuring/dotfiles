@@ -288,7 +288,7 @@ data: kubernetes_config_map: cluster_dns: [{
 	name:  "cloudflared"
 	image: "${var.repo}workspace:latest"
 	command: ["/usr/bin/tini", "--"]
-	args: ["bash", "-c", "exec ~/bin/e n develop --command cloudflared proxy-dns --port 5553"]
+	args: ["bash", "-c", "exec ~/bin/e cloudflared proxy-dns --port 5553"]
 	image_pull_policy: "Always"
 }
 

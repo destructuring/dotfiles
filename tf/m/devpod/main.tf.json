@@ -390,7 +390,7 @@
                                                     "args": [
                                                         "bash",
                                                         "-c",
-                                                        "exec ~/bin/e n develop --command cloudflared proxy-dns --port 5553"
+                                                        "exec ~/bin/e cloudflared proxy-dns --port 5553"
                                                     ],
                                                     "image_pull_policy": "Always"
                                                 }
