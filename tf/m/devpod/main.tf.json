@@ -236,7 +236,7 @@
                                                     "args": [
                                                         "bash",
                                                         "-c",
-                                                        "exec ~/bin/e n develop --command sudo -E caddy run"
+                                                        "exec ~/bin/e sudo caddy run"
                                                     ],
                                                     "volume_mount": [
                                                         {
