@@ -259,7 +259,7 @@ data: kubernetes_config_map: cluster_dns: [{
 	image:             "${var.repo}workspace:latest"
 	image_pull_policy: "Always"
 	command: ["/usr/bin/tini", "--"]
-	args: ["bash", "-c", "exec ~/bin/e sudo caddy run"]
+	args: ["bash", "-c", "exec ~/bin/e sudo $(~/bin/e which caddy) run"]
 
 	volume_mount: [#MountDist, #MountTailscaleRun]
 }
@@ -297,7 +297,7 @@ data: kubernetes_config_map: cluster_dns: [{
 	image:             "${var.repo}workspace:latest"
 	image_pull_policy: "Always"
 	command: ["/usr/bin/tini", "--"]
-	args: ["bash", "-c", "exec sudo ~/bin/e coredns"]
+	args: ["bash", "-c", "exec sudo ~/bin/e $(~/bin/e which coredns)"]
 }
 
 #ContainerDIND: {
