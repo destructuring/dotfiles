@@ -1,4 +1,4 @@
-FROM ghcr.io/defn/dev:latest
+FROM ghcr.io/defn/dev:latest-dev
 
 RUN sudo apt update && sudo apt install -y docker.io make
 RUN sudo ln -nfs /mnt/work /work
