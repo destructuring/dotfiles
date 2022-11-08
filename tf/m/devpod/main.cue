@@ -226,7 +226,7 @@ data: kubernetes_config_map: cluster_dns: [{
 	image:             "${var.repo}workspace:latest"
 	image_pull_policy: "Always"
 	command: ["/usr/bin/tini", "--"]
-	args: ["bash", "-c", "while true; do if test -S /var/run/tailscale/tailscaled.sock; then break; fi; sleep 1; done; sudo tailscale up --ssh --accept-dns=false --hostname=${each.key}-0; exec ~/bin/e n develop --command code-server --bind-addr 0.0.0.0:8888 --disable-telemetry"]
+	args: ["bash", "-c", "while true; do if test -S /var/run/tailscale/tailscaled.sock; then break; fi; sleep 1; done; sudo tailscale up --ssh --accept-dns=false --hostname=${each.key}-0; while true; do ~/bin/e n develop --command code-server --bind-addr 0.0.0.0:8888 --disable-telemetry; sleep 5; done"]
 
 	#TTY
 	#Privileged
@@ -269,9 +269,9 @@ data: kubernetes_config_map: cluster_dns: [{
 	image:             "${var.repo}workspace:latest"
 	image_pull_policy: "Always"
 	command: ["/usr/bin/tini", "--"]
-	args: ["bash", "-c", "exec ~/bin/e n develop --command vault server -config etc/vault.yaml"]
+	args: ["bash", "-c", "exec ~/bin/e vault server -config etc/vault.yaml"]
 
-	volume_mount: [#MountWork, #MountNix]
+	volume_mount: [#MountWork]
 }
 
 #ContainerVaultAgent: {
@@ -281,7 +281,7 @@ data: kubernetes_config_map: cluster_dns: [{
 	command: ["/usr/bin/tini", "--"]
 	args: ["bash", "-c", "exec ~/bin/e env VAULT_ADDR=http://localhost:8200 vault agent -config etc/vault-agent.yaml"]
 
-	volume_mount: [#MountVaultAgent, #MountNix]
+	volume_mount: [#MountVaultAgent]
 }
 
 #ContainerCloudflared: {
