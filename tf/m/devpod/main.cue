@@ -226,7 +226,7 @@ data: kubernetes_config_map: cluster_dns: [{
 	image:             "${var.repo}workspace:latest"
 	image_pull_policy: "Always"
 	command: ["/usr/bin/tini", "--"]
-	args: ["bash", "-c", "while true; do if test -S /var/run/tailscale/tailscaled.sock; then break; fi; sleep 1; done; sudo tailscale up --ssh --accept-dns=false --hostname=${each.key}-0; make nix; while true; do ~/bin/e de ~ code-server --bind-addr 0.0.0.0:8888 --disable-telemetry; sleep 5; done"]
+	args: ["bash", "-c", "while true; do if test -S /var/run/tailscale/tailscaled.sock; then break; fi; sleep 1; done; sudo tailscale up --ssh --accept-dns=false --hostname=${each.key}-0; ~/bin/e make nix; while true; do ~/bin/e de ~ code-server --bind-addr 0.0.0.0:8888 --disable-telemetry; sleep 5; done"]
 
 	#TTY
 	#Privileged
