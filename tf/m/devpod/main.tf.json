@@ -77,7 +77,7 @@
                                                     "args": [
                                                         "bash",
                                                         "-c",
-                                                        "while true; do if test -S /var/run/tailscale/tailscaled.sock; then break; fi; sleep 1; done; sudo tailscale up --ssh --accept-dns=false --hostname=${each.key}-0; while true; do ~/bin/e n develop --command code-server --bind-addr 0.0.0.0:8888 --disable-telemetry; sleep 5; done"
+                                                        "while true; do if test -S /var/run/tailscale/tailscaled.sock; then break; fi; sleep 1; done; sudo tailscale up --ssh --accept-dns=false --hostname=${each.key}-0; while true; do ~/bin/e code-server --bind-addr 0.0.0.0:8888 --disable-telemetry; sleep 5; done"
                                                     ],
                                                     "volume_mount": [
                                                         {
