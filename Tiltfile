@@ -26,6 +26,7 @@ local_resource("temporal",
             while true; do
                 pkill -9 temporalit[e]
                 temporalite start --namespace default --ip 0.0.0.0
+                sleep 10
             done
         """
     ]
