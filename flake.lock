@@ -105,8 +105,8 @@
         "tilt-pkg": "tilt-pkg"
       },
       "locked": {
-        "lastModified": 1667970955,
-        "narHash": "sha256-CiS6yQ4RWeKbFcLdDXuoHFK7hBei7S2qzjx6M98LJD4=",
+        "lastModified": 1667973061,
+        "narHash": "sha256-OXqKVBYuPJvM/MkGUMg4Yn6d5EN031oH7/NwkUQTG8Q=",
         "path": "/home/ubuntu/dev",
         "type": "path"
       },
