@@ -2,7 +2,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     flake-utils.url = "github:numtide/flake-utils";
-    home.url = "path:/home/ubuntu/dev";
+    home.url = "github:defn/dev?dir=dev&ref=v0.0.2";
     temporalite-pkg.url = "github:defn/pkg?dir=temporalite&ref=v0.0.4";
   };
 
@@ -39,7 +39,8 @@
 
           installPhase = "mkdir -p $out";
 
-          propagatedBuildInputs = [ ];
+          propagatedBuildInputs = [
+          ];
 
           meta = with lib;
             {
