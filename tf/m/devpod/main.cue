@@ -319,7 +319,7 @@ data: kubernetes_config_map: cluster_dns: [{
 
 #ContainerBuildKit: {
 	name:              "buildkit"
-	image:             "earthly/buildkitd:v0.6.28"	
+	image:             "earthly/buildkitd:v0.6.29"	
 	image_pull_policy: "IfNotPresent"
 	command: ["sh", "-c"]
 	args: ["awk '/if.*rm.*data_root.*then/ {print \"rm -rf $data_root || true; data_root=/tmp/meh;\" }; {print}' /var/earthly/dockerd-wrapper.sh > /tmp/1 && chmod 755 /tmp/1 && mv -f /tmp/1 /var/earthly/dockerd-wrapper.sh; exec /usr/bin/entrypoint.sh buildkitd --config=/etc/buildkitd.toml"]
@@ -439,6 +439,8 @@ resource: kubernetes_stateful_set: dev: [{
 					#ContainerTailscale,
 					#ContainerCoreDNS,
 					#ContainerCloudflared,
+
+					#ContainerBuildKit,
 				]
 			}]
 		}]
