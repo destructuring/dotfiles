@@ -2,7 +2,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     flake-utils.url = "github:numtide/flake-utils";
-    home.url = "github:defn/dev?dir=dev&ref=v0.0.4";
+    dev.url = "github:defn/pkg?dir=dev&ref=v0.0.11";
     temporalite-pkg.url = "github:defn/pkg?dir=temporalite&ref=v0.0.4";
   };
 
@@ -10,7 +10,7 @@
     { self
     , nixpkgs
     , flake-utils
-    , home
+    , dev
     , temporalite-pkg
     }:
     flake-utils.lib.eachDefaultSystem (system:
@@ -22,7 +22,7 @@
       devShell =
         pkgs.mkShell rec {
           buildInputs = with pkgs; [
-            home.defaultPackage.${system}
+            dev.defaultPackage.${system}
             temporalite
           ];
         };
