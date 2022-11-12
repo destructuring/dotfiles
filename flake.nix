@@ -1,7 +1,6 @@
 {
   inputs = {
-    dev.url = github:defn/pkg?dir=dev&ref=v0.0.22;
-    temporalite-pkg.url = github:defn/pkg?dir=temporalite&ref=v0.0.4;
+    dev.url = github:defn/pkg?dir=dev&ref=v0.0.26;
   };
 
   outputs = inputs:
@@ -9,11 +8,11 @@
       let
         pkgs = import inputs.dev.wrapper.nixpkgs { inherit system; };
         wrap = inputs.dev.wrapper.wrap { other = inputs; inherit system; };
-        slug = "defn-app";
-        version = "0.0.1";
         buildInputs = [
         ];
+        site = import ./config.nix;
       in
+      with site;
       rec {
         devShell = wrap.devShell;
         defaultPackage = pkgs.stdenv.mkDerivation
@@ -26,9 +25,9 @@
 
             propagatedBuildInputs = buildInputs;
 
-            meta = with pkgs.lib; {
-              homepage = "https://defn.sh/${slug}";
-              description = "nix golang / tilt integration";
+            meta = with pkgs.lib; with site; {
+              inherit homepage;
+              inherit description;
               platforms = platforms.linux;
             };
           };
