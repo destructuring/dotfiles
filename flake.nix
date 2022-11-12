@@ -2,8 +2,9 @@
   inputs = {
     nixpkgs.url = github:NixOS/nixpkgs/22.05;
     flake-utils.url = github:numtide/flake-utils;
+    wrapper.url = github:defn/pkg?dir=wrapper&ref=v0.0.17;
+
     dev.url = github:defn/pkg?dir=dev&ref=v0.0.16;
-    wrapper.url = github:defn/pkg?dir=wrapper&ref=v0.0.16;
     temporalite-pkg.url = github:defn/pkg?dir=temporalite&ref=v0.0.4;
   };
 
