@@ -1,6 +1,6 @@
 {
   inputs = {
-    dev.url = github:defn/pkg?dir=dev&ref=v0.0.48;
+    dev.url = github:defn/pkg?dir=dev&ref=v0.0.50;
   };
 
   outputs = inputs:
@@ -13,10 +13,7 @@
       with site;
       rec {
         devShell = wrap.devShell;
-        defaultPackage = wrap.bashBuilder {
-          src = ./.;
-          installPhase = "mkdir -p $out";
-        };
+        defaultPackage = wrap.nullBuilder {};
       }
     );
 }
