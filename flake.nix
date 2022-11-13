@@ -1,18 +1,25 @@
 {
   inputs = {
-    dev.url = github:defn/pkg?dir=dev&ref=v0.0.50;
+    dev.url = github:defn/pkg?dir=dev&ref=v0.0.53;
   };
 
   outputs = inputs:
-    inputs.dev.eachDefaultSystem (system:
-      let
-        site = import ./config.nix;
-        pkgs = import inputs.dev.wrapper.nixpkgs { inherit system; };
-        wrap = inputs.dev.wrapper.wrap { other = inputs; inherit system; inherit site; };
-      in
-      rec {
-        devShell = wrap.devShell;
-        defaultPackage = wrap.nullBuilder {};
-      }
-    );
+    inputs.dev.main {
+      inherit inputs;
+
+      config =
+        rec {
+          slug = "defn-app";
+          version = "0.0.1";
+          homepage = "https://defn.sh/${slug}";
+          description = "k8s applications";
+        };
+
+      handler = { pkgs, wrap, system }:
+        rec {
+          devShell = wrap.devShell;
+
+          defaultPackage = wrap.nullBuilder { };
+        };
+    };
 }
