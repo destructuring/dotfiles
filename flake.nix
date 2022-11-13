@@ -10,7 +10,6 @@
         pkgs = import inputs.dev.wrapper.nixpkgs { inherit system; };
         wrap = inputs.dev.wrapper.wrap { other = inputs; inherit system; inherit site; };
       in
-      with site;
       rec {
         devShell = wrap.devShell;
         defaultPackage = wrap.nullBuilder {};
