@@ -26,6 +26,11 @@ data: kubernetes_config_map: cluster_dns: [{
 		privileged: true
 	}]
 }
+#FsGroup1000: {
+	security_context: [{
+        fs_group: 1000
+	}]
+}
 
 #LocalDNS: {
 	dns_policy: "None"
@@ -427,6 +432,9 @@ resource: kubernetes_stateful_set: dev: [{
 			spec: [{
 				#LocalDNS
 
+				#FsGroup1000
+				service_account_name: "dev"
+
 				#NodeAffinity
 
 				#Volumes
@@ -450,6 +458,19 @@ resource: kubernetes_stateful_set: dev: [{
 	}]
 }]
 
+resource: kubernetes_service_account: dev: [{
+	metadata: [{
+		name:      "dev"
+		namespace: "default"
+		annotations: {
+			"eks.amazonaws.com/audience":               "sts.amazonaws.com"
+			"eks.amazonaws.com/role-arn":               "arn:aws:iam::319951235442:role/karpenter"
+			"eks.amazonaws.com/sts-regional-endpoints": "true"
+			"eks.amazonaws.com/token-expiration":       "86400"
+		}
+	}]
+}]
+
 resource: kubernetes_cluster_role_binding: dev_admin: [{
 	metadata: [{
 		name: "dev-admin"
@@ -463,7 +484,7 @@ resource: kubernetes_cluster_role_binding: dev_admin: [{
 
 	subject: [{
 		kind:      "ServiceAccount"
-		name:      "default"
+		name:      "dev"
 		namespace: "default"
 	}]
 }]

@@ -69,6 +69,102 @@
                                     ],
                                     "spec": [
                                         {
+                                            "service_account_name": "dev",
+                                            "dns_policy": "None",
+                                            "security_context": [
+                                                {
+                                                    "fs_group": 1000
+                                                }
+                                            ],
+                                            "affinity": [
+                                                {
+                                                    "node_affinity": [
+                                                        {
+                                                            "required_during_scheduling_ignored_during_execution": [
+                                                                {
+                                                                    "node_selector_term": [
+                                                                        {
+                                                                            "match_expressions": [
+                                                                                {
+                                                                                    "key": "env",
+                                                                                    "operator": "In",
+                                                                                    "values": [
+                                                                                        "${each.key}"
+                                                                                    ]
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ],
+                                            "volume": [
+                                                {
+                                                    "host_path": [
+                                                        {
+                                                            "path": "/mnt/registry"
+                                                        }
+                                                    ],
+                                                    "name": "registry"
+                                                },
+                                                {
+                                                    "host_path": [
+                                                        {
+                                                            "path": "/mnt/dind"
+                                                        }
+                                                    ],
+                                                    "name": "dind"
+                                                },
+                                                {
+                                                    "host_path": [
+                                                        {
+                                                            "path": "/mnt/earthly"
+                                                        }
+                                                    ],
+                                                    "name": "earthly"
+                                                },
+                                                {
+                                                    "host_path": [
+                                                        {
+                                                            "path": "/var/run/docker.sock"
+                                                        }
+                                                    ],
+                                                    "name": "docker"
+                                                },
+                                                {
+                                                    "host_path": [
+                                                        {
+                                                            "path": "/run/k3s/containerd"
+                                                        }
+                                                    ],
+                                                    "name": "containerd"
+                                                },
+                                                {
+                                                    "host_path": [
+                                                        {
+                                                            "path": "/mnt/work"
+                                                        }
+                                                    ],
+                                                    "name": "mntwork"
+                                                },
+                                                {
+                                                    "host_path": [
+                                                        {
+                                                            "path": "/var/lib/tailscale/pod/var/lib/tailscale"
+                                                        }
+                                                    ],
+                                                    "name": "tailscale"
+                                                },
+                                                {
+                                                    "empty_dir": [
+                                                        {}
+                                                    ],
+                                                    "name": "tsrun"
+                                                }
+                                            ],
                                             "container": [
                                                 {
                                                     "name": "code-server",
@@ -349,96 +445,6 @@
                                                     ]
                                                 }
                                             ],
-                                            "dns_policy": "None",
-                                            "affinity": [
-                                                {
-                                                    "node_affinity": [
-                                                        {
-                                                            "required_during_scheduling_ignored_during_execution": [
-                                                                {
-                                                                    "node_selector_term": [
-                                                                        {
-                                                                            "match_expressions": [
-                                                                                {
-                                                                                    "key": "env",
-                                                                                    "operator": "In",
-                                                                                    "values": [
-                                                                                        "${each.key}"
-                                                                                    ]
-                                                                                }
-                                                                            ]
-                                                                        }
-                                                                    ]
-                                                                }
-                                                            ]
-                                                        }
-                                                    ]
-                                                }
-                                            ],
-                                            "volume": [
-                                                {
-                                                    "host_path": [
-                                                        {
-                                                            "path": "/mnt/registry"
-                                                        }
-                                                    ],
-                                                    "name": "registry"
-                                                },
-                                                {
-                                                    "host_path": [
-                                                        {
-                                                            "path": "/mnt/dind"
-                                                        }
-                                                    ],
-                                                    "name": "dind"
-                                                },
-                                                {
-                                                    "host_path": [
-                                                        {
-                                                            "path": "/mnt/earthly"
-                                                        }
-                                                    ],
-                                                    "name": "earthly"
-                                                },
-                                                {
-                                                    "host_path": [
-                                                        {
-                                                            "path": "/var/run/docker.sock"
-                                                        }
-                                                    ],
-                                                    "name": "docker"
-                                                },
-                                                {
-                                                    "host_path": [
-                                                        {
-                                                            "path": "/run/k3s/containerd"
-                                                        }
-                                                    ],
-                                                    "name": "containerd"
-                                                },
-                                                {
-                                                    "host_path": [
-                                                        {
-                                                            "path": "/mnt/work"
-                                                        }
-                                                    ],
-                                                    "name": "mntwork"
-                                                },
-                                                {
-                                                    "host_path": [
-                                                        {
-                                                            "path": "/var/lib/tailscale/pod/var/lib/tailscale"
-                                                        }
-                                                    ],
-                                                    "name": "tailscale"
-                                                },
-                                                {
-                                                    "empty_dir": [
-                                                        {}
-                                                    ],
-                                                    "name": "tsrun"
-                                                }
-                                            ],
                                             "dns_config": [
                                                 {
                                                     "nameservers": [
@@ -473,6 +479,24 @@
                 }
             ]
         },
+        "kubernetes_service_account": {
+            "dev": [
+                {
+                    "metadata": [
+                        {
+                            "name": "dev",
+                            "namespace": "default",
+                            "annotations": {
+                                "eks.amazonaws.com/audience": "sts.amazonaws.com",
+                                "eks.amazonaws.com/role-arn": "arn:aws:iam::319951235442:role/karpenter",
+                                "eks.amazonaws.com/sts-regional-endpoints": "true",
+                                "eks.amazonaws.com/token-expiration": "86400"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
         "kubernetes_cluster_role_binding": {
             "dev_admin": [
                 {
@@ -491,7 +515,7 @@
                     "subject": [
                         {
                             "kind": "ServiceAccount",
-                            "name": "default",
+                            "name": "dev",
                             "namespace": "default"
                         }
                     ]
