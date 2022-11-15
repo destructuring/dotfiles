@@ -19,7 +19,12 @@
         rec {
           devShell = wrap.devShell;
 
-          defaultPackage = wrap.nullBuilder { };
+          defaultPackage = wrap.nullBuilder {
+            propagatedBuildInputs = [
+              pkgs.kubernetes-helm
+              pkgs.kustomize
+            ];
+          };
         };
     };
 }
