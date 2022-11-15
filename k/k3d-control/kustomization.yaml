@@ -252,31 +252,4 @@ helmCharts:
                   - /data
                 name: karpenter-cert
                 namespace: karpenter
-        mastodon: |
-          apiVersion: argoproj.io/v1alpha1
-          kind: Application
-          metadata:
-            namespace: argocd
-            name: k3d-control-mastodon
-            annotations:
-              argocd.argoproj.io/sync-wave: "30"
-          spec:
-            project: default
-            destination:
-              name: k3d-control
-            source:
-              repoURL: https://github.com/defn/app
-              targetRevision: master
-              path: k/mastodon
-            syncPolicy:
-              automated:
-                prune: true
-                selfHeal: true
-            ignoreDifferences:
-              - group: ""
-                kind: Secret
-                jsonPointers:
-                  - /data
-                name: karpenter-cert
-                namespace: karpenter
     includeCRDs: true

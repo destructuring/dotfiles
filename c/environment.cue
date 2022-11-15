@@ -50,8 +50,8 @@ env: (#Transform & {
 				"karpenter":                 20
 				"k3d-control-secrets-store": 20
 				//"k3d-control-kuma-zone":     30
-				"tfo":      30
-				"mastodon": 30
+				"tfo": 30
+				//"mastodon": 30
 				//"knative":                   40
 				//"rocky":                     40
 				//"rosie":                     40
