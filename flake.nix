@@ -2,7 +2,7 @@
   inputs = {
     dev.url = "github:defn/pkg?dir=dev&ref=v0.0.56";
     c.url = "github:defn/pkg?dir=c&ref=v0.0.56";
-    argocd.url = "github:defn/pkg?dir=c&ref=v0.0.56";
+    argocd.url = "github:defn/pkg?dir=argocd&ref=v0.0.56";
   };
 
   outputs = inputs:
