@@ -51,12 +51,13 @@ env: (#Transform & {
 				"k3d-control-secrets-store": 20
 				"k3d-control-kuma-zone":     30
 				"tfo":                       30
-				"knative":                   40
-				"rocky":                     40
-				"rosie":                     40
-				"bonchon":                   41
-				"kong":                      50
-				"hello":                     60
+				"mastodon":                  30
+				//"knative":                   40
+				//"rocky":                     40
+				//"rosie":                     40
+				//"bonchon":                   41
+				//"kong":                      50
+				//"hello":                     60
 			}
 		}
 

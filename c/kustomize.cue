@@ -35,6 +35,14 @@ kustomize: "hello": #Kustomize & {
 	}
 }
 
+kustomize: "mastodon": #Kustomize & {
+	namespace: "mastodon"
+
+	resource: "mastodon": {
+		url: "mastodon.yaml"
+	}
+}
+
 kustomize: "events": #Kustomize & {
 	namespace: "default"
 

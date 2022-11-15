@@ -1,9 +1,6 @@
-#ManagedBy: helm template . -f dev-values.yaml
-# git clone https://github.com/mastodon/mastodon vendor
-# helm repo add bitnami https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
-# helm repo update
-# (cd vendor/chart && helm template . -f dev-values.yaml) > mastodon.yaml
+#ManagedBy: cue
 
+patchesStrategicMerge: []
 resources:
   - mastodon.yaml
 namespace: mastodon
