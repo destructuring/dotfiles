@@ -25,6 +25,7 @@
             propagatedBuildInputs = [
               pkgs.kubernetes-helm
               pkgs.kustomize
+              pkgs.terraform
             ];
           };
         };

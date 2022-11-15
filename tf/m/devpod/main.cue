@@ -413,6 +413,10 @@ resource: kubernetes_stateful_set: dev: [{
 				annotations: {
 					"kuma.io/gateway":           "enabled"
 					"kuma.io/sidecar-injection": "disabled"
+									"eks.amazonaws.com/role-arn":               "arn:aws:iam::319951235442:role/karpenter"
+				"eks.amazonaws.com/audience":               "sts.amazonaws.com"
+				"eks.amazonaws.com/sts-regional-endpoints": "true"
+				"eks.amazonaws.com/token-expiration":       "86400"
 				}
 
 				labels: {
