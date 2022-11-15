@@ -225,33 +225,6 @@ helmCharts:
                   - /data
                 name: karpenter-cert
                 namespace: karpenter
-        k3d-control-kuma-zone: |
-          apiVersion: argoproj.io/v1alpha1
-          kind: Application
-          metadata:
-            namespace: argocd
-            name: k3d-control-kuma-zone
-            annotations:
-              argocd.argoproj.io/sync-wave: "30"
-          spec:
-            project: default
-            destination:
-              name: k3d-control
-            source:
-              repoURL: https://github.com/defn/app
-              targetRevision: master
-              path: k/k3d-control-kuma-zone
-            syncPolicy:
-              automated:
-                prune: true
-                selfHeal: true
-            ignoreDifferences:
-              - group: ""
-                kind: Secret
-                jsonPointers:
-                  - /data
-                name: karpenter-cert
-                namespace: karpenter
         tfo: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application

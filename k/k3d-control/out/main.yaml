@@ -137,33 +137,6 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "30"
-  name: k3d-control-kuma-zone
-  namespace: argocd
-spec:
-  destination:
-    name: k3d-control
-  ignoreDifferences:
-  - group: ""
-    jsonPointers:
-    - /data
-    kind: Secret
-    name: karpenter-cert
-    namespace: karpenter
-  project: default
-  source:
-    path: k/k3d-control-kuma-zone
-    repoURL: https://github.com/defn/app
-    targetRevision: master
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  annotations:
     argocd.argoproj.io/sync-wave: "10"
   name: k3d-control-kyverno
   namespace: argocd
