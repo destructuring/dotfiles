@@ -119,73 +119,73 @@ data: kubernetes_config_map: cluster_dns: [{
 }
 
 #MountNix: {
-	sub_path: "nix"
+	sub_path:   "nix"
 	mount_path: "/nix"
 	name:       "mntwork"
 }
 
 #MountNodeModules: {
-	sub_path: "node_modules"
+	sub_path:   "node_modules"
 	mount_path: "/home/ubuntu/node_modules"
 	name:       "mntwork"
 }
 
 #MountConfigGh: {
-	sub_path: "config-gh"
+	sub_path:   "config-gh"
 	mount_path: "/home/ubuntu/.config/gh"
 	name:       "mntwork"
 }
 
 #MountConfigGcloud: {
-	sub_path: "config-gcloud"
+	sub_path:   "config-gcloud"
 	mount_path: "/home/ubuntu/.config/gcloud"
 	name:       "mntwork"
 }
 
 #MountConfigPreCommit: {
-	sub_path: "config-precommit"
+	sub_path:   "config-precommit"
 	mount_path: "/home/ubuntu/.cache/pre-commit"
 	name:       "mntwork"
 }
 
 #MountConfigFly: {
-	sub_path: "config-fly"
+	sub_path:   "config-fly"
 	mount_path: "/home/ubuntu/.fly"
 	name:       "mntwork"
 }
 
 #MountConfigTemporal: {
-	sub_path: "config-temporalite"
+	sub_path:   "config-temporalite"
 	mount_path: "/home/ubuntu/.config/temporalite"
 	name:       "mntwork"
 }
 
 #MountVaultAgent: {
-	sub_path: "vault-agent"
+	sub_path:   "vault-agent"
 	mount_path: "/vault-agent"
 	name:       "mntwork"
 }
 
 #MountTerraformCache: {
-	sub_path: "terraform-cache"
+	sub_path:   "terraform-cache"
 	mount_path: "/home/ubuntu/.terraform.d/plugin-cache"
 	name:       "mntwork"
 }
 
 #MountGoCache: {
-	sub_path: "go-build"
+	sub_path:   "go-build"
 	mount_path: "/home/ubuntu/.cache/go-build"
 	name:       "mntwork"
 }
 
 #MountCodeServerCacheExtensions: {
-	sub_path: "code-server-cache/extensions"
+	sub_path:   "code-server-cache/extensions"
 	mount_path: "/home/ubuntu/.local/share/code-server/extensions"
 	name:       "mntwork"
 }
 
 #MountCodeServerCacheVSIXs: {
-	sub_path: "code-server-cache/CachedExtensionVSIXs"
+	sub_path:   "code-server-cache/CachedExtensionVSIXs"
 	mount_path: "/home/ubuntu/.local/share/code-server/CachedExtensionVSIXs"
 	name:       "mntwork"
 }
@@ -319,7 +319,7 @@ data: kubernetes_config_map: cluster_dns: [{
 
 #ContainerBuildKit: {
 	name:              "buildkit"
-	image:             "earthly/buildkitd:v0.6.29"	
+	image:             "earthly/buildkitd:v0.6.29"
 	image_pull_policy: "IfNotPresent"
 	command: ["sh", "-c"]
 	args: ["awk '/if.*rm.*data_root.*then/ {print \"rm -rf $data_root || true; data_root=/tmp/meh;\" }; {print}' /var/earthly/dockerd-wrapper.sh > /tmp/1 && chmod 755 /tmp/1 && mv -f /tmp/1 /var/earthly/dockerd-wrapper.sh; exec /usr/bin/entrypoint.sh buildkitd --config=/etc/buildkitd.toml"]
@@ -386,7 +386,6 @@ data: kubernetes_config_map: cluster_dns: [{
 	volume_mount: [#MountTailscaleRun]
 }
 
-
 resource: kubernetes_stateful_set: dev: [{
 	for_each: "${var.envs}"
 
@@ -411,12 +410,12 @@ resource: kubernetes_stateful_set: dev: [{
 		template: [{
 			metadata: [{
 				annotations: {
-					"kuma.io/gateway":           "enabled"
-					"kuma.io/sidecar-injection": "disabled"
-									"eks.amazonaws.com/role-arn":               "arn:aws:iam::319951235442:role/karpenter"
-				"eks.amazonaws.com/audience":               "sts.amazonaws.com"
-				"eks.amazonaws.com/sts-regional-endpoints": "true"
-				"eks.amazonaws.com/token-expiration":       "86400"
+					"kuma.io/gateway":                          "enabled"
+					"kuma.io/sidecar-injection":                "disabled"
+					"eks.amazonaws.com/role-arn":               "arn:aws:iam::319951235442:role/karpenter"
+					"eks.amazonaws.com/audience":               "sts.amazonaws.com"
+					"eks.amazonaws.com/sts-regional-endpoints": "true"
+					"eks.amazonaws.com/token-expiration":       "86400"
 				}
 
 				labels: {
