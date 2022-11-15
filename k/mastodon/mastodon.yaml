@@ -37,8 +37,8 @@ metadata:
     app.kubernetes.io/managed-by: Helm
 type: Opaque
 data:
-  postgres-password: "VUxCZnFnV1lETg=="
-  password: "Wnd2U0pwTzAzcA=="
+  postgres-password: "eUhaRUlsaFVMRg=="
+  password: "WTE3aHVDSEJsRg=="
   # We don't auto-generate LDAP password when it's not provided as we do for other passwords
 ---
 # Source: mastodon/charts/redis/templates/secret.yaml
@@ -54,7 +54,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
 type: Opaque
 data:
-  redis-password: "UFlCUlNLQVZ2eQ=="
+  redis-password: "YkN4Q3lDR2d1dA=="
 ---
 # Source: mastodon/templates/secrets.yaml
 apiVersion: v1
@@ -1737,7 +1737,7 @@ spec:
         checksum/configmap: b47f1f369048c66c41bcd2da13f79d275ccd553b01fcaffa369ca63b9a3d773e
         checksum/health: 9eafad8734895a76d0d6302804a22ece17052693c35950ec346a0946f455c4f6
         checksum/scripts: 46756d9fef7088f08c5219a223ef0ae603218882fd0c548dc455b10232ed578a
-        checksum/secret: 028d3efe429f25a1d008f4e6edbba34e8ce69f5b13ba3535529f7f4718c5589f
+        checksum/secret: eaf60b35fa4950217cce1356cddd40be35c5dbc78a159766f84e1dac798d8c79
     spec:
       
       securityContext:
@@ -1896,7 +1896,7 @@ spec:
         checksum/configmap: b47f1f369048c66c41bcd2da13f79d275ccd553b01fcaffa369ca63b9a3d773e
         checksum/health: 9eafad8734895a76d0d6302804a22ece17052693c35950ec346a0946f455c4f6
         checksum/scripts: 46756d9fef7088f08c5219a223ef0ae603218882fd0c548dc455b10232ed578a
-        checksum/secret: 0b3248be0d06ae173ed1358973f6977c5c8f7f988c3408f31375b6b0dbbe4fb1
+        checksum/secret: 0a1fad6386340c8ce1c6c8aac8988615b971345e9d6e16ebdb0f7a7a8a9cbcd6
     spec:
       
       securityContext:
