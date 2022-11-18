@@ -14,6 +14,12 @@ so the brie:
 	rm -rf tmp
 	flyctl deploy -a $@ --remote-only --config app.toml
 
+up:
+	flyctl scale count 1 -a $(shell basename $(PWD))
+
+down:
+	flyctl scale count 0 -a $(shell basename $(PWD))
+
 proxy-docker:
 	while true; do flyctl --app "$(shell flyctl apps list | grep 'fly-builder' | awk '{print $$1}' | head -1)" proxy 2375:2375; sleep 1; done
 
