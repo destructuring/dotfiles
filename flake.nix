@@ -2,6 +2,7 @@
   inputs = {
     dev.url = "github:defn/pkg?dir=dev&ref=v0.0.56";
     c.url = "github:defn/pkg?dir=c&ref=v0.0.56";
+    flyctl.url = "github:defn/pkg?dir=flyctl&ref=v0.0.56";
     argocd.url = "github:defn/pkg?dir=argocd&ref=v0.0.56";
   };
 
@@ -22,10 +23,10 @@
           devShell = wrap.devShell;
 
           defaultPackage = wrap.nullBuilder {
-            propagatedBuildInputs = [
-              pkgs.kubernetes-helm
-              pkgs.kustomize
-              pkgs.terraform
+            propagatedBuildInputs = with pkgs; [
+              kubernetes-helm
+              kustomize
+              terraform
             ];
           };
         };
