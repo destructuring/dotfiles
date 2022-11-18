@@ -9,5 +9,6 @@ COPY service /service
 ADD http://worldclockapi.com/api/json/utc/now /tmp/builddate
 RUN cd /home/ubuntu && sudo -u ubuntu git pull
 RUN cd /home/ubuntu && make nix-reinstall
+COPY flake.* .
 
 USER root
