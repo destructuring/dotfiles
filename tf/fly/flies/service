@@ -29,17 +29,6 @@ function main {
     export DOCKER_HOST=unix:///var/run/docker.sock
     while ! docker ps; do sleep 1; done
 
-    # skip kuma setup
-    #(setsid bash -c "while true; do sudo -u ubuntu -H ~ubuntu/bin/e kuma-cp-on; sleep 5; done") &
-    #(setsid bash -c "while true; do sudo -u ubuntu -H ~ubuntu/bin/e kuma-ingress-on; sleep 5; done") &
-    #(setsid bash -c "while true; do sudo -u ubuntu -H ~ubuntu/bin/e kuma-dp-on; sleep 5; done") &
-
-    # start code-server
-    (setsid bash -c "while true; do sudo -u ubuntu -H --preserve-env=PASSWORD ~ubuntu/bin/e code-server --bind-addr 0.0.0.0:8888 --disable-telemetry; sleep 5; done") &
-
-    # start caddy
-    (setsid bash -c "cd ~ubuntu; while true; do ~ubuntu/.nix-profile/bin/caddy run; sleep 5; done") &
-
     # keep the VM alive
     sleep infinity
 }
