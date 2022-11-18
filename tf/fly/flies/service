@@ -17,7 +17,7 @@ function main {
     (setsid /usr/sbin/tailscaled --statedir=/var/lib/tailscale) &
 
     # register tailscale node
-    (sleep 5; tailscale up --ssh --hostname "$(echo "${DEFN_DEV_HOST}" | cut -d. -f1)") &
+    while ! tailscale up --ssh --hostname "$(echo "${DEFN_DEV_HOST}" | cut -d. -f1)"; do sleep 1; done
 
     # wait for a tailscale IP
     while ! tailscale ip -4; do sleep 1; done
@@ -31,7 +31,7 @@ function main {
 
     # nomad
     cd /home/ubuntu
-    exec ~ubuntu/.nix-profile/bin/nomad agent -dev -config=/home/ubuntu/etc/nomad.conf 
+    exec ~ubuntu/.nix-profile/bin/nomad agent -config=/home/ubuntu/etc/nomad.conf 
 }
 
 main "$@"
