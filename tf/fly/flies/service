@@ -29,10 +29,8 @@ function main {
     export DOCKER_HOST=unix:///var/run/docker.sock
     while ! docker ps; do sleep 1; done
 
-    # TODO this is where nomad should take over
-
-    # keep the VM alive
-    sleep infinity
+    # nomad
+    exec ~ubuntu/.nix-profile/bin/nomad agent -dev
 }
 
 main "$@"
