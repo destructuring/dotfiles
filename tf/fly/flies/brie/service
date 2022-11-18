@@ -8,7 +8,7 @@ function main {
     (cd /; echo "${DEFN_DEV_ARCHIVE}" | base64 -d | tar xvf -)
 
     # add swap
-    dd if=/dev/zero of=/root/swap0 bs=1M count=200
+    dd if=/dev/zero of=/root/swap0 bs=1M count=50
     chmod 0600 /root/swap0
     mkswap /root/swap0
     swapon /root/swap0
