@@ -30,7 +30,8 @@ function main {
     while ! docker ps; do sleep 1; done
 
     # nomad
-    exec ~ubuntu/.nix-profile/bin/nomad agent -dev
+    cd /home/ubuntu
+    exec ~ubuntu/.nix-profile/bin/nomad agent -dev -config=/home/ubuntu/etc/nomad.conf 
 }
 
 main "$@"
