@@ -2,6 +2,9 @@ domain ?= $(shell tailscale cert 2>&1 | grep 'For domain' | cut -d'"' -f2)
 
 .PHONY: so the brie
 
+build:
+	$(MAKE) $(shell basename $(PWD))
+
 so the brie:
 	rm -rf tmp
 	mkdir tmp
