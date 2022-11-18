@@ -24,7 +24,7 @@ down:
 	flyctl scale count 0 -a $(shell basename $(PWD))
 
 web:
-	open "https://$(shell basename $(PWD)).$(shell wait-tailscale-domain)/dev/"
+	open "https://$(shell basename $(PWD)).$(shell wait-tailscale-domain | cut -d. -f2-)/dev/"
 
 proxy-docker:
 	while true; do flyctl --app "$(shell flyctl apps list | grep 'fly-builder' | awk '{print $$1}' | head -1)" proxy 2375:2375; sleep 1; done
