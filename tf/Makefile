@@ -4,6 +4,8 @@ podname ?= $(shell basename $(shell pwd))-0
 context ?= k3d-$(shell basename $(shell pwd))
 domain ?= $(shell wait-tailscale-domain | cut -d. -f2-)
 
+terraform ?= env FLY_API_TOKEN="$$(pass FLY_API_TOKEN)" terraform
+
 test:
 	$(MAKE) fmt
 	$(MAKE) init
@@ -15,50 +17,44 @@ gen:
 	-pc
 	git add main.tf.json
 
-shell:
-	env \
-		TF_TOKEN_app_terraform_io="$$(pass TF_TOKEN_app_terraform_io)" \
-		FLY_API_TOKEN="$$(pass FLY_API_TOKEN)" \
-		$(SHELL)
-
 clean:
 	rm -f main.tf.json
 
 init:
-	terraform init
+	$(terraform) init
 
 get:
-	terraform get -update
+	$(terraform) get -update
 
 upgrade:
-	terraform init -upgrade
-	terraform providers lock \
+	$(terraform) init -upgrade
+	$(terraform) providers lock \
 		-platform=linux_arm64 \
 		-platform=linux_amd64 \
 		-platform=darwin_amd64 \
 		-platform=darwin_arm64
 
 fmt:
-	terraform fmt .
+	$(terraform) fmt .
 
 validate:
-	terraform validate
+	$(terraform) validate
 
 plan:
-	env terraform plan -out=.plan
+	env $(terraform) plan -out=.plan
 
 planned:
-	terraform show .plan
+	$(terraform) show .plan
 
 apply:
-	terraform apply .plan
+	$(terraform) apply .plan
 	rm -f .plan
 
 refresh:
-	terraform refresh
+	$(terraform) refresh
 
 console:
-	terraform console
+	$(terraform) console
 
 archive:
 	pass hello
