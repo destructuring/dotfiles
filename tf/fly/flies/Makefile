@@ -1,7 +1,8 @@
 domain ?= $(shell tailscale cert 2>&1 | grep 'For domain' | cut -d'"' -f2)
 
-%:
-	if ! flyctl list orgs; then flyctl auth login; fi
+.PHONY: so the brie defn
+
+so the brie defn:
 	rm -rf tmp
 	mkdir tmp
 	mkdir -p tmp/$@/var/lib/tailscale
@@ -10,6 +11,7 @@ domain ?= $(shell tailscale cert 2>&1 | grep 'For domain' | cut -d'"' -f2)
 		DEFN_DEV_ARCHIVE="$$(cd tmp/$@ && tar cvf - . | base64 | xargs | sed 's# ##g')" \
 		DEFN_DEV_HOST="$@.$(domain)" \
 		PASSWORD="$$(pass pass-code-server)"
+	rm -rf tmp
 	flyctl deploy -a $@ --remote-only --config app.toml
 
 proxy-docker:
