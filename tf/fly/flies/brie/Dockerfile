@@ -8,7 +8,7 @@ RUN cd && touch .home.done
 COPY service /service
 ADD http://worldclockapi.com/api/json/utc/now /tmp/builddate
 RUN cd /home/ubuntu && sudo -u ubuntu git pull
-RUN cd /home/ubuntu && make nix-reinstall
+RUN cd /home/ubuntu && make nix-reinstall && ./bin/e n profile install "github:defn/pkg?dir=caddy&ref=v0.0.56"
 COPY flake.* .
 
 USER root
