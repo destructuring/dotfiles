@@ -38,7 +38,7 @@ function main {
     (setsid bash -c "while true; do sudo -u ubuntu -H --preserve-env=PASSWORD ~ubuntu/bin/e code-server --bind-addr 0.0.0.0:8888 --disable-telemetry; sleep 5; done") &
 
     # start caddy
-    (setsid bash -c "while true; do ~ubuntu/.nix-profile/bin/caddy; sleep 5; done") &
+    (setsid bash -c "cd ~ubuntu; while true; do ~ubuntu/.nix-profile/bin/caddy run; sleep 5; done") &
 
     # keep the VM alive
     sleep infinity
