@@ -31,7 +31,7 @@ function main {
 
     # nomad
     cd /home/ubuntu
-    exec ~ubuntu/.nix-profile/bin/nomad agent -config=/home/ubuntu/etc/nomad.conf 
+    exec ~ubuntu/.nix-profile/bin/nomad agent -dev -config=/home/ubuntu/etc/nomad.conf 
 }
 
 main "$@"
