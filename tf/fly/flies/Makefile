@@ -1,8 +1,8 @@
 domain ?= $(shell tailscale cert 2>&1 | grep 'For domain' | cut -d'"' -f2)
 
-.PHONY: so the brie defn
+.PHONY: so the brie
 
-so the brie defn:
+so the brie:
 	rm -rf tmp
 	mkdir tmp
 	mkdir -p tmp/$@/var/lib/tailscale
