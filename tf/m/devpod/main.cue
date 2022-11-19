@@ -26,11 +26,6 @@ data: kubernetes_config_map: cluster_dns: [{
 		privileged: true
 	}]
 }
-#FsGroup1000: {
-	security_context: [{
-        fs_group: 1000
-	}]
-}
 
 #LocalDNS: {
 	dns_policy: "None"
@@ -234,7 +229,13 @@ data: kubernetes_config_map: cluster_dns: [{
 	args: ["bash", "-c", "while true; do if test -S /var/run/tailscale/tailscaled.sock; then break; fi; sleep 1; done; sudo tailscale up --ssh --accept-dns=false --hostname=${each.key}-0; ~/bin/e make nix; while true; do ~/bin/e de ~ code-server --bind-addr 0.0.0.0:8888 --disable-telemetry; sleep 5; done"]
 
 	#TTY
-	#Privileged
+
+	security_context: [{
+		privileged: true
+		capabilities: {
+			add: ["NET_ADMIN", "SYS_MODULE"]
+		}
+	}]
 
 	volume_mount: [#MountDocker, #MountContainerd, #MountWork, #MountNix, #MountNodeModules, #MountConfigGcloud, #MountConfigGh, #MountConfigPreCommit, #MountConfigFly, #MountConfigTemporal, #MountTerraformCache, #MountGoCache, #MountCodeServerCacheExtensions, #MountCodeServerCacheVSIXs, #MountTailscaleRun, #MountVaultAgent]
 
@@ -432,8 +433,10 @@ resource: kubernetes_stateful_set: dev: [{
 			spec: [{
 				#LocalDNS
 
-				#FsGroup1000
 				service_account_name: "dev"
+				security_context: [{
+					fs_group: 1000
+				}]
 
 				#NodeAffinity
 
