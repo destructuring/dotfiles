@@ -66,13 +66,4 @@ command: gen: {
 			}
 		}
 	}
-
-	genTerraformFlies: {
-		// Configuration for Flies:
-		// ex: flies.out > tf/fly/main.tf.json
-		"flies": file.Create & {
-			filename: "../tf/fly/main.tf.json"
-			contents: json.Marshal({flies.out, "//": "ManagedBy: cue"})
-		}
-	}
 }
