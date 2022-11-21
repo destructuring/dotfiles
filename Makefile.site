@@ -4,11 +4,3 @@ build-site:
 
 install-site:
 	for a in jnoortheen.nix-ide golang.Go vscodevim.vim runem.lit-plugin; do /home/ubuntu/.local/bin/code-server --install-extension "$$a"; done;
-	#(echo "https://*.*.ts.net:20002 {"; echo "reverse_proxy http://k3d-global.$$(wait-tailscale-domain | cut -d. -f2-):5681"; echo "}") > .caddy.d/kuma.conf
-	#caddy reload
-
-check:
-	kv dev/
-	aws sts get-caller-identity
-	for a in hello bye; do http $$a.default; done
-	#for a in so the brie; do curl -sS $$a.mesh/dev/; echo; done
