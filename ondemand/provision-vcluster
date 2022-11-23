@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-vc="$1"; shift
-
-(cd && make ${vc})
-rm -f .doing.${vc}
