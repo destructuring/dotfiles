@@ -3,4 +3,4 @@ build-site:
 	docker push 169.254.32.1:5000/workspace
 
 install-site:
-	for a in jnoortheen.nix-ide golang.Go vscodevim.vim runem.lit-plugin; do /home/ubuntu/.local/bin/code-server --install-extension "$$a"; done;
+	for a in tamasfe.even-better-toml jnoortheen.nix-ide golang.Go vscodevim.vim runem.lit-plugin; do /home/ubuntu/.local/bin/code-server --install-extension "$$a"; done;
