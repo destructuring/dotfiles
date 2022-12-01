@@ -1,6 +1,6 @@
 {
   inputs = {
-    dev.url = github:defn/pkg/dev-0.0.2?dir=dev;
+    dev.url = github:defn/pkg/dev-0.0.4?dir=dev;
   };
 
   outputs = inputs:
@@ -10,9 +10,8 @@
       config =
         rec {
           slug = "defn-app";
-          version = "0.0.1";
-          homepage = "https://defn.sh/${slug}";
-          description = "k8s applications";
+          version_src = ./VERSION;
+          version = builtins.readFile version_src;
         };
 
       handler = { pkgs, wrap, system }:
