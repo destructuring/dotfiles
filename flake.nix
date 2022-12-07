@@ -8,12 +8,11 @@
 
     config = rec {
       slug = "defn-app";
-      version_src = ./VERSION;
-      version = builtins.readFile version_src;
+      version = builtins.readFile ./VERSION;
     };
 
     handler = { pkgs, wrap, system }: rec {
-      devShell = wrap.devShell;
+      devShell = wrap.devShell { };
       defaultPackage = wrap.nullBuilder { };
     };
   };
