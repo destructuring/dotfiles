@@ -1,6 +1,6 @@
 {
   inputs = {
-    dev.url = github:defn/pkg/dev-0.0.12?dir=dev;
+    dev.url = github:defn/pkg/dev-0.0.14?dir=dev;
   };
 
   outputs = inputs: inputs.dev.main {
@@ -9,7 +9,7 @@
     src = ./.;
 
     config = rec {
-      slug = "defn-app";
+      slug = "amanibhavam-dotfiles";
       version = builtins.readFile ./VERSION;
     };
 
