@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function main {
-    for a in matthewpi.caddyfile-support tamasfe.even-better-toml jnoortheen.nix-ide golang.Go vscodevim.vim runem.lit-plugin svelte.svelte-vscode hashicorp.terraform; do
+    for a in vscodevim.vim matthewpi.caddyfile-support tamasfe.even-better-toml jnoortheen.nix-ide runem.lit-plugin svelte.svelte-vscode hashicorp.terraform golang.Go; do
         case "${VSCODE_GIT_ASKPASS_NODE:-}" in 
             */code-server*)
                 code-server --install-extension "$a"
