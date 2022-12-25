@@ -66,6 +66,14 @@ kustomize: "demo2": #Kustomize & {
 kustomize: "argo-cd": #Kustomize & {
 	namespace: "argocd"
 
+	resource: "namespace-argo-cd": core.#Namespace & {
+		apiVersion: "v1"
+		kind:       "Namespace"
+		metadata: {
+			name: "argo-cd"
+		}
+	}
+
 	resource: "argo-cd": {
 		url: "https://raw.githubusercontent.com/argoproj/argo-cd/v2.5.0/manifests/install.yaml"
 	}
@@ -248,41 +256,6 @@ kustomize: "external-dns": #KustomizeHelm & {
 		kind:       "Namespace"
 		metadata: {
 			name: "external-dns"
-		}
-	}
-}
-
-kustomize: "datadog": #KustomizeHelm & {
-	namespace: "datadog"
-
-	helm: {
-		release: "datadog"
-		name:    "datadog"
-		version: "3.1.1"
-		repo:    "https://helm.datadoghq.com"
-		values: {
-			clusterAgent: {
-				enabled: "true"
-				metricsProvider: enabled: "true"
-				processAgent: enabled:    "false"
-			}
-			targetSystem: "linux"
-			datadog: {
-				logs: {
-					enabled:             true
-					containerCollectAll: true
-				}
-				appKeyExistingSecret: "datadog-app-secret"
-				apiKeyExistingSecret: "datadog-api-secret"
-			}
-		}
-	}
-
-	resource: "namespace-datadog": core.#Namespace & {
-		apiVersion: "v1"
-		kind:       "Namespace"
-		metadata: {
-			name: "datadog"
 		}
 	}
 }
