@@ -83,10 +83,7 @@ env: (#Transform & {
 				"pod-identity-webhook":      10
 				"kyverno":                   10
 				"external-secrets-operator": 10
-				"k3d-global-secrets-store":  20
-				"k3d-global-kuma-global":    30
 				"tfo":                       30
-				"mesh":                      40
 			}
 		}
 	}
