@@ -1,6 +1,6 @@
 package c
 
-cluster: [string]: domain: "tiger-mamba.ts.net"
+cluster: [string]: domain: "tail3884f.ts.net"
 cluster: [string]: mpath:  "../m"
 
 cluster: global: {}

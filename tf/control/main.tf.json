@@ -22,7 +22,7 @@
   "locals": [
     {
       "envs": {
-        "control": { "domain": "tiger-mamba.ts.net", "host": "k3d-control" }
+        "control": { "domain": "tail3884f.ts.net", "host": "k3d-control" }
       }
     }
   ]
