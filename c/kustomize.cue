@@ -66,11 +66,11 @@ kustomize: "demo2": #Kustomize & {
 kustomize: "argo-cd": #Kustomize & {
 	namespace: "argocd"
 
-	resource: "namespace-argo-cd": core.#Namespace & {
+	resource: "namespace-argocd": core.#Namespace & {
 		apiVersion: "v1"
 		kind:       "Namespace"
 		metadata: {
-			name: "argo-cd"
+			name: "argocd"
 		}
 	}
 
