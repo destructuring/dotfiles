@@ -116,7 +116,7 @@ import (
 			}
 
 			source: {
-				repoURL:        "https://github.com/defn/app"
+				repoURL:        "https://github.com/amanibhavam/dotfiles"
 				targetRevision: "master"
 				path:           "k/\(app_name)"
 			}
@@ -167,7 +167,7 @@ import (
 
 		destination: name: string
 		source: {
-			repoURL:        "https://github.com/defn/app"
+			repoURL:        "https://github.com/amanibhavam/dotfiles"
 			targetRevision: "master"
 			path:           string
 		}

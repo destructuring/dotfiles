@@ -18,7 +18,7 @@ spec:
   project: default
   source:
     path: k/cert-manager
-    repoURL: https://github.com/defn/app
+    repoURL: https://github.com/amanibhavam/dotfiles
     targetRevision: master
   syncPolicy:
     automated:
@@ -45,7 +45,7 @@ spec:
   project: default
   source:
     path: k/demo1
-    repoURL: https://github.com/defn/app
+    repoURL: https://github.com/amanibhavam/dotfiles
     targetRevision: master
   syncPolicy:
     automated:
@@ -72,7 +72,7 @@ spec:
   project: default
   source:
     path: k/demo2
-    repoURL: https://github.com/defn/app
+    repoURL: https://github.com/amanibhavam/dotfiles
     targetRevision: master
   syncPolicy:
     automated:
@@ -99,7 +99,7 @@ spec:
   project: default
   source:
     path: k/external-secrets-operator
-    repoURL: https://github.com/defn/app
+    repoURL: https://github.com/amanibhavam/dotfiles
     targetRevision: master
   syncPolicy:
     automated:
@@ -126,7 +126,7 @@ spec:
   project: default
   source:
     path: k/k3d-smiley-kuma-zone
-    repoURL: https://github.com/defn/app
+    repoURL: https://github.com/amanibhavam/dotfiles
     targetRevision: master
   syncPolicy:
     automated:
@@ -153,7 +153,7 @@ spec:
   project: default
   source:
     path: k/kyverno
-    repoURL: https://github.com/defn/app
+    repoURL: https://github.com/amanibhavam/dotfiles
     targetRevision: master
   syncPolicy:
     automated:
@@ -180,7 +180,7 @@ spec:
   project: default
   source:
     path: k/pod-identity-webhook
-    repoURL: https://github.com/defn/app
+    repoURL: https://github.com/amanibhavam/dotfiles
     targetRevision: master
   syncPolicy:
     automated:
@@ -207,7 +207,7 @@ spec:
   project: default
   source:
     path: k/k3d-smiley-secrets-store
-    repoURL: https://github.com/defn/app
+    repoURL: https://github.com/amanibhavam/dotfiles
     targetRevision: master
   syncPolicy:
     automated:
@@ -234,7 +234,7 @@ spec:
   project: default
   source:
     path: k/tfo
-    repoURL: https://github.com/defn/app
+    repoURL: https://github.com/amanibhavam/dotfiles
     targetRevision: master
   syncPolicy:
     automated:

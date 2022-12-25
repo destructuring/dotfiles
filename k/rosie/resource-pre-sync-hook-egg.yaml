@@ -11,7 +11,7 @@ metadata:
 spec:
   terraformVersion: 1.0.0
   terraformModule:
-    source: https://github.com/defn/app.git//tf/m/egg?ref=master
+    source: https://github.com/amanibhavam/dotfiles.git//tf/m/egg?ref=master
   taskOptions:
     - for:
         - "*"

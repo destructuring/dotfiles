@@ -10,7 +10,7 @@ spec:
   destination:
     name: in-cluster
   source:
-    repoURL: https://github.com/defn/app
+    repoURL: https://github.com/amanibhavam/dotfiles
     targetRevision: master
     path: k/vcluster-control-vc2
   syncPolicy:

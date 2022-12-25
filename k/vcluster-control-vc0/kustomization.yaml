@@ -22,7 +22,7 @@ helmCharts:
             destination:
               name: vcluster-control-vc0
             source:
-              repoURL: https://github.com/defn/app
+              repoURL: https://github.com/amanibhavam/dotfiles
               targetRevision: master
               path: k/cert-manager
             syncPolicy:

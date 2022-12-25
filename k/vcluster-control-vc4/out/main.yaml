@@ -18,7 +18,7 @@ spec:
   project: default
   source:
     path: k/cert-manager
-    repoURL: https://github.com/defn/app
+    repoURL: https://github.com/amanibhavam/dotfiles
     targetRevision: master
   syncPolicy:
     automated:

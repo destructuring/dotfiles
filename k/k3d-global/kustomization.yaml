@@ -22,7 +22,7 @@ helmCharts:
             destination:
               name: k3d-global
             source:
-              repoURL: https://github.com/defn/app
+              repoURL: https://github.com/amanibhavam/dotfiles
               targetRevision: master
               path: k/cert-manager
             syncPolicy:
@@ -49,7 +49,7 @@ helmCharts:
             destination:
               name: k3d-global
             source:
-              repoURL: https://github.com/defn/app
+              repoURL: https://github.com/amanibhavam/dotfiles
               targetRevision: master
               path: k/pod-identity-webhook
             syncPolicy:
@@ -76,7 +76,7 @@ helmCharts:
             destination:
               name: k3d-global
             source:
-              repoURL: https://github.com/defn/app
+              repoURL: https://github.com/amanibhavam/dotfiles
               targetRevision: master
               path: k/kyverno
             syncPolicy:
@@ -103,7 +103,7 @@ helmCharts:
             destination:
               name: k3d-global
             source:
-              repoURL: https://github.com/defn/app
+              repoURL: https://github.com/amanibhavam/dotfiles
               targetRevision: master
               path: k/external-secrets-operator
             syncPolicy:
@@ -130,7 +130,7 @@ helmCharts:
             destination:
               name: k3d-global
             source:
-              repoURL: https://github.com/defn/app
+              repoURL: https://github.com/amanibhavam/dotfiles
               targetRevision: master
               path: k/tfo
             syncPolicy:

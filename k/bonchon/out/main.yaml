@@ -57,5 +57,5 @@ spec:
   scmAuthMethods: []
   serviceAccount: default
   terraformModule:
-    source: https://github.com/defn/app.git//tf/m/fried-chicken?ref=master
+    source: https://github.com/amanibhavam/dotfiles.git//tf/m/fried-chicken?ref=master
   terraformVersion: 1.0.0

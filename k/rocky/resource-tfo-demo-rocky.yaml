@@ -8,7 +8,7 @@ metadata:
 spec:
   terraformVersion: 1.0.0
   terraformModule:
-    source: https://github.com/defn/app.git//tf/m/chicken?ref=master
+    source: https://github.com/amanibhavam/dotfiles.git//tf/m/chicken?ref=master
   taskOptions:
     - for:
         - "*"
