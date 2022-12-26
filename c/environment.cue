@@ -37,40 +37,34 @@ env: (#Transform & {
 env: (#Transform & {
 	transformer: #TransformK3D
 
+	#CommonServices: {
+		"cert-manager":              1
+		"pod-identity-webhook":      10
+		"kyverno":                   10
+		"external-secrets-operator": 10
+		"tfo":                       20
+	}
+
 	inputs: {
+		// global is the global control plane, used by all machines.
+		global: {
+			bootstrap: {
+				"argo-cd": 0
+				#CommonServices
+			}
+		}
+
 		// control is the control plane, used by the operator.
 		control: {
 			bootstrap: {
-				"argo-cd":                   0
-				"cert-manager":              1
-				"pod-identity-webhook":      10
-				"kyverno":                   10
-				"external-secrets-operator": 10
-				"tfo":                       20
-				"argo-events":               10
-				"karpenter":                 20
+				#CommonServices
 			}
 		}
 
 		// smiley is the second machine used for multi-cluster.
 		smiley: {
 			bootstrap: {
-				"cert-manager":              1
-				"pod-identity-webhook":      10
-				"kyverno":                   10
-				"external-secrets-operator": 10
-				"tfo":                       20
-			}
-		}
-
-		// global is the global control plane, used by all machines.
-		global: {
-			bootstrap: {
-				"cert-manager":              1
-				"pod-identity-webhook":      10
-				"kyverno":                   10
-				"external-secrets-operator": 10
-				"tfo":                       20
+				#CommonServices
 			}
 		}
 	}
