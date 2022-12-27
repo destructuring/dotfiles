@@ -47,29 +47,31 @@ env: (#Transform & {
 		"tfo":                       30
 	}
 
+	inputs: [N=string]: {
+		bootstrap: {
+			"k3d-\(N)-secrets-store": 20
+			#CommonServices
+			...
+		}
+	}
+
 	inputs: {
 		// global is the global control plane, used by all machines.
 		global: {
 			bootstrap: {
-				"argo-cd":                  0
-				"k3d-global-secrets-store": 20
-				#CommonServices
+				"argo-cd": 0
 			}
 		}
 
 		// control is the control plane, used by the operator.
 		control: {
 			bootstrap: {
-				"k3d-global-secrets-store": 20
-				#CommonServices
 			}
 		}
 
 		// smiley is the second machine used for multi-cluster.
 		smiley: {
 			bootstrap: {
-				"k3d-global-secrets-store": 20
-				#CommonServices
 			}
 		}
 	}

@@ -144,12 +144,12 @@ helmCharts:
                   - /data
                 name: karpenter-cert
                 namespace: karpenter
-        k3d-global-secrets-store: |
+        k3d-smiley-secrets-store: |
           apiVersion: argoproj.io/v1alpha1
           kind: Application
           metadata:
             namespace: argocd
-            name: k3d-smiley-k3d-global-secrets-store
+            name: k3d-smiley-secrets-store
             annotations:
               argocd.argoproj.io/sync-wave: "20"
           spec:
@@ -159,7 +159,7 @@ helmCharts:
             source:
               repoURL: https://github.com/amanibhavam/dotfiles
               targetRevision: master
-              path: k/k3d-global-secrets-store
+              path: k/k3d-smiley-secrets-store
             syncPolicy:
               automated:
                 prune: true
