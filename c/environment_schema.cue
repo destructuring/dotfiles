@@ -15,16 +15,14 @@ import (
 	to:   #KustomizeHelm & {
 		_in: #EnvInput
 
-		_apps: (#Transform & {
+		_apps: (#TransformOne & {
 			transform: #TransformEnvToBootstrap
-			inputs: [string]: #EnvInput
-
-			inputs: "\(_in.name)": {
+			input: {
 				name:      _in.name
 				type:      _in.type
 				bootstrap: _in.bootstrap
 			}
-		}).outputs[_in.name].apps
+		}).output.apps
 
 		helm: {
 			release: "bootstrap"
