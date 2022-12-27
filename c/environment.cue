@@ -46,7 +46,7 @@ env: (#Transform & {
 		"tfo":                       20
 	}
 
-	inputs: [string]: #EnvBootstrapInput
+	inputs: [string]: #K3DMachineInput
 	inputs: {
 		// global is the global control plane, used by all machines.
 		global: {

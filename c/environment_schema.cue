@@ -173,14 +173,18 @@ import (
 	}
 }
 
+#K3DMachineInput: {
+	#EnvBootstrapInput
+}
+
 // K3D Machine
 #TransformK3DMachine: {
-	from: #EnvBootstrapInput
+	from: #K3DMachineInput
 	to:   #K3DMachine
 }
 
 #K3DMachine: ctx={
-	_in: #EnvBootstrapInput
+	_in: #K3DMachineInput
 
 	#Machine
 

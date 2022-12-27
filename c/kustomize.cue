@@ -10,7 +10,7 @@ import (
 kustomize: (#Transform & {
 	transformer: #TransformChicken
 
-	inputs: [string]: #Input
+	inputs: [string]: #ChickenInput
 	inputs: {
 		rocky: {}
 		rosie: {}
@@ -748,7 +748,7 @@ kustomize: "karpenter": #Kustomize & {
 	resource: (#Transform & {
 		transformer: #TransformKarpenterProvisioner
 
-		inputs: #KarpenterProvisionerInput
+		inputs: [string]: #KarpenterProvisionerInput
 		inputs: {
 			for _env_name, _env in env {
 				if (_env & #VClusterMachine) != _|_ {

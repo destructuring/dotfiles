@@ -160,7 +160,7 @@ kustomize: [NAME=string]: _name: NAME
 
 #TransformKarpenterProvisioner: {
 	from: #KarpenterProvisionerInput
-	to: #KarpenterProvisioner
+	to:   #KarpenterProvisioner
 }
 
 #KarpenterProvisioner: {
@@ -195,13 +195,17 @@ kustomize: [NAME=string]: _name: NAME
 	}
 }
 
+#ChickenInput: {
+	#Input
+}
+
 #TransformChicken: {
-	from: #Input
-	to: #Chicken
+	from: #ChickenInput
+	to:   #Chicken
 }
 
 #Chicken: #Kustomize & {
-	_in: #Input
+	_in: #ChickenInput
 
 	resource: "pre-sync-hook-egg": {
 		apiVersion: "tf.isaaguilar.com/v1alpha2"
