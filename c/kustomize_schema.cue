@@ -153,17 +153,18 @@ kustomize: [NAME=string]: _name: NAME
 	}
 }
 
-#TransformKarpenterProvisioner: {
-	from: {
-		#Input
-		instance_types: [...string]
-	}
+#KarpenterProvisionerInput: {
+	#Input
+	instance_types: [...string]
+}
 
+#TransformKarpenterProvisioner: {
+	from: #KarpenterProvisionerInput
 	to: #KarpenterProvisioner
 }
 
 #KarpenterProvisioner: {
-	_in: #TransformKarpenterProvisioner.from
+	_in: #KarpenterProvisionerInput
 
 	apiVersion: "karpenter.sh/v1alpha5"
 	kind:       "Provisioner"
@@ -196,12 +197,11 @@ kustomize: [NAME=string]: _name: NAME
 
 #TransformChicken: {
 	from: #Input
-
 	to: #Chicken
 }
 
 #Chicken: #Kustomize & {
-	_in: #TransformChicken.from
+	_in: #Input
 
 	resource: "pre-sync-hook-egg": {
 		apiVersion: "tf.isaaguilar.com/v1alpha2"
