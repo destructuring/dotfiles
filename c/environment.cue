@@ -77,11 +77,11 @@ bootstrap: (#Transform & {
 	inputs: [string]: #EnvInput
 
 	inputs: {
-		for _env_name, _env in env {
-			"\(_env_name)": {
-				name:      _env_name
-				type:      _env.type
-				bootstrap: _env.bootstrap
+		for ename, e in env {
+			"\(ename)": {
+				name:      ename
+				type:      e.type
+				bootstrap: e.bootstrap
 			}
 		}
 	}
@@ -119,10 +119,10 @@ kustomize: (#Transform & {
 	inputs: [string]: #EnvInput
 
 	inputs: {
-		for _env_name, _env in env {
-			"\(_env_name)": {
-				name:  _env_name
-				type:  _env.type
+		for ename, e in env {
+			"\(ename)": {
+				name:  ename
+				type:  e.type
 				label: "\(type)-\(name)"
 			}
 		}
@@ -134,10 +134,10 @@ kustomize: (#Transform & {
 	inputs: [string]: #EnvInput
 
 	inputs: {
-		for _env_name, _env in env {
-			"\(_env_name)": {
-				name:  _env_name
-				type:  _env.type
+		for ename, e in env {
+			"\(ename)": {
+				name:  ename
+				type:  e.type
 				label: "\(type)-\(name)-secrets-store"
 			}
 		}
