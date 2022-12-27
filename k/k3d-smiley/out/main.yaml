@@ -56,6 +56,33 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
+    argocd.argoproj.io/sync-wave: "20"
+  name: k3d-smiley-k3d-global-secrets-store
+  namespace: argocd
+spec:
+  destination:
+    name: k3d-smiley
+  ignoreDifferences:
+  - group: ""
+    jsonPointers:
+    - /data
+    kind: Secret
+    name: karpenter-cert
+    namespace: karpenter
+  project: default
+  source:
+    path: k/k3d-global-secrets-store
+    repoURL: https://github.com/amanibhavam/dotfiles
+    targetRevision: master
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
     argocd.argoproj.io/sync-wave: "10"
   name: k3d-smiley-kyverno
   namespace: argocd
@@ -110,7 +137,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   annotations:
-    argocd.argoproj.io/sync-wave: "20"
+    argocd.argoproj.io/sync-wave: "30"
   name: k3d-smiley-tfo
   namespace: argocd
 spec:

@@ -1,13 +1,13 @@
 apiVersion: external-secrets.io/v1beta1
 kind: ClusterSecretStore
 metadata:
-  name: dev
+  name: external-secrets
 spec:
   provider:
     vault:
       auth:
         kubernetes:
-          mountPath: amanibhavam-global
+          mountPath: k3d-global
           role: external-secrets
       path: kv
       server: http://100.107.114.21:8200

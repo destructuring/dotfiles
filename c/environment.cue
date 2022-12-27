@@ -60,6 +60,7 @@ env: (#Transform & {
 		// control is the control plane, used by the operator.
 		control: {
 			bootstrap: {
+				"k3d-global-secrets-store": 20
 				#CommonServices
 			}
 		}
@@ -67,6 +68,7 @@ env: (#Transform & {
 		// smiley is the second machine used for multi-cluster.
 		smiley: {
 			bootstrap: {
+				"k3d-global-secrets-store": 20
 				#CommonServices
 			}
 		}
