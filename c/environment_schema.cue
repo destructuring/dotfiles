@@ -17,11 +17,7 @@ import (
 
 		_apps: (#TransformOne & {
 			transform: #TransformEnvToBootstrap
-			input: {
-				name:      _in.name
-				type:      _in.type
-				bootstrap: _in.bootstrap
-			}
+			input:     _in
 		}).output.apps
 
 		helm: {
