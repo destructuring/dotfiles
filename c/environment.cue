@@ -1,7 +1,7 @@
 package c
 
 env: (#Transform & {
-	transformer: #TransformVCluster
+	transformer: #TransformVClusterMachine
 
 	inputs: {
 		"global-vc0": {
@@ -35,7 +35,7 @@ env: (#Transform & {
 }).outputs
 
 env: (#Transform & {
-	transformer: #TransformK3D
+	transformer: #TransformK3DMachine
 
 	#CommonServices: {
 		"cert-manager":              1

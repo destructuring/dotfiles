@@ -749,7 +749,7 @@ kustomize: "karpenter": #Kustomize & {
 
 		inputs: {
 			for _env_name, _env in env {
-				if (_env & #VCluster) != _|_ {
+				if (_env & #VClusterMachine) != _|_ {
 					if len(_env.instance_types) > 0 {
 						"\(_env_name)": {}
 					}
