@@ -85,8 +85,9 @@ bootstrap: (#Transform & {
 }).outputs
 
 kustomize: (#Transform & {
-	transformer: #TransformKustomizeVCluster
+	transformer: #TransformVClusterToKustomize
 
+	inputs: [string]: #VClusterInput
 	inputs: {
 		"control-vc0": {
 			vc_machine: "control"
@@ -99,8 +100,9 @@ kustomize: (#Transform & {
 }).outputs
 
 kustomize: (#Transform & {
-	transformer: #TransformKustomizeVCluster
+	transformer: #TransformVClusterToKustomize
 
+	inputs: [string]: #VClusterInput
 	inputs: {
 		"control-vc1": {}
 		"control-vc2": {}

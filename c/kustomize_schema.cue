@@ -90,18 +90,19 @@ kustomize: [NAME=string]: _name: NAME
 	}
 }
 
-#TransformKustomizeVCluster: {
-	from: {
-		#Input
-		vc_name:    string | *from.name
-		vc_machine: string | *from.name
-	}
+#VClusterInput: from={
+	#Input
+	vc_name:    string | *from.name
+	vc_machine: string | *from.name
+}
 
-	to: #KustomizeVCluster
+#TransformVClusterToKustomize: {
+	from: #VClusterInput
+	to:   #KustomizeVCluster
 }
 
 #KustomizeVCluster: {
-	_in: #TransformKustomizeVCluster.from
+	_in: #VClusterInput
 
 	#KustomizeHelm
 
