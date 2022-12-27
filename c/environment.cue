@@ -44,14 +44,15 @@ env: (#Transform & {
 		"pod-identity-webhook":      10
 		"kyverno":                   10
 		"external-secrets-operator": 10
-		"tfo":                       20
+		"tfo":                       30
 	}
 
 	inputs: {
 		// global is the global control plane, used by all machines.
 		global: {
 			bootstrap: {
-				"argo-cd": 0
+				"argo-cd":                  0
+				"k3d-global-secrets-store": 20
 				#CommonServices
 			}
 		}

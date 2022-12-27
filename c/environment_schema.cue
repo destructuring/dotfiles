@@ -41,17 +41,17 @@ import (
 	to:   #Kustomize & {
 		_in: #EnvInput
 
-		resource: "cluster-secret-store-dev": {
+		resource: "cluster-secret-store-hello": {
 			apiVersion: "external-secrets.io/v1beta1"
 			kind:       "ClusterSecretStore"
-			metadata: name: "dev"
+			metadata: name: "hello"
 			spec: provider: vault: {
-				server:  "http://100.103.25.109:8200"
+				server:  "http://100.107.114.21:8200"
 				path:    "kv"
 				version: "v2"
 				auth: kubernetes: {
 					mountPath: "\(_in.type)-\(_in.name)"
-					role:      "external-secrets"
+					role:      "hello"
 				}
 			}
 		}
