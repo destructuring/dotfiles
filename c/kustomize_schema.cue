@@ -5,7 +5,7 @@ import (
 	batch "github.com/defn/boot/k8s.io/api/batch/v1"
 )
 
-kustomize: [string]: #KustomizeHelm | #KustomizeVCluster | #Kustomize
+kustomize: [string]: #KustomizeHelm | #VClusterKustomize | #Kustomize
 kustomize: [NAME=string]: _name: NAME
 
 #Helm: {
@@ -98,10 +98,10 @@ kustomize: [NAME=string]: _name: NAME
 
 #TransformVClusterToKustomize: {
 	from: #VClusterInput
-	to:   #KustomizeVCluster
+	to:   #VClusterKustomize
 }
 
-#KustomizeVCluster: {
+#VClusterKustomize: {
 	_in: #VClusterInput
 
 	#KustomizeHelm

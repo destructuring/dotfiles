@@ -7,14 +7,10 @@ import (
 #EnvInput: {
 	#Input
 	type: string
+	bootstrap?: [string]: int
 }
 
-#EnvBootstrapInput: {
-	#EnvInput
-	bootstrap: [string]: int
-}
-
-#TransformEnvToAnyResource: {
+#TransformEnvToAnyResourceKustomizeHelm: {
 	from: #EnvInput
 	to:   #KustomizeHelm & {
 		_in: #EnvInput
@@ -35,7 +31,7 @@ import (
 	}
 }
 
-#TransformEnvToSecretStore: {
+#TransformEnvToSecretStoreKustomize: {
 	from: #EnvInput
 	to:   #Kustomize & {
 		_in: #EnvInput
@@ -57,13 +53,13 @@ import (
 	}
 }
 
-#TransformEnvBootstrapToBootstrapMachine: {
-	from: #EnvBootstrapInput
+#TransformEnvToBootstrapMachine: {
+	from: #EnvInput
 	to:   #BootstrapMachine
 }
 
 #BootstrapMachine: ctx={
-	_in: #EnvBootstrapInput
+	_in: #EnvInput
 
 	machine_name: string | *_in.name
 	machine_type: string | *_in.type
@@ -174,7 +170,7 @@ import (
 }
 
 #K3DMachineInput: {
-	#EnvBootstrapInput
+	#EnvInput
 }
 
 // K3D Machine
@@ -197,7 +193,7 @@ import (
 }
 
 #VClusterMachineInput: {
-	#EnvBootstrapInput
+	#EnvInput
 	instance_types: [...string]
 	parent: #K3DMachine
 }

@@ -73,9 +73,9 @@ env: (#Transform & {
 }).outputs
 
 bootstrap: (#Transform & {
-	transformer: #TransformEnvBootstrapToBootstrapMachine
+	transformer: #TransformEnvToBootstrapMachine
 
-	inputs: [string]: #EnvBootstrapInput
+	inputs: [string]: #EnvInput
 	inputs: {
 		for _env_name, _env in env {
 			"\(_env_name)": {
@@ -115,7 +115,7 @@ kustomize: (#Transform & {
 }).outputs
 
 kustomize: (#Transform & {
-	transformer: #TransformEnvToAnyResource
+	transformer: #TransformEnvToAnyResourceKustomizeHelm
 
 	inputs: [string]: #EnvInput
 	inputs: {
@@ -130,7 +130,7 @@ kustomize: (#Transform & {
 }).outputs
 
 kustomize: (#Transform & {
-	transformer: #TransformEnvToSecretStore
+	transformer: #TransformEnvToSecretStoreKustomize
 
 	inputs: [string]: #EnvInput
 	inputs: {
