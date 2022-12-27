@@ -4,15 +4,20 @@ import (
 	"encoding/yaml"
 )
 
+#EnvInput: {
+	#Input
+	type: string
+}
+
+#EnvBootstrapInput: {
+	#EnvInput
+	bootstrap: [string]: int
+}
+
 #TransformEnvToAnyResource: {
-	from: {
-		#Input
-
-		type: string
-	}
-
-	to: #KustomizeHelm & {
-		_in: from
+	from: #EnvInput
+	to:   #KustomizeHelm & {
+		_in: #EnvInput
 
 		helm: {
 			release: "bootstrap"
@@ -31,14 +36,9 @@ import (
 }
 
 #TransformEnvToSecretStore: {
-	from: {
-		#Input
-
-		type: string
-	}
-
-	to: #Kustomize & {
-		_in: from
+	from: #EnvInput
+	to:   #Kustomize & {
+		_in: #EnvInput
 
 		resource: "cluster-secret-store-dev": {
 			apiVersion: "external-secrets.io/v1beta1"
@@ -57,19 +57,13 @@ import (
 	}
 }
 
-#TransformEnvToBootstrapMachine: {
-	from: {
-		#Input
-
-		type: string
-		bootstrap: [string]: int
-	}
-
-	to: #BootstrapMachine
+#TransformEnvBootstrapToBootstrapMachine: {
+	from: #EnvBootstrapInput
+	to:   #BootstrapMachine
 }
 
 #BootstrapMachine: ctx={
-	_in: #TransformEnvToBootstrapMachine.from
+	_in: #EnvBootstrapInput
 
 	machine_name: string | *_in.name
 	machine_type: string | *_in.type
@@ -181,16 +175,12 @@ import (
 
 // K3D Machine
 #TransformK3D: {
-	from: {
-		#Input
-		bootstrap: [string]: number
-	}
-
-	to: #K3D
+	from: #EnvBootstrapInput
+	to:   #K3D
 }
 
 #K3D: ctx={
-	_in: #TransformK3D.from
+	_in: #EnvBootstrapInput
 
 	#Machine
 

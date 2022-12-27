@@ -71,7 +71,7 @@ env: (#Transform & {
 }).outputs
 
 bootstrap: (#Transform & {
-	transformer: #TransformEnvToBootstrapMachine
+	transformer: #TransformEnvBootstrapToBootstrapMachine
 
 	inputs: {
 		for _env_name, _env in env {
