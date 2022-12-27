@@ -8,9 +8,9 @@ package c
 }
 
 #Transform: {
-	// A transformer takes an (in)put and (out)put.  The input is extended with
+	// A transform takes an (in)put and (out)put.  The input is extended with
 	// additional fields, the output is the template.
-	transformer: {
+	transform: {
 		from: {
 			#Input
 			...
@@ -22,7 +22,7 @@ package c
 	}
 
 	inputs: [N=string]: {
-		transformer.from
+		transform.from
 
 		// The label is usually a custom value like "resource-\(label)",
 		// defaults to the name.  Additional fields can be defined in terms of
@@ -36,7 +36,7 @@ package c
 		// "resource:" or "kustomizes"
 
 		for _from in inputs {
-			"\(_from.label)": (transformer & {
+			"\(_from.label)": (transform & {
 				from: _from
 			}).to
 		}

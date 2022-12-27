@@ -1,7 +1,7 @@
 package c
 
 env: (#Transform & {
-	transformer: #TransformVClusterMachine
+	transform: #TransformVClusterMachine
 	inputs: [string]: #VClusterMachineInput
 
 	inputs: {
@@ -36,7 +36,7 @@ env: (#Transform & {
 }).outputs
 
 env: (#Transform & {
-	transformer: #TransformK3DMachine
+	transform: #TransformK3DMachine
 	inputs: [string]: #K3DMachineInput
 
 	#CommonServices: {
@@ -73,7 +73,7 @@ env: (#Transform & {
 }).outputs
 
 bootstrap: (#Transform & {
-	transformer: #TransformEnvToBootstrapMachine
+	transform: #TransformEnvToBootstrapMachine
 	inputs: [string]: #EnvInput
 
 	inputs: {
@@ -88,7 +88,7 @@ bootstrap: (#Transform & {
 }).outputs
 
 kustomize: (#Transform & {
-	transformer: #TransformVClusterToKustomize
+	transform: #TransformVClusterToKustomize
 	inputs: [string]: #VClusterInput
 
 	inputs: {
@@ -103,7 +103,7 @@ kustomize: (#Transform & {
 }).outputs
 
 kustomize: (#Transform & {
-	transformer: #TransformVClusterToKustomize
+	transform: #TransformVClusterToKustomize
 	inputs: [string]: #VClusterInput
 
 	inputs: {
@@ -115,7 +115,7 @@ kustomize: (#Transform & {
 }).outputs
 
 kustomize: (#Transform & {
-	transformer: #TransformEnvToAnyResourceKustomizeHelm
+	transform: #TransformEnvToAnyResourceKustomizeHelm
 	inputs: [string]: #EnvInput
 
 	inputs: {
@@ -130,7 +130,7 @@ kustomize: (#Transform & {
 }).outputs
 
 kustomize: (#Transform & {
-	transformer: #TransformEnvToSecretStoreKustomize
+	transform: #TransformEnvToSecretStoreKustomize
 	inputs: [string]: #EnvInput
 
 	inputs: {

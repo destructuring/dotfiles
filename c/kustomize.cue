@@ -8,7 +8,7 @@ import (
 )
 
 kustomize: (#Transform & {
-	transformer: #TransformChicken
+	transform: #TransformChicken
 	inputs: [string]: #ChickenInput
 
 	inputs: {
@@ -746,7 +746,7 @@ kustomize: "karpenter": #Kustomize & {
 	}
 
 	resource: (#Transform & {
-		transformer: #TransformKarpenterProvisioner
+		transform: #TransformKarpenterProvisioner
 		inputs: [string]: #KarpenterProvisionerInput
 
 		inputs: {
