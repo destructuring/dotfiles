@@ -7,13 +7,24 @@ import (
 #EnvInput: {
 	#Input
 	type: string
-	bootstrap?: [string]: int
+	bootstrap: [string]: int
 }
 
 #TransformEnvToAnyResourceKustomizeHelm: {
 	from: #EnvInput
 	to:   #KustomizeHelm & {
 		_in: #EnvInput
+
+		_apps: (#Transform & {
+			transform: #TransformEnvToBootstrap
+			inputs: [string]: #EnvInput
+
+			inputs: "\(_in.name)": {
+				name:      _in.name
+				type:      _in.type
+				bootstrap: _in.bootstrap
+			}
+		}).outputs[_in.name].apps
 
 		helm: {
 			release: "bootstrap"
@@ -22,8 +33,8 @@ import (
 			repo:    "https://kiwigrid.github.io"
 			values: {
 				anyResources: {
-					for _app_name, _app in bootstrap[_in.name].apps {
-						"\(_app_name)": yaml.Marshal(_app.application)
+					for aname, a in _apps {
+						"\(aname)": yaml.Marshal(a.application)
 					}
 				}
 			}
@@ -53,31 +64,31 @@ import (
 	}
 }
 
-#TransformEnvToBootstrapMachine: {
+#TransformEnvToBootstrap: {
 	from: #EnvInput
-	to:   #BootstrapMachine
+	to:   #EnvBootstrap
 }
 
-#BootstrapMachine: ctx={
+#EnvBootstrap: ctx={
 	_in: #EnvInput
 
 	machine_name: string | *_in.name
 	machine_type: string | *_in.type
 
-	apps: [string]: #BootstrapApp
+	apps: [string]: #EnvBootstrapApp
 	apps: {
-		for _app_name, _app_weight in _in.bootstrap {
-			"\(_app_name)": #BootstrapApp & {
+		for name, weight in _in.bootstrap {
+			"\(name)": {
 				machine_type: ctx.machine_type
 				machine_name: ctx.machine_name
-				app_name:     _app_name
-				app_wave:     _app_weight
+				app_name:     name
+				app_wave:     weight
 			}
 		}
 	}
 }
 
-#BootstrapApp: {
+#EnvBootstrapApp: {
 	machine_type: string
 	machine_name: string
 	app_name:     string

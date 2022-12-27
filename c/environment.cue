@@ -72,21 +72,6 @@ env: (#Transform & {
 	}
 }).outputs
 
-bootstrap: (#Transform & {
-	transform: #TransformEnvToBootstrapMachine
-	inputs: [string]: #EnvInput
-
-	inputs: {
-		for ename, e in env {
-			"\(ename)": {
-				name:      ename
-				type:      e.type
-				bootstrap: e.bootstrap
-			}
-		}
-	}
-}).outputs
-
 kustomize: (#Transform & {
 	transform: #TransformVClusterToKustomize
 	inputs: [string]: #VClusterInput
@@ -121,9 +106,10 @@ kustomize: (#Transform & {
 	inputs: {
 		for ename, e in env {
 			"\(ename)": {
-				name:  ename
-				type:  e.type
-				label: "\(type)-\(name)"
+				name:      ename
+				type:      e.type
+				label:     "\(type)-\(name)"
+				bootstrap: e.bootstrap
 			}
 		}
 	}
