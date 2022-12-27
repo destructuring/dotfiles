@@ -124,7 +124,7 @@ helmCharts:
             namespace: argocd
             name: k3d-smiley-tfo
             annotations:
-              argocd.argoproj.io/sync-wave: "20"
+              argocd.argoproj.io/sync-wave: "30"
           spec:
             project: default
             destination:

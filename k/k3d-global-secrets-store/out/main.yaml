@@ -7,8 +7,8 @@ spec:
     vault:
       auth:
         kubernetes:
-          mountPath: k3d-global
+          mountPath: amanibhavam-global
           role: external-secrets
       path: kv
-      server: http://100.103.25.109:8200
+      server: http://100.107.114.21:8200
       version: v2

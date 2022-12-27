@@ -2,4 +2,4 @@
 
 patchesStrategicMerge: []
 resources:
-  - resource-cluster-secret-store-dev.yaml
+  - resource-cluster-secret-store-hello.yaml
