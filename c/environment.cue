@@ -2,8 +2,8 @@ package c
 
 env: (#Transform & {
 	transformer: #TransformVClusterMachine
-
 	inputs: [string]: #VClusterMachineInput
+
 	inputs: {
 		"global-vc0": {
 			instance_types: []
@@ -37,6 +37,7 @@ env: (#Transform & {
 
 env: (#Transform & {
 	transformer: #TransformK3DMachine
+	inputs: [string]: #K3DMachineInput
 
 	#CommonServices: {
 		"cert-manager":              1
@@ -46,7 +47,6 @@ env: (#Transform & {
 		"tfo":                       20
 	}
 
-	inputs: [string]: #K3DMachineInput
 	inputs: {
 		// global is the global control plane, used by all machines.
 		global: {
@@ -74,8 +74,8 @@ env: (#Transform & {
 
 bootstrap: (#Transform & {
 	transformer: #TransformEnvToBootstrapMachine
-
 	inputs: [string]: #EnvInput
+
 	inputs: {
 		for _env_name, _env in env {
 			"\(_env_name)": {
@@ -89,8 +89,8 @@ bootstrap: (#Transform & {
 
 kustomize: (#Transform & {
 	transformer: #TransformVClusterToKustomize
-
 	inputs: [string]: #VClusterInput
+
 	inputs: {
 		"control-vc0": {
 			vc_machine: "control"
@@ -104,8 +104,8 @@ kustomize: (#Transform & {
 
 kustomize: (#Transform & {
 	transformer: #TransformVClusterToKustomize
-
 	inputs: [string]: #VClusterInput
+
 	inputs: {
 		"control-vc1": {}
 		"control-vc2": {}
@@ -116,8 +116,8 @@ kustomize: (#Transform & {
 
 kustomize: (#Transform & {
 	transformer: #TransformEnvToAnyResourceKustomizeHelm
-
 	inputs: [string]: #EnvInput
+
 	inputs: {
 		for _env_name, _env in env {
 			"\(_env_name)": {
@@ -131,8 +131,8 @@ kustomize: (#Transform & {
 
 kustomize: (#Transform & {
 	transformer: #TransformEnvToSecretStoreKustomize
-
 	inputs: [string]: #EnvInput
+
 	inputs: {
 		for _env_name, _env in env {
 			"\(_env_name)": {
