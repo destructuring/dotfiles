@@ -3,6 +3,7 @@ package c
 env: (#Transform & {
 	transformer: #TransformVClusterMachine
 
+	inputs: [string]: #VClusterMachineInput
 	inputs: {
 		"global-vc0": {
 			instance_types: []
@@ -45,6 +46,7 @@ env: (#Transform & {
 		"tfo":                       20
 	}
 
+	inputs: [string]: #EnvBootstrapInput
 	inputs: {
 		// global is the global control plane, used by all machines.
 		global: {
@@ -73,6 +75,7 @@ env: (#Transform & {
 bootstrap: (#Transform & {
 	transformer: #TransformEnvBootstrapToBootstrapMachine
 
+	inputs: [string]: #EnvBootstrapInput
 	inputs: {
 		for _env_name, _env in env {
 			"\(_env_name)": {
@@ -114,6 +117,7 @@ kustomize: (#Transform & {
 kustomize: (#Transform & {
 	transformer: #TransformEnvToAnyResource
 
+	inputs: [string]: #EnvInput
 	inputs: {
 		for _env_name, _env in env {
 			"\(_env_name)": {
@@ -128,6 +132,7 @@ kustomize: (#Transform & {
 kustomize: (#Transform & {
 	transformer: #TransformEnvToSecretStore
 
+	inputs: [string]: #EnvInput
 	inputs: {
 		for _env_name, _env in env {
 			"\(_env_name)": {

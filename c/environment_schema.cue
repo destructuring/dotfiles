@@ -192,20 +192,20 @@ import (
 	env: metadata: name: "\(type)-\(ctx.name)"
 }
 
+#VClusterMachineInput: {
+	#EnvBootstrapInput
+	instance_types: [...string]
+	parent: #K3DMachine
+}
+
 // VCluster Machine
 #TransformVClusterMachine: {
-	from: {
-		#Input
-		bootstrap: [string]: number
-		instance_types: [...string]
-		parent: #K3DMachine
-	}
-
-	to: #VClusterMachine
+	from: #VClusterMachineInput
+	to:   #VClusterMachine
 }
 
 #VClusterMachine: ctx={
-	_in: #TransformVClusterMachine.from
+	_in: #VClusterMachineInput
 
 	#Machine
 
