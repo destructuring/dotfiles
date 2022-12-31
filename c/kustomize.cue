@@ -64,6 +64,12 @@ kustomize: "demo2": #Kustomize & {
 	}
 }
 
+kustomize: "demo3": #Kustomize & {
+	resource: "demo": {
+		url: "secrets.yaml"
+	}
+}
+
 kustomize: "argo-cd": #Kustomize & {
 	namespace: "argocd"
 

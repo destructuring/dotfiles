@@ -44,7 +44,9 @@ env: (#Transform & {
 		"pod-identity-webhook":      10
 		"kyverno":                   10
 		"external-secrets-operator": 10
-		"tfo":                       30
+		//           secret store is 20
+		"tfo":   30
+		"demo3": 30
 	}
 
 	inputs: [N=string]: {

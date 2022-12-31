@@ -15,7 +15,7 @@ release:
 
 version ver:
 	echo -n $(shell basename $(shell pwd))-$(version) > VERSION
-	if test -f VENDOR; then echo -n $(version) > VENDOR; fi 
+	if test -f VENDOR; then echo -n $(version) > VENDOR; fi
 
 cache-input:
 	nix flake archive --json | jq -r '.path,(.inputs|to_entries[].value.path)' | xargs nix copy --to 'file:///tmp/cache/nix?compression-level=0&parallel-compression=true'
