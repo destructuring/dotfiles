@@ -10,5 +10,5 @@ spec:
           mountPath: vcluster-global-vc0
           role: external-secrets
       path: kv
-      server: http://100.107.114.21:8200
+      server: http://100.90.37.83:8200
       version: v2
