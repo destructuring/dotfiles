@@ -36,10 +36,20 @@ metadata:
 spec:
   containers:
   - args:
-    - sleep infinity
+    - sudo apt update; sudo apt install -y awscli; aws sts get-caller-identity | sudo
+      tee /mnt/hello.txt; sleep infinity
     command:
     - bash
     - -c
     image: ghcr.io/defn/dev:latest-nix-installed
     name: hello
+    volumeMounts:
+    - mountPath: /mnt/hello
+      name: hello
+      readOnly: true
   serviceAccountName: hello
+  volumes:
+  - name: hello
+    secret:
+      optional: false
+      secretName: hello

@@ -46,7 +46,7 @@ import (
 			kind:       "ClusterSecretStore"
 			metadata: name: "external-secrets"
 			spec: provider: vault: {
-				server:  "http://100.90.37.83:8200"
+				server:  "http://100.111.175.39:8200"
 				path:    "kv"
 				version: "v2"
 				auth: kubernetes: {

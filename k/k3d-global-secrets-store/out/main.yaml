@@ -10,5 +10,5 @@ spec:
           mountPath: k3d-global
           role: external-secrets
       path: kv
-      server: http://100.90.37.83:8200
+      server: http://100.111.175.39:8200
       version: v2
