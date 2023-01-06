@@ -35,6 +35,8 @@
             name="$GIT_AUTHOR_NAME-${nme}"
             host=k3d-$name.${config.${"ts-domain"}}
 
+            export VAULT_ADDR=http://host.docker.internal:8200
+
             case "''${1:-}" in
               build)
                 earthly +k3d
