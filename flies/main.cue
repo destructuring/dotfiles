@@ -60,6 +60,18 @@ fly: wh: {
 	}]
 }
 
+fly: wx: {
+	fly_ip:           false
+	fly_machine_name: "defn5"
+	fly_services: []
+}
+
+fly: wwwwww: {
+	fly_ip:           false
+	fly_machine_name: "defn6"
+	fly_services: []
+}
+
 fly: so: {
 	fly_ip:           false
 	fly_machine_name: "defn3"

@@ -1,0 +1,26 @@
+VERSION --shell-out-anywhere --use-chmod --use-host-command --earthly-version-arg --use-copy-link --use-registry-for-with-docker 0.6
+
+IMPORT github.com/defn/dev:0.0.71
+
+validate:
+    LOCALLY
+    RUN --no-cache ./nix-validate
+
+ci:
+    FROM +build
+    RUN --no-cache /entrypoint nix-validate
+
+image:
+    ARG image
+    FROM +build
+    SAVE IMAGE --push ${image}
+
+nix:
+    DO dev+NIX_DIRENV
+    SAVE ARTIFACT /store store
+    SAVE ARTIFACT /app app
+
+build:
+    FROM ghcr.io/defn/dev:latest-nix-empty
+    COPY +nix/store /nix/store
+    COPY +nix/app /app

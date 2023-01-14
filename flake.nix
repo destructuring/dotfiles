@@ -21,6 +21,8 @@
         "so"
         "the"
         "wh"
+        "wx"
+        "wwwwww"
         "flakes"
         "defn"
       ];
