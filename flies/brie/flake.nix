@@ -1,6 +1,6 @@
 {
   inputs = {
-    dev.url = github:defn/pkg/dev-0.0.21?dir=dev;
+    dev.url = github:defn/pkg/dev-0.0.22?dir=dev;
     tired-proxy.url = github:defn/pkg/tired-proxy-0.0.4?dir=tired-proxy;
     moria.url = github:defn/pkg/moria-0.0.1?dir=moria;
   };
@@ -24,10 +24,11 @@
           cp nix-* $out/bin/
         '';
 
-        propagatedBuildInputs = with pkgs; [
+        propagatedBuildInputs = [
           inputs.tired-proxy.defaultPackage.${system}
           inputs.moria.defaultPackage.${system}
-          curl
+          pkgs.bashInteractive
+          pkgs.curl
         ];
       };
     };

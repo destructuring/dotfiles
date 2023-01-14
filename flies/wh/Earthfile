@@ -1,11 +1,5 @@
 VERSION --shell-out-anywhere --use-chmod --use-host-command --earthly-version-arg --use-copy-link --use-registry-for-with-docker 0.6
 
-# Earthly builds and pushes Docker images with nix flakes on top of Ubuntu (Tilt
-# uses Earthly to build and deploy images).  Fly apps and machines build on top
-# of these images.  The flakes are defined at https://github.com/defn/pkg.
-# Images are tested in GitHub Actions.
-
-# My library of Earthly build targets
 IMPORT github.com/defn/dev:0.0.71
 
 validate:

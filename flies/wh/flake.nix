@@ -1,6 +1,6 @@
 {
   inputs = {
-    dev.url = github:defn/pkg/dev-0.0.21?dir=dev;
+    dev.url = github:defn/pkg/dev-0.0.22?dir=dev;
     tired-proxy.url = github:defn/pkg/tired-proxy-0.0.4?dir=tired-proxy;
     caddy.url = github:defn/pkg/caddy-2.6.2-5?dir=caddy;
     webhook.url = github:defn/pkg/webhook-2.8.0?dir=webhook;
@@ -26,14 +26,14 @@
           cp bin/* $out/bin/
         '';
 
-        propagatedBuildInputs = with pkgs; [
+        propagatedBuildInputs = [
           inputs.tired-proxy.defaultPackage.${system}
           inputs.caddy.defaultPackage.${system}
           inputs.webhook.defaultPackage.${system}
-          bashInteractive
-          curl
-          git
-          jq
+          pkgs.bashInteractive
+          pkgs.curl
+          pkgs.git
+          pkgs.jq
         ];
       };
 

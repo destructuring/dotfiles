@@ -1,6 +1,6 @@
 {
   inputs = {
-    dev.url = github:defn/pkg/dev-0.0.19?dir=dev;
+    dev.url = github:defn/pkg/dev-0.0.22?dir=dev;
     kubectl.url = github:defn/pkg/kubectl-1.25.5-0?dir=kubectl;
     kustomize.url = github:defn/pkg/kustomize-4.5.7-3?dir=kustomize;
     helm.url = github:defn/pkg/helm-3.10.2-3?dir=helm;
@@ -8,8 +8,6 @@
     flyctl.url = github:defn/pkg/flyctl-0.0.450-0?dir=flyctl;
   };
 
-  # main is nix sugar to cleanly confgure inputs, project config, and how to
-  # handle shells/builds
   outputs = inputs: inputs.dev.main rec {
     inherit inputs;
 
@@ -25,8 +23,6 @@
         "wh"
         "flakes"
         "defn"
-        "defn-dev-demo"
-        "nomad-48530"
       ];
     };
 
@@ -42,10 +38,13 @@
           set -exfu
 
           case "''${1:-}" in
-            deploy)
+            build)
               cd ./$(git rev-parse --show-cdup)/flies/${name}
               time earthly --push --no-output +image --image=registry.fly.io/${name}:latest
               docker pull registry.fly.io/${name}:latest
+              ;;
+            deploy)
+              cd ./$(git rev-parse --show-cdup)/flies/${name}
               flyctl machine update -a ${name} --yes --dockerfile Dockerfile $(flyctl machine list -a ${name} --json | jq -r '.[].id')
               ;;
             *)
