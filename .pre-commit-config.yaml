@@ -3,11 +3,11 @@ repos:
     rev: v4.3.0
     hooks:
       - id: trailing-whitespace
-        exclude: ^(provider|cdktf.out|.local)/|\.lock|charts|/out/
+        exclude: ^(provider|cdktf.out|.local)/|\.lock|charts|/out/|tf.json
       - id: end-of-file-fixer
-        exclude: ^(provider|cdktf.out|.local)/|\.lock|charts|/out/|main.tf.json
+        exclude: ^(provider|cdktf.out|.local)/|\.lock|charts|/out/|main.tf.json|VERSION|VENDOR|SLUG
       - id: check-json
-        exclude: ^(provider|cdktf.out|.local)/|/out/
+        exclude: ^(provider|cdktf.out|.local)/|/out/|gh.json
       - id: check-yaml
         args: [--allow-multiple-documents, --unsafe]
         exclude: ^(provider|cdktf.out|.local)/|charts|/out/
@@ -19,4 +19,4 @@ repos:
     rev: v2.7.1
     hooks:
       - id: prettier
-        exclude: ^(provider|cdktf.out|.local)/|charts|/out/|main.tf.json|^k/
+        exclude: ^(provider|cdktf.out|.local)/|charts|/out/|main.tf.json|^k/|gh.json

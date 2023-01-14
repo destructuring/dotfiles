@@ -1,0 +1,9 @@
+http://*:8001 {
+	log
+	root * /cache/nix
+	file_server
+
+	handle /hooks/* {
+		reverse_proxy http://localhost:9000
+	}
+}

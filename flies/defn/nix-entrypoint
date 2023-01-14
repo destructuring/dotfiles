@@ -1,0 +1,99 @@
+#!/usr/bin/env bash
+
+set -efu
+
+function persist {
+    set +x
+    local s="$1"; shift
+    local d="$1"; shift
+
+    if test -d "$d"; then
+        rm -rf "$d"
+    fi
+
+    mkdir -p "$s"
+    mkdir -p "$(dirname "$d")"
+    ln -nfs "$s" "$d"
+    set -x
+}
+
+function main {
+  if [[ "$#" -gt 0 ]]; then
+      exec "$@"
+  fi
+
+  set -x
+
+  # go home, starting workdir is /app
+  cd
+
+  # make sure /nix exists, create work symlink
+  sudo install -d -m 0755 -o ubuntu -g ubuntu /nix/work
+  sudo ln -nfs /nix/work /work
+  ln -nfs /work .
+
+  # get the latest code
+  if test -d .git/.; then
+    git pull
+  else
+    git clone --depth 1 https://github.com/defn/dev
+    mv dev/.git .
+    rm -rf dev
+    git reset --hard
+  fi
+
+  # setup caches
+  bash -x bin/persist-cache
+
+  # caching mounts in terms of /nix because fly allows one volume, nix requires a real volume
+  mkdir -p /nix/work/node_modules ~/node_modules
+  sudo mount --bind /nix/work/node_modules ~/node_modules
+
+  # source config
+  set +x
+  eval "$(direnv hook bash)"
+  direnv allow
+  _direnv_hook
+  source .bash_profile
+  set -x
+
+  # instantiate the home flake
+  make nix || (make nix-reinstall nix)
+
+  # start code-server
+  nix run .#codeserver -- --bind-addr "[::]:8888" --disable-telemetry &
+
+  # wait until code-server is up before caddy starts serving
+  while [[ "302" != "$(curl -sS -o /dev/null -w "%{http_code}" --connect-timeout 1 -m 1 http://localhost:8888 2>/dev/null)" ]]; do sleep 1; done
+
+  # start caddy
+  sudo "$(which caddy)" run &
+
+  # 5 minute idle
+  local idle=1
+
+  # special files:
+  # heartbeat is updated by code-server
+  # idle file means something thinks the user is idle
+  local live_file='heartbeat'
+  local idle_file='idle'
+
+  # watch the heartbeat and exit gracefully, usually if user closes the browser tab
+  cd ~ubuntu/.local/share/code-server
+  touch "$live_file"
+  rm -f "$idle_file"
+
+  set +x
+  while true; do
+    find "$live_file" -type f -mmin +$idle -exec touch '{}' "$idle_file" \;
+    if test -f "$idle_file"; then
+      set -x
+      rm -rf "$idle_file"
+      exit 0
+    fi
+    # short sleep to respond quicker to an explicit shutdown
+    sleep 5
+  done
+}
+
+main "$@"

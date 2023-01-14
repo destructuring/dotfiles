@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+function main {
+    if [[ "$#" -gt 0 ]]; then
+        exec "$@"
+    fi
+
+    set -exfu
+
+    moria &
+
+    while [[ "000" == "$(curl -sS -o /dev/null -w "%{http_code}" --connect-timeout 1 -m 1 http://localhost:8001)" ]]; do sleep 1; done
+
+    # then run tired-proxy
+    exec tired-proxy --host http://localhost:8001 --port 8000 --time 60
+}
+
+main "$@"
