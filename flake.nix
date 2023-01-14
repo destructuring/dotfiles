@@ -5,7 +5,7 @@
     kustomize.url = github:defn/pkg/kustomize-4.5.7-3?dir=kustomize;
     helm.url = github:defn/pkg/helm-3.10.2-3?dir=helm;
     terraform.url = github:defn/pkg/terraform-1.3.6-4?dir=terraform;
-    flyctl.url = github:defn/pkg/flyctl-0.0.441-2?dir=flyctl;
+    flyctl.url = github:defn/pkg/flyctl-0.0.450-0?dir=flyctl;
   };
 
   # main is nix sugar to cleanly confgure inputs, project config, and how to
