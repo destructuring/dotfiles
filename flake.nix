@@ -28,6 +28,10 @@
 
     # get a dev shell and default package
     handler = { pkgs, wrap, system, builders }: rec {
+      devShell = wrap.devShell {
+        devInputs = wrap.flakeInputs;
+      };
+
       defaultPackage = wrap.nullBuilder {
         propagatedBuildInputs = map (name: packages.${name}) config.flies;
       };
