@@ -109,7 +109,7 @@ terraform: {
 	fly_env: [string]: string
 	fly_services: [...]
 	fly_mount:     string | *"/mnt"
-	fly_encrypted: bool | *true
+	fly_encrypted: bool | *false
 	fly_cpus:      int | *1
 	fly_memorymb:  int | *256
 
