@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 
 function main {
+    mkdir -p ~/.aws
     ln -nfs ../.password-store/defn/aws/aws-config.txt ~/.aws/config
-
-    ln -nfs ../.dotfiles/etc/authorized_keys ~/.ssh/
-
+    
     if ! test -d ~/.local/share/code-server/extensions/vscode-cue/.git; then
         git clone https://github.com/cue-sh/vscode-cue ~/.local/share/code-server/extensions/vscode-cue
     fi
