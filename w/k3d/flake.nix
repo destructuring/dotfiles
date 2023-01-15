@@ -135,6 +135,7 @@
 
             name=$1; shift
 
+            docker pull ghcr.io/defn/dev:latest-k3d
             k3d cluster delete $name || true
 
             for a in tailscale irsa; do
