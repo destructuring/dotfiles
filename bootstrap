@@ -9,7 +9,7 @@ function main {
     fi
 
     for a in vscodevim.vim matthewpi.caddyfile-support tamasfe.even-better-toml jnoortheen.nix-ide runem.lit-plugin svelte.svelte-vscode hashicorp.terraform golang.Go; do
-        case "${VSCODE_GIT_ASKPASS_NODE:-}" in
+        case "${VSCODE_GIT_ASKPASS_MAIN:-}" in
             */code-server*)
                 code-server --install-extension "$a"
                 ;;
