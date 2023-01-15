@@ -96,7 +96,7 @@
             name=$1; shift
 
             export DOCKER_CONTEXT=host
-            export DEFN_DEV_NAME=$name 
+            export DEFN_DEV_NAME=$name
             export DEFN_DEV_HOST=k3d-$name
             export DEFN_DEV_HOST_IP="127.0.0.1"
 
@@ -111,19 +111,19 @@
               *)
                 kubectl config set-context k3d-$nme --cluster=k3d-$name --user=admin@k3d-$name
                 ;;
-            esac 
-            perl -pe 's{(https://'$DEFN_DEV_HOST_API'):\d+}{$1:6443}' -i ~/.kube/config  
+            esac
+            perl -pe 's{(https://'$DEFN_DEV_HOST_API'):\d+}{$1:6443}' -i ~/.kube/config
 
             $nme vault-init
             $nme vault-config
-            
+
             if test -f ~/.dotfiles/e/k3d-$nme.yaml; then
               kubectl config use-context k3d-global
               while ! argocd --core app list 2>/dev/null; do date; sleep 5; done
               argocd cluster add --core --yes --upsert k3d-$nme
-  
+
               kubectl --context k3d-global apply -f ~/.dotfiles/e/k3d-$nme.yaml
-              while ! app wait argocd/k3d-$nme --timeout 30; do 
+              while ! app wait argocd/k3d-$nme --timeout 30; do
                 app sync argocd/k3d-$nme || true
                 sleep 1
               done
@@ -158,7 +158,7 @@
                   -v $name-manifest:/var/lib/rancher/k3s/server/manifests \
                   ubuntu bash -c 'touch /var/lib/rancher/k3s/server/manifests/nothing.yaml'
                 ;;
-            esac 
+            esac
 
             k3d cluster create $name \
               --config k3d.yaml \

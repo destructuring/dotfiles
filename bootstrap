@@ -3,7 +3,7 @@
 function main {
     mkdir -p ~/.aws
     ln -nfs ../.password-store/defn/aws/aws-config.txt ~/.aws/config
-    
+
     if ! test -d ~/.local/share/code-server/extensions/vscode-cue/.git; then
         git clone https://github.com/cue-sh/vscode-cue ~/.local/share/code-server/extensions/vscode-cue
     fi
