@@ -3,14 +3,20 @@ VERSION --shell-out-anywhere --use-chmod --use-host-command --earthly-version-ar
 IMPORT github.com/defn/pkg:0.0.100
 
 build-k3d:
-    ARG image
-    BUILD --platform=linux/amd64 +k3d --image=${image}
-    BUILD --platform=linux/arm64 +k3d --image=${image}
-
-k3d:
     ARG K3S=1.24.9-k3s2
     ARG image=ghcr.io/defn/dev:latest-k3d
-    ARG arch
+    BUILD --platform=linux/amd64 +image-k3d --image=${image} --K3S=${K3S}
+    BUILD --platform=linux/arm64 +image-k3d --image=${image} --K3S=${K3S}
+
+image-k3d:
+    ARG K3S
+    ARG image
+
+    BUILD +k3d --K3S=${K3S}
+    SAVE IMAGE --push ${image}
+
+k3d:
+    ARG K3S
 
     FROM rancher/k3s:v${K3S}
 
@@ -61,8 +67,6 @@ k3d:
 
     USER root
     WORKDIR /
-
-    SAVE IMAGE --push ${image}
 
 nix:
     FROM pkg+root
