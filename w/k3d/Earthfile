@@ -2,9 +2,14 @@ VERSION --shell-out-anywhere --use-chmod --use-host-command --earthly-version-ar
 
 IMPORT github.com/defn/pkg:0.0.100
 
-build-k3d:
+build:
     ARG K3S=1.24.9-k3s2
     ARG image=ghcr.io/defn/dev:latest-k3d
+    BUILD +build-k3d --image=${image} --K3S=${K3S}
+
+build-k3d:
+    ARG K3S
+    ARG image
     BUILD --platform=linux/amd64 +image-k3d --image=${image} --K3S=${K3S}
     BUILD --platform=linux/arm64 +image-k3d --image=${image} --K3S=${K3S}
 
@@ -12,7 +17,7 @@ image-k3d:
     ARG K3S
     ARG image
 
-    BUILD +k3d --K3S=${K3S}
+    FROM +k3d --K3S=${K3S}
     SAVE IMAGE --push ${image}
 
 k3d:
