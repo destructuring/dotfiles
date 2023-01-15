@@ -8,7 +8,7 @@ build-k3d:
     BUILD --platform=linux/arm64 +k3d --image=${image}
 
 k3d:
-    ARG K3S=1.24.9-k3s1
+    ARG K3S=1.24.9-k3s2
     ARG image=ghcr.io/defn/dev:latest-k3d
     ARG arch
 
@@ -62,9 +62,7 @@ k3d:
     USER root
     WORKDIR /
 
-    IF [ "$image" != "" ]
-        SAVE IMAGE --push ${image}
-    END
+    SAVE IMAGE --push ${image}
 
 nix:
     FROM pkg+root
