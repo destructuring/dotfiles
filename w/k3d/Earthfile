@@ -1,7 +1,7 @@
 VERSION --use-registry-for-with-docker --ci-arg 0.7
 
 build:
-    ARG K3S=1.24.10-k3s2
+    ARG K3S=1.24.10-k3s1
     ARG image=ghcr.io/defn/dev:latest-k3d
     BUILD +build-k3d --image=${image} --K3S=${K3S}
 
