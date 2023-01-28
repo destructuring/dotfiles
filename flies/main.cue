@@ -38,12 +38,6 @@ fly: brie: {
 	}]
 }
 
-fly: flakes: {
-	fly_ip:           false
-	fly_machine_name: "flakes-1"
-	fly_services: []
-}
-
 fly: wh: {
 	fly_ip:           true
 	fly_machine_name: "defn2"
@@ -63,12 +57,6 @@ fly: wh: {
 fly: wx: {
 	fly_ip:           false
 	fly_machine_name: "defn5"
-	fly_services: []
-}
-
-fly: wwwwww: {
-	fly_ip:           false
-	fly_machine_name: "defn6"
 	fly_services: []
 }
 

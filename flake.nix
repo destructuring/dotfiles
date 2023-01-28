@@ -22,8 +22,6 @@
         "the"
         "wh"
         "wx"
-        "wwwwww"
-        "flakes"
         "defn"
       ];
     };
