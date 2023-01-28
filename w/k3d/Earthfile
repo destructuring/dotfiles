@@ -50,14 +50,18 @@ k3d:
         && (echo export USER=ubuntu; echo export HOME=/home/ubuntu; echo export PATH="/bin:/usr/bin"; echo . /home/ubuntu/.nix-profile/etc/profile.d/nix.sh) > /home/ubuntu/.profile
 
     RUN . /home/ubuntu/.profile \
-        && for a in bashInteractive git gnumake nix-direnv direnv; do nix profile install nixpkgs#$a || true; done \
-        && nix profile install github:defn/pkg/tailscale-1.36.0-0?dir=tailscale
+        && for a in bashInteractive; do nix profile install nixpkgs#$a; done
 
     USER root
     RUN ln -nfs $(ls -trhd /nix/store/*bash-interactive*/bin/bash | head -1) /bin/bash
     RUN sed 's#/bin/sh#/bin/bash#' -i /etc/passwd
 
     USER ubuntu
+
+    RUN . /home/ubuntu/.profile \
+        && for a in git gnumake; do nix profile install nixpkgs#$a; done \
+        && nix profile install github:defn/pkg/tailscale-1.36.0-0?dir=tailscale
+
     RUN . /home/ubuntu/.profile \
         && git clone https://github.com/defn/dev dev \
         && mv dev/.git . \
