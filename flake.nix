@@ -1,6 +1,6 @@
 {
   inputs = {
-    dev.url = github:defn/pkg/dev-0.0.22?dir=dev;
+    dev.url = github:defn/pkg/dev-0.0.23-rc5?dir=dev;
     kubectl.url = github:defn/pkg/kubectl-1.25.6-0?dir=kubectl;
     kustomize.url = github:defn/pkg/kustomize-4.5.7-3?dir=kustomize;
     helm.url = github:defn/pkg/helm-3.10.2-3?dir=helm;
@@ -11,11 +11,9 @@
   outputs = inputs: inputs.dev.main rec {
     inherit inputs;
 
-    src = builtins.path { path = ./.; name = config.slug; };
+    src = builtins.path { path = ./.; name = builtins.readFile ./SLUG; };
 
     config = rec {
-      slug = builtins.readFile ./SLUG;
-      version = builtins.readFile ./VERSION;
       flies = [
         "brie"
         "so"
@@ -27,13 +25,13 @@
     };
 
     # get a dev shell and default package
-    handler = { pkgs, wrap, system, builders }: rec {
+    handler = { pkgs, wrap, system, builders, commands }: rec {
       devShell = wrap.devShell {
-        devInputs = wrap.flakeInputs;
+        devInputs = [ defaultPackage ];
       };
 
       defaultPackage = wrap.nullBuilder {
-        propagatedBuildInputs = map (name: packages.${name}) config.flies;
+        propagatedBuildInputs = wrap.flakeInputs ++ commands ++ (map (name: packages.${name}) config.flies);
       };
 
       # scripts
