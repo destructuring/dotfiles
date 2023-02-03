@@ -1,6 +1,6 @@
 {
   inputs = {
-    dev.url = github:defn/pkg/dev-0.0.23-rc5?dir=dev;
+    dev.url = github:defn/pkg/dev-0.0.23-rc9?dir=dev;
     k3d.url = github:defn/pkg/k3d-5.4.6-3?dir=k3d;
     kubectl.url = github:defn/pkg/kubectl-1.25.6-0?dir=kubectl;
     kustomize.url = github:defn/pkg/kustomize-4.5.7-3?dir=kustomize;
@@ -24,7 +24,7 @@
         };
       };
 
-      handler = { pkgs, wrap, system, builders, commands }: rec {
+      handler = { pkgs, wrap, system, builders, commands, config }: rec {
         devShell = wrap.devShell {
           devInputs = [ defaultPackage ];
         };
