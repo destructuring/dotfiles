@@ -3,7 +3,7 @@
     dev.url = github:defn/pkg/dev-0.0.23-rc9?dir=dev;
     vault.url = github:defn/pkg/vault-1.12.2-4?dir=vault;
     k3d.url = github:defn/pkg/k3d-5.4.7-0?dir=k3d;
-    kubernetes.url = github:defn/pkg/kubernetes-0.0.2?dir=kubernetes;
+    kubernetes.url = github:defn/pkg/kubernetes-0.0.4?dir=kubernetes;
   };
 
   outputs = inputs: inputs.dev.main rec {
