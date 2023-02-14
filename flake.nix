@@ -1,11 +1,9 @@
 {
   inputs = {
-    dev.url = github:defn/pkg/dev-0.0.23-rc5?dir=dev;
-    kubectl.url = github:defn/pkg/kubectl-1.25.6-0?dir=kubectl;
-    kustomize.url = github:defn/pkg/kustomize-4.5.7-3?dir=kustomize;
-    helm.url = github:defn/pkg/helm-3.10.2-3?dir=helm;
-    terraform.url = github:defn/pkg/terraform-1.3.6-4?dir=terraform;
-    flyctl.url = github:defn/pkg/flyctl-0.0.450-1?dir=flyctl;
+    dev.url = github:defn/pkg/dev-0.0.23?dir=dev;
+    terraform.url = github:defn/pkg/terraform-1.3.8-0?dir=terraform;
+    kubernetes.url = github:defn/pkg/kubernetes-0.0.6?dir=kubernetes;
+    cloud.url = github:defn/pkg/cloud-0.0.1?dir=cloud;
   };
 
   outputs = inputs: inputs.dev.main rec {
@@ -25,7 +23,7 @@
     };
 
     # get a dev shell and default package
-    handler = { pkgs, wrap, system, builders, commands }: rec {
+    handler = { pkgs, wrap, system, builders, commands, config }: rec {
       devShell = wrap.devShell {
         devInputs = [ defaultPackage ];
       };
