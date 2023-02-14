@@ -43,7 +43,7 @@ fly: wh: {
 	fly_machine_name: "defn2"
 	fly_mount:     "/cache"
 	fly_data_size: 10
-	fly_memorymb:  2048
+	fly_memorymb:  4096
 	fly_services: [{
 		protocol:      "tcp"
 		internal_port: 8000

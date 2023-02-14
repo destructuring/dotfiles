@@ -21,7 +21,7 @@ function main {
     while [[ "000" == "$(curl -sS -o /dev/null -w "%{http_code}" --connect-timeout 1 -m 1 http://localhost:9000)" ]]; do sleep 1; done
 
     # then run tired-proxy
-    exec tired-proxy --host http://localhost:8001 --port 8000 --time 600
+    exec tired-proxy --host http://localhost:8001 --port 8000 --time 300
 }
 
 main "$@"
