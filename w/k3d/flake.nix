@@ -42,7 +42,7 @@
         ++ (ctx.pkgs.lib.mapAttrsToList (name: value: (packages ctx).${name}) config.clusters);
     };
 
-    packages = ctx: ctx.pkgs.lib.mapAttrs
+    packages = ctx: (ctx.pkgs.lib.mapAttrs
       (nme: value: ctx.pkgs.writeShellScriptBin nme ''
         set -efu
 
@@ -102,7 +102,8 @@
             ;;
         esac
       '')
-      config.clusters;
+      config.clusters
+    );
 
     scripts = { system }: {
       k3d-provision = ''
