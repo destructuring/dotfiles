@@ -1,15 +1,13 @@
 {
   inputs = {
-    dev.url = github:defn/pkg/dev-0.0.23-rc9?dir=dev;
-    vault.url = github:defn/pkg/vault-1.12.2-4?dir=vault;
-    k3d.url = github:defn/pkg/k3d-5.4.7-0?dir=k3d;
-    kubernetes.url = github:defn/pkg/kubernetes-0.0.4?dir=kubernetes;
+    pkg.url = github:defn/pkg/0.0.165;
+    vault.url = github:defn/pkg/vault-1.12.3-2?dir=vault;
+    kubernetes.url = github:defn/pkg/kubernetes-0.0.7?dir=kubernetes;
+    k3d.url = github:defn/pkg/k3d-5.4.7-2?dir=k3d;
   };
 
-  outputs = inputs: inputs.dev.main rec {
-    inherit inputs;
-
-    src = builtins.path { path = ./.; name = builtins.readFile ./SLUG; };
+  outputs = inputs: inputs.pkg.main rec {
+    src = ./.;
 
     config = rec {
       ts-domain = "tail3884f.ts.net";
@@ -20,84 +18,94 @@
       };
     };
 
-    handler = { pkgs, wrap, system, builders, commands, config }: rec {
-      devShell = wrap.devShell {
-        devInputs = [ defaultPackage ];
-      };
-
-      defaultPackage = wrap.nullBuilder {
-        propagatedBuildInputs = with pkgs;
-          [ skopeo gron ]
-          ++ wrap.flakeInputs
-          ++ commands
-          ++ (pkgs.lib.mapAttrsToList (name: value: packages.${name}) config.clusters);
-      };
-
-      packages = pkgs.lib.mapAttrs
-        (nme: value: pkgs.writeShellScriptBin nme ''
-          set -efu
-
-          name="$GIT_AUTHOR_NAME-${nme}"
-          host=k3d-$name.${config.${"ts-domain"}}
-
-          export VAULT_ADDR=http://host.docker.internal:8200
-
-          case "''${1:-}" in
-            build)
-              earthly +k3d
-              ;;
-            create)
-              export DEFN_DEV_HOST_API="$(host $host | grep 'has address' | awk '{print $NF}')"
-              this-k3d-provision ${nme} $name
-              ;;
-            ssh)
-              ssh $host
-              ;;
-            stop)
-              k3d cluster stop $name
-              ;;
-            start)
-              k3d cluster start $name
-              ;;
-            "")
-              k3d cluster list $name
-              ;;
-            cache)
-              (this-k3d-list-images ${nme}; ssh root@$host /bin/ctr -n k8s.io images list  | awk '{print $1}' | grep -v sha256 | grep -v ^REF) | sort -u | this-k3d-save-images
-              ;;
-            use)
-              kubectl config use-context k3d-${nme}
-              ;;
-            server)
-              kubectl --context k3d-${nme} config view -o jsonpath='{.clusters[?(@.name == "k3d-'$name'")]}' --raw | jq -r '.cluster.server'
-              ;;
-            ca)
-              kubectl --context k3d-${nme} config view -o jsonpath='{.clusters[?(@.name == "k3d-'$name'")]}' --raw | jq -r '.cluster["certificate-authority-data"] | @base64d'
-              ;;
-            vault-init)
-              vault write sys/policy/k3d-${nme}-external-secrets policy=@policy-external-secrets.hcl
-              vault auth enable -path "k3d-${nme}" kubernetes || true
-              ;;
-            vault-config)
-              vault write "auth/k3d-${nme}/config" \
-                kubernetes_host="$(${nme} server)" \
-                kubernetes_ca_cert=@<(${nme} ca) \
-                disable_local_ca_jwt=true
-              vault write "auth/k3d-${nme}/role/external-secrets" \
-                bound_service_account_names=external-secrets \
-                bound_service_account_namespaces=external-secrets \
-                policies=k3d-${nme}-external-secrets ttl=1h
-              ;;
-            *)
-              kubectl --context k3d-${nme} "$@"
-              ;;
-          esac
-        '')
-        config.clusters;
+    devShell = ctx: ctx.wrap.devShell {
+      devInputs = [
+        (defaultPackage ctx)
+      ];
     };
 
+    defaultPackage = ctx: ctx.wrap.nullBuilder {
+      propagatedBuildInputs =
+        let
+          flakeInputs = [
+            inputs.vault.defaultPackage.${ctx.system}
+            inputs.k3d.defaultPackage.${ctx.system}
+            inputs.kubernetes.defaultPackage.${ctx.system}
+          ];
+        in
+        flakeInputs
+        ++ ctx.commands
+        ++ (with ctx.pkgs; [
+          skopeo
+          gron
+        ])
+        ++ (ctx.pkgs.lib.mapAttrsToList (name: value: (packages ctx).${name}) config.clusters);
+    };
+
+    packages = ctx: ctx.pkgs.lib.mapAttrs
+      (nme: value: ctx.pkgs.writeShellScriptBin nme ''
+        set -efu
+
+        name="$GIT_AUTHOR_NAME-${nme}"
+        host=k3d-$name.${config.${"ts-domain"}}
+
+        export VAULT_ADDR=http://host.docker.internal:8200
+
+        case "''${1:-}" in
+          build)
+            earthly +k3d
+            ;;
+          create)
+            export DEFN_DEV_HOST_API="$(host $host | grep 'has address' | awk '{print $NF}')"
+            this-k3d-provision ${nme} $name
+            ;;
+          ssh)
+            ssh $host
+            ;;
+          stop)
+            k3d cluster stop $name
+            ;;
+          start)
+            k3d cluster start $name
+            ;;
+          "")
+            k3d cluster list $name
+            ;;
+          cache)
+            (this-k3d-list-images ${nme}; ssh root@$host /bin/ctr -n k8s.io images list  | awk '{print $1}' | grep -v sha256 | grep -v ^REF) | sort -u | this-k3d-save-images
+            ;;
+          use)
+            kubectl config use-context k3d-${nme}
+            ;;
+          server)
+            kubectl --context k3d-${nme} config view -o jsonpath='{.clusters[?(@.name == "k3d-'$name'")]}' --raw | jq -r '.cluster.server'
+            ;;
+          ca)
+            kubectl --context k3d-${nme} config view -o jsonpath='{.clusters[?(@.name == "k3d-'$name'")]}' --raw | jq -r '.cluster["certificate-authority-data"] | @base64d'
+            ;;
+          vault-init)
+            vault write sys/policy/k3d-${nme}-external-secrets policy=@policy-external-secrets.hcl
+            vault auth enable -path "k3d-${nme}" kubernetes || true
+            ;;
+          vault-config)
+            vault write "auth/k3d-${nme}/config" \
+              kubernetes_host="$(${nme} server)" \
+              kubernetes_ca_cert=@<(${nme} ca) \
+              disable_local_ca_jwt=true
+            vault write "auth/k3d-${nme}/role/external-secrets" \
+              bound_service_account_names=external-secrets \
+              bound_service_account_namespaces=external-secrets \
+              policies=k3d-${nme}-external-secrets ttl=1h
+            ;;
+          *)
+            kubectl --context k3d-${nme} "$@"
+            ;;
+        esac
+      '')
+      config.clusters;
+
     scripts = { system }: {
-      "k3d-provision" = ''
+      k3d-provision = ''
         set -exfu
 
         nme=$1; shift
@@ -138,7 +146,7 @@
         fi
       '';
 
-      "k3d-create" = ''
+      k3d-create = ''
         set -exfu
 
         name=$1; shift
@@ -180,11 +188,11 @@
         docker --context=host update --restart=no k3d-$name-server-0
       '';
 
-      "k3d-registry" = ''
+      k3d-registry = ''
         k3d registry create registry --port 0.0.0.0:5000
       '';
 
-      "k3d-list-images" = ''
+      k3d-list-images = ''
         set -efu
 
         name=$1; shift
@@ -192,7 +200,7 @@
         (kubectl --context k3d-$name get pods --all-namespaces -o json | gron | grep '\.image ='  | cut -d'"' -f2 | grep -v 169.254.32.1:5000/ | grep -v /defn/dev: | grep -v /workspace:latest) | sed 's#@.*##' | grep -v ^sha256 | sort -u
       '';
 
-      "k3d-save-images" = ''
+      k3d-save-images = ''
         set -exfu
 
         runmany 4 'skopeo copy docker://$1 docker://169.254.32.1:5000/''${1#*/} --multi-arch all --dest-tls-verify=false --insecure-policy'
