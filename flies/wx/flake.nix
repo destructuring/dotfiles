@@ -1,32 +1,19 @@
 {
-  inputs = {
-    dev.url = github:defn/pkg/dev-0.0.22?dir=dev;
-  };
+  inputs.pkg.url = github:defn/pkg/0.0.166;
+  outputs = inputs: inputs.pkg.main rec {
+    src = ./.;
 
-  outputs = inputs: inputs.dev.main rec {
-    inherit inputs;
+    defaultPackage = ctx: ctx.wrap.bashBuilder {
+      inherit src;
 
-    src = builtins.path { path = ./.; name = config.slug; };
+      installPhase = ''
+        mkdir -p $out/bin
+        cp nix-* $out/bin/
+      '';
 
-    config = rec {
-      slug = builtins.readFile ./SLUG;
-      version = builtins.readFile ./VERSION;
-    };
-
-    handler = { pkgs, wrap, system, builders }: rec {
-      defaultPackage = wrap.bashBuilder {
-        inherit src;
-
-        installPhase = ''
-          mkdir -p $out/bin
-          cp nix-* $out/bin/
-        '';
-
-        propagatedBuildInputs = [
-          builders.yaegi
-          pkgs.bashInteractive
-        ];
-      };
+      propagatedBuildInputs = [
+        ctx.pkgs.bashInteractive
+      ];
     };
   };
 }
