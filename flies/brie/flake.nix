@@ -17,10 +17,10 @@
       '';
 
       propagatedBuildInputs = [
-        inputs.tired-proxy.defaultPackage.${ctx.system}
-        inputs.moria.defaultPackage.${ctx.system}
         ctx.pkgs.bashInteractive
         ctx.pkgs.curl
+        inputs.tired-proxy.defaultPackage.${ctx.system}
+        inputs.moria.defaultPackage.${ctx.system}
       ];
     };
   };
