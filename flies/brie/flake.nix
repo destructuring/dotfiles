@@ -1,36 +1,27 @@
 {
   inputs = {
-    dev.url = github:defn/pkg/dev-0.0.22?dir=dev;
-    tired-proxy.url = github:defn/pkg/tired-proxy-0.0.4?dir=tired-proxy;
-    moria.url = github:defn/pkg/moria-0.0.1?dir=moria;
+    pkg.url = github:defn/pkg/0.0.166;
+    tired-proxy.url = github:defn/lib/tired-proxy-0.0.1?dir=cmd/tired-proxy;
+    moria.url = github:defn/lib/moria-0.0.1?dir=cmd/moria;
   };
 
-  outputs = inputs: inputs.dev.main rec {
-    inherit inputs;
+  outputs = inputs: inputs.pkg.main rec {
+    src = ./.;
 
-    src = builtins.path { path = ./.; name = config.slug; };
+    defaultPackage = ctx: ctx.wrap.bashBuilder {
+      inherit src;
 
-    config = rec {
-      slug = builtins.readFile ./SLUG;
-      version = builtins.readFile ./VERSION;
-    };
+      installPhase = ''
+        mkdir -p $out/bin
+        cp nix-* $out/bin/
+      '';
 
-    handler = { pkgs, wrap, system, builders }: rec {
-      defaultPackage = wrap.bashBuilder {
-        inherit src;
-
-        installPhase = ''
-          mkdir -p $out/bin
-          cp nix-* $out/bin/
-        '';
-
-        propagatedBuildInputs = [
-          inputs.tired-proxy.defaultPackage.${system}
-          inputs.moria.defaultPackage.${system}
-          pkgs.bashInteractive
-          pkgs.curl
-        ];
-      };
+      propagatedBuildInputs = [
+        inputs.tired-proxy.defaultPackage.${ctx.system}
+        inputs.moria.defaultPackage.${ctx.system}
+        ctx.pkgs.bashInteractive
+        ctx.pkgs.curl
+      ];
     };
   };
 }
