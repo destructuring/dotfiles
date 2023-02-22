@@ -1,4 +1,0 @@
-.terraform/
-main.tf.json
-.plan
-build.cue
