@@ -1,0 +1,3 @@
+Host super
+    User defn
+    Hostname host.docker.internal
