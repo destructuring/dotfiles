@@ -4,6 +4,16 @@ function main {
     mkdir -p ~/.aws
     ln -nfs ../.password-store/defn/aws/aws-config.txt ~/.aws/config
 
+    mkdir -p ~/.ssh
+    case "$(uname -s)" in
+        Linux)
+            ln -nfs ../.dotfiles/etc/config ~/.ssh/
+            ;;
+        Darwin)
+            ln -nfs ../.dotfiles/etc/authorized_keys ~/.ssh/
+            ;;
+    esac
+
     if ! test -d ~/.local/share/code-server/extensions/vscode-cue/.git; then
         git clone https://github.com/cue-sh/vscode-cue ~/.local/share/code-server/extensions/vscode-cue
     fi
