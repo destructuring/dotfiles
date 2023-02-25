@@ -14,10 +14,6 @@ function main {
             ;;
     esac
 
-    if ! test -d ~/.local/share/code-server/extensions/vscode-cue/.git; then
-        git clone https://github.com/cue-sh/vscode-cue ~/.local/share/code-server/extensions/vscode-cue
-    fi
-
     for a in vscodevim.vim matthewpi.caddyfile-support tamasfe.even-better-toml jnoortheen.nix-ide runem.lit-plugin svelte.svelte-vscode hashicorp.terraform golang.Go; do
         $(which code code-server | head -1) --install-extension "$a"
     done
