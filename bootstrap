@@ -14,7 +14,7 @@ function main {
             ;;
     esac
 
-    for a in vscodevim.vim matthewpi.caddyfile-support tamasfe.even-better-toml jnoortheen.nix-ide runem.lit-plugin svelte.svelte-vscode hashicorp.terraform golang.Go pbkit.vscode-pbkit; do
+    for a in vscodevim.vim matthewpi.caddyfile-support tamasfe.even-better-toml jnoortheen.nix-ide runem.lit-plugin svelte.svelte-vscode hashicorp.terraform golang.Go pbkit.vscode-pbkit csstools.postcss; do
         $(which code code-server | head -1) --install-extension "$a"
     done
 }
