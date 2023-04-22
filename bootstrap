@@ -22,6 +22,8 @@ function main {
         ; do
         $(which code code-server | head -1) --install-extension "$a"
     done
+
+     git clone https://github.com/cue-sh/vscode-cue ~/.local/share/code-server/User/extensions/vscode-cue || true
 }
 
 main "$@"
