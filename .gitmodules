@@ -1,3 +1,0 @@
-[submodule "piw/amazon-eks-pod-identity-webhook"]
-	path = piw/amazon-eks-pod-identity-webhook
-	url = https://github.com/aws/amazon-eks-pod-identity-webhook

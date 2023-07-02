@@ -1,8 +1,0 @@
-#ManagedBy: cue
-
-patchesStrategicMerge:
-  - patch-configmap-argocd-cm.yaml
-resources:
-  - resource-namespace-argocd.yaml
-  - https://raw.githubusercontent.com/argoproj/argo-cd/v2.5.0/manifests/install.yaml
-namespace: argocd

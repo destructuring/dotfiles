@@ -1,5 +1,0 @@
-#ManagedBy: cue
-
-patchesStrategicMerge: []
-resources:
-  - secrets.yaml

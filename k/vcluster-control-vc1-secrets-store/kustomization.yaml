@@ -1,5 +1,0 @@
-#ManagedBy: cue
-
-patchesStrategicMerge: []
-resources:
-  - resource-cluster-secret-store-external-secrets.yaml

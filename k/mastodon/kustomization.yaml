@@ -1,6 +1,0 @@
-#ManagedBy: cue
-
-patchesStrategicMerge: []
-resources:
-  - mastodon.yaml
-namespace: mastodon

@@ -1,26 +1,13 @@
 #!/usr/bin/env bash
 
 function main {
-    mkdir -p ~/.aws
-    ln -nfs ../.password-store/defn/aws/aws-config.txt ~/.aws/config
-
-    mkdir -p ~/.ssh
-    case "$(uname -s)" in
-        Linux)
-            ln -nfs ../.dotfiles/etc/config ~/.ssh/
-            ;;
-        Darwin)
-            ln -nfs ../.dotfiles/etc/authorized_keys ~/.ssh/
-            ;;
-    esac
-
     for a in \
         vscodevim.vim matthewpi.caddyfile-support tamasfe.even-better-toml \
         jnoortheen.nix-ide runem.lit-plugin svelte.svelte-vscode \
         hashicorp.terraform golang.Go pbkit.vscode-pbkit csstools.postcss \
         esbenp.prettier-vscode bazelbuild.vscode-bazel asdine.cue \
         ; do
-        $(which code code-server | head -1) --install-extension "$a"
+        code --install-extension "$a"
     done
 }
 

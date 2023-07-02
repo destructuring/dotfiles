@@ -1,7 +1,0 @@
-#ManagedBy: cue
-
-patchesStrategicMerge: []
-resources:
-  - hello.yaml
-  - resource-default.yaml
-namespace: default
