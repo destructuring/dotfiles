@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function main {
-    code --install-extension "$a" cuelang.cue || true
+    code --install-extension cuelang.cue || true
     for a in \
         vscodevim.vim matthewpi.caddyfile-support tamasfe.even-better-toml \
         jnoortheen.nix-ide runem.lit-plugin svelte.svelte-vscode \
