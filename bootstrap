@@ -1,11 +1,12 @@
 #!/usr/bin/env bash
 
 function main {
+    code --install-extension "$a" cuelang.cue || true
     for a in \
         vscodevim.vim matthewpi.caddyfile-support tamasfe.even-better-toml \
         jnoortheen.nix-ide runem.lit-plugin svelte.svelte-vscode \
         hashicorp.terraform golang.Go pbkit.vscode-pbkit csstools.postcss \
-        bazelbuild.vscode-bazel trunk.io cuelang.cue \
+        bazelbuild.vscode-bazel trunk.io \
         ; do
         code --install-extension "$a"
     done
