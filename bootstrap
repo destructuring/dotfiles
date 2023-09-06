@@ -1,15 +1,25 @@
 #!/usr/bin/env bash
 
 function main {
-    code --install-extension cuelang.cue || true
-    for a in \
-        vscodevim.vim matthewpi.caddyfile-support tamasfe.even-better-toml \
-        jnoortheen.nix-ide runem.lit-plugin svelte.svelte-vscode \
-        hashicorp.terraform golang.Go pbkit.vscode-pbkit csstools.postcss \
-        bazelbuild.vscode-bazel \
-        ; do
-        code --install-extension "$a"
-    done
+  mkdir -p ~/.terraform.d/plugin-cache
+
+  local exts="vscodevim.vim matthewpi.caddyfile-support tamasfe.even-better-toml jnoortheen.nix-ide svelte.svelte-vscode hashicorp.terraform golang.go esbenp.prettier-vscode bazelbuild.vscode-bazel semanticdiff.semanticdiff cuelang.cue pbkit.vscode-pbkit"
+
+  (
+    code --list-extensions
+    for a in 1 2; do for b in $exts; do echo "$b"; done; done
+  ) | tr A-Z a-z | sort | uniq -c | grep ' 2 ' | while read -r count extension; do
+    case "$(uname -s)-${extension}" in
+      Darwin-cuelang.cue)
+        true
+        ;;
+      *)
+        if $(which code code-server | head -1) --install-extension "${extension}"; then
+          true
+        fi
+        ;;
+    esac
+  done
 }
 
 main "$@"
