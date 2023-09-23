@@ -3,8 +3,7 @@
 function main {
   mkdir -p ~/.terraform.d/plugin-cache
 
-  local exts="vscodevim.vim tamasfe.even-better-toml jnoortheen.nix-ide hashicorp.terraform golang.go esbenp.prettier-vscode bazelbuild.vscode-bazel cuelang.cue pbkit.vscode-pbkit betterthantomorrow.joyride antfu.slidev vue.volar 
-ms-vscode.live-server" # betterthantomorrow.calva
+  local exts="vscodevim.vim tamasfe.even-better-toml jnoortheen.nix-ide hashicorp.terraform golang.go esbenp.prettier-vscode bazelbuild.vscode-bazel cuelang.cue pbkit.vscode-pbkit betterthantomorrow.joyride antfu.slidev vue.volar" # betterthantomorrow.calva
 
   (
     code --list-extensions
