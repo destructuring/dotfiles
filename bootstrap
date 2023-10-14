@@ -14,7 +14,7 @@ function main {
         true
         ;;
       *)
-        if $(which code code-server | head -1) --install-extension "${extension}"; then
+        if $(which code code-server | head -1) serve-local --force --install-extension "${extension}"; then
           true
         fi
         ;;
