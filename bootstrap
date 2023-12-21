@@ -3,7 +3,8 @@
 function main {
   mkdir -p ~/.terraform.d/plugin-cache
 
-  local exts="vscodevim.vim tamasfe.even-better-toml jnoortheen.nix-ide hashicorp.terraform golang.go esbenp.prettier-vscode bazelbuild.vscode-bazel cuelang.cue pbkit.vscode-pbkit marp-team.marp-vscode tailscale.vscode-tailscale geequlim.godot-tools alfish.godot-files"
+  local exts="vscodevim.vim tamasfe.even-better-toml jnoortheen.nix-ide hashicorp.terraform golang.go esbenp.prettier-vscode bazelbuild.vscode-bazel cuelang.cue pbkit.vscode-pbkit marp-team.marp-vscode tailscale.vscode-tailscale geequlim.godot-tools alfish.godot-files 
+ms-pyright.pyright"
 
   (
     code --list-extensions
