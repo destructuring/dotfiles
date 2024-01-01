@@ -3,6 +3,8 @@
 function main {
   source ~/.bash_profile
 
+  set -x
+
   mkdir -p ~/.terraform.d/plugin-cache
 
   local exts="vscodevim.vim jnoortheen.nix-ide hashicorp.terraform golang.go esbenp.prettier-vscode bazelbuild.vscode-bazel cuelang.cue pbkit.vscode-pbkit marp-team.marp-vscode tailscale.vscode-tailscale geequlim.godot-tools alfish.godot-files ms-python.python"
