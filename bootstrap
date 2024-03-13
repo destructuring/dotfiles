@@ -11,7 +11,7 @@ function main {
 
   mkdir -p ~/.gnupg
 
-  (set +f; rsync -ia ~/.dotfiles/.gnupg/* ~/.gnupg/)
+  (set +f; rsync -ia ~/dotfiles/.gnupg/* ~/.gnupg/)
 
   local exts="vscodevim.vim jnoortheen.nix-ide hashicorp.terraform golang.go esbenp.prettier-vscode bazelbuild.vscode-bazel cuelang.cue pbkit.vscode-pbkit marp-team.marp-vscode tailscale.vscode-tailscale ms-python.python rust-lang.rust-analyzer"
 
