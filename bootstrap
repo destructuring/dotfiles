@@ -16,7 +16,7 @@ function main {
   local exts="vscodevim.vim jnoortheen.nix-ide hashicorp.terraform golang.go esbenp.prettier-vscode bazelbuild.vscode-bazel cuelang.cue pbkit.vscode-pbkit marp-team.marp-vscode tailscale.vscode-tailscale ms-python.python rust-lang.rust-analyzer genieai.chatgpt-vscode kokakiwi.vscode-just"
 
   (
-    code --list-extensions
+    code-server --list-extensions
     for a in 1 2; do for b in $exts; do echo "$b"; done; done
   ) | tr A-Z a-z | sort | uniq -c | grep ' 2 ' | while read -r count extension; do
     case "$(uname -s)-${extension}" in
@@ -24,7 +24,7 @@ function main {
         true
         ;;
       *)
-        if $(which code code-server | head -1) serve-local --force --install-extension "${extension}"; then
+        if $(which code-server | head -1) serve-local --force --install-extension "${extension}"; then
           true
         fi
         ;;
