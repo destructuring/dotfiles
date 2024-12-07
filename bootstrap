@@ -13,7 +13,8 @@ function main {
 
   (set +f; rsync -ia ~/dotfiles/.gnupg/* ~/.gnupg/)
 
-  local exts="vscodevim.vim jnoortheen.nix-ide hashicorp.terraform golang.go esbenp.prettier-vscode bazelbuild.vscode-bazel cuelang.cue pbkit.vscode-pbkit marp-team.marp-vscode tailscale.vscode-tailscale ms-python.python kokakiwi.vscode-just svelte.svelte-vscode astro-build.astro-vscode"
+  local exts="vscodevim.vim jnoortheen.nix-ide hashicorp.terraform golang.go esbenp.prettier-vscode bazelbuild.vscode-bazel cuelang.cue pbkit.vscode-pbkit marp-team.marp-vscode tailscale.vscode-tailscale ms-python.python kokakiwi.vscode-just svelte.svelte-vscode astro-build.astro-vscode 
+eliostruyf.vscode-front-matter"
 
   (
     code-server --list-extensions
