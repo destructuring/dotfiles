@@ -1,36 +1,38 @@
 #!/usr/bin/env bash
 
 function main {
-  source ~/.bash_profile
+	source ~/.bash_profile
 
-  if ! test -d ~/work; then
-    (cd && bin/persist-cache)
-  fi
+	if ! test -d ~/work; then
+		(cd && bin/persist-cache)
+	fi
 
-  mkdir -p ~/.terraform.d/plugin-cache
+	mkdir -p ~/.terraform.d/plugin-cache
 
-  mkdir -p ~/.gnupg
+	mkdir -p ~/.gnupg
 
-  (set +f; rsync -ia ~/dotfiles/.gnupg/* ~/.gnupg/)
+	(
+		set +f
+		rsync -ia ~/dotfiles/.gnupg/* ~/.gnupg/
+	)
 
-  local exts="vscodevim.vim jnoortheen.nix-ide hashicorp.terraform golang.go esbenp.prettier-vscode bazelbuild.vscode-bazel cuelang.cue pbkit.vscode-pbkit marp-team.marp-vscode tailscale.vscode-tailscale ms-python.python kokakiwi.vscode-just svelte.svelte-vscode astro-build.astro-vscode 
-eliostruyf.vscode-front-matter"
+	local exts="vscodevim.vim jnoortheen.nix-ide hashicorp.terraform golang.go esbenp.prettier-vscode bazelbuild.vscode-bazel cuelang.cue pbkit.vscode-pbkit marp-team.marp-vscode tailscale.vscode-tailscale ms-python.python kokakiwi.vscode-just svelte.svelte-vscode astro-build.astro-vscode eliostruyf.vscode-front-matter unifiedjs.vscode-mdx"
 
-  (
-    code-server --list-extensions
-    for a in 1 2; do for b in $exts; do echo "$b"; done; done
-  ) | tr A-Z a-z | sort | uniq -c | grep ' 2 ' | while read -r count extension; do
-    case "$(uname -s)-${extension}" in
-      Darwin-cuelang.cue)
-        true
-        ;;
-      *)
-        if $(which code-server | head -1) serve-local --force --install-extension "${extension}"; then
-          true
-        fi
-        ;;
-    esac
-  done
+	(
+		code-server --list-extensions
+		for a in 1 2; do for b in $exts; do echo "$b"; done; done
+	) | tr A-Z a-z | sort | uniq -c | grep ' 2 ' | while read -r count extension; do
+		case "$(uname -s)-${extension}" in
+		Darwin-cuelang.cue)
+			true
+			;;
+		*)
+			if $(which code-server | head -1) serve-local --force --install-extension "${extension}"; then
+				true
+			fi
+			;;
+		esac
+	done
 }
 
 main "$@"
