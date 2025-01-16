@@ -11,8 +11,7 @@ env:
 on:
   push:
     branches:
-      - main
-      - 25-use-release-please-for-releases
+      - master
     paths:
       - "README.md"
 
