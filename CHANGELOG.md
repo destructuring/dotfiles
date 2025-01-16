@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/amanibhavam/dotfiles/compare/1.1.0...v1.1.1) (2025-01-16)
+
+
+### Bug Fixes
+
+* bump ([f058192](https://github.com/amanibhavam/dotfiles/commit/f0581928d45ce3b0b15e23100f4931077dee8f6f))
+
 ## [1.1.0](https://github.com/amanibhavam/dotfiles/compare/v1.0.1...v1.1.0) (2025-01-16)
 
 
