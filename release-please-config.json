@@ -6,5 +6,7 @@
     ".": {
       "extra-files": ["version"]
     }
-  }
+  },
+  "bootstrap-sha": "d75c21da63b23ef0d86a2e3009124a101657d3df",
+  "last-release-sha": "d75c21da63b23ef0d86a2e3009124a101657d3df"
 }
