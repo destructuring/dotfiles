@@ -4,7 +4,12 @@
   "release-type": "simple",
   "packages": {
     ".": {
-      "extra-files": ["version"]
+      "extra-files": [
+        {
+          "type": "generic",
+          "path": "version"
+        }
+      ]
     }
   },
   "bootstrap-sha": "d75c21da63b23ef0d86a2e3009124a101657d3df",
